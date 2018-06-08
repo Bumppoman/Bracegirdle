@@ -13,7 +13,6 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require vendor/jquery-2.1.4.min
 //= require plugins
 //= require main
 //

@@ -11,10 +11,9 @@
  * It is generally better to create a new file per style scope.
  *
 *= require normalize
-*= require bootstrap.min
 *= require font-awesome.min
 *= require themify-icons
 *= require flag-icon.min
 *= require cs-skin-elastic
 *= require style
- */
+*/
