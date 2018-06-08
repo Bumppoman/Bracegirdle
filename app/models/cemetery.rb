@@ -1,0 +1,2 @@
+class Cemetery < ApplicationRecord
+end
