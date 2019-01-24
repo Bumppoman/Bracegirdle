@@ -68,4 +68,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'geocoder'
 
-gem "rubyzip", "~> 1.2"
+gem "rubyzip", "~> 1.2.2"
