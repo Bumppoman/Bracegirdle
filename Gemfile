@@ -30,7 +30,10 @@ gem 'jbuilder', '~> 2.5'
 # gem 'mini_magick', '~> 4.8'
 
 # Use Capistrano for deployment
+gem 'capistrano', group: :development
+gem 'capistrano-passenger', group: :development
 gem 'capistrano-rails', group: :development
+gem 'capistrano-rvm', group: :development
 
 # Use PostgreSQL for production
 gem 'pg', group: :production
@@ -69,3 +72,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'geocoder'
 
 gem "rubyzip", "~> 1.2.2"
+gem "rake", "~> 12.3.2"
