@@ -1822,3 +1822,11 @@ header .form-inline {
         }
     }
 }
+
+.form-group.required label {
+  font-weight: bold;
+
+  &:after {
+    content:" *";
+  }
+}

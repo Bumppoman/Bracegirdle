@@ -1,0 +1,46 @@
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-header">
+      <strong>Add new cemetery</strong>
+    </div>
+    <%= form_for @cemetery, url: @cemetery, html: { class: "form-horizontal" } do |f| %>
+      <div class="card-body card-block">
+        <div class="row form-group">
+          <div class="col col-md-4"><%= f.label :name, class: "form-control-label" %></div>
+          <div class="col-12 col-md-8"><%= f.text_field :name, class: "form-control" %></div>
+        </div>
+        <div class="row form-group">
+          <div class="col col-md-4"><%= f.label :county, class: "form-control-label" %></div>
+          <div class="col-12 col-md-8"><%= f.select :county, COUNTIES.invert, {}, class: "form-control" %></div>
+        </div>
+        <div class="row form-group">
+          <div class="col col-md-4"><%= f.label :order_id, "Order ID", class: "form-control-label" %></div>
+          <div class="col-12 col-md-8"><%= f.text_field :order_id, class: "form-control" %></div>
+        </div>
+        <div class="row form-group">
+          <div class="col col-md-4"><%= label_tag "location", nil, class: "form-control-label" %></div>
+          <div class="col-12 col-md-8"><%= text_field_tag "location", nil, class: "form-control" %></div>
+        </div>
+        <div class="row form-group">
+          <div class="col col-md-4"><%= f.label :town_id, "Town", class: "form-control-label" %></div>
+          <div class="col-12 col-md-8"><%= f.select :town_id, grouped_options_for_select(@towns), {}, class: "form-control" %></div>
+        </div>
+        <div class="row form-group">
+          <div class="col col-md-4"><%= f.label :active, "Status", class: "form-control-label" %></div>
+          <div class="col-12 col-md-8">
+            <div class="form-check form-check-inline"><%= f.radio_button :active, true, checked: @cemetery.active?, class: "form-check-input" %> Active</div>
+            <div class="form-check form-check-inline"><%= f.radio_button :active, false, checked: @cemetery.abandoned?, class: "form-check-input" %> Abandoned</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer" style="text-align: right;">
+        <button type="submit" class="btn btn-success btn-sm">
+          <i class="fa fa-check-circle"></i> Submit
+        </button>
+        <%= link_to :dashboard_index, class: "btn btn-danger btn-sm" do %>
+          <i class="fa fa-ban"></i> Cancel
+        <% end  %>
+      </div>
+    <% end %>
+  </div>
+</div>

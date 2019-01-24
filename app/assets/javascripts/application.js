@@ -15,5 +15,6 @@
 //= require turbolinks
 //= require plugins
 //= require main
+//= require_tree
 //
 //

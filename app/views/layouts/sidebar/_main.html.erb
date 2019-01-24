@@ -5,8 +5,8 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa fa-bars"></i>
       </button>
-      <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a>
-      <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+      <a class="navbar-brand" href="./">Division of Cemeteries</a>
+      <a class="navbar-brand hidden" href="./">Logo</a>
     </div>
 
     <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -42,3 +42,52 @@
     </div><!-- /.navbar-collapse -->
   </nav>
 </aside><!-- /#left-panel -->
+
+<div id="right-panel" class="right-panel">
+
+  <!-- Header-->
+  <header id="header" class="header">
+
+    <div class="header-menu">
+
+      <div class="col-sm-7">
+        <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+        <div class="header-left">
+          <button class="search-trigger"><i class="fa fa-search"></i></button>
+          <div class="form-inline">
+            <form class="search-form">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+              <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </header><!-- /header -->
+  <!-- Header-->
+
+  <div class="breadcrumbs">
+    <div class="col-sm-5">
+      <div class="page-header float-left">
+        <div class="page-title">
+          <h1><%= @title %></h1>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="page-header float-right">
+        <div class="page-title">
+          <ol class="breadcrumb text-right">
+            <% breadcrumbs.each do |title, link| %>
+            <% if link.nil? %>
+            <li class="active"><%= title %></li>
+            <% else %>
+            <li><a href="<%= link %>"><%= title %></a></li>
+            <% end %>
+            <% end %>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>

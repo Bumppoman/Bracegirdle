@@ -31,3 +31,30 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        non_compliance_notice:
+          attributes:
+            cemetery:
+              required: "You must assign this notice to a cemetery."
+            served_on_name:
+              blank: "You must specify the recipient of this notice."
+            served_on_title:
+              blank: "You must specify the title of the person on whom the notice is being served."
+            served_on_street_address:
+              blank: &blank_address "You must provide a valid address to which to send the notice."
+            served_on_city:
+              blank: *blank_address
+            served_on_state:
+              blank: *blank_address
+            served_on_zip:
+              blank: *blank_address
+            law_sections:
+              blank:  "You must reference the law sections relevant to this notice."
+            specific_information:
+              blank:  "You must provide the specific information relevant to this notice."
+            violation_date:
+              blank:  "You must enter the date on which the violation occurred."
+            response_required_date:
+              blank:  "You must specify the date on which the notice must be answered."

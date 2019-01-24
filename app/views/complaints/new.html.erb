@@ -1,0 +1,212 @@
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-header">
+      <strong>Add new complaint</strong>
+    </div>
+    <%= form_for @complaint, url: @complaint, html: { class: "form-horizontal" } do |f| %>
+      <div class="card-body card-block">
+        <%= '<div class="alert alert-danger" role="alert">There was a problem creating this complaint!</div>'.html_safe if @complaint.errors.any? %>
+        <h6 class="card-title card-header" style="margin-bottom: 8px;">Complainant</h6>
+        <div class="form-group required">
+          <%= f.label :complainant_name, "Name" %>
+          <%= f.text_field :complainant_name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :complainant_address, "Address" %>
+          <%= f.text_field :complainant_address, class: "form-control" %>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :complainant_phone, "Phone Number" %>
+            <%= f.phone_field :complainant_phone, class: "form-control" %>
+          </div>
+          <div class="form-group col-md-6">
+            <%= f.label :complainant_email, "Email" %>
+            <%= f.email_field :complainant_email, class: "form-control" %>
+          </div>
+        </div>
+        <h6 class="card-title card-header" style="margin-bottom: 8px;">Cemetery Information</h6>
+        <div class="form-row">
+          <div class="form-group col-md-3 required">
+            <%= f.label :cemetery_regulated, "DOS Jurisdiction?" %>
+            <div style="padding-left: 10px;">
+              <div class="form-check">
+                <%= f.radio_button :cemetery_regulated, true, class: "form-check-input" %> Yes
+              </div>
+              <div class="form-check">
+                <%= f.radio_button :cemetery_regulated, false, class: "form-check-input" %> No
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-4 required">
+            <div style="padding-right: 30px">
+              <%= f.label :cemetery_county, "County" %>
+              <%= f.select :cemetery_county, options_for_select(COUNTIES.invert), { prompt: "Select county" }, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group col-md-5 required">
+            <%= f.label :cemetery, "Cemetery" %>
+            <%= f.select :cemetery, grouped_options_for_select(cemetery_options), { prompt: "Select cemetery" }, class: "form-control" %>
+            <%= f.text_field :cemetery_alternate_name, class: "form-control", style: "display: none;" %>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.label :lot_location, "Location of Lot/Grave" %>
+          <%= f.text_field :lot_location, class: "form-control" %>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :name_on_deed, "Name on Deed" %>
+            <%= f.text_field :name_on_deed, class: "form-control" %>
+          </div>
+          <div class="form-group col-md-6">
+            <%= f.label :relationship %>
+            <%= f.text_field :relationship, class: "form-control" %>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.label :ownership_type, "Means By Which You Acquired Ownership" %>
+          <% OWNERSHIP_TYPES.each do |id, type| %>
+            <div class="form-check">
+              <%= f.radio_button :ownership_type, id %> <%= type %>
+            </div>
+          <% end %>
+        </div>
+        <h6 class="card-title card-header" style="margin-bottom: 8px;">Complaint Information</h6>
+        <div class="form-group required">
+          <%= f.label :complaint_type, "Complaint Type" %>
+          <%= f.select :complaint_type, grouped_options_for_select(Complaint.grouped_complaint_types, @complaint.complaint_type), {}, multiple: true, class: "form-control" %>
+          <small class="form-text text-muted">Select all that apply.</small>
+        </div>
+        <div class="form-group required">
+          <%= f.label :summary %>
+          <%= f.text_area :summary, class: "form-control" %>
+        </div>
+        <div class="form-group required">
+          <%= f.label :form_of_relief, "Form of Relief Complainant is Seeking" %>
+          <%= f.text_field :form_of_relief, class: "form-control" %>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6 required">
+            <%= f.label :date_of_event, "Date of Event from Which Complaint Arose" %>
+            <div class="input-group">
+              <%= f.date_field :date_of_event, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <%= f.label :date_acknowledged, "Date Complained to Cemetery" %>
+            <div class="input-group">
+              <%= f.date_field :date_complained_to_cemetery, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :person_contacted, "Person Contacted" %>
+            <%= f.text_field :person_contacted, class: "form-control" %>
+          </div>
+          <div class="form-group col-md-6">
+            <%= f.label :manner_of_contact, "Manner of Contact" %>
+            <% MANNERS_OF_CONTACT.each do |id, type| %>
+              <div class="form-check">
+                <%= f.check_box :manner_of_contact, { multiple: true }, id, nil %> <%= type %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :attorney_contacted, "Has the Matter Been Submitted to an Attorney?" %>
+            <div class="form-check">
+              <div style="padding-left: 10px;">
+                <div class="form-check">
+                  <%= f.radio_button :attorney_contacted, true, class: "form-check-input" %> Yes
+                </div>
+                <div class="form-check">
+                  <%= f.radio_button :attorney_contacted, false, class: "form-check-input" %> No
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <%= f.label :court_action_pending, "Is Court Action Pending?" %>
+            <div class="form-check">
+              <div style="padding-left: 10px;">
+                <div class="form-check">
+                  <%= f.radio_button :court_action_pending, true, class: "form-check-input" %> Yes
+                </div>
+                <div class="form-check">
+                  <%= f.radio_button :court_action_pending, false, class: "form-check-input" %> No
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h6 class="card-title card-header" style="margin-bottom: 8px;">Assignment</h6>
+        <div class="form-row">
+          <div class="form-group col-md-8 required">
+            <%= f.label :receiver, "Complaint Received By" %>
+            <%= f.select :receiver, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control" %>
+          </div>
+          <div class="form-group col-md-4 required">
+            <%= f.label :date_acknowledged, "Date Complaint Acknowledged" %>
+            <div class="input-group">
+              <%= f.date_field :date_acknowledged, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4 required">
+            <%= f.label :receiver, "Is an Investigation Required?" %>
+            <div class="form-check">
+              <div style="padding-left: 10px;">
+                <div class="form-check">
+                  <%= f.radio_button :investigation_required, true, class: "form-check-input" %> Yes
+                </div>
+                <div class="form-check">
+                  <%= f.radio_button :investigation_required, false, class: "form-check-input" %> No
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="investigator-div" class="form-group col-md-8">
+            <%= f.label :investigator, "Investigator" %>
+            <%= f.select :investigator, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control", disabled: true %>
+          </div>
+        </div>
+        <div id="complaint_investigation_overview" style="display: none">
+          <h6 class="card-title card-header" style="margin-bottom: 8px;">Investigation Overview</h6>
+          <div class="form-row">
+            <div class="form-group col-md-6 required">
+              <%= f.label :investigation_begin_date, "Investigation Begin Date" %>
+              <div class="input-group">
+                <%= f.date_field :investigation_begin_date, class: "form-control" %>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.label :investigation_begin_date, "Investigation Completion Date" %>
+              <div class="input-group">
+                <%= f.date_field :investigation_completion_date, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="complaint_disposition">
+          <h6 class="card-title card-header" style="margin-bottom: 8px;">Disposition</h6>
+          <div class="form-group">
+            <%= f.label :disposition %>
+            <%= f.text_area :disposition, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer" style="text-align: right;">
+        <button type="submit" class="btn btn-success btn-sm">
+          <i class="fa fa-check-circle"></i> Submit
+        </button>
+        <%= link_to :dashboard_index, class: "btn btn-danger btn-sm" do %>
+          <i class="fa fa-ban"></i> Cancel
+        <% end  %>
+      </div>
+    <% end %>
+  </div>
+</div>

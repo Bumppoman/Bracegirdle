@@ -1,10 +1,9 @@
 <li class="menu-item-has-children dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>Complaints</a>
   <ul class="sub-menu children dropdown-menu">
-    <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">My active complaints</a></li>
-    <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">My completed complaints</a></li>
-    <li><i class="fa fa-bars"></i><a href="ui-tabs.html">All active complaints</a></li>
-    <li><i class="fa fa-share-square-o"></i><a href="ui-social-buttons.html">All completed complaints</a></li>
+    <li><i class="fa fa-inbox"></i><%= link_to "My complaints", complaints_path %></li>
+    <li><i class="fa fa-bars"></i><a href="ui-tabs.html">All complaints</a></li>
+    <li><i class="fa fa-plus"></i><%= link_to "Add new complaint", new_complaint_path %></li>
   </ul>
 </li>
 <li class="menu-item-has-children dropdown">
@@ -26,5 +25,12 @@
   <ul class="sub-menu children dropdown-menu">
     <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Overdue</a></li>
     <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Follow-up needed</a></li>
+  </ul>
+</li>
+<li class="menu-item-has-children dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Non-Compliance</a>
+  <ul class="sub-menu children dropdown-menu">
+    <li><i class="menu-icon fa fa-th"></i><%= link_to "Active", non_compliance_notices_path %></li>
+    <li><i class="fa fa-plus"></i><%= link_to "Issue new notice", new_non_compliance_notice_path %></li>
   </ul>
 </li>
