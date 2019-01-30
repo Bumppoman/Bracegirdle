@@ -1,7 +1,8 @@
-class Cemetery < ApplicationRecord
+# frozen_string_literal: true
 
+class Cemetery < ApplicationRecord
   belongs_to :town
-  has_many :trustees
+  has_many :trustees, dependent: :destroy
 
   def abandoned?
     self[:active] == false
@@ -12,18 +13,22 @@ class Cemetery < ApplicationRecord
   end
 
   def cemetery_id
-    "%02d-%03d" % [self.county, self.order_id]
+    '%02d-%03d' % [county, order_id]
   end
 
   def county_name
-    COUNTIES[self.county]
+    COUNTIES[county]
   end
 
   def last_audit
-    self[:last_audit] || "No audit recorded"
+    self[:last_audit] || 'No audit recorded'
   end
 
   def last_inspection
-    self[:last_inspection] || "No inspection recorded"
+    self[:last_inspection] || 'No inspection recorded'
+  end
+
+  def to_s
+    name
   end
 end

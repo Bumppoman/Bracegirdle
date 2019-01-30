@@ -1,0 +1,4 @@
+$("#assign-investigator").modal('hide');
+$("#current-investigator-name").html("<%= @complaint.investigator.name %>")
+nextItem($('#complaint-received'));
+$("#investigation-begin-date").html("<%= @complaint.investigation_begin_date %>")

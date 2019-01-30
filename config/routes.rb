@@ -12,11 +12,19 @@ Rails.application.routes.draw do
   get 'cemeteries/region/:region' => 'cemeteries#list_by_region'
 
   # Complaints
-  resources :complaints
+  get 'complaints/unassigned', to: 'complaints#unassigned', as: :unassigned_complaints
+  resources :complaints do
+    resources :notes, module: :complaints
+  end
+  patch 'complaints/:id/update-investigation', to: 'complaints#update_investigation', as: :complaint_update_investigation
 
   # Non-Compliance Notices
-  resources :non_compliance_notices
+  resources :non_compliance_notices do
+    resources :notes, module: :non_compliance_notices
+  end
   get 'non_compliance_notices/:id/download', to: 'non_compliance_notices#download', as: :download_non_compliance_notice
+  patch 'non_compliance_notices/:id/update-parameters', to: 'non_compliance_notices#update_parameters', as: :update_parameters_non_compliance_notice
+
 
   # Users
   get 'login' => 'users#login', as: :login

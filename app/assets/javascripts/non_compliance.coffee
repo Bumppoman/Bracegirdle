@@ -8,32 +8,51 @@
 
     original_cemeteries = $("#non_compliance_notice_cemetery").html()
 
-    $("#non_compliance_notice_cemetery_county").change ->
+    limitCemeteries = ->
+      $("#non_compliance_notice_cemetery").prop('disabled', false)
       $("#non_compliance_notice_cemetery").html(original_cemeteries)
-      county = $(this).find(":selected").text() + " County"
+      county = $("#non_compliance_notice_cemetery_county").find(":selected").text() + " County"
       $("#non_compliance_notice_cemetery optgroup").each ->
         if $(this).attr('label') != county
           $(this).children().remove()
           $(this).remove()
 
-    $("#non_compliance_notice_violation_date, #non_compliance_notice_response_required_date, #non_compliance_notice_response_received_date, #non_compliance_notice_follow_up_inspection_date").datepicker({
-      showOn: "button",
-      buttonText: "<i class=\"fa fa-calendar\"></i>"
-    }).next("button").button({
-    }).addClass("btn btn-default").wrap('<span class="input-group-btn">').find('.ui-button-text').css({
-      'visibility': 'hidden',
-      'display': 'inline'
-    });
+    if $("#non_compliance_notice_cemetery").val() != "" || $("#non_compliance_notice_cemetery_county").val() != ""
+      limitCemeteries()
+
+    $("#non_compliance_notice_cemetery_county").change(limitCemeteries)
 
     $('#non-compliance-notices-data-table').DataTable({
-      lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+      responsive: true,
       language: {
-        emptyTable: "There are no Notices of Non-Compliance to display"
+        emptyTable: "There are no Notices of Non-Compliance to display."
+        searchPlaceholder: 'Search...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page',
       }
-    })
+    });
 
     $('#non-compliance-download-notice').modal()
 
+    $('#edit-response-received-date').click ->
+      $('#response-received-edit-text').hide()
+      $('#response-received-area').show()
+      return false;
+
+    $('#cancel-response-received-date').click ->
+      $('#response-received-edit-text').show()
+      $('#response-received-area').hide()
+      return false;
+
+    $('#edit-follow-up-inspection-date').click ->
+      $('#follow-up-inspection-edit-text').hide()
+      $('#follow-up-inspection-area').show()
+      return false;
+
+    $('#cancel-follow-up-inspection-date').click ->
+      $('#follow-up-inspection-edit-text').show()
+      $('#follow-up-inspection-area').hide()
+      return false;
 
   $(document).on('turbolinks:load', ready)
 ) jQuery

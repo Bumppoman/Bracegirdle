@@ -1,0 +1,13 @@
+.card.mb-1
+  .card-header
+    strong Notes
+  .card-body
+    ul.list-unstyled.mb-0 id="notes-list"
+      ==render(partial: 'application/note', collection: object.notes.order(:created_at)) || content_tag(:li, "There are no notes.", class: "media", id: "no-notes-message")
+.card.mb-1
+  .card-header
+    strong Add New Note
+  .card-body.text-right
+    =form_with model: [object, Note.new] do |f|
+      =f.text_area :body, rows: 8, class: "form-control"
+      =f.button "Submit", class: "btn btn-primary mt-1 mg-r-10"

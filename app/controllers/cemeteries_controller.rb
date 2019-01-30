@@ -30,11 +30,10 @@ class CemeteriesController < ApplicationController
     @person = @trustee.person
 
     @title = "Edit Trustee for #{@cemetery.name}"
-    @breadcrumbs = { @cemetery.name => cemetery_trustees_path(@cemetery), "Edit trustee" => nil }
+    @breadcrumbs = { @cemetery.name => cemetery_trustees_path(@cemetery), 'Edit trustee' => nil }
   end
 
-  def index
-  end
+  def index; end
 
   def list_by_county
     @cemeteries = Cemetery.where(county: COUNTIES.key(params[:county].capitalize), active: true).order(:county, :order_id)
@@ -59,13 +58,13 @@ class CemeteriesController < ApplicationController
 
     @towns = Town.all.order(:county, :name).group_by(&:county).map do |county, towns|
       [
-        "#{COUNTIES[county]} County", towns.map {|town| [town.name, town.id] }.sort do |a, b|
+        "#{COUNTIES[county]} County", towns.map { |town| [town.name, town.id] }.sort do |a, b|
           a[0][0] <=> b[0][0]
         end
       ]
     end
 
-    @title = "Add new cemetery"
+    @title = 'Add new cemetery'
     @breadcrumbs = { 'Add New Cemetery' => nil }
   end
 
@@ -75,13 +74,13 @@ class CemeteriesController < ApplicationController
     @person = Person.new
 
     @title = "Add New Trustee for #{@cemetery.name}"
-    @breadcrumbs = { @cemetery.name => cemetery_trustees_path(@cemetery), "Add new trustee" => nil }
+    @breadcrumbs = { @cemetery.name => cemetery_trustees_path(@cemetery), 'Add new trustee' => nil }
   end
 
   def show
     @cemetery = Cemetery.find(params[:id])
 
-    @title = "Cemetery Information"
+    @title = 'Cemetery Information'
     @breadcrumbs = { 'All cemeteries' => '#', "#{@cemetery.county_name} County" => url_for(controller: :cemeteries, action: :list_by_county, county: @cemetery.county_name.downcase), @cemetery.name => nil }
   end
 
@@ -100,15 +99,16 @@ class CemeteriesController < ApplicationController
   end
 
   private
-    def cemetery_params
-      params[:cemetery].permit(:name, :county, :order_id, :active, :town_id)
-    end
 
-    def person_params
-      params[:person].permit(:name, :address, :phone_number, :email)
-    end
+  def cemetery_params
+    params[:cemetery].permit(:name, :county, :order_id, :active, :town_id)
+  end
 
-    def trustee_params
-      params.permit(:position)
-    end
+  def person_params
+    params[:person].permit(:name, :address, :phone_number, :email)
+  end
+
+  def trustee_params
+    params.permit(:position)
+  end
 end

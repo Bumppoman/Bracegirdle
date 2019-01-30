@@ -10,10 +10,14 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
-*= require normalize
-*= require font-awesome.min
-*= require themify-icons
-*= require flag-icon.min
-*= require cs-skin-elastic
-*= require style
+*= require_tree .
+*= require_self
 */
+
+.form-group.required label {
+    font-weight: bold;
+}
+
+.form-group.required label:after {
+    content: " *";
+}

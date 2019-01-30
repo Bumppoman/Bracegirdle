@@ -1,28 +1,27 @@
 class NonComplianceNoticesController < ApplicationController
-
   def create
-
     # Create the object
     @notice = NonComplianceNotice.new(non_compliance_notice_params)
 
     # Set the cemetery and investigator
-    @notice.cemetery = Cemetery.find(params[:non_compliance_notice][:cemetery]) rescue nil
+    begin
+      @notice.cemetery = Cemetery.find(params.dig(:non_compliance_notice, :cemetery))
+    rescue ActiveRecord::RecordNotFound
+      @notice.cemetery = nil
+    end
+
     @notice.investigator = current_user
 
     # Update dates
     @notice.update(non_compliance_notice_date_params)
 
-    # Save the data
     if @notice.save
-
-      # Set the notice number
-      @notice.notice_number = "#{@notice.investigator.office_code}-#{Date.today.year}-#{@notice.id}"
-      @notice.save
-
-      redirect_to non_compliance_notice_path(@notice, prompt: true)
+      redirect_to non_compliance_notice_path(@notice, prompt: true) and return
     else
+      # Render the form again if the notice didn't save
       @title = 'Issue New Notice of Non-Compliance'
       @breadcrumbs = { 'Issue new Notice of Non-Compliance' => nil }
+      @notice.cemetery_county = params[:non_compliance_notice][:cemetery_county]
 
       render action: :new
     end
@@ -33,53 +32,86 @@ class NonComplianceNoticesController < ApplicationController
     @notice = NonComplianceNotice.find(params[:id])
 
     # Create Word document notice
-    all_params = @notice.attributes.merge({ cemetery_name: @notice.cemetery.name, cemetery_number: @notice.cemetery.cemetery_id, investigator_name: @notice.investigator.name, investigator_title: @notice.investigator.title, 'served_on_title' => POSITIONS[@notice.served_on_title.to_i] })
-    word_notice = helpers.update_docx('tmp/test.docx', all_params)
+    all_params = @notice.attributes.merge(
+      cemetery_name: @notice.cemetery.name,
+      cemetery_number: @notice.cemetery.cemetery_id,
+      investigator_name: @notice.investigator.name,
+      investigator_title: @notice.investigator.title,
+      response_street_address: @notice.investigator.street_address,
+      response_city: @notice.investigator.city,
+      response_zip: @notice.investigator.zip,
+      notice_date: @notice.created_at,
+      secondary_law_sections: @notice.law_sections,
+      'served_on_title' => POSITIONS[@notice.served_on_title.to_i]
+    )
+    word_notice = helpers.update_docx('lib/document_templates/non-compliance.docx', all_params)
 
     send_data word_notice,
-              :type => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8;',
-              :disposition => "attachment; filename=#{@notice.notice_number}.docx"
+              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8;',
+              disposition: "attachment; filename=#{@notice.notice_number}.docx"
   end
 
   def edit
-    @title = "Update Notice of Non-Compliance"
+    @title = 'Update Notice of Non-Compliance'
   end
 
   def index
     @notices = NonComplianceNotice.where(investigator: current_user)
 
-    @title = "My Active Notices of Non-Compliance"
-    @breadcrumbs = { "My active Notices of Non-Compliance" => nil }
+    @title = 'My Active Notices of Non-Compliance'
+    @breadcrumbs = { 'My Active Notices of Non-Compliance' => nil }
   end
 
   def new
     @notice = NonComplianceNotice.new
-    @notice.served_on_state = "NY"
+    @notice.served_on_state = 'NY'
 
-    @title = "Issue New Notice of Non-Compliance"
+    @title = 'Issue New Notice of Non-Compliance'
     @breadcrumbs = { 'Issue new Notice of Non-Compliance' => nil }
   end
 
   def show
     # Get notice
     @notice = NonComplianceNotice.find(params[:id])
+    @title = "Notice of Non-Compliance ##{@notice.notice_number}"
+
+    @breadcrumbs = { 'Active Notices' => non_compliance_notices_path, @title => nil }
+  end
+
+  def update_parameters
+    # Get the notice being updated
+    @notice = NonComplianceNotice.find(params[:id])
+
+    # Determine the update type
+    if params.key?('response_received_date')
+      @updated = :response_received_date
+      @notice.response_received_date = helpers.format_date_param(params[:response_received_date])
+    else
+      @updated = :follow_up_inspection_date
+      @notice.follow_up_inspection_date = helpers.format_date_param(params[:follow_up_inspection_date])
+    end
+
+    # Save the notice
+    @notice.save
+
+    # Respond
+    respond_to do |m|
+      m.js
+    end
   end
 
   private
-    def non_compliance_notice_params
-      params.require(:non_compliance_notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
+
+  def non_compliance_notice_params
+    params.require(:non_compliance_notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
+  end
+
+  def non_compliance_notice_date_params
+    date_params = {}
+    %i[response_required_date violation_date].each do |param|
+      date_params[param] = helpers.format_date_param(params[:non_compliance_notice][param])
     end
 
-    def non_compliance_notice_date_params
-      date_params = {}
-      [:response_required_date, :violation_date].each do |param|
-        if params[:non_compliance_notice][param] =~ /[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}/
-          date_params[param] = Date.strptime(params[:non_compliance_notice][param], "%m/%d/%Y", )
-        else
-          date_params[param] = Date.parse(params[:non_compliance_notice][param]) rescue nil
-        end
-      end
-
-      date_params
-    end
+    date_params
+  end
 end

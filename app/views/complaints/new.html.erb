@@ -149,9 +149,9 @@
             <%= f.select :receiver, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control" %>
           </div>
           <div class="form-group col-md-4 required">
-            <%= f.label :date_acknowledged, "Date Complaint Acknowledged" %>
+            <%= f.label :date_acknowledged, "Date Complaint Received" %>
             <div class="input-group">
-              <%= f.date_field :date_acknowledged, class: "form-control" %>
+              <%= f.date_field :date_acknowledged, readonly: true, class: "form-control" %>
             </div>
           </div>
         </div>
@@ -171,24 +171,7 @@
           </div>
           <div id="investigator-div" class="form-group col-md-8">
             <%= f.label :investigator, "Investigator" %>
-            <%= f.select :investigator, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control", disabled: true %>
-          </div>
-        </div>
-        <div id="complaint_investigation_overview" style="display: none">
-          <h6 class="card-title card-header" style="margin-bottom: 8px;">Investigation Overview</h6>
-          <div class="form-row">
-            <div class="form-group col-md-6 required">
-              <%= f.label :investigation_begin_date, "Investigation Begin Date" %>
-              <div class="input-group">
-                <%= f.date_field :investigation_begin_date, class: "form-control" %>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <%= f.label :investigation_begin_date, "Investigation Completion Date" %>
-              <div class="input-group">
-                <%= f.date_field :investigation_completion_date, class: "form-control" %>
-              </div>
-            </div>
+            <%= f.select :investigator, grouped_options_for_select(employee_options), { prompt: "Unassigned" }, class: "form-control", disabled: true %>
           </div>
         </div>
         <div id="complaint_disposition">

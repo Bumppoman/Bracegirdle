@@ -17,8 +17,9 @@ module DocxManipulatorHelper
           @xml_doc = Nokogiri::XML.parse(e.get_input_stream.read)
 
           # Iterate through the params and update
-          @xml_doc.xpath("//bracegirdle:*").each do |element|
-            element.content = params[element.name] || params[element.name.to_sym]
+          @xml_doc.xpath('//w:t[@id[starts-with(., "bracegirdle_")]]').each do |element|
+            variable_name = element.attributes['id'].value.sub(/^bracegirdle_/, '')
+            element.content = params[variable_name] || params[variable_name.to_sym]
           end
         elsif e.directory?
           next

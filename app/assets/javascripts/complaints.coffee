@@ -30,33 +30,49 @@
 
     investigator_select = ->
       if $("#complaint_investigation_required_true").is(":checked")
-        $("#investigator-div").addClass("required")
         $("#complaint_investigator").prop("disabled", false)
-        $("#complaint_investigation_overview").show()
         $("#complaint_disposition").hide()
       else
-        $("#investigator-div").removeClass("required")
         $("#complaint_investigator").prop("disabled", true)
-        $("#complaint_investigation_overview").hide()
         $("#complaint_disposition").show()
 
     investigator_select()
 
     $("input[name=complaint\\[investigation_required\\]]").change(investigator_select)
 
-
-    $("#complaint_date_of_event, #complaint_date_complained_to_cemetery, #complaint_date_acknowledged, #complaint_investigation_begin_date, #complaint_investigation_completion_date").datepicker({
-      showOn: "button",
-      buttonText: "<i class=\"fa fa-calendar\"></i>"
-    }).next("button").button({
-    }).addClass("btn btn-default").wrap('<span class="input-group-btn">').find('.ui-button-text').css({
-      'visibility': 'hidden',
-      'display': 'inline'
+    $('#complaints-data-table').DataTable({
+      responsive: true,
+      language: {
+        emptyTable: "There are no complaints to display."
+        searchPlaceholder: 'Search...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page',
+      }
     });
 
-    $('#complaints-data-table').DataTable({
-      lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
-    })
+    $('#edit-investigator').click ->
+      $('#current-investigator-name').hide()
+      $('#edit-investigator').hide()
+      $('#edit-investigator-area').show()
+      $('#complaint_investigator').prop("disabled", false)
+      return false;
+
+    $('#cancel-edit-investigator').click ->
+      $('#edit-investigator-area').hide()
+      $('#edit-investigator').show()
+      $('#current-investigator-name').show()
+      return false;
+
+    complaints_sections = {
+      1: "#complaint-received",
+      2: "#investigation-begun",
+      3: "#investigation-complete",
+      4: "#complaint-closed"
+    }
+
+    display_number = $('div.multi_step_form').data('display-section')
+    if display_number > 1
+      nextItem($(complaints_sections[display_number - 1]))
 
   $(document).on('turbolinks:load', ready)
 

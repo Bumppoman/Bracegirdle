@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_20_013454) do
+ActiveRecord::Schema.define(version: 2019_01_29_190141) do
 
   create_table "cemeteries", force: :cascade do |t|
     t.string "name"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2019_01_20_013454) do
     t.boolean "cemetery_regulated", default: true
     t.integer "status", default: 1
     t.integer "cemetery_county"
+    t.string "complaint_number"
     t.index ["cemetery_id"], name: "index_complaints_on_cemetery_id"
   end
 
@@ -72,17 +73,27 @@ ActiveRecord::Schema.define(version: 2019_01_20_013454) do
     t.string "served_on_zip"
     t.text "law_sections"
     t.text "specific_information"
-    t.text "notes"
     t.date "violation_date"
     t.date "response_required_date"
     t.date "response_received_date"
     t.date "follow_up_inspection_date"
-    t.integer "status"
+    t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "notice_number"
     t.index ["cemetery_id"], name: "index_non_compliance_notices_on_cemetery_id"
     t.index ["investigator_id"], name: "index_non_compliance_notices_on_investigator_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.integer "notable_id"
+    t.string "notable_type"
+    t.integer "user_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "people", force: :cascade do |t|
@@ -114,6 +125,9 @@ ActiveRecord::Schema.define(version: 2019_01_20_013454) do
     t.integer "role"
     t.string "title"
     t.string "office_code"
+    t.string "street_address"
+    t.string "city"
+    t.string "zip"
   end
 
 end

@@ -1,0 +1,122 @@
+div.content.mt-3
+    div.card
+      div.card-header
+        strong.card-title = @cemetery.name
+      div.card-body
+        div.default-tab
+/
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link<%= " active" if params[:tab] == :details || params[:tab].nil? %>" id="nav-details-tab" data-toggle="tab" href="#nav-details" role="tab" aria-controls="nav-details" aria-selected="true">Details</a>
+              <a class="nav-item nav-link<%= " active" if params[:tab] == :trustees %>" id="nav-trustees-tab" data-toggle="tab" href="#nav-trustees" role="tab" aria-controls="nav-trustees" aria-selected="false">Trustees</a>
+              <a class="nav-item nav-link" id="nav-finances-tab" data-toggle="tab" href="#nav-finances" role="tab" aria-controls="nav-finances" aria-selected="false">Finances</a>
+            </div>
+          </nav>
+          <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+            <div class="tab-pane fade<%= " show active" if params[:tab] == :details || params[:tab].nil? %>" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+              <div class="col-lg-6">
+                <div class="card border border-secondary">
+                  <div class="card-header">
+                    <strong class="card-title">Information</strong>
+                  </div>
+                  <div class="card-body">
+                    <table class="table">
+                      <tbody>
+                      <tr>
+                        <th scope="row">Name</th>
+                        <td><%= @cemetery.name %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Cemetery ID</th>
+                        <td><%= @cemetery.cemetery_id %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Location</th>
+                        <td><%= @cemetery.town.name %>, <%= @cemetery.county_name %> County</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Last Inspection</th>
+                        <td><%= @cemetery.last_inspection %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Last Audit</th>
+                        <td><%= @cemetery.last_audit %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Rules and Regulations</th>
+                        <td>None added.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Service Charges</th>
+                        <td>None added.</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <iframe
+                  width="100%"
+                  height="400"
+                  frameborder="0" style="border:0"
+                  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBRzP5TRx6Fx2TdCSsCDfLDmP_iaj2KYcg&q=<%= @cemetery.latitude %>,<%= @cemetery.longitude %>">
+                </iframe>
+              </div>
+            </div>
+            <div class="tab-pane fade<%= " show active" if params[:tab] == :trustees %>" id="nav-trustees" role="tabpanel" aria-labelledby="nav-trustees-tab">
+              <div class="card border border-secondary">
+                <div class="card-header">
+                  <strong class="card-title">Trustees</strong>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Position</th>
+                      <th scope="col">Address</th>
+                      <th scope="col">Phone Number</th>
+                      <th scope="col">Email Address</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <% if @cemetery.trustees.any? %>
+                      <% @cemetery.trustees.each do |trustee| %>
+                      <tr>
+                        <td><%= trustee.person.name %></td>
+                        <td><%= trustee.position_name %></td>
+                        <td><%= trustee.person.address %></td>
+                        <td><%= trustee.person.phone_number %></td>
+                        <td><%= trustee.person.email %></td>
+                        <td>
+                          <%= link_to edit_trustee_path(@cemetery, trustee) do %>
+                          <i class="fa fa-edit"></i>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <% end %>
+                      <% else %>
+                      <tr>
+                        <td>No trustees listed.</td>
+                      </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-2 offset-md-10 col-sm-2">
+                <%= link_to new_trustee_path(@cemetery), class: "btn btn-secondary btn-sm" do %>
+                <i class="fa fa-plus-square-o"></i> Add new trustee
+                <% end %>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-finances" role="tabpanel" aria-labelledby="nav-finances-tab">
+              <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

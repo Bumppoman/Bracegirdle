@@ -1,0 +1,22 @@
+.section-wrapper
+  .table-wrapper
+    table#non-compliance-notices-data-table.table.display.responsive.no-wrap
+      thead
+        tr
+          th
+          th Cemetery
+          th Violation Date
+          th Date Issued
+          th Response Required
+          th Response Received
+          th Status
+      tbody
+        - @notices.each do |notice|
+          tr
+            td =link_to "#{ notice.notice_number }", notice
+            td =notice.cemetery
+            td =notice.violation_date
+            td =notice.created_at
+            td =notice.response_required_date
+            td =notice.response_received_date || "None received"
+            td Status

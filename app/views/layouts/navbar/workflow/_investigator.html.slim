@@ -1,0 +1,17 @@
+li.nav-item.with-sub
+  a.nav-link href="#"
+    i.icon.ion-ios-filing-outline
+    span Complaints
+  .sub-item
+    ul
+      li =link_to "My complaints", complaints_path
+      li: a(href="ui-tabs.html") All complaints
+      li =link_to "Add new complaint", new_complaint_path
+li.nav-item.with-sub
+  a.nav-link href="#"
+    i.icon.ion-ios-filing-outline
+    span Non-Compliance
+  .sub-item
+    ul
+      li =link_to "Active", non_compliance_notices_path
+      li =link_to "Issue new notice", new_non_compliance_notice_path
