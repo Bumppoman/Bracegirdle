@@ -34,10 +34,28 @@ en:
   activerecord:
     errors:
       models:
+        complaint:
+          attributes:
+            cemetery:
+              blank: 'You must choose a cemetery.'
+            cemetery_alternate_name:
+              blank: 'You must specify the name of the cemetery.'
+            complainant_name:
+              blank: 'You must enter the name of the complainant.'
+            complaint_type:
+              blank: 'You must specify at least one type of complaint.'
+            summary:
+              blank: 'You must provide a summary of the complaint.'
+            receiver:
+              required: 'You must specify who received the complaint.'
+            form_of_relief:
+              blank: 'You must enter the desired form of relief.'
+            date_of_event:
+              blank: 'You must enter the date the event occurred.'
         non_compliance_notice:
           attributes:
             cemetery:
-              required: "You must assign this notice to a cemetery."
+              required: 'You must assign this notice to a cemetery.'
             served_on_name:
               blank: "You must specify the recipient of this notice."
             served_on_title:

@@ -8,20 +8,26 @@
 
     original_cemeteries = $("#complaint_cemetery").html()
 
-    $("#complaint_cemetery_county").change ->
+    limitCemeteries = ->
+      $("#complaint_cemetery").prop('disabled', false)
       $("#complaint_cemetery").html(original_cemeteries)
-      county = $(this).find(":selected").text() + " County"
+      county = $("#complaint_cemetery_county").find(":selected").text() + " County"
       $("#complaint_cemetery optgroup").each ->
         if $(this).attr('label') != county
           $(this).children().remove()
           $(this).remove()
 
+    if $("#complaint_cemetery").val() != "" || $("#complaint_cemetery_county").val() != ""
+      limitCemeteries()
+
+    $("#complaint_cemetery_county").change(limitCemeteries)
+
     cemetery_select = ->
       if $("#complaint_cemetery_regulated_true").is(":checked")
-        $("#complaint_cemetery").show()
+        $("#complaint-cemetery-select-area").show()
         $("#complaint_cemetery_alternate_name").hide()
       else
-        $("#complaint_cemetery").hide()
+        $("#complaint-cemetery-select-area").hide()
         $("#complaint_cemetery_alternate_name").show()
 
     cemetery_select()
@@ -31,10 +37,10 @@
     investigator_select = ->
       if $("#complaint_investigation_required_true").is(":checked")
         $("#complaint_investigator").prop("disabled", false)
-        $("#complaint_disposition").hide()
+        $("#complaint-disposition").hide()
       else
         $("#complaint_investigator").prop("disabled", true)
-        $("#complaint_disposition").show()
+        $("#complaint-disposition").show()
 
     investigator_select()
 

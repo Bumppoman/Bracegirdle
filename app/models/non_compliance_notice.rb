@@ -23,6 +23,17 @@ class NonComplianceNotice < ApplicationRecord
   validates :violation_date, presence: true
   validates :response_required_date, presence: true
 
+  def response_required_status
+    date = Time.zone.today
+    if date < response_required_date
+      "#{(response_required_date - date).to_i} days remaining"
+    elsif date == response_required_date
+      "due today"
+    else
+      "#{(date - response_required_date).to_i} days overdue"
+    end
+  end
+
   private
 
   def set_notice_number

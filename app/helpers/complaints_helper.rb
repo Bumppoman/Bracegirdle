@@ -1,8 +1,4 @@
 module ComplaintsHelper
-  def active_item(expression)
-    "active" if expression
-  end
-
   def cemetery_options
     cemeteries = Cemetery.all
     grouped_cemeteries = []

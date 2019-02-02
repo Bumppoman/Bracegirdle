@@ -1,0 +1,12 @@
+.signin-wrapper
+  .signin-box
+    h2.signin-title-primary Welcome back!
+    h3.signin-title-secondary Sign in to continue.
+    =form_tag sessions_path
+      -if alert
+        .alert.alert-danger =alert
+      .form-group
+        =text_field_tag :email, nil, class: 'form-control', placeholder: 'Enter your email'
+      .form-group.mg-b-50
+        =password_field :password, nil, class: 'form-control', placeholder: 'Enter your password'
+      button.btn.btn-primary.btn-block.btn-signin Sign In

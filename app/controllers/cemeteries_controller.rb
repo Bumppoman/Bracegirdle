@@ -31,26 +31,27 @@ class CemeteriesController < ApplicationController
 
     @title = "Edit Trustee for #{@cemetery.name}"
     @breadcrumbs = { @cemetery.name => cemetery_trustees_path(@cemetery), 'Edit trustee' => nil }
+    render 'people/person_form'
   end
 
   def index; end
 
   def list_by_county
-    @cemeteries = Cemetery.where(county: COUNTIES.key(params[:county].capitalize), active: true).order(:county, :order_id)
+    @cemeteries = Cemetery.where(county: COUNTIES.key(params[:county].capitalize), active: true).order(:county, :order_id).includes(:town)
 
     @title = "Cemeteries in #{params[:county].capitalize} County"
     @breadcrumbs = { 'All cemeteries' => '#', "#{params[:county].capitalize} County" => nil }
 
-    render :list
+    render :index
   end
 
   def list_by_region
-    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).find_each
+    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).includes(:town).find_each
 
     @title = "Cemeteries in the #{params[:region].capitalize} Region"
     @breadcrumbs = { 'All cemeteries' => '#', "#{params[:region].capitalize} Region" => nil }
 
-    render :list
+    render :index
   end
 
   def new
@@ -75,6 +76,7 @@ class CemeteriesController < ApplicationController
 
     @title = "Add New Trustee for #{@cemetery.name}"
     @breadcrumbs = { @cemetery.name => cemetery_trustees_path(@cemetery), 'Add new trustee' => nil }
+    render 'people/person_form'
   end
 
   def show

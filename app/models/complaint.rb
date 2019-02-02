@@ -6,17 +6,16 @@ class Complaint < ApplicationRecord
   before_create :set_complaint_number
 
   belongs_to :cemetery, optional: true
-  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id, optional: true
+  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
 
   scope :unassigned, -> { where(investigator: nil) }
 
-  validates :complainant_name, presence: { message: "You must provide the complainant's name." }
-  validates :complaint_type, presence: { message: 'You must specify at least one type of complaint.' }
-  validates :summary, presence: { message: 'You must provide a summary of the complaint.' }
-  validates :receiver, presence: { message: 'You must specify who received the complaint.' }
-  validates :form_of_relief, presence: { message: 'You must enter the desired form of relief.' }
-  validates :date_of_event, presence: { message: 'You must enter the date the event occurred.' }
+  validates :complainant_name, presence: true
+  validates :complaint_type, presence: true
+  validates :summary, presence: true
+  validates :form_of_relief, presence: true
+  validates :date_of_event, presence: true
   validate :cemetery_is_completed
 
   def self.grouped_complaint_types
@@ -78,9 +77,9 @@ class Complaint < ApplicationRecord
 
   def cemetery_is_completed
     if cemetery_regulated?
-      errors.add(:cemetery, :blank, message: 'You must choose a cemetery.') unless cemetery
+      errors.add(:cemetery, :blank) unless cemetery
     else
-      errors.add(:cemetery_alternate_name, :blank, message: 'You must specify the name of the cemetery.') unless cemetery_alternate_name
+      errors.add(:cemetery_alternate_name, :blank) unless cemetery_alternate_name
     end
   end
 

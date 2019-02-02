@@ -71,32 +71,20 @@ class NonComplianceNoticesController < ApplicationController
   end
 
   def show
-    # Get notice
-    @notice = NonComplianceNotice.find(params[:id])
-    @title = "Notice of Non-Compliance ##{@notice.notice_number}"
+    @notice = NonComplianceNotice.includes(notes: :user).find(params[:id])
 
-    @breadcrumbs = { 'Active Notices' => non_compliance_notices_path, @title => nil }
+    @title = "Notice of Non-Compliance ##{@notice.notice_number}"
+    @breadcrumbs = { 'My active notices' => non_compliance_notices_path, @title => nil }
   end
 
-  def update_parameters
-    # Get the notice being updated
+  def update_status
     @notice = NonComplianceNotice.find(params[:id])
 
-    # Determine the update type
-    if params.key?('response_received_date')
-      @updated = :response_received_date
-      @notice.response_received_date = helpers.format_date_param(params[:response_received_date])
-    else
-      @updated = :follow_up_inspection_date
-      @notice.follow_up_inspection_date = helpers.format_date_param(params[:follow_up_inspection_date])
-    end
-
-    # Save the notice
-    @notice.save
+    response_received if params.key? :response_received
 
     # Respond
     respond_to do |m|
-      m.js
+      m.js { render partial: @response }
     end
   end
 
@@ -113,5 +101,10 @@ class NonComplianceNoticesController < ApplicationController
     end
 
     date_params
+  end
+
+  def response_received
+    @notice.response_received_date = Time.zone.today
+    @response = 'non_compliance_notices/update/response_received'
   end
 end

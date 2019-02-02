@@ -34,25 +34,16 @@
 
     $('#non-compliance-download-notice').modal()
 
-    $('#edit-response-received-date').click ->
-      $('#response-received-edit-text').hide()
-      $('#response-received-area').show()
-      return false;
+    notice_sections = {
+      1: "#notice-issued",
+      2: "#response-received",
+      3: "#follow-up-complete",
+      4: "#notice-resolved"
+    }
 
-    $('#cancel-response-received-date').click ->
-      $('#response-received-edit-text').show()
-      $('#response-received-area').hide()
-      return false;
-
-    $('#edit-follow-up-inspection-date').click ->
-      $('#follow-up-inspection-edit-text').hide()
-      $('#follow-up-inspection-area').show()
-      return false;
-
-    $('#cancel-follow-up-inspection-date').click ->
-      $('#follow-up-inspection-edit-text').show()
-      $('#follow-up-inspection-area').hide()
-      return false;
+    display_number = $('div.multi_step_form').data('display-section')
+    if display_number > 1
+      nextItem($(notice_sections[display_number - 1]))
 
   $(document).on('turbolinks:load', ready)
 ) jQuery

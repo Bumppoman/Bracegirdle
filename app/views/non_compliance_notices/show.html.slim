@@ -1,0 +1,77 @@
+-if params.key? :prompt
+  #non-compliance-download-notice.modal
+    .modal-dialog.wd-30p role="document"
+      .modal-content
+        .modal-header.pd-x-20
+          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Download .docx Notice of Non-Compliance
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+        .modal-body.pd-25
+          p
+            | Your Notice of Non-Compliance was successfully created.  Click below to download.
+            br<>
+            br<>
+            =link_to tag.img(src: image_path('doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download #{@notice.notice_number}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-docx-notice-link', onclick: "javascript:window.location=\"#{download_non_compliance_notice_path(@notice)}\""
+        .modal-footer
+          button.btn.btn-secondary type="button" data-dismiss="modal" Close
+.card.mb-1
+  .card-header
+    strong Notice Details
+  .card-body
+    table.table.table-striped
+      thead
+        tr
+          th scope="row" colspan="5" Cemetery Information
+      tbody
+        tr
+          th scope="row" style="width: 20%;" Notice Number
+          td colspan="4" =@notice.notice_number
+        tr
+          th scope="row" Cemetery
+          td colspan="4" =="#{link_to @notice.cemetery.name, @notice.cemetery} (##{@notice.cemetery.cemetery_id})"
+        tr
+          th scope="row" Served On
+          td colspan="4" =="#{@notice.served_on_name}<br />#{@notice.served_on_street_address}<br />#{@notice.served_on_city}, #{@notice.served_on_state} #{@notice.served_on_zip}"
+    table.table.table-striped
+      thead
+        tr
+          th scope="row" colspan="5" Violation Information
+      tbody
+        tr
+          th scope="row" style="width: 20%;" Law Sections
+          td colspan="4" =@notice.law_sections
+        tr
+          th scope="row" Specific Information
+          td colspan="4" =@notice.specific_information
+.card.mb-1
+  .card-header
+    strong Actions
+  .card-body
+    .multi_step_form [data-display-section=@notice.status]
+      =form_with model: @notice, url: non_compliance_notice_update_status_path, method: :patch, id: 'msform' do |f|
+        ul#progressbar
+          li class=[active_item(@notice.status >= 1)] Notice Issued
+          li class=[active_item(@notice.status >= 2)] Response Received
+          li class=[active_item(@notice.status >= 3)] Follow-Up Completed
+          li class=[active_item(@notice.status == 4)] Notice Resolved
+        .card
+          fieldset#notice-issued
+            .card-header
+              strong Notice Issued
+            .card-body
+              p.mb-0 ="Notice issued on #{@notice.created_at}."
+              p.mb-0 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
+            .card-footer
+              =f.button 'Response Received', name: 'response_received', class: 'next action-button'
+          fieldset#response-received
+            .card-header
+              strong Response Received
+            .card-body
+              p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
+          fieldset#follow-up-completed
+            .card-header
+              strong Follow-Up Completed
+          fieldset#notice-resolved
+            .card-header
+              strong Notice Resolved
+=render 'application/show_notes', object: @notice

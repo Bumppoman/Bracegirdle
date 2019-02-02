@@ -1,9 +1,0 @@
-<% if @updated == :response_received_date %>
-  $("#response-received-edit-text").show()
-  $("#response-received-area").hide()
-  $("#response-received-edit-text").html("<%= @notice.response_received_date %>")
-<% else %>
-  $("#follow-up-inspection-edit-text").show()
-  $("#follow-up-inspection-area").hide()
-  $("#follow-up-inspection-edit-text").html("<%= @notice.follow_up_inspection_date %>")
-<% end %>

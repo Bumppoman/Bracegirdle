@@ -4,7 +4,7 @@ class Person < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-  def email
-    self[:email] || 'None'
+  def formatted_email
+    email || 'None'
   end
 end

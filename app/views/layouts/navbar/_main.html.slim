@@ -1,12 +1,13 @@
-.slim-navbar
-  .container
-    ul.nav
-      li.nav-item.with-sub
-        a.nav-link href="#"
-          i.icon.ion-ios-home-outline
-          span Dashboard
-        .sub-item
-          ul
-            li
-              a href="index.html" Dashboard
-      == render 'layouts/navbar/workflow/investigator'
+- if current_user
+  .slim-navbar
+    .container
+      ul.nav
+        li.nav-item.with-sub
+          a.nav-link href="#"
+            i.icon.ion-ios-home-outline
+            span Dashboard
+          .sub-item
+            ul
+              li
+                a href="index.html" Dashboard
+        == render 'layouts/navbar/workflow/investigator'

@@ -23,11 +23,15 @@ Rails.application.routes.draw do
     resources :notes, module: :non_compliance_notices
   end
   get 'non_compliance_notices/:id/download', to: 'non_compliance_notices#download', as: :download_non_compliance_notice
-  patch 'non_compliance_notices/:id/update-parameters', to: 'non_compliance_notices#update_parameters', as: :update_parameters_non_compliance_notice
+  patch 'non_compliance_notices/:id/update-parameters', to: 'non_compliance_notices#update_status', as: :non_compliance_notice_update_status
 
 
   # Users
-  get 'login' => 'users#login', as: :login
+  resources :sessions, only: [:new, :create, :destroy]
+  get 'login' => 'sessions#new', as: :login
+  get 'logout', to: 'sessions#destroy', as: :logout
+
+  root 'dashboard#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

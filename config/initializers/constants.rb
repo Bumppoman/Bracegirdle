@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 COMPLAINT_STATUSES = {
     1 => 'Complaint Received',
     2 => 'Investigation Begun',
     3 => 'Investigation Closed',
     4 => 'Complaint Closed'
-}
+}.freeze
 
 COUNTIES = {
     1 => 'Albany',
@@ -68,11 +70,11 @@ COUNTIES = {
     60 => 'Westchester',
     61 => 'Wyoming',
     62 => 'Yates'
-}
+}.freeze
 
 DOCUMENTS = {
     1 => "Rules and Regulations"
-}
+}.freeze
 
 GROUPED_COMPLAINT_TYPES = [
     ['Investigatory', [
@@ -101,21 +103,21 @@ GROUPED_COMPLAINT_TYPES = [
         ['Service fee issues', 21],
         ['Sales contract issues', 22]
     ]]
-]
+].freeze
 
 MANNERS_OF_CONTACT = {
     1 => "Phone",
     2 => "Letter",
     3 => "Email",
     4 => "In Person"
-}
+}.freeze
 
 OWNERSHIP_TYPES = {
     1 => "Purchase",
     2 => "Inheritance",
     3 => "Gift",
     4 => "Other"
-}
+}.freeze
 
 POSITIONS = {
     1 => "President",
@@ -126,7 +128,7 @@ POSITIONS = {
     6 => "Trustee",
     7 => "Operator",
     8 => "Employee"
-}
+}.freeze
 
 RAW_COMPLAINT_TYPES = {
     1 => 'Board member issue',
@@ -151,18 +153,18 @@ RAW_COMPLAINT_TYPES = {
     20 => 'Financial records issues',
     21 => 'Service fee issues',
     22 => 'Sales contract issues'
-}
+}.freeze
 
 REGIONS = {
     'binghamton' => [4, 8, 9, 12, 13, 39, 49, 51, 53, 54, 55]
-}
+}.freeze
 
 ROLES = {
     1 => "Cemeterian",
     2 => "Investigator",
     3 => "Accountant",
     4 => "Administrator"
-}
+}.freeze
 
 STATES = {
     "AL" => "AL",
@@ -173,4 +175,4 @@ STATES = {
     "CO" => "CO",
     "CT" => "CT",
     "NY" => "NY"
-}
+}.freeze

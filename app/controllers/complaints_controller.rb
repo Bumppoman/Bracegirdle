@@ -1,11 +1,21 @@
 # frozen_string_literal: true
 
 class ComplaintsController < ApplicationController
+  include Permissions
+
+  before_action do
+    stipulate :must_be_investigator
+  end
+
   def create
     @complaint = Complaint.new(complaint_params)
 
     # Link to cemetery if cemetery is regulated
-    @complaint.cemetery = Cemetery.find(params.dig(:complaint, :cemetery)) if @complaint.cemetery_regulated?
+    begin
+      @complaint.cemetery = Cemetery.find(params.dig(:complaint, :cemetery)) if @complaint.cemetery_regulated?
+    rescue ActiveRecord::RecordNotFound
+      @complaint.cemetery = nil
+    end
 
     # Update dates
     @complaint.update(complaint_date_params)
@@ -29,7 +39,7 @@ class ComplaintsController < ApplicationController
   end
 
   def index
-    @complaints = Complaint.where(investigator: current_user)
+    @complaints = Complaint.where(investigator: current_user).includes(:cemetery)
 
     @title = 'My Active Complaints'
     @breadcrumbs = { 'My active complaints' => nil }
@@ -79,6 +89,7 @@ class ComplaintsController < ApplicationController
     @complaint.status = 2
     @complaint.investigation_begin_date = Time.zone.today
     @complaint.investigator = User.find(params[:complaint][:investigator])
+    @complaint.save
     @response = 'complaints/update/assign_investigator'
   end
 
@@ -86,6 +97,7 @@ class ComplaintsController < ApplicationController
     @complaint.status = 2
     @complaint.investigator = current_user
     @complaint.investigation_begin_date = Time.zone.today
+    @complaint.save
     @response = 'complaints/update/begin_investigation'
   end
 
