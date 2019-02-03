@@ -1,0 +1,1 @@
+ActionDispatch::ExceptionWrapper.rescue_responses.merge!('ApplicationController::Forbidden' => :forbidden)

@@ -30,7 +30,7 @@ label.section-title Cemetery Information
   .col-lg-2
     .form-group.required
       =f.label :served_on_state, 'State', class: 'form-control-label'
-      =f.select :served_on_state, options_for_select(STATES, @notice.served_on_state), {}, class: 'form-control'
+      =f.select :served_on_state, options_for_select(STATES, @notice.served_on_state), {}, class: 'form-control select2'
   .col-lg-4
     .form-group.required
       =f.label :served_on_zip, 'ZIP Code', class: 'form-control-label'

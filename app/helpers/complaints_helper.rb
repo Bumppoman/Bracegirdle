@@ -1,32 +1,23 @@
 module ComplaintsHelper
   def cemetery_options
-    cemeteries = Cemetery.all
+    county_cemeteries = Cemetery.all.group_by(&:county)
     grouped_cemeteries = []
 
-    COUNTIES.each do |number, name|
-      county_cemeteries = []
-      cemeteries.where(county: number).order(:order_id).each do |cemetery|
-        county_cemeteries << ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]
-      end
-      grouped_cemeteries << ["#{name} County", county_cemeteries]
+    county_cemeteries.each do |county, cemeteries|
+      grouped_cemeteries << ["#{COUNTIES[county]} County",
+                             cemeteries.map {|cemetery| ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]}]
     end
 
     grouped_cemeteries
   end
 
   def employee_options
-    employees = User.where("role > ?", 1)
+    role_employees = User.where("role > ?", 1).group_by(&:role)
     grouped_employees = []
 
-    ROLES.each do |id, name|
-      # Weed out non-employee roles
-      next unless id > 1
-
-      role_employees = []
-      employees.where(role: id).each do |employee|
-        role_employees << [employee.name, employee.id]
-      end
-      grouped_employees << [name, role_employees]
+    role_employees.each do |role, employees|
+      grouped_employees << ["#{ROLES[role]}",
+                            employees.map {|employee| [employee.name, employee.id]}]
     end
 
     grouped_employees

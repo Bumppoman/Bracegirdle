@@ -1,0 +1,7 @@
+.page-error-wrapper
+  div
+    h1.error-title =@status
+    h5.tx-sm-24.tx-normal =@message
+    p.mg-b-50 We've been automatically alerted of the issue and will work to fix it ASAP.
+    p.mg-b-50
+      =link_to 'Back to Home', root_path, class: 'btn btn-error'

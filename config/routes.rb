@@ -18,6 +18,10 @@ Rails.application.routes.draw do
   end
   patch 'complaints/:id/update-investigation', to: 'complaints#update_investigation', as: :complaint_update_investigation
 
+  # Errors
+  get '/403', to: 'errors#forbidden'
+  get '/500', to: 'errors#internal_server_error'
+
   # Non-Compliance Notices
   resources :non_compliance_notices do
     resources :notes, module: :non_compliance_notices

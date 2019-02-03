@@ -9,5 +9,13 @@
           .sub-item
             ul
               li
-                a href="index.html" Dashboard
+                =link_to 'Dashboard', root_url
         == render 'layouts/navbar/workflow/investigator'
+        li.nav-item.with-sub
+          a.nav-link href="#"
+            i.icon.ion-ios-information
+            span Information
+          .sub-item
+            ul
+              li
+                a href="#" Investigator Manual

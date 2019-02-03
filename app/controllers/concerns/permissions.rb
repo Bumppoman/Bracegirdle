@@ -11,7 +11,7 @@ module Permissions
   end
 
   def disallow
-    raise "Unable."
+    raise ApplicationController::Forbidden
   end
 
   def stipulate(permission)
