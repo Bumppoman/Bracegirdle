@@ -7,6 +7,15 @@ class ComplaintsController < ApplicationController
     stipulate :must_be_investigator
   end
 
+  def all
+    @complaints = Complaint.all
+
+    @title = 'All Complaints'
+    @breadcrumbs = { 'All complaints' => nil }
+
+    render :index
+  end
+
   def create
     @complaint = Complaint.new(complaint_params)
 
@@ -24,9 +33,22 @@ class ComplaintsController < ApplicationController
     @complaint.complaint_type = params[:complaint][:complaint_type].reject(&:empty?).join(', ')
     @complaint.manner_of_contact = params.dig(:complaint, :manner_of_contact).try(:join, ', ')
 
-    # Set receiver and investigator
     @complaint.receiver = User.find(params.dig(:complaint, :receiver))
-    @complaint.investigator = User.find(params.dig(:complaint, :investigator)) if @complaint.investigation_required?
+
+    if @complaint.investigation_required?
+      @complaint.investigator = User.find(params[:complaint][:investigator]) unless params[:complaint][:investigator].blank?
+    else
+      if current_user.has_role?(:supervisor)
+        @complaint.status = 5
+        @complaint.closure_date = Date.current
+      else
+        @complaint.status = 4
+      end
+
+      @complaint.investigator = current_user
+      @complaint.disposition_date = Date.current
+      @complaint.disposition = params[:complaint][:disposition]
+    end
 
     if @complaint.save
       redirect_to @complaint
@@ -39,17 +61,26 @@ class ComplaintsController < ApplicationController
   end
 
   def index
-    @complaints = Complaint.where(investigator: current_user).includes(:cemetery)
+    @complaints = Complaint.where(investigator: current_user).where('status < ?', 4).includes(:cemetery)
 
     @title = 'My Active Complaints'
     @breadcrumbs = { 'My active complaints' => nil }
   end
 
   def new
-    @complaint = Complaint.new(receiver: current_user, date_acknowledged: Time.zone.today)
+    @complaint = Complaint.new(receiver: current_user, date_acknowledged: Date.current)
 
     @title = 'Add New Complaint'
     @breadcrumbs = { 'Add new complaint' => nil }
+  end
+
+  def pending_closure
+    @complaints = Complaint.pending_closure
+
+    @title = 'Complaints Pending Closure'
+    @breadcrumbs = { 'Complaints pending closure' => nil }
+
+    render :index
   end
 
   def show
@@ -75,8 +106,16 @@ class ComplaintsController < ApplicationController
     begin_investigation if params.key?(:begin_investigation)
     assign_complaint if params.key?(:assign_complaint)
     assign_investigator if params.key?(:assign_investigator)
+    complete_investigation if params.key?(:complete_investigation)
+    recommend_closure if params.key? :recommend_closure
+    reopen_investigation and return if params.key? :reopen_investigation
+    close_complaint and return if params.key? :close_complaint
 
-    progress_investigation
+    if @complaint.save
+      respond_to do |m|
+        m.js { render partial: @response }
+      end
+    end
   end
 
   private
@@ -87,18 +126,28 @@ class ComplaintsController < ApplicationController
 
   def assign_investigator
     @complaint.status = 2
-    @complaint.investigation_begin_date = Time.zone.today
+    @complaint.investigation_begin_date = Date.current
     @complaint.investigator = User.find(params[:complaint][:investigator])
-    @complaint.save
     @response = 'complaints/update/assign_investigator'
   end
 
   def begin_investigation
     @complaint.status = 2
     @complaint.investigator = current_user
-    @complaint.investigation_begin_date = Time.zone.today
-    @complaint.save
+    @complaint.investigation_begin_date = Date.current
     @response = 'complaints/update/begin_investigation'
+  end
+
+  def close_complaint
+    if @complaint.status == 3
+      @complaint.disposition_date = Date.current
+      @complaint.disposition = params[:complaint][:disposition]
+    end
+
+    @complaint.status = 5
+    @complaint.closure_date = Date.current
+
+    redirect_to complaint_investigation_path(@complaint) if @complaint.save
   end
 
   def complaint_params
@@ -137,9 +186,33 @@ class ComplaintsController < ApplicationController
     date_params
   end
 
-  def progress_investigation
-    respond_to do |m|
-      m.js { render partial: @response }
-    end
+  def complete_investigation
+    @complaint.status = 3
+    @complaint.investigation_completion_date = Date.current
+    @response = 'complaints/update/complete_investigation'
+  end
+
+  def recommend_closure
+    @complaint.update(
+      status: 4,
+      disposition_date: Date.current,
+      disposition: params[:complaint][:disposition]
+    )
+    @response = 'complaints/update/recommend_closure'
+  end
+
+  def reopen_investigation
+    @complaint.update(
+      status: 2,
+      investigation_required: true,
+      investigator: current_user,
+      investigation_completion_date: nil,
+      disposition_date: nil,
+      disposition: nil
+    )
+
+    @complaint.investigation_begin_date = Date.current if @complaint.investigation_begin_date.nil?
+
+    redirect_to complaint_investigation_path(@complaint) if @complaint.save
   end
 end

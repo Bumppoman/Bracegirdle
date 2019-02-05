@@ -3,12 +3,13 @@
 class Complaint < ApplicationRecord
   include Notable
 
-  before_create :set_complaint_number
+  after_commit :set_complaint_number, on: :create
 
   belongs_to :cemetery, optional: true
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
 
+  scope :pending_closure, -> { where(status: 4) }
   scope :unassigned, -> { where(investigator: nil) }
 
   validates :complainant_name, presence: true
@@ -17,6 +18,7 @@ class Complaint < ApplicationRecord
   validates :form_of_relief, presence: true
   validates :date_of_event, presence: true
   validate :cemetery_is_completed
+  validate :disposition_not_empty_if_closed
 
   def self.grouped_complaint_types
     GROUPED_COMPLAINT_TYPES
@@ -36,12 +38,16 @@ class Complaint < ApplicationRecord
     end
   end
 
+  def closed?
+    status == 5
+  end
+
   def complaint_type
     self[:complaint_type].split(', ') if self[:complaint_type].respond_to? :split
   end
 
   def formatted_cemetery
-    if cemetery_alternate_name
+    if cemetery_alternate_name.present?
       cemetery_alternate_name
     else
       cemetery.name
@@ -65,6 +71,10 @@ class Complaint < ApplicationRecord
     OWNERSHIP_TYPES[ownership_type]
   end
 
+  def pending_closure?
+    status == 4
+  end
+
   def to_s
     complaint_number
   end
@@ -83,7 +93,14 @@ class Complaint < ApplicationRecord
     end
   end
 
+  def disposition_not_empty_if_closed
+    if closed? || pending_closure?
+      errors.add(:disposition, :blank) if disposition.blank?
+    end
+  end
+
   def set_complaint_number
-    complaint_number = "#{date_acknowledged.year}-#{'%04d' % id}"
+    self.complaint_number = "#{date_acknowledged.year}-#{'%04d' % id}"
+    save
   end
 end

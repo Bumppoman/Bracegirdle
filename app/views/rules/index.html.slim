@@ -1,0 +1,24 @@
+.section-wrapper
+  .table-wrapper
+    table#rules-data-table.table.display.responsive.no-wrap
+      thead
+        tr
+          th
+          th Cemetery
+          th Submission Date
+          th Status
+          th Last Action
+      tbody
+        - @rules.each do |rules|
+          tr
+            td =link_to rules, rules
+            td =rules.cemetery
+            td =rules.submission_date
+            td ==rules.last_action
+            td =rules.updated_at.to_date.to_s
+  -if current_user.supervisor?
+    .mg-t-10
+      ul.nav.nav-gray-600.nav-underline.justify-content-center
+        - NAMED_REGIONS.each do |_, region|
+          li.nav-item
+            =link_to region == 'nyc' ? 'NYC' : region.capitalize, regional_rules_path(region: region), class: 'nav-link' + (current_page?(regional_rules_path(region: region)) || (params[:region].nil? && region == named_region(current_user.region)) ? ' active' : '')

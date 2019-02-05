@@ -72,13 +72,15 @@
     complaints_sections = {
       1: "#complaint-received",
       2: "#investigation-begun",
-      3: "#investigation-complete",
-      4: "#complaint-closed"
+      3: "#investigation-completed",
+      4: "#closure-recommended"
     }
 
-    display_number = $('div.multi_step_form').data('display-section')
-    if display_number > 1
-      nextItem($(complaints_sections[display_number - 1]))
+    display_number = $('#complaints-multi-step-form').data('display-section')
+    hide = 1
+    while hide < display_number
+      nextItem($(complaints_sections[hide]), false)
+      hide++
 
   $(document).on('turbolinks:load', ready)
 

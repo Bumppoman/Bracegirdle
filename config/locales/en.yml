@@ -52,6 +52,8 @@ en:
               blank: 'You must enter the desired form of relief.'
             date_of_event:
               blank: 'You must enter the date the event occurred.'
+            disposition:
+              blank: 'You must enter a disposition for this complaint.'
         non_compliance_notice:
           attributes:
             cemetery:

@@ -1,16 +1,27 @@
 li.nav-item.with-sub
   a.nav-link href="#"
-    i.icon.ion-ios-filing-outline
+    i.icon.ion-ios-filing
+    span Inbox
+  .sub-item
+    ul
+      li
+        =active_circle_link 'Rules and Regulations', rules_path, current_user.rules.any?
+li.nav-item.with-sub
+  a.nav-link href="#"
+    i.icon.ion-ios-megaphone
     span Complaints
   .sub-item
     ul
-      li =link_to "My complaints", complaints_path
-      li =link_to "Add new complaint", new_complaint_path
+      li =link_to 'My complaints', complaints_path
+      -if current_user.supervisor?
+        li =active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.where(status: 4).any?
+        li =active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
+      li =link_to 'Add new complaint', new_complaint_path
 li.nav-item.with-sub
   a.nav-link href="#"
-    i.icon.ion-ios-filing-outline
+    i.icon.ion-ios-document
     span Non-Compliance
   .sub-item
     ul
-      li =link_to "Active", non_compliance_notices_path
-      li =link_to "Issue new notice", new_non_compliance_notice_path
+      li =link_to 'Active', non_compliance_notices_path
+      li =link_to 'Issue new notice', new_non_compliance_notice_path

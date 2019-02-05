@@ -2,12 +2,12 @@
   .card-header
     ul.nav.nav-tabs.card-header-tabs
       li.nav-item
-        a href="#complaint-details" data-toggle="tab" class=['nav-link', (params[:tab] == :complaint_details || params[:tab].nil?) ? 'active' : nil] Complaint Details
+        a href="#complaint-details" data-toggle="tab" class=['nav-link', (params[:tab] == :complaint || params[:tab].nil?) ? 'active' : nil] Complaint Details
       li.nav-item
-        a href="#investigation-details" data-toggle="tab" class=['nav-link', params[:tab] == :investigation_details ? 'active' : nil] Investigation Details
+        a href="#investigation-details" data-toggle="tab" class=['nav-link', params[:tab] == :investigation ? 'active' : nil] Investigation Details
   .card-body
     .tab-content.pl-3.pt-2
-      #complaint-details class=['tab-pane', (params[:tab] == 'complaint-details' || params[:tab].nil?) ? 'active' : nil] role="tabpanel"
+      #complaint-details class=['tab-pane', (params[:tab] == :complaint || params[:tab].nil?) ? 'active' : nil] role="tabpanel"
         .card.mb-2
           .card-header
             strong Complainant Information
@@ -21,7 +21,7 @@
                     br
                     =@complaint.complainant_address
                     br
-                    =(@complaint.complainant_phone || 'No phone number') + ' | ' + (@complaint.complainant_email.presence || 'No email address')
+                    =(@complaint.complainant_phone.presence || 'No phone number') + ' | ' + (@complaint.complainant_email.presence || 'No email address')
         .card.mb-2
           .card-header
             strong Cemetery Information
@@ -59,7 +59,7 @@
                   td colspan="3" =@complaint.form_of_relief
                 tr
                   th scope="row" Person Contacted
-                  td colspan="3" =@complaint.cemetery_contact
+                  td colspan="3" =@complaint.cemetery_contact.presence || 'Nobody contacted'
                 tr
                   th scope="row" Has the Matter Been Submitted To An Attorney?
                   td colspan="3" =@complaint.attorney_contacted? ? "Yes" : "No"
@@ -71,39 +71,80 @@
                   th scope="col" colspan="2" style="text-align: center;" Date of Complaint to Cemetery
                 tr
                   td colspan="2" style="text-align: center;" =@complaint.date_of_event
-                  td colspan="2" style="text-align: center;" =@complaint.date_complained_to_cemetery || "Not provided"
-      #investigation-details role="tabpanel" class=['tab-pane', (params[:tab] == 'investigation-details') ? 'active' : nil]
-        .card.mb-1
-          .card-header
-            strong Actions
-          .card-body
-            .multi_step_form [data-display-section=@complaint.status]
-              =form_with model: @complaint, url: complaint_update_investigation_path, method: :patch, id: 'msform' do |f|
-                ul#progressbar
-                  li class=[active_item(@complaint.status >= 1)] Complaint Received
-                  li class=[active_item(@complaint.status >= 2)] Investigation Begun
-                  li class=[active_item(@complaint.status >= 3)] Investigation Completed
-                  li class=[active_item(@complaint.status == 4)] Complaint Closed
-                .card
-                  fieldset#complaint-received
-                    .card-header
-                      strong Complaint Received
-                    .card-body
-                      p.mb-0 ="Complaint received by #{@complaint.receiver.name} on #{@complaint.created_at}."
-                    .card-footer
-                      =f.button 'Begin Investigation', name: 'begin_investigation', class: 'next action-button'
-                      =f.button 'Assign to Investigator', name: 'assign_complaint', class: 'next action-button'
-                  fieldset#investigation-begun
-                    .card-header
-                      strong Investigation Begun
-                    .card-body
-                      p.mb-0 == "Investigation begun on #{tag.span(@complaint.investigation_begin_date, id: 'investigation-begin-date')}."
-                  fieldset#investigation-completed
-                    .card-header
-                      strong Investigation Completed
-                  fieldset#complaint-closed
-                    .card-header
-                      strong Complaint Closed
+                  td colspan="2" style="text-align: center;" =@complaint.date_complained_to_cemetery || 'Not provided'
+      #investigation-details role="tabpanel" class=['tab-pane', (params[:tab] == :investigation) ? 'active' : nil]
+        -if @complaint.status < 5
+          .card.mb-1
+            .card-header
+              strong Actions
+            .card-body
+              - if @complaint.status == 4 && current_user.has_role?(:supervisor)
+                =form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
+                  table.table.table-striped
+                    thead
+                      tr
+                        th colspan="2" Review Complaint
+                    tbody
+                      tr
+                        th Recommendation Date
+                        td#investigation-disposition-date =@complaint.disposition_date
+                      tr
+                        th Disposition
+                        td#investigation-disposition =@complaint.disposition
+                  .pd-l-20
+                    =f.button 'Close Complaint', name: 'close_complaint', class: 'btn btn-primary mg-r-5'
+                    =f.button 'Reopen Investigation', name: 'reopen_investigation', class: 'btn btn-secondary'
+              - else
+                #complaints-multi-step-form.multi_step_form [data-display-section=@complaint.status]
+                  =form_with model: @complaint, url: complaint_update_investigation_path, method: :patch, id: 'msform' do |f|
+                    ul#progressbar
+                      li class=[active_item(@complaint.status >= 1)] Complaint Received
+                      li class=[active_item(@complaint.status >= 2)] Investigation Begun
+                      li class=[active_item(@complaint.status >= 3)] Investigation Completed
+                      li class=[active_item(@complaint.status >= 4)] =current_user.has_role?(:supervisor) ? 'Complaint Closed' : 'Complaint Recommended for Closure'
+                    .card
+                      fieldset#complaint-received
+                        .card-header
+                          strong Complaint Received
+                        .card-body
+                          p.mb-0 ="Complaint received by #{@complaint.receiver.name} on #{@complaint.created_at}."
+                        .card-footer
+                          =f.button 'Begin Investigation', name: 'begin_investigation', class: 'next action-button'
+                          =f.button 'Assign to Investigator', name: 'assign_complaint', class: 'next action-button'
+                      fieldset#investigation-begun
+                        .card-header
+                          strong Investigation Begun
+                        .card-body
+                          p.mb-0 == "Investigation begun on #{tag.span(@complaint.investigation_begin_date, id: 'investigation-begin-date')}."
+                        .card-footer
+                          = f.button 'Complete Investigation', name: 'complete_investigation', class: 'next action-button'
+                      fieldset#investigation-completed
+                        .card-header
+                          strong Investigation Completed
+                        .card-body
+                          p.mb-10 == "Investigation completed on #{tag.span(@complaint.investigation_completion_date, id: 'investigation-completion-date')}."
+                          .row
+                            .col-lg-12
+                              .form-group.required
+                                =f.label :disposition, class: 'form-control-label'
+                                =f.text_area :disposition, size: '20x10', class: 'form-control'
+                        .card-footer
+                          -if current_user.has_role?(:supervisor)
+                            =f.button 'Close Complaint', name: 'close_complaint', class: 'next action-button'
+                          -else
+                            =f.button 'Recommend Complaint for Closure', name: 'recommend_closure', class: 'next action-button'
+                      fieldset#closure_recommended
+                        .card-header
+                          strong Complaint Recommended for Closure
+                        .card-body
+                          table.table.table-striped
+                            tbody
+                              tr
+                                th Disposition Date
+                                td#investigation-disposition-date =@complaint.disposition_date
+                              tr
+                                th Disposition
+                                td#investigation-disposition =@complaint.disposition
         div.card.mb-2
           .card-header
             strong Investigation Details
@@ -118,14 +159,22 @@
                     th scope="row" Investigator
                     td colspan="3"
                       span#current-investigator-name ="#{@complaint.investigator&.name || 'Unassigned'} "
-                      a#edit-investigator.pl-2 href="" style=[@complaint.unassigned? ? "display: none;" : nil]
-                        i.fa.fa-pencil
-                      #edit-investigator-area.form-layout style="width: 50%; display: none;"
-                        .pb-1
-                          =f.select :investigator, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control"
-                        .form-layout-footer
-                          =f.submit 'Update', class: 'btn btn-primary bd-0 mr-1'
-                          a#cancel-edit-investigator.btn.btn-secondary.bd-0 href="#" Cancel
+                      - if @complaint.status < 5
+                        a#edit-investigator.pl-2 href="" style=[@complaint.unassigned? ? "display: none;" : nil]
+                          i.fa.fa-pencil
+                        #edit-investigator-area.form-layout style="width: 50%; display: none;"
+                          .pb-1
+                            =f.select :investigator, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control"
+                          .form-layout-footer
+                            =f.submit 'Update', class: 'btn btn-primary bd-0 mr-1'
+                            a#cancel-edit-investigator.btn.btn-secondary.bd-0 href="#" Cancel
+                  -if @complaint.status == 5
+                    tr
+                      th scope="row" Closure Date
+                      td colspan="3" =@complaint.closure_date
+                    tr
+                      th scope="row" Disposition
+                      td colspan="3" =@complaint.disposition
         =render 'application/show_notes', object: @complaint
 =form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
   #assign-investigator.modal.fade

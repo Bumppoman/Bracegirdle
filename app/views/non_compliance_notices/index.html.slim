@@ -5,7 +5,6 @@
         tr
           th
           th Cemetery
-          th Violation Date
           th Date Issued
           th Response Required
           th Response Received
@@ -15,8 +14,7 @@
           tr
             td =link_to "#{ notice.notice_number }", notice
             td =notice.cemetery
-            td =notice.violation_date
             td =notice.created_at
             td =notice.response_required_date
             td =notice.response_received_date || "None received"
-            td Status
+            td =notice.formatted_status

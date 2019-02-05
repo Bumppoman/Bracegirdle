@@ -1,6 +1,6 @@
 module ComplaintsHelper
   def cemetery_options
-    county_cemeteries = Cemetery.all.group_by(&:county)
+    county_cemeteries = Cemetery.active.group_by(&:county)
     grouped_cemeteries = []
 
     county_cemeteries.each do |county, cemeteries|

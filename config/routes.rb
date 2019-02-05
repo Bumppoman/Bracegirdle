@@ -13,9 +13,12 @@ Rails.application.routes.draw do
 
   # Complaints
   get 'complaints/unassigned', to: 'complaints#unassigned', as: :unassigned_complaints
+  get 'complaints/pending-closure', to: 'complaints#pending_closure', as: :complaints_pending_closure
+  get 'complaints/all', to: 'complaints#all', as: :all_complaints
   resources :complaints do
     resources :notes, module: :complaints
   end
+  get 'complaints/:id/investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :complaint_investigation
   patch 'complaints/:id/update-investigation', to: 'complaints#update_investigation', as: :complaint_update_investigation
 
   # Errors
@@ -29,6 +32,9 @@ Rails.application.routes.draw do
   get 'non_compliance_notices/:id/download', to: 'non_compliance_notices#download', as: :download_non_compliance_notice
   patch 'non_compliance_notices/:id/update-parameters', to: 'non_compliance_notices#update_status', as: :non_compliance_notice_update_status
 
+  # Rules
+  get 'rules/region/:region', to: 'rules#index', as: :regional_rules
+  resources :rules
 
   # Users
   resources :sessions, only: [:new, :create, :destroy]

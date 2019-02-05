@@ -16,5 +16,9 @@ module Bracegirdle
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
+    config.time_zone = 'Eastern Time (US & Canada)'
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
   end
 end

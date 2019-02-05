@@ -23,6 +23,10 @@ class NonComplianceNotice < ApplicationRecord
   validates :violation_date, presence: true
   validates :response_required_date, presence: true
 
+  def formatted_status
+    NON_COMPLIANCE_NOTICE_STATUSES[status]
+  end
+
   def response_required_status
     date = Time.zone.today
     if date < response_required_date

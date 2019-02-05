@@ -32,18 +32,29 @@
       }
     });
 
-    $('#non-compliance-download-notice').modal()
+    download = (event = false) ->
+      $('#non-compliance-download-notice').modal()
+      if event
+        event.preventDefault()
+
+    url_params = new URLSearchParams(window.location.search)
+    if url_params.has('prompt')
+      download()
+
+    $('#download-notice').click(download)
 
     notice_sections = {
       1: "#notice-issued",
       2: "#response-received",
-      3: "#follow-up-complete",
+      3: "#follow-up-completed",
       4: "#notice-resolved"
     }
 
-    display_number = $('div.multi_step_form').data('display-section')
-    if display_number > 1
-      nextItem($(notice_sections[display_number - 1]))
+    display_number = $('#non-compliance-notice-multi-step-form').data('display-section')
+    hide = 1
+    while hide < display_number
+      nextItem($(notice_sections[hide]), false)
+      hide++
 
   $(document).on('turbolinks:load', ready)
 ) jQuery

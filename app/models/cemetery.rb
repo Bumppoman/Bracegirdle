@@ -1,8 +1,17 @@
 # frozen_string_literal: true
 
 class Cemetery < ApplicationRecord
+  has_one :rules,
+    -> (cemetery) {
+      where(
+        cemetery: cemetery).order(
+        approval_date: :desc)}
   belongs_to :town
   has_many :trustees, dependent: :destroy
+
+  scope :active, -> {
+    where(active: true).order(:order_id)
+  }
 
   def abandoned?
     self[:active] == false

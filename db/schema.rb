@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_190141) do
+ActiveRecord::Schema.define(version: 2019_02_05_144545) do
 
   create_table "cemeteries", force: :cascade do |t|
     t.string "name"
@@ -52,13 +52,14 @@ ActiveRecord::Schema.define(version: 2019_01_29_190141) do
     t.integer "investigator_id"
     t.date "investigation_begin_date"
     t.date "investigation_completion_date"
-    t.date "recommendation_date"
+    t.date "disposition_date"
     t.text "disposition"
     t.string "cemetery_alternate_name"
     t.boolean "cemetery_regulated", default: true
     t.integer "status", default: 1
     t.integer "cemetery_county"
     t.string "complaint_number"
+    t.date "closure_date"
     t.index ["cemetery_id"], name: "index_complaints_on_cemetery_id"
   end
 
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_190141) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "notice_number"
+    t.date "notice_resolved_date"
     t.index ["cemetery_id"], name: "index_non_compliance_notices_on_cemetery_id"
     t.index ["investigator_id"], name: "index_non_compliance_notices_on_investigator_id"
   end
@@ -105,6 +107,17 @@ ActiveRecord::Schema.define(version: 2019_01_29_190141) do
     t.float "longitude"
   end
 
+  create_table "rules", force: :cascade do |t|
+    t.integer "cemetery_id"
+    t.date "submission_date"
+    t.date "approval_date"
+    t.string "file_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 1
+    t.index ["cemetery_id"], name: "index_rules_on_cemetery_id"
+  end
+
   create_table "towns", force: :cascade do |t|
     t.integer "county"
     t.string "name"
@@ -124,6 +137,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_190141) do
     t.string "password_digest"
     t.integer "role"
     t.string "title"
+    t.integer "region"
     t.string "office_code"
     t.string "street_address"
     t.string "city"

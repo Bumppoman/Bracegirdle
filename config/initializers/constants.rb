@@ -4,7 +4,8 @@ COMPLAINT_STATUSES = {
     1 => 'Complaint Received',
     2 => 'Investigation Begun',
     3 => 'Investigation Closed',
-    4 => 'Complaint Closed'
+    4 => 'Closure Recommended',
+    5 => 'Complaint Closed'
 }.freeze
 
 COUNTIES = {
@@ -112,6 +113,25 @@ MANNERS_OF_CONTACT = {
     4 => "In Person"
 }.freeze
 
+NAMED_REGIONS = {
+    1 => 'nyc',
+    2 => 'albany',
+    3 => 'buffalo',
+    4 => 'syracuse',
+    5 => 'binghamton'
+}.freeze
+
+NAMED_ROLES = {
+    supervisor: 4
+}.freeze
+
+NON_COMPLIANCE_NOTICE_STATUSES = {
+    1 => 'Notice Issued',
+    2 => 'Response Received',
+    3 => 'Follow-Up Completed',
+    4 => 'Notice Resolved'
+}.freeze
+
 OWNERSHIP_TYPES = {
     1 => "Purchase",
     2 => "Inheritance",
@@ -156,14 +176,16 @@ RAW_COMPLAINT_TYPES = {
 }.freeze
 
 REGIONS = {
-    'binghamton' => [4, 8, 9, 12, 13, 39, 49, 51, 53, 54, 55]
+    4 => [6, 34],
+    5 => [4, 8, 9, 12, 13, 39, 49, 51, 53, 54, 55]
 }.freeze
 
 ROLES = {
     1 => "Cemeterian",
     2 => "Investigator",
     3 => "Accountant",
-    4 => "Administrator"
+    4 => "Administrator",
+    5 => 'Superuser'
 }.freeze
 
 STATES = {

@@ -56,7 +56,7 @@ class NonComplianceNoticesController < ApplicationController
   end
 
   def index
-    @notices = NonComplianceNotice.where(investigator: current_user)
+    @notices = NonComplianceNotice.where(investigator: current_user).where('status < ?', 4)
 
     @title = 'My Active Notices of Non-Compliance'
     @breadcrumbs = { 'My Active Notices of Non-Compliance' => nil }
@@ -81,14 +81,24 @@ class NonComplianceNoticesController < ApplicationController
     @notice = NonComplianceNotice.find(params[:id])
 
     response_received if params.key? :response_received
+    follow_up_completed if params.key? :follow_up_completed
+    resolve_notice if params.key? :resolve_notice
 
     # Respond
-    respond_to do |m|
-      m.js { render partial: @response }
+    if @notice.save
+      respond_to do |m|
+        m.js { render partial: @response }
+      end
     end
   end
 
   private
+
+  def follow_up_completed
+    @notice.follow_up_inspection_date = Time.zone.today
+    @notice.status = 3
+    @response = 'non_compliance_notices/update/follow_up_complete'
+  end
 
   def non_compliance_notice_params
     params.require(:non_compliance_notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
@@ -103,8 +113,15 @@ class NonComplianceNoticesController < ApplicationController
     date_params
   end
 
+  def resolve_notice
+    @notice.notice_resolved_date = Time.zone.today
+    @notice.status = 4
+    @response = 'non_compliance_notices/update/resolve_notice'
+  end
+
   def response_received
     @notice.response_received_date = Time.zone.today
+    @notice.status = 2
     @response = 'non_compliance_notices/update/response_received'
   end
 end
