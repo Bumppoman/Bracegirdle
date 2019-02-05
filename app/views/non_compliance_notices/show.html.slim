@@ -81,6 +81,6 @@
           | Click below to download this Notice of Non-Compliance.
           br<>
           br<>
-          =link_to tag.img(src: image_path('doc_icon'), height: 32, width: 32, class: 'mg-r-15') + "Download #{@notice.notice_number}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-docx-notice-link', onclick: "javascript:window.location=\"#{download_non_compliance_notice_path(@notice)}\""
+          =link_to tag.img(src: image_path('doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download #{@notice.notice_number}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-docx-notice-link', onclick: "javascript:window.location=\"#{download_non_compliance_notice_path(@notice)}\""
       .modal-footer
         button.btn.btn-secondary type="button" data-dismiss="modal" Close

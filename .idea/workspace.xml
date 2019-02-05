@@ -2,40 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/views/complaints/update/_complete_investigation.js.erb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/complaints/update/_recommend_closure.js.erb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/non_compliance_notices/update/_follow_up_complete.js.erb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/non_compliance_notices/update/_resolve_notice.js.erb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/rules/index.html.slim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/complaints.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/complaints.coffee" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/multistep.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/multistep.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/non_compliance.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/non_compliance.coffee" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/multistep.scss" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/multistep.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/non_compliance_notices_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/non_compliance_notices_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers/application_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers/application_helper.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/helpers/complaints_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/helpers/complaints_helper.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/cemetery.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/cemetery.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/complaint.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/complaint.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/non_compliance_notice.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/non_compliance_notice.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/user.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/user.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/complaints/new.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/new.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/complaints/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/show.html.slim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/navbar/_main.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/navbar/_main.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/navbar/workflow/_investigator.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/navbar/workflow/_investigator.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/non_compliance_notices/_form.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/non_compliance_notices/_form.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/non_compliance_notices/index.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/non_compliance_notices/index.html.slim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/application.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/initializers/constants.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/initializers/constants.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/locales/en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/locales/en.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/cemeteries_controller_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/test/controllers/cemeteries_controller_test.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/system/complaints_test.rb" beforeDir="false" afterPath="$PROJECT_DIR$/test/system/complaints_test.rb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,15 +64,15 @@
         <entry file="file://$PROJECT_DIR$/app/helpers/complaints_helper.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+              <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/cemetery.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="-134">
               <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
             </state>
           </provider>
@@ -114,6 +83,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
               <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="301">
+              <caret line="83" column="56" selection-start-line="83" selection-start-column="56" selection-end-line="83" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -184,9 +162,7 @@
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/views/rules/index.html.slim" />
-        <option value="$PROJECT_DIR$/app/views/layouts/application.html.slim" />
         <option value="$PROJECT_DIR$/app/views/non_compliance_notices/index.html.slim" />
-        <option value="$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/non_compliance.coffee" />
         <option value="$PROJECT_DIR$/app/views/layouts/navbar/workflow/_investigator.html.slim" />
         <option value="$PROJECT_DIR$/app/views/complaints/show.html.slim" />
@@ -198,6 +174,8 @@
         <option value="$PROJECT_DIR$/test/system/complaints_test.rb" />
         <option value="$PROJECT_DIR$/app/helpers/complaints_helper.rb" />
         <option value="$PROJECT_DIR$/app/models/cemetery.rb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/application.html.slim" />
+        <option value="$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim" />
       </list>
     </option>
   </component>
@@ -262,6 +240,34 @@
               <item name="Bracegirdle" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bracegirdle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bracegirdle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bracegirdle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bracegirdle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="layouts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bracegirdle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bracegirdle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="layouts" type="462c0819:PsiDirectoryNode" />
+              <item name="navbar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Bracegirdle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Bracegirdle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="non_compliance_notices" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Bracegirdle" type="b2602c69:ProjectViewProjectNode" />
@@ -517,7 +523,7 @@
       <workItem from="1547855004684" duration="41688000" />
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
-      <workItem from="1548302670060" duration="201396000" />
+      <workItem from="1548302670060" duration="201864000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -542,7 +548,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="358964000" />
+    <option name="totallyTimeSpent" value="359432000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -731,13 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.slim">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="31" column="76" selection-start-line="31" selection-start-column="76" selection-end-line="31" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/rules_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -754,13 +753,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/complaints/update/_assign_investigator.js.erb">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-764">
-          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/initializers/constants.rb">
       <provider selected="true" editor-type-id="text-editor">
@@ -874,7 +866,7 @@
     <entry file="file://$PROJECT_DIR$/app/helpers/complaints_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -885,10 +877,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.slim">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="31" column="54" selection-start-line="31" selection-start-column="54" selection-end-line="31" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/cemetery.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="-134">
           <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/non_compliance_notices/show.html.slim">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="83" column="56" selection-start-line="83" selection-start-column="56" selection-end-line="83" selection-end-column="56" />
         </state>
       </provider>
     </entry>
