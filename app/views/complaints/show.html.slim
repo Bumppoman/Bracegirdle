@@ -86,11 +86,16 @@
                         th colspan="2" Review Complaint
                     tbody
                       tr
-                        th Recommendation Date
+                        th.wd-30p Recommendation Date
                         td#investigation-disposition-date =@complaint.disposition_date
                       tr
                         th Disposition
                         td#investigation-disposition =@complaint.disposition
+                      tr
+                        th
+                          label.form-control-label Closure Comments
+                        td
+                          =f.text_area :closure_review_comments, size: '20x10', class: 'form-control'
                   .pd-l-20
                     =f.button 'Close Complaint', name: 'close_complaint', class: 'btn btn-primary mg-r-5'
                     =f.button 'Reopen Investigation', name: 'reopen_investigation', class: 'btn btn-secondary'
