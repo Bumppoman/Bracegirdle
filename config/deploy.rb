@@ -47,7 +47,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-server '192.168.1.3', user: 'cemeteries', roles: %w{web app db}, primary: true
+server 'brendonstanton.com', user: 'cemeteries', roles: %w{web app db}, primary: true
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'

@@ -2,14 +2,10 @@
   .slim-navbar
     .container
       ul.nav
-        li.nav-item.with-sub
-          a.nav-link href="#"
+        li.nav-item
+          =link_to dashboard_index_path, class: 'nav-link' do
             i.icon.ion-ios-home
             span Dashboard
-          .sub-item
-            ul
-              li
-                =link_to 'Dashboard', root_url
         == render 'layouts/navbar/workflow/investigator'
         li.nav-item.with-sub
           a.nav-link href="#"

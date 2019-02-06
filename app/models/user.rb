@@ -13,6 +13,10 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  def first_name
+    name.split(' ')[0]
+  end
+
   def has_role?(test_role)
     role >= NAMED_ROLES[test_role]
   end

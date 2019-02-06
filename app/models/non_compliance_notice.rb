@@ -12,6 +12,8 @@ class NonComplianceNotice < ApplicationRecord
                             foreign_key: :investigator_id,
                             inverse_of: :non_compliance_notices
 
+  scope :active, -> { where('status < ?', 4)}
+
   validates :served_on_name, presence: true
   validates :served_on_title, presence: true
   validates :served_on_street_address, presence: true

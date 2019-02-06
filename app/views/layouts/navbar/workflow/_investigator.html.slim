@@ -6,6 +6,31 @@ li.nav-item.with-sub
     ul
       li
         =active_circle_link 'Rules and Regulations', rules_path, current_user.rules.any?
+li.nav-item.with-sub.mega-dropdown
+  a.nav-link href="#"
+    i.icon.ion-ios-briefcase
+    span Applications
+  .sub-item
+    .row
+      .col-lg-4
+        label.section-label Land
+        ul
+          li =link_to 'Land Purchase', '#'
+          li =link_to 'Land Sale', '#'
+        label.section-label.mg-t-20 Major Renovations
+        ul
+          li = link_to 'Mausoleum', '#'
+          li = link_to 'Columbarium', '#'
+      .col-lg.mg-t-30.mg-lg-t-0
+        label.section-label Land
+        ul
+          li = link_to 'Land Purchase', '#'
+          li = link_to 'Land Sale', '#'
+      .col-lg.mg-t-30.mg-lg-t-0
+        label.section-label Land
+        ul
+          li = link_to 'Land Purchase', '#'
+          li = link_to 'Land Sale', '#'
 li.nav-item.with-sub
   a.nav-link href="#"
     i.icon.ion-ios-megaphone

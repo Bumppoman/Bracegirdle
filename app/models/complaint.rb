@@ -9,6 +9,8 @@ class Complaint < ApplicationRecord
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
 
+  scope :active, -> { where('status < ?', 4) }
+  scope :active_for, -> (user) { active.where(investigator: user) }
   scope :pending_closure, -> { where(status: 4) }
   scope :unassigned, -> { where(investigator: nil) }
 
