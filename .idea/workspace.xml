@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Bracegirdle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bracegirdle.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/application/_show_notes.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/application/_show_notes.html.slim" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/complaints/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/show.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/notes/create.js.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/notes/create.js.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,8 +61,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
+            <state relative-caret-position="353">
+              <caret line="185" column="74" selection-start-line="185" selection-start-column="74" selection-end-line="185" selection-end-column="74" />
+              <folding>
+                <element signature="e#3793#8245#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -459,7 +455,7 @@
       <workItem from="1547855004684" duration="41688000" />
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
-      <workItem from="1548302670060" duration="215833000" />
+      <workItem from="1548302670060" duration="216139000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -484,7 +480,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="373401000" />
+    <option name="totallyTimeSpent" value="373707000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -817,8 +813,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
+        <state relative-caret-position="353">
+          <caret line="185" column="74" selection-start-line="185" selection-start-column="74" selection-end-line="185" selection-end-column="74" />
+          <folding>
+            <element signature="e#3793#8245#0" />
+          </folding>
         </state>
       </provider>
     </entry>
