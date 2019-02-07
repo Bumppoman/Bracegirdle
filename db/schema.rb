@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_013619) do
+ActiveRecord::Schema.define(version: 2019_02_07_025654) do
 
   create_table "cemeteries", force: :cascade do |t|
     t.string "name"
@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 2019_02_07_013619) do
     t.boolean "court_action_pending", default: false
     t.string "form_of_relief"
     t.integer "receiver_id"
-    t.date "date_acknowledged"
     t.boolean "investigation_required", default: false
     t.integer "investigator_id"
     t.date "investigation_begin_date"

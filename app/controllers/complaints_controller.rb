@@ -177,7 +177,7 @@ class ComplaintsController < ApplicationController
 
   def complaint_date_params
     date_params = {}
-    %i[date_of_event date_complained_to_cemetery date_acknowledged].each do |param|
+    %i[date_of_event date_complained_to_cemetery].each do |param|
       if params[:complaint][param].match? %r{[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}}
         date_params[param] = Date.strptime(params[:complaint][param], '%m/%d/%Y')
       else
