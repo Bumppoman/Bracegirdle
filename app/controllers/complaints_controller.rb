@@ -40,6 +40,7 @@ class ComplaintsController < ApplicationController
     else
       if current_user.has_role?(:supervisor)
         @complaint.status = 5
+        @complaint.closed_by = current_user
         @complaint.closure_date = Date.current
       else
         @complaint.status = 4
@@ -145,6 +146,7 @@ class ComplaintsController < ApplicationController
     end
 
     @complaint.status = 5
+    @complaint.closed_by = current_user
     @complaint.closure_date = Date.current
 
     redirect_to complaint_investigation_path(@complaint) if @complaint.save

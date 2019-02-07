@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_233523) do
+ActiveRecord::Schema.define(version: 2019_02_07_000438) do
 
   create_table "cemeteries", force: :cascade do |t|
     t.string "name"
@@ -61,7 +61,9 @@ ActiveRecord::Schema.define(version: 2019_02_06_233523) do
     t.string "complaint_number"
     t.date "closure_date"
     t.text "closure_review_comments"
+    t.integer "closed_by_id"
     t.index ["cemetery_id"], name: "index_complaints_on_cemetery_id"
+    t.index ["closed_by_id"], name: "index_complaints_on_closed_by_id"
   end
 
   create_table "non_compliance_notices", force: :cascade do |t|

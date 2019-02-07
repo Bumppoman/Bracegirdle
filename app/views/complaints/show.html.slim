@@ -180,10 +180,9 @@
                     tr
                       th scope="row" Disposition
                       td colspan="3" =@complaint.disposition
-                    -if @complaint.closure_review_comments.present?
-                      tr
-                        th scope="row" Closure Comments
-                        td colspan="3" =@complaint.closure_review_comments
+                    tr
+                      th scope="row" Closure Comments
+                      td colspan="3" ="#{@complaint.closure_review_comments.presence || 'None'} (closed by #{@complaint.closed_by.name})"
         =render 'application/show_notes', object: @complaint
 =form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
   #assign-investigator.modal.fade

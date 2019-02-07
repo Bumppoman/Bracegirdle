@@ -6,6 +6,7 @@ class Complaint < ApplicationRecord
   after_commit :set_complaint_number, on: :create
 
   belongs_to :cemetery, optional: true
+  belongs_to :closed_by, class_name: 'User', foreign_key: :closed_by_id
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
 

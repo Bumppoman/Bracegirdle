@@ -3,7 +3,7 @@
     strong Notes
   .card-body
     ul.list-unstyled.mb-0 id="notes-list"
-      ==render(partial: 'application/note', collection: object.notes.order(created_at: :desc)) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
+      ==render(partial: 'application/note', collection: object.notes) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
 .card.mb-1
   .card-header
     strong Add New Note
