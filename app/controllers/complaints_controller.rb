@@ -8,7 +8,7 @@ class ComplaintsController < ApplicationController
   end
 
   def all
-    @complaints = Complaint.all
+    @complaints = Complaint.all.includes(:cemetery)
 
     @title = 'All Complaints'
     @breadcrumbs = { 'All complaints' => nil }
