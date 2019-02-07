@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/models/cemetery.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/cemetery.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/town.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/town.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/cemeteries/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/cemeteries/show.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
-    </list>
+    <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,20 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="419">
               <caret line="190" column="22" selection-start-line="190" selection-start-column="22" selection-end-line="190" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20190207013619_remove_town_id_from_cemeteries.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -502,7 +488,7 @@
       <workItem from="1547855004684" duration="41688000" />
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
-      <workItem from="1548302670060" duration="220520000" />
+      <workItem from="1548302670060" duration="220637000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -527,7 +513,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="378088000" />
+    <option name="totallyTimeSpent" value="378205000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -540,14 +526,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1419" height="778" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992658" visible="true" weight="0.28612927" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992658" visible="true" weight="0.28612927" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24981844" />
       <window_info id="Favorites" order="2" sideWeight="0.5007342" side_tool="true" weight="0.2570806" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49745825" weight="0.32944608" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49019608" visible="true" weight="0.31778425" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49019608" visible="true" weight="0.31778425" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -857,17 +842,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="190" column="22" selection-start-line="190" selection-start-column="22" selection-end-line="190" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20190207013619_remove_town_id_from_cemeteries.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="190" column="22" selection-start-line="190" selection-start-column="22" selection-end-line="190" selection-end-column="22" />
         </state>
       </provider>
     </entry>
