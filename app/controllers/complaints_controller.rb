@@ -51,7 +51,7 @@ class ComplaintsController < ApplicationController
       @complaint.disposition = params[:complaint][:disposition]
     end
 
-    if @complaint.save
+    if @complaint.save!
       redirect_to @complaint
     else
       @title = 'Add New Complaint'
