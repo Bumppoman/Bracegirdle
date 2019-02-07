@@ -138,12 +138,12 @@
             =f.select :receiver, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2'
         .col-lg-4
           .form-group.required
-            =f.label :date_acknowledged, 'Date Complaint Received'
+            =label :date_acknowledged, 'Date Complaint Received', class: 'form-control-label'
             .input-group
               .input-group-prepend
                 .input-group-text
                   i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-              =f.date_field :date_acknowledged, readonly: true, class: 'form-control'
+              =date_field nil, :date_acknowledged, value: Date.current.strftime("%m/%d/%Y"), readonly: true, class: 'form-control'
       .row
         .col-lg-4
           .form-group.required

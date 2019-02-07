@@ -69,7 +69,7 @@ class ComplaintsController < ApplicationController
   end
 
   def new
-    @complaint = Complaint.new(receiver: current_user, date_acknowledged: Date.current)
+    @complaint = Complaint.new(receiver: current_user)
 
     @title = 'Add New Complaint'
     @breadcrumbs = { 'Add new complaint' => nil }

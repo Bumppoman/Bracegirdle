@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/controllers/cemeteries_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/cemeteries_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/complaints/index.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/index.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/complaints/new.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/new.html.slim" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,20 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/complaints_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2685">
-              <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20190207025654_remove_date_acknowledged_from_complaints.rb">
+        <entry file="file://$PROJECT_DIR$/app/views/complaints/new.html.slim">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="49" selection-start-line="2" selection-start-column="49" selection-end-line="2" selection-end-column="49" />
+            <state relative-caret-position="273">
+              <caret line="145" column="91" selection-start-line="145" selection-start-column="91" selection-end-line="145" selection-end-column="91" />
             </state>
           </provider>
         </entry>
@@ -135,7 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/db/migrate/20190205022229_create_rules.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
         <option value="$PROJECT_DIR$/db/migrate/20190205140824_add_status_to_rules.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20190205144545_add_region_to_user.rb" />
@@ -184,8 +174,9 @@
         <option value="$PROJECT_DIR$/db/schema.rb" />
         <option value="$PROJECT_DIR$/app/controllers/cemeteries_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/complaints/index.html.slim" />
-        <option value="$PROJECT_DIR$/app/controllers/complaints_controller.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20190207025654_remove_date_acknowledged_from_complaints.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/complaints_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/complaints/new.html.slim" />
       </list>
     </option>
   </component>
@@ -520,7 +511,7 @@
       <workItem from="1547855004684" duration="41688000" />
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
-      <workItem from="1548302670060" duration="223543000" />
+      <workItem from="1548302670060" duration="224354000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -545,7 +536,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="381111000" />
+    <option name="totallyTimeSpent" value="381922000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -560,12 +551,12 @@
     <frame x="0" y="23" width="1419" height="778" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992658" visible="true" weight="0.28612927" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992658" visible="true" weight="0.28612927" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24981844" />
       <window_info id="Favorites" order="2" sideWeight="0.5007342" side_tool="true" weight="0.2570806" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49745825" weight="0.32944608" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49019608" visible="true" weight="0.31778425" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49019608" visible="true" weight="0.31778425" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -786,13 +777,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/navbar/workflow/_investigator.html.slim">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/dashboard/index.html.slim">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4635">
@@ -833,11 +817,6 @@
         <state relative-caret-position="420">
           <caret line="28" selection-start-line="28" selection-end-line="30" selection-end-column="73" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/complaints/new.html.slim">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-262" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/cemeteries/new.html.slim">
@@ -885,17 +864,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/complaints_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2685">
-          <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20190207025654_remove_date_acknowledged_from_complaints.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="49" selection-start-line="2" selection-start-column="49" selection-end-line="2" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/complaints_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-138">
+          <caret line="71" column="53" selection-start-line="71" selection-start-column="53" selection-end-line="71" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/navbar/workflow/_investigator.html.slim">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/complaints/new.html.slim">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="145" column="91" selection-start-line="145" selection-start-column="91" selection-end-line="145" selection-end-column="91" />
         </state>
       </provider>
     </entry>
