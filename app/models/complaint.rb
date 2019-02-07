@@ -103,7 +103,7 @@ class Complaint < ApplicationRecord
   end
 
   def set_complaint_number
-    self.complaint_number = "#{date_acknowledged.year}-#{'%04d' % id}"
+    self.complaint_number = "#{created_at.year}-#{'%04d' % id}"
     save
   end
 end
