@@ -6,7 +6,7 @@ class Cemetery < ApplicationRecord
       where(
         cemetery: cemetery).order(
         approval_date: :desc)}
-  belongs_to :town
+  has_and_belongs_to_many :towns
   has_many :trustees, dependent: :destroy
 
   scope :active, -> {

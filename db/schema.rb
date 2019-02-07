@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_000438) do
+ActiveRecord::Schema.define(version: 2019_02_07_013619) do
 
   create_table "cemeteries", force: :cascade do |t|
     t.string "name"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(version: 2019_02_07_000438) do
     t.float "longitude"
     t.integer "town_id"
     t.index ["town_id"], name: "index_cemeteries_on_town_id"
+  end
+
+  create_table "cemeteries_towns", id: false, force: :cascade do |t|
+    t.integer "cemetery_id"
+    t.integer "town_id"
+    t.index ["cemetery_id"], name: "index_cemeteries_towns_on_cemetery_id"
+    t.index ["town_id"], name: "index_cemeteries_towns_on_town_id"
   end
 
   create_table "complaints", force: :cascade do |t|

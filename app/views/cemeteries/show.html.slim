@@ -23,7 +23,7 @@
                     td =@cemetery.cemetery_id
                   tr
                     th scope="row" Location
-                    td ="#{@cemetery.town.name}, #{@cemetery.county_name} County"
+                    td ="#{@cemetery.towns.to_sentence}, #{@cemetery.county_name} County"
                   tr
                     th scope="row" Last Inspection
                     td =@cemetery.last_inspection
