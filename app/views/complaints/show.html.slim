@@ -173,6 +173,17 @@
                           .form-layout-footer
                             =f.submit 'Update', class: 'btn btn-primary bd-0 mr-1'
                             a#cancel-edit-investigator.btn.btn-secondary.bd-0 href="#" Cancel
+                  tr
+                    th scope="row" Complaint Received
+                    td =@complaint.created_at.to_date
+                  -if @complaint.status > 1
+                    tr
+                      th scope="row" Investigation Begun
+                      td =@complaint.investigation_begin_date
+                    -if @complaint.status > 2
+                      tr
+                        th scope="row" Investigation Completed
+                        td =@complaint.investigation_completion_date
                   -if @complaint.status == 5
                     tr
                       th scope="row" Closure Date

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/complaints/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/show.html.slim" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +41,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/complaints_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="335">
@@ -49,14 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="184" column="109" selection-start-line="184" selection-start-column="109" selection-end-line="184" selection-end-column="109" />
-              <folding>
-                <element signature="e#3793#8245#0" />
-              </folding>
+            <state relative-caret-position="320">
+              <caret line="180" column="55" selection-start-line="180" selection-start-column="55" selection-end-line="180" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -148,9 +146,9 @@
         <option value="$PROJECT_DIR$/app/models/concerns/notable.rb" />
         <option value="$PROJECT_DIR$/app/views/application/_show_notes.html.slim" />
         <option value="$PROJECT_DIR$/db/migrate/20190207000438_add_closed_by_to_complaints.rb" />
-        <option value="$PROJECT_DIR$/app/views/complaints/show.html.slim" />
         <option value="$PROJECT_DIR$/app/models/complaint.rb" />
         <option value="$PROJECT_DIR$/app/controllers/complaints_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/complaints/show.html.slim" />
       </list>
     </option>
   </component>
@@ -460,7 +458,7 @@
       <workItem from="1547855004684" duration="41688000" />
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
-      <workItem from="1548302670060" duration="217440000" />
+      <workItem from="1548302670060" duration="218249000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -485,7 +483,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="375008000" />
+    <option name="totallyTimeSpent" value="375817000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -784,16 +782,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="184" column="109" selection-start-line="184" selection-start-column="109" selection-end-line="184" selection-end-column="109" />
-          <folding>
-            <element signature="e#3793#8245#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/complaint.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
@@ -819,6 +807,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
           <caret line="53" column="22" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/complaints/show.html.slim">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="180" column="55" selection-start-line="180" selection-start-column="55" selection-end-line="180" selection-end-column="55" />
         </state>
       </provider>
     </entry>
