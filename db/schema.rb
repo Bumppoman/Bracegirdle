@@ -21,8 +21,6 @@ ActiveRecord::Schema.define(version: 2019_02_07_013619) do
     t.date "last_audit"
     t.float "latitude"
     t.float "longitude"
-    t.integer "town_id"
-    t.index ["town_id"], name: "index_cemeteries_on_town_id"
   end
 
   create_table "cemeteries_towns", id: false, force: :cascade do |t|

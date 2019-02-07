@@ -4,7 +4,7 @@ class CemeteriesController < ApplicationController
 
     # Separate latitude and longitude
     @cemetery.latitude, @cemetery.longitude = params[:location].split(',')
-
+    
     @cemetery.save
     redirect_to cemetery_path(@cemetery)
   end
@@ -103,7 +103,7 @@ class CemeteriesController < ApplicationController
   private
 
   def cemetery_params
-    params[:cemetery].permit(:name, :county, :order_id, :active, :town_id)
+    params[:cemetery].permit(:name, :county, :order_id, :active, town_ids: [])
   end
 
   def person_params
