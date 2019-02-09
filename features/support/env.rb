@@ -72,3 +72,17 @@ Capybara.javascript_driver = :headless_chrome
 
 World CapybaraSelect2
 
+# Ajax testing with ruby and capybara
+#
+# Add this to spec/support
+#
+# When a link or button starts an ajax request, instead  of use Capybara
+# click_link, click_button and click_link_or_button methods use click_ajax_link,
+# click_ajax_button and click_ajax_link_or_button methods. You can still use
+# capybara methods and right after it, call wait_for_ajax method.
+#
+# This methods will wait until Capybara.default_max_wait_time for the ajax request
+# to finish before continue the normal tests flow.
+#
+
+

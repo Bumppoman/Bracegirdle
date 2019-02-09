@@ -1,7 +1,5 @@
 Given('I am a registered user') do
-  @registered_user = FactoryBot.create(:user,
-    :email => 'tester@testdomain.test',
-    :password => 'pa$$word')
+  @registered_user = FactoryBot.create(:user)
 end
 
 Given('I visit the homepage') do

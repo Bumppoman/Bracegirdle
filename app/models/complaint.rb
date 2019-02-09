@@ -31,6 +31,13 @@ class Complaint < ApplicationRecord
     RAW_COMPLAINT_TYPES
   end
 
+  STATUSES = {
+    new: 1,
+    investigation_begun: 2,
+    investigation_complete: 3,
+    pending_closure: 4,
+    closed: 5 }.freeze
+
   def cemetery_contact
     if person_contacted
       string = person_contacted
@@ -76,6 +83,11 @@ class Complaint < ApplicationRecord
 
   def pending_closure?
     status == 4
+  end
+
+  def status=(update)
+    update = STATUSES[update] if update.is_a?(Symbol)
+    self.write_attribute(:status, update)
   end
 
   def to_s
