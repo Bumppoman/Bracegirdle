@@ -2,33 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/assets/javascripts/limit_cemeteries.coffee" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/rules/new.html.slim" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/rules/show.html.slim" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/authentication.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/complaints.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/step_definitions/authentication_steps.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features/step_definitions/complaints_steps.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spec/models/complaints_spec.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spec/support/wait_for_ajax.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/factories/cemetery.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/factories/user.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Bracegirdle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bracegirdle.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/complaints.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/complaints.coffee" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/non_compliance.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/non_compliance.coffee" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/javascripts/rules.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/javascripts/rules.coffee" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/complaints_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/rules_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/rules_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/rules.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/rules.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/complaints/new.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/complaints/new.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/non_compliance_notices/_form.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/non_compliance_notices/_form.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/sessions/new.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/sessions/new.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/database.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -84,11 +61,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/models/complaints_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
               <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Gemfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -132,7 +127,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/views/dashboard/index.html.slim" />
         <option value="$PROJECT_DIR$/app/views/layouts/navbar/_main.html.slim" />
         <option value="$PROJECT_DIR$/app/views/layouts/navbar/workflow/_investigator.html.slim" />
         <option value="$PROJECT_DIR$/app/controllers/dashboard_controller.rb" />
@@ -173,7 +167,6 @@
         <option value="$PROJECT_DIR$/features/step_definitions/complaint_steps.rb" />
         <option value="$PROJECT_DIR$/features/step_definitions/authentication_steps.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.slim" />
-        <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/spec/support/wait_for_ajax.rb" />
         <option value="$PROJECT_DIR$/spec/rails_helper.rb" />
         <option value="$PROJECT_DIR$/test/factories/cemetery.rb" />
@@ -183,6 +176,8 @@
         <option value="$PROJECT_DIR$/features/step_definitions/complaints_steps.rb" />
         <option value="$PROJECT_DIR$/spec/spec_helper.rb" />
         <option value="$PROJECT_DIR$/spec/models/complaints_spec.rb" />
+        <option value="$PROJECT_DIR$/Gemfile" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
       </list>
     </option>
   </component>
@@ -240,11 +235,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spec" />
       <recent name="$PROJECT_DIR$/app/helpers" />
       <recent name="$PROJECT_DIR$/app/views/non_compliance_notices/update" />
       <recent name="$PROJECT_DIR$/app/assets/images" />
       <recent name="$PROJECT_DIR$/app/assets/stylesheets" />
-      <recent name="$PROJECT_DIR$/app/assets/stylesheets/lib" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -460,7 +455,7 @@
       <workItem from="1547855004684" duration="41688000" />
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
-      <workItem from="1548302670060" duration="241460000" />
+      <workItem from="1548302670060" duration="242175000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -485,7 +480,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="399028000" />
+    <option name="totallyTimeSpent" value="399743000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -532,9 +527,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="6/7 work final" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/cemeteries/index.html.slim">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/cemeteries_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1293">
@@ -744,13 +736,6 @@
     <entry file="file://$PROJECT_DIR$/.rspec">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="76" column="25" selection-start-line="76" selection-start-column="25" selection-end-line="76" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spec/rails_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
@@ -782,14 +767,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/factories/user.rb">
+    <entry file="file://$PROJECT_DIR$/spec/factories/user.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" selection-end-line="5" selection-end-column="3" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/factories/cemetery.rb">
+    <entry file="file://$PROJECT_DIR$/spec/factories/cemetery.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="10" lean-forward="true" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
@@ -838,6 +823,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
         </state>
       </provider>
     </entry>
