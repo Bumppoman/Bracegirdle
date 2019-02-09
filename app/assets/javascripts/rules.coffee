@@ -16,5 +16,17 @@
       }
     });
 
+    method_select = ->
+      if $("#rules_email_true").is(":checked")
+        $("#rules-sender-email").show()
+        $("#rules-sender-address").hide()
+      else
+        $("#rules-sender-email").hide()
+        $("#rules-sender-address").show()
+
+    method_select()
+
+    $("input[name=rules\\[email\\]]").change(method_select)
+
   $(document).on('turbolinks:load', ready)
 ) jQuery

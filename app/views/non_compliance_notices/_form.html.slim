@@ -3,11 +3,11 @@ label.section-title Cemetery Information
   .col-lg-6
     .form-group.required
       =f.label :cemetery_county, 'County', class: 'form-control-label'
-      =f.select :cemetery_county, options_for_select(COUNTIES.invert, @notice.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search', data: { placeholder: 'Select county' }
+      =f.select :cemetery_county, options_for_select(COUNTIES.invert, @notice.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search county', data: { placeholder: 'Select county' }
   .col-lg-6
     .form-group.required
       =f.label :cemetery, 'Cemetery', class: 'form-control-label'
-      =f.select :cemetery, grouped_options_for_select(cemetery_options, @notice.cemetery&.id), { prompt: 'Select cemetery' }, class: 'form-control select2-show-search', disabled: true, data: { placeholder: 'Select cemetery' }
+      =f.select :cemetery, grouped_options_for_select(cemetery_options, @notice.cemetery&.id), { prompt: 'Select cemetery' }, class: 'form-control select2-show-search cemeteries-by-county', disabled: true, data: { placeholder: 'Select cemetery' }
 .row
   .col-lg-6
     .form-group.required

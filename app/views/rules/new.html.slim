@@ -1,0 +1,52 @@
+.section-wrapper
+  =form_for @rules, url: rules_path do |f|
+    .form-layout
+      ==content_tag(:div, 'There was a problem saving these rules!', class: 'alert alert-danger', role: 'alert') if @rules.errors.any?
+      label.section-title Cemetery Information
+      .row
+        .col-lg-6
+          .form-group.required
+            =f.label :cemetery_county, 'County', class: 'form-control-label'
+            =f.select :cemetery_county, options_for_select(COUNTIES.invert, @rules.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search county'
+        .col-lg-6
+          .form-group.required
+            =f.label :cemetery, 'Cemetery', class: 'form-control-label'
+            =f.select :cemetery, grouped_options_for_select(cemetery_options, @rules.cemetery&.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
+      .row
+        .col-lg-8
+          .form-group.required
+            =f.label :sender, 'Sender', class: 'form-control-label'
+            =f.text_field :sender, class: 'form-control'
+        .col-lg-4
+          .form-group.required
+            =f.label :email, 'Manner of Delivery'
+            label.rdiobox
+              = f.radio_button :email, true
+              span Email
+            label.rdiobox
+              = f.radio_button :email, false
+              span Postal Mail
+      #rules-sender-email.row style="display: none;"
+        .col-lg-12
+          .form-group.required
+            =f.label :sender_email, 'Email Address', class: 'form-control-label'
+            =f.text_field :sender_email, class: 'form-control'
+      #rules-sender-address
+        .row
+          .col-lg-12
+            .form-group.required
+              = f.label :sender_street_address, 'Address', class: 'form-control-label'
+              = f.text_field :sender_street_address, class: 'form-control'
+        .row
+          .col-lg-6
+            .form-group.required
+              = f.label :sender_city, 'City', class: 'form-control-label'
+              = f.text_field :sender_city, class: 'form-control'
+          .col-lg-2
+            .form-group.required
+              = f.label :sender_state, 'State', class: 'form-control-label'
+              = f.select :sender_state, options_for_select(STATES, @rules.sender_state), {}, class: 'form-control select2'
+          .col-lg-4
+            .form-group.required
+              = f.label :sender_zip, 'ZIP Code', class: 'form-control-label'
+              = f.text_field :sender_zip, class: 'form-control'

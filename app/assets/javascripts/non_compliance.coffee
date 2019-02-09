@@ -6,22 +6,6 @@
 
   ready = ->
 
-    original_cemeteries = $("#non_compliance_notice_cemetery").html()
-
-    limitCemeteries = ->
-      $("#non_compliance_notice_cemetery").prop('disabled', false)
-      $("#non_compliance_notice_cemetery").html(original_cemeteries)
-      county = $("#non_compliance_notice_cemetery_county").find(":selected").text() + " County"
-      $("#non_compliance_notice_cemetery optgroup").each ->
-        if $(this).attr('label') != county
-          $(this).children().remove()
-          $(this).remove()
-
-    if $("#non_compliance_notice_cemetery").val() != "" || $("#non_compliance_notice_cemetery_county").val() != ""
-      limitCemeteries()
-
-    $("#non_compliance_notice_cemetery_county").change(limitCemeteries)
-
     $('#non-compliance-notices-data-table').DataTable({
       responsive: true,
       language: {

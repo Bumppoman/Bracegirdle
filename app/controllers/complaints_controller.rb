@@ -126,9 +126,10 @@ class ComplaintsController < ApplicationController
   end
 
   def assign_investigator
-    @complaint.status = 2
-    @complaint.investigation_begin_date = Date.current
-    @complaint.investigator = User.find(params[:complaint][:investigator])
+    @complaint.update(
+      status: 2,
+      investigation_begin_date: Date.current,
+      investigator: User.find(params[:complaint][:investigator]))
     @response = 'complaints/update/assign_investigator'
   end
 

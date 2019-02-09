@@ -6,22 +6,6 @@
 
   ready = ->
 
-    original_cemeteries = $("#complaint_cemetery").html()
-
-    limitCemeteries = ->
-      $("#complaint_cemetery").prop('disabled', false)
-      $("#complaint_cemetery").html(original_cemeteries)
-      county = $("#complaint_cemetery_county").find(":selected").text() + " County"
-      $("#complaint_cemetery optgroup").each ->
-        if $(this).attr('label') != county
-          $(this).children().remove()
-          $(this).remove()
-
-    if $("#complaint_cemetery").val() != "" || $("#complaint_cemetery_county").val() != ""
-      limitCemeteries()
-
-    $("#complaint_cemetery_county").change(limitCemeteries)
-
     cemetery_select = ->
       if $("#complaint_cemetery_regulated_true").is(":checked")
         $("#complaint-cemetery-select-area").show()
