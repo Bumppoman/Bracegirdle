@@ -1,4 +1,10 @@
 class NoticesController < ApplicationController
+  include Permissions
+
+  before_action do
+    stipulate :must_be_investigator
+  end
+
   def create
     # Create the object
     @notice = Notice.new(notice_params)
@@ -78,9 +84,10 @@ class NoticesController < ApplicationController
   end
 
   def update_status
-    @notice = NonComplianceNotice.find(params[:id])
+    @notice = Notice.find(params[:id])
 
     response_received if params.key? :response_received
+    follow_up_date if params.key? :follow_up_date
     follow_up_completed if params.key? :follow_up_completed
     resolve_notice if params.key? :resolve_notice
 
@@ -95,9 +102,13 @@ class NoticesController < ApplicationController
   private
 
   def follow_up_completed
-    @notice.follow_up_inspection_date = Time.zone.today
+    @notice.follow_up_inspection_date = helpers.format_date_param(params[:notice][:follow_up_inspection_date])
     @notice.status = 3
     @response = 'notices/update/follow_up_complete'
+  end
+
+  def follow_up_date
+    @response = 'notices/update/follow_up_date'
   end
 
   def notice_params
@@ -114,13 +125,13 @@ class NoticesController < ApplicationController
   end
 
   def resolve_notice
-    @notice.notice_resolved_date = Time.zone.today
+    @notice.notice_resolved_date = Date.current
     @notice.status = 4
     @response = 'notices/update/resolve_notice'
   end
 
   def response_received
-    @notice.response_received_date = Time.zone.today
+    @notice.response_received_date = Date.current
     @notice.status = 2
     @response = 'notices/update/response_received'
   end

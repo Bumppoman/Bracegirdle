@@ -12,7 +12,7 @@ feature 'Complaints' do
     expect { visit new_complaint_path }.to raise_error(ApplicationController::Forbidden)
   end
 
-  scenario 'User adds complaint', js: true do
+  scenario 'Investigator adds complaint', js: true do
     login
     visit root_path
 

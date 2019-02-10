@@ -54,7 +54,7 @@
             .card-body
               p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
             .card-footer
-              = f.button 'Follow-Up Completed', name: 'follow_up_completed', class: 'next action-button'
+              = f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
           fieldset#follow-up-completed
             .card-header
               strong Follow-Up Completed
@@ -84,3 +84,24 @@
           =link_to tag.img(src: image_path('doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download #{@notice.notice_number}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-docx-notice-link', onclick: "javascript:window.location=\"#{download_notice_path(@notice)}\""
       .modal-footer
         button.btn.btn-secondary type="button" data-dismiss="modal" Close
+=form_with model: @notice, url: notice_update_status_path, method: :patch do |f|
+  #follow-up-date.modal.fade
+    .modal-dialog.wd-30p role="document"
+      .modal-content
+        .modal-header.pd-x-20
+          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Follow-up Inspection Completed
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+        .modal-body.pd-25
+          p
+            | Enter the date this follow-up inspection was completed:
+            br<>
+            br<>
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+              =f.text_field :follow_up_inspection_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
+        .modal-footer
+          =f.button 'Follow-Up Completed', name: 'follow_up_completed', class: 'btn btn-primary', id: 'follow-up-completed'
+          button.btn.btn-secondary type="button" data-dismiss="modal" Close

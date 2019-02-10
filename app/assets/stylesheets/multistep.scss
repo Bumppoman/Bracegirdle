@@ -92,29 +92,10 @@
   background: #146abb;
   color: white;
   border: 0 none;
-  border-radius: 5px;
   cursor: pointer;
-  font: 700 14px/40px "Roboto", sans-serif;
   border: 1px solid #1363b0;
+  padding: 10px;
   margin: 0 10px;
-  text-transform: uppercase;
   display: inline-block;
   min-width: 10%;
-}
-
-.multi_step_form #msform .action-button:hover, .multi_step_form #msform .action-button:focus {
-  background: #405867;
-  border-color: #405867;
-}
-
-.multi_step_form #msform .previous_button {
-  background: transparent;
-  color: #99a2a8;
-  border-color: #99a2a8;
-}
-
-.multi_step_form #msform .previous_button:hover, .multi_step_form #msform .previous_button:focus {
-  background: #405867;
-  border-color: #405867;
-  color: #fff;
 }
