@@ -2,54 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/authentication.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/complaints.feature" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/step_definitions/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/spec/features/authentication_spec.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/step_definitions/authentication_steps.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/step_definitions/complaints_steps.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/support/env.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/factories/user.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/factories/user.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/rails_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/rails_helper.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/spec_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/spec_helper.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/application_system_test_case.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/.keep" beforeDir="false" afterPath="$PROJECT_DIR$/spec/features/complaints_spec.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/cemeteries_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/complaints_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/dashboard_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/errors_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/non_compliance_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/notes_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/rules_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/sessions_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/controllers/users_controller_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/.keep" beforeDir="false" afterPath="$PROJECT_DIR$/spec/support/authenticator.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/cemeteries.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/complaints.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/files/.keep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/non_compliance_notices.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/notes.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/people.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/towns.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/trustees.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/fixtures/users.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/helpers/.keep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/integration/.keep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mailers/.keep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/.keep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/cemetery_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/complaint_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/non_compliance_notice_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/note_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/person_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/rules_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/town_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/trustee_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/models/user_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/system/.keep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/system/complaints_test.rb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -99,11 +52,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Gemfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-224">
               <caret line="55" column="19" selection-start-line="55" selection-start-column="19" selection-end-line="55" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -173,7 +135,6 @@
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.slim" />
         <option value="$PROJECT_DIR$/test/factories/cemetery.rb" />
         <option value="$PROJECT_DIR$/app/views/complaints/new.html.slim" />
-        <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/features/support/env.rb" />
         <option value="$PROJECT_DIR$/spec/factories/complaint.rb" />
         <option value="$PROJECT_DIR$/features/step_definitions/authentication_steps.rb" />
@@ -189,6 +150,7 @@
         <option value="$PROJECT_DIR$/spec/support/authenticator.rb" />
         <option value="$PROJECT_DIR$/spec/factories/user.rb" />
         <option value="$PROJECT_DIR$/Gemfile" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
       </list>
     </option>
   </component>
@@ -553,7 +515,7 @@
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
       <workItem from="1548302670060" duration="251811000" />
-      <workItem from="1549734817339" duration="10166000" />
+      <workItem from="1549734817339" duration="10441000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -587,7 +549,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="419545000" />
+    <option name="totallyTimeSpent" value="419820000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -758,13 +720,6 @@
     <entry file="file://$PROJECT_DIR$/.ruby-version">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/complaints/new.html.slim">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2175">
@@ -932,6 +887,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-224">
           <caret line="55" column="19" selection-start-line="55" selection-start-column="19" selection-end-line="55" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
         </state>
       </provider>
     </entry>

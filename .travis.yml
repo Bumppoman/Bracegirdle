@@ -1,5 +1,8 @@
 language: ruby
 
+addons:
+  chrome: stable
+
 before_install:
   - gem install bundler:2.0.1
 
