@@ -11,7 +11,7 @@ def create_complaint
       cemetery: Cemetery.new(name: 'Anthony Cemetery'))
 end
 
-describe Complaint, :type => :model do
+describe Complaint, type: :model do
   subject { create_complaint }
 
   describe 'Actions' do

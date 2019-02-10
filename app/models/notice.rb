@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NonComplianceNotice < ApplicationRecord
+class Notice < ApplicationRecord
   include Notable
 
   after_commit :set_notice_number, on: :create
@@ -10,7 +10,7 @@ class NonComplianceNotice < ApplicationRecord
   belongs_to :cemetery
   belongs_to :investigator, class_name: 'User',
                             foreign_key: :investigator_id,
-                            inverse_of: :non_compliance_notices
+                            inverse_of: :notices
 
   scope :active, -> { where('status < ?', 4)}
 
@@ -25,8 +25,14 @@ class NonComplianceNotice < ApplicationRecord
   validates :violation_date, presence: true
   validates :response_required_date, presence: true
 
+  STATUSES = {
+      issued: 1,
+      response_received: 2,
+      follow_up_completed: 3,
+      resolved: 4 }.freeze
+
   def formatted_status
-    NON_COMPLIANCE_NOTICE_STATUSES[status]
+    NOTICE_STATUSES[status]
   end
 
   def response_required_status
@@ -40,10 +46,15 @@ class NonComplianceNotice < ApplicationRecord
     end
   end
 
+  def status=(update)
+    update = STATUSES[update] if update.is_a?(Symbol)
+    self.write_attribute(:status, update)
+  end
+
   private
 
   def set_notice_number
-    self.notice_number = "#{investigator.office_code}-#{Time.zone.today.year}-#{'%04i' % id}"
+    self.notice_number = "#{investigator.office_code}-#{Date.current.year}-#{'%04i' % id}"
     save
   end
 end

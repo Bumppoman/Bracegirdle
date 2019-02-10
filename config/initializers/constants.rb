@@ -125,7 +125,7 @@ NAMED_ROLES = {
     supervisor: 4
 }.freeze
 
-NON_COMPLIANCE_NOTICE_STATUSES = {
+NOTICE_STATUSES = {
     1 => 'Notice Issued',
     2 => 'Response Received',
     3 => 'Follow-Up Completed',

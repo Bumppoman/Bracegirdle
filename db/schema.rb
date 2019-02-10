@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_08_033631) do
+ActiveRecord::Schema.define(version: 2019_02_10_003508) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -91,7 +91,18 @@ ActiveRecord::Schema.define(version: 2019_02_08_033631) do
     t.index ["closed_by_id"], name: "index_complaints_on_closed_by_id"
   end
 
-  create_table "non_compliance_notices", force: :cascade do |t|
+  create_table "notes", force: :cascade do |t|
+    t.integer "notable_id"
+    t.string "notable_type"
+    t.integer "user_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "notices", force: :cascade do |t|
     t.integer "cemetery_id"
     t.integer "investigator_id"
     t.string "served_on_name"
@@ -111,19 +122,8 @@ ActiveRecord::Schema.define(version: 2019_02_08_033631) do
     t.datetime "updated_at", null: false
     t.string "notice_number"
     t.date "notice_resolved_date"
-    t.index ["cemetery_id"], name: "index_non_compliance_notices_on_cemetery_id"
-    t.index ["investigator_id"], name: "index_non_compliance_notices_on_investigator_id"
-  end
-
-  create_table "notes", force: :cascade do |t|
-    t.integer "notable_id"
-    t.string "notable_type"
-    t.integer "user_id"
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
-    t.index ["user_id"], name: "index_notes_on_user_id"
+    t.index ["cemetery_id"], name: "index_notices_on_cemetery_id"
+    t.index ["investigator_id"], name: "index_notices_on_investigator_id"
   end
 
   create_table "people", force: :cascade do |t|

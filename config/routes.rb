@@ -25,12 +25,12 @@ Rails.application.routes.draw do
   get '/403', to: 'errors#forbidden'
   get '/500', to: 'errors#internal_server_error'
 
-  # Non-Compliance Notices
-  resources :non_compliance_notices do
-    resources :notes, module: :non_compliance_notices
+  # Notices
+  resources :notices do
+    resources :notes, module: :notices
   end
-  get 'non_compliance_notices/:id/download', to: 'non_compliance_notices#download', as: :download_non_compliance_notice
-  patch 'non_compliance_notices/:id/update-parameters', to: 'non_compliance_notices#update_status', as: :non_compliance_notice_update_status
+  get 'notices/:id/download', to: 'notices#download', as: :download_notice
+  patch 'notices/:id/update-parameters', to: 'notices#update_status', as: :notice_update_status
 
   # Rules
   get 'rules/region/:region', to: 'rules#index', as: :regional_rules

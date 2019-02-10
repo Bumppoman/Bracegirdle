@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     else
       @complaints = Complaint.active_for(current_user).count
     end
-    @notices = NonComplianceNotice.active.where(investigator: current_user).count
+    @notices = Notice.active.where(investigator: current_user).count
     @title = 'Dashboard'
   end
 end

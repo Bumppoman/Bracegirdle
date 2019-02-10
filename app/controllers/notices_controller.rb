@@ -1,11 +1,11 @@
-class NonComplianceNoticesController < ApplicationController
+class NoticesController < ApplicationController
   def create
     # Create the object
-    @notice = NonComplianceNotice.new(non_compliance_notice_params)
+    @notice = Notice.new(notice_params)
 
     # Set the cemetery and investigator
     begin
-      @notice.cemetery = Cemetery.find(params.dig(:non_compliance_notice, :cemetery))
+      @notice.cemetery = Cemetery.find(params.dig(:notice, :cemetery))
     rescue ActiveRecord::RecordNotFound
       @notice.cemetery = nil
     end
@@ -13,15 +13,15 @@ class NonComplianceNoticesController < ApplicationController
     @notice.investigator = current_user
 
     # Update dates
-    @notice.update(non_compliance_notice_date_params)
+    @notice.update(notice_date_params)
 
     if @notice.save
-      redirect_to non_compliance_notice_path(@notice, prompt: true) and return
+      redirect_to notice_path(@notice, prompt: true) and return
     else
       # Render the form again if the notice didn't save
       @title = 'Issue New Notice of Non-Compliance'
       @breadcrumbs = { 'Issue new Notice of Non-Compliance' => nil }
-      @notice.cemetery_county = params[:non_compliance_notice][:cemetery_county]
+      @notice.cemetery_county = params[:notice][:cemetery_county]
 
       render action: :new
     end
@@ -29,7 +29,7 @@ class NonComplianceNoticesController < ApplicationController
 
   def download
     # Get notice
-    @notice = NonComplianceNotice.find(params[:id])
+    @notice = Notice.find(params[:id])
 
     # Create Word document notice
     all_params = @notice.attributes.merge(
@@ -56,14 +56,14 @@ class NonComplianceNoticesController < ApplicationController
   end
 
   def index
-    @notices = NonComplianceNotice.where(investigator: current_user).where('status < ?', 4)
+    @notices = Notice.active.where(investigator: current_user)
 
     @title = 'My Active Notices of Non-Compliance'
     @breadcrumbs = { 'My Active Notices of Non-Compliance' => nil }
   end
 
   def new
-    @notice = NonComplianceNotice.new
+    @notice = Notice.new
     @notice.served_on_state = 'NY'
 
     @title = 'Issue New Notice of Non-Compliance'
@@ -71,10 +71,10 @@ class NonComplianceNoticesController < ApplicationController
   end
 
   def show
-    @notice = NonComplianceNotice.includes(notes: :user).find(params[:id])
+    @notice = Notice.includes(notes: :user).find(params[:id])
 
     @title = "Notice of Non-Compliance ##{@notice.notice_number}"
-    @breadcrumbs = { 'My active notices' => non_compliance_notices_path, @title => nil }
+    @breadcrumbs = { 'My active notices' => notices_path, @title => nil }
   end
 
   def update_status
@@ -97,17 +97,17 @@ class NonComplianceNoticesController < ApplicationController
   def follow_up_completed
     @notice.follow_up_inspection_date = Time.zone.today
     @notice.status = 3
-    @response = 'non_compliance_notices/update/follow_up_complete'
+    @response = 'notices/update/follow_up_complete'
   end
 
-  def non_compliance_notice_params
-    params.require(:non_compliance_notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
+  def notice_params
+    params.require(:notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
   end
 
-  def non_compliance_notice_date_params
+  def notice_date_params
     date_params = {}
     %i[response_required_date violation_date].each do |param|
-      date_params[param] = helpers.format_date_param(params[:non_compliance_notice][param])
+      date_params[param] = helpers.format_date_param(params[:notice][param])
     end
 
     date_params
@@ -116,12 +116,12 @@ class NonComplianceNoticesController < ApplicationController
   def resolve_notice
     @notice.notice_resolved_date = Time.zone.today
     @notice.status = 4
-    @response = 'non_compliance_notices/update/resolve_notice'
+    @response = 'notices/update/resolve_notice'
   end
 
   def response_received
     @notice.response_received_date = Time.zone.today
     @notice.status = 2
-    @response = 'non_compliance_notices/update/response_received'
+    @response = 'notices/update/response_received'
   end
 end
