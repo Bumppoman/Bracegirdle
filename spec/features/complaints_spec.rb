@@ -92,7 +92,7 @@ feature 'Complaints' do
     click_on @complaint.complaint_number
     click_on 'Investigation Details'
 
-    expect(page).to have_content 'CLOSE COMPLAINT'
+    expect(page).to have_content 'Close Complaint'
   end
 
   scenario 'Supervisor can reopen complaint', js: true do

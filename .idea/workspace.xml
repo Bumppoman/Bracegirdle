@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/views/notices/update/_follow_up_date.js.erb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spec/factories/notice.rb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spec/features/notices_spec.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/multistep.scss" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/multistep.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/non_compliance.scss" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/notices.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/notices_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/notices_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/notices/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/notices/show.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/notices/update/_follow_up_complete.js.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/notices/update/_follow_up_complete.js.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spec/features/complaints_spec.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/features/complaints_spec.rb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/features/complaints_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="62" selection-start-line="62" selection-end-line="62" selection-end-column="36" />
+            <state relative-caret-position="112">
+              <caret line="94" column="49" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -61,7 +52,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/features/notices_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="271">
@@ -151,7 +142,6 @@
         <option value="$PROJECT_DIR$/spec/models/complaints_spec.rb" />
         <option value="$PROJECT_DIR$/app/models/notice.rb" />
         <option value="$PROJECT_DIR$/spec/models/notices_spec.rb" />
-        <option value="$PROJECT_DIR$/spec/features/complaints_spec.rb" />
         <option value="$PROJECT_DIR$/spec/factories/notice.rb" />
         <option value="$PROJECT_DIR$/app/views/notices/update/_follow_up_date.js.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/notices.scss" />
@@ -161,6 +151,7 @@
         <option value="$PROJECT_DIR$/app/controllers/notices_controller.rb" />
         <option value="$PROJECT_DIR$/spec/rails_helper.rb" />
         <option value="$PROJECT_DIR$/spec/features/notices_spec.rb" />
+        <option value="$PROJECT_DIR$/spec/features/complaints_spec.rb" />
       </list>
     </option>
   </component>
@@ -604,7 +595,7 @@
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
       <workItem from="1548302670060" duration="251811000" />
-      <workItem from="1549734817339" duration="20502000" />
+      <workItem from="1549734817339" duration="20785000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -638,7 +629,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="429881000" />
+    <option name="totallyTimeSpent" value="430164000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -988,17 +979,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/features/complaints_spec.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="62" selection-start-line="62" selection-end-line="62" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spec/features/notices_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="271">
           <caret line="87" column="7" selection-start-line="87" selection-start-column="7" selection-end-line="87" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spec/features/complaints_spec.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="94" column="49" selection-start-line="94" selection-start-column="49" selection-end-line="94" selection-end-column="49" />
         </state>
       </provider>
     </entry>
