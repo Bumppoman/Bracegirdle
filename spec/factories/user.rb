@@ -4,12 +4,16 @@ FactoryBot.define do
     email { 'tester@testdomain.test' }
     password { 'pa$$word' }
     role { 2 }
+
+    factory :supervisor do
+      role { 4 }
+    end
   end
 
   factory :mean_supervisor, class: 'User' do
     name { 'John Smith' }
     email { 'evil@supervisor.com' }
-    password { 'test' }
+    password { 'pa$$word' }
     role { 4 }
   end
 end
