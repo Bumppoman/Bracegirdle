@@ -14,7 +14,7 @@
             td =link_to rules, rules
             td =rules.cemetery
             td =rules.submission_date
-            td ==rules.last_action
+            td =rules.named_status
             td =rules.updated_at.to_date.to_s
   -if current_user.supervisor?
     .mg-t-10

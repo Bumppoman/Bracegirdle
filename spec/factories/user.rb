@@ -16,4 +16,11 @@ FactoryBot.define do
     password { 'pa$$word' }
     role { 4 }
   end
+
+  factory :another_investigator, class: 'User' do
+    name { 'Bob Wood' }
+    email { 'testy@testdomain.test' }
+    password { 'pa$$word' }
+    role { 2 }
+  end
 end

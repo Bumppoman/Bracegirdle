@@ -34,7 +34,10 @@ Rails.application.routes.draw do
 
   # Rules
   get 'rules/region/:region', to: 'rules#index', as: :regional_rules
-  resources :rules
+  resources :rules do
+    resources :notes, module: :rules
+  end
+  patch 'rules/:id/upload-revision', to: 'rules#upload_revision', as: :rules_upload_revision
 
   # Users
   resources :sessions, only: [:new, :create, :destroy]

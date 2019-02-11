@@ -30,25 +30,27 @@ class ComplaintsController < ApplicationController
     @complaint.update(complaint_date_params)
 
     # Update complaint types and manners of contact
-    @complaint.complaint_type = params[:complaint][:complaint_type].reject(&:empty?).join(', ')
-    @complaint.manner_of_contact = params.dig(:complaint, :manner_of_contact).try(:join, ', ')
-
-    @complaint.receiver = User.find(params.dig(:complaint, :receiver))
+    @complaint.update(
+      complaint_type: params[:complaint][:complaint_type].reject(&:empty?).join(', '),
+      manner_of_contact: params.dig(:complaint, :manner_of_contact).try(:join, ', '),
+      receiver: User.find(params.dig(:complaint, :receiver)))
 
     if @complaint.investigation_required?
       @complaint.investigator = User.find(params[:complaint][:investigator]) unless params[:complaint][:investigator].blank?
     else
       if current_user.has_role?(:supervisor)
-        @complaint.status = 5
-        @complaint.closed_by = current_user
-        @complaint.closure_date = Date.current
+        @complaint.update(
+          status: :closed,
+          closed_by: current_user,
+          closure_date: Date.current)
       else
-        @complaint.status = 4
+        @complaint.status = :pending_closure
       end
 
-      @complaint.investigator = current_user
-      @complaint.disposition_date = Date.current
-      @complaint.disposition = params[:complaint][:disposition]
+      @complaint.update(
+        investigator: current_user,
+        disposition_date: Date.current,
+        disposition: params[:complaint][:disposition])
     end
 
     if @complaint.save
@@ -127,30 +129,33 @@ class ComplaintsController < ApplicationController
 
   def assign_investigator
     @complaint.update(
-      status: 2,
+      status: :investigation_begun,
       investigation_begin_date: Date.current,
       investigator: User.find(params[:complaint][:investigator]))
     @response = 'complaints/update/assign_investigator'
   end
 
   def begin_investigation
-    @complaint.status = 2
-    @complaint.investigator = current_user
-    @complaint.investigation_begin_date = Date.current
+    @complaint.update(
+      status: :investigation_begun,
+      investigator: current_user,
+      investigation_begin_date: Date.current)
     @response = 'complaints/update/begin_investigation'
   end
 
   def close_complaint
     if @complaint.status == 3
-      @complaint.disposition_date = Date.current
-      @complaint.disposition = params[:complaint][:disposition]
+      @complaint.update(
+        disposition_date: Date.current,
+        disposition: params[:complaint][:disposition])
     end
 
-    @complaint.status = 5
-    @complaint.closed_by = current_user
-    @complaint.closure_date = Date.current
+    @complaint.update(
+      status: :closed,
+      closed_by: current_user,
+      closure_date: Date.current)
 
-    redirect_to complaint_investigation_path(@complaint) if @complaint.save
+    redirect_to complaint_investigation_path(@complaint)
   end
 
   def complaint_params
@@ -190,29 +195,28 @@ class ComplaintsController < ApplicationController
   end
 
   def complete_investigation
-    @complaint.status = 3
-    @complaint.investigation_completion_date = Date.current
+    @complaint.update(
+      status: :investigation_complete,
+      investigation_completion_date: Date.current)
     @response = 'complaints/update/complete_investigation'
   end
 
   def recommend_closure
     @complaint.update(
-      status: 4,
+      status: :pending_closure,
       disposition_date: Date.current,
-      disposition: params[:complaint][:disposition]
-    )
+      disposition: params[:complaint][:disposition])
     @response = 'complaints/update/recommend_closure'
   end
 
   def reopen_investigation
     @complaint.update(
-      status: 2,
+      status: :investigation_begun,
       investigation_required: true,
       investigator: current_user,
       investigation_completion_date: nil,
       disposition_date: nil,
-      disposition: nil
-    )
+      disposition: nil)
 
     @complaint.investigation_begin_date = Date.current if @complaint.investigation_begin_date.nil?
 

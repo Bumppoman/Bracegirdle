@@ -31,6 +31,44 @@ describe Complaint, type: :model do
   end
 
   describe 'Instance Methods' do
+    describe Complaint, '#belongs_to?' do
+      it 'returns true when the complaint belongs to the user' do
+        @investigator = User.new(password: 'test')
+        subject.investigator = @investigator
+
+        expect(subject.belongs_to?(@investigator)).to be true
+      end
+
+      it 'returns false when the complaint does not belong to the user' do
+        expect(subject.belongs_to?(User.new)).to be false
+      end
+    end
+
+    describe Complaint, '#cemetery_contact' do
+      it 'returns the default message when there is no info' do
+        expect(subject.cemetery_contact).to eq 'No cemetery contact information provided'
+      end
+
+      it 'returns just the name if there is a person contacted' do
+        subject.person_contacted = 'John Smith'
+
+        expect(subject.cemetery_contact).to eq 'John Smith'
+      end
+
+      it 'returns the name and the method if both are provided' do
+        subject.person_contacted = 'John Smith'
+        subject.manner_of_contact = '1, 3'
+
+        expect(subject.cemetery_contact).to eq 'John Smith (by phone, email)'
+      end
+
+      it 'returns nothing if the person is empty' do
+        subject.manner_of_contact = '1, 3'
+
+        expect(subject.cemetery_contact).to eq 'No cemetery contact information provided'
+      end
+    end
+
     describe Complaint, '#closed?' do
       it 'is true when the complaint is closed' do
         subject.status = :closed

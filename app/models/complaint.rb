@@ -38,6 +38,10 @@ class Complaint < ApplicationRecord
     pending_closure: 4,
     closed: 5 }.freeze
 
+  def belongs_to?(user)
+    investigator == user
+  end
+
   def cemetery_contact
     if person_contacted
       string = person_contacted
@@ -66,7 +70,7 @@ class Complaint < ApplicationRecord
 
   def formatted_ownership
     # Return empty string if not provided
-    return '' if name_on_deed.blank?
+    return nil if name_on_deed.blank?
 
     return_string = "Owned by #{name_on_deed}"
     return_string += " (#{relationship})" if relationship

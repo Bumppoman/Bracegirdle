@@ -17,7 +17,7 @@
     });
 
     method_select = ->
-      if $("#rules_email_true").is(":checked")
+      if $("#rules_request_by_email_true").is(":checked")
         $("#rules-sender-email").show()
         $("#rules-sender-address").hide()
       else
@@ -26,7 +26,17 @@
 
     method_select()
 
-    $("input[name=rules\\[email\\]]").change(method_select)
+    $("input[name=rules\\[request_by_email\\]]").change(method_select)
+
+    $('.custom-file-input').change ->
+      i = $(this).next('label').clone();
+      file = $(this)[0].files[0].name;
+      $(this).next('label').text(file);
+
+    $('.toggle-revision').click (event) ->
+      revision = $(this).data('revision')
+      $('#revision-' + revision + '-content').toggle()
+      event.preventDefault()
 
   $(document).on('turbolinks:load', ready)
 ) jQuery

@@ -26,5 +26,12 @@ FactoryBot.define do
       disposition_date { Date.current }
       status { 4 }
     end
+
+    factory :no_investigation_complaint, class: 'Complaint' do
+      investigation_required { false }
+      status { 4 }
+      disposition { 'Testing' }
+      disposition_date { Date.current }
+    end
   end
 end

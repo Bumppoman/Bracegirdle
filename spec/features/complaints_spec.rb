@@ -108,4 +108,28 @@ feature 'Complaints' do
 
     expect(page).to have_content('Herman Munster')
   end
+
+  scenario "Investigator cannot advance another investigator's complaint", js: true do
+    @employee = FactoryBot.create(:user)
+    @complaint = FactoryBot.create(:brand_new_complaint)
+    login(FactoryBot.create(:another_investigator))
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+
+    expect(page).to_not have_button 'Begin Investigation'
+  end
+
+  scenario "Supervisor can reopen complaint that had no investigation initially", js: true do
+    @employee = FactoryBot.create(:user)
+    @complaint = FactoryBot.create(:no_investigation_complaint)
+    login(FactoryBot.create(:mean_supervisor))
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+    click_button 'Reopen Investigation'
+    visit complaints_path
+
+    expect(page).to have_content('2019-0001')
+  end
 end

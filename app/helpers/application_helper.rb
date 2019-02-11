@@ -17,6 +17,11 @@ module ApplicationHelper
     end
   end
 
+  def investigator_inbox_items
+    @rules ||= Rules.active_for(current_user).count
+    @rules
+  end
+
   def named_region(region)
     NAMED_REGIONS[region]
   end

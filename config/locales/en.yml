@@ -54,7 +54,7 @@ en:
               blank: 'You must enter the date the event occurred.'
             disposition:
               blank: 'You must enter a disposition for this complaint.'
-        non_compliance_notice:
+        notice:
           attributes:
             cemetery:
               required: 'You must assign this notice to a cemetery.'
@@ -77,4 +77,23 @@ en:
             violation_date:
               blank:  "You must enter the date on which the violation occurred."
             response_required_date:
-              blank:  "You must specify the date on which the notice must be answered."
+              blank:  'You must specify the date on which the notice must be answered.'
+        rules:
+          attributes:
+            cemetery:
+              required: 'You must select the cemetery that submitted these rules.'
+            request_by_email:
+              blank: 'You must specify whether these were received by email or by postal mail.'
+            sender:
+              blank: 'You must provide the name of the person who submitted these rules.'
+            sender_street_address:
+              blank: &blank_address 'You must provide a valid address to which to send the approval for these rules.'
+            sender_city:
+              blank: *blank_address
+            sender_state:
+              blank: *blank_address
+            sender_zip:
+              blank: *blank_address
+            rules_documents:
+              blank: 'You must upload the original rules as an attachment.'
+              invalid: 'The file format you uploaded is not valid.'

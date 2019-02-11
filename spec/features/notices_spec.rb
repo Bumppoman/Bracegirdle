@@ -90,4 +90,16 @@ feature 'Notices' do
 
     expect(page).to have_content 'Follow-up inspection completed on February 1, 2019'
   end
+
+  scenario "Cannot advance another investigator's notice", js: true do
+    login
+    @notice = FactoryBot.create(:notice)
+    @other_investigator = User.new(password: 'test')
+    @notice.investigator = @other_investigator
+    @notice.save
+
+    visit notice_path(@notice)
+
+    expect(page).to_not have_button('Response Received')
+  end
 end

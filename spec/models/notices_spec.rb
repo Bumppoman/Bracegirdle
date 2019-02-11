@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 def create_notice
+  @investigator = User.new(office_code: 'XXX')
+
   Notice.new(
     cemetery: Cemetery.new,
-    investigator: User.new(office_code: 'XXX'),
+    investigator: @investigator,
     served_on_name: 'John Doe',
     served_on_title: 'President',
     served_on_street_address: '123 Fake St.',
@@ -36,6 +38,16 @@ describe Notice, type: :model do
   end
 
   describe 'Instance Methods' do
+    describe Notice, '#belongs_to?' do
+      it 'returns true when the notice belongs to the user' do
+        expect(subject.belongs_to?(@investigator)).to be true
+      end
+
+      it 'returns false when the notice does not belong to the user' do
+        expect(subject.belongs_to?(User.new)).to be false
+      end
+    end
+
     describe Notice, '#formatted_status' do
       it 'returns closed when the notice is closed' do
         subject.status = :resolved

@@ -1,73 +1,66 @@
-.card.mb-1
-  .card-header
-    strong Notice Details
-  .card-body
-    table.table.table-striped
-      thead
-        tr
-          th scope="row" colspan="5" Cemetery Information
-      tbody
-        tr
-          th scope="row" style="width: 20%;" Notice Number
-          td colspan="4"
-            =="#{@notice.notice_number} (#{link_to 'download', '#', id: 'download-notice'})"
-        tr
-          th scope="row" Cemetery
-          td colspan="4" =="#{link_to @notice.cemetery.name, @notice.cemetery} (##{@notice.cemetery.cemetery_id})"
-        tr
-          th scope="row" Served On
-          td colspan="4" =="#{@notice.served_on_name}<br />#{@notice.served_on_street_address}<br />#{@notice.served_on_city}, #{@notice.served_on_state} #{@notice.served_on_zip}"
-    table.table.table-striped
-      thead
-        tr
-          th scope="row" colspan="5" Violation Information
-      tbody
-        tr
-          th scope="row" style="width: 20%;" Law Sections
-          td colspan="4" =@notice.law_sections
-        tr
-          th scope="row" Specific Information
-          td colspan="4" =@notice.specific_information
-.card.mb-1
-  .card-header
-    strong Actions
-  .card-body
-    #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=@notice.status]
-      =form_with model: @notice, url: notice_update_status_path, method: :patch, id: 'msform' do |f|
-        ul#progressbar
-          li class=[active_item(@notice.status >= 1)] Notice Issued
-          li class=[active_item(@notice.status >= 2)] Response Received
-          li class=[active_item(@notice.status >= 3)] Follow-Up Completed
-          li class=[active_item(@notice.status == 4)] Notice Resolved
-        .card
-          fieldset#notice-issued
-            .card-header
-              strong Notice Issued
-            .card-body
-              p.mb-0 ="Notice issued on #{@notice.created_at}."
-              p.mb-0 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
+.section-wrapper.pd-20
+  label.section-title Notice Details
+  table.table.table-striped
+    thead
+      tr
+        th scope="row" colspan="5" Cemetery Information
+    tbody
+      tr
+        th scope="row" style="width: 20%;" Notice Number
+        td colspan="4"
+          =="#{@notice.notice_number} (#{link_to 'download', '#', id: 'download-notice'})"
+      tr
+        th scope="row" Cemetery
+        td colspan="4" =="#{link_to @notice.cemetery.name, @notice.cemetery} (##{@notice.cemetery.cemetery_id})"
+      tr
+        th scope="row" Served On
+        td colspan="4" =="#{@notice.served_on_name}<br />#{@notice.served_on_street_address}<br />#{@notice.served_on_city}, #{@notice.served_on_state} #{@notice.served_on_zip}"
+  table.table.table-striped
+    thead
+      tr
+        th scope="row" colspan="5" Violation Information
+    tbody
+      tr
+        th scope="row" style="width: 20%;" Law Sections
+        td colspan="4" =@notice.law_sections
+      tr
+        th scope="row" Specific Information
+        td colspan="4" =@notice.specific_information
+.section-wrapper.pd-20.mg-t-5
+  label.section-title Actions
+  #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=@notice.status]
+    =form_with model: @notice, url: notice_update_status_path, method: :patch, id: 'msform' do |f|
+      ul#progressbar
+        li class=[active_item(@notice.status >= 1)] Notice Issued
+        li class=[active_item(@notice.status >= 2)] Response Received
+        li class=[active_item(@notice.status >= 3)] Follow-Up Completed
+        li class=[active_item(@notice.status == 4)] Notice Resolved
+      .section-wrapper.pd-20.mg-t-5
+        label.section-title Status
+        fieldset#notice-issued
+          label.section-label Notice Issued
+          .card-body
+            p.mb-0 ="Notice issued on #{@notice.created_at}."
+            p.mb-0 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
+          -if @notice.belongs_to? current_user
             .card-footer
               =f.button 'Response Received', name: 'response_received', class: 'next action-button'
-          fieldset#response-received
-            .card-header
-              strong Response Received
-            .card-body
-              p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
+        fieldset#response-received
+          label.section-label Response Received
+          .card-body
+            p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
+          -if @notice.belongs_to? current_user
             .card-footer
-              = f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
-          fieldset#follow-up-completed
-            .card-header
-              strong Follow-Up Completed
-            .card-body
-              p.mb-0 =="Follow-up inspection completed on #{tag.span(@notice.follow_up_inspection_date, id: 'follow-up-inspection-date')}."
-            .card-footer
-              = f.button 'Resolve Notice', name: 'resolve_notice', class: 'next action-button'
-          fieldset#notice-resolved
-            .card-header
-              strong Notice Resolved
-            .card-body
-              p.mb-0 =="Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
-
+              =f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
+        fieldset#follow-up-completed
+          label.section-label Follow-Up Completed
+          p.mb-10 =="Follow-up inspection completed on #{tag.span(@notice.follow_up_inspection_date, id: 'follow-up-inspection-date')}."
+          -if @notice.belongs_to? current_user
+            =f.button 'Resolve Notice', name: 'resolve_notice', class: 'next action-button'
+        fieldset#notice-resolved
+          label.section-label Notice Resolved
+          .card-body
+            p.mb-0 =="Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
 =render 'application/show_notes', object: @notice
 #non-compliance-download-notice.modal
   .modal-dialog.wd-30p role="document"

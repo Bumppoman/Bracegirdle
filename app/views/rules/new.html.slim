@@ -21,10 +21,10 @@
           .form-group.required
             =f.label :email, 'Manner of Delivery'
             label.rdiobox
-              = f.radio_button :email, true
+              = f.radio_button :request_by_email, true
               span Email
             label.rdiobox
-              = f.radio_button :email, false
+              = f.radio_button :request_by_email, false
               span Postal Mail
       #rules-sender-email.row style="display: none;"
         .col-lg-12
@@ -35,18 +35,38 @@
         .row
           .col-lg-12
             .form-group.required
-              = f.label :sender_street_address, 'Address', class: 'form-control-label'
-              = f.text_field :sender_street_address, class: 'form-control'
+              =f.label :sender_street_address, 'Address', class: 'form-control-label'
+              =f.text_field :sender_street_address, class: 'form-control'
         .row
           .col-lg-6
             .form-group.required
-              = f.label :sender_city, 'City', class: 'form-control-label'
-              = f.text_field :sender_city, class: 'form-control'
+              =f.label :sender_city, 'City', class: 'form-control-label'
+              =f.text_field :sender_city, class: 'form-control'
           .col-lg-2
             .form-group.required
-              = f.label :sender_state, 'State', class: 'form-control-label'
-              = f.select :sender_state, options_for_select(STATES, @rules.sender_state), {}, class: 'form-control select2'
+              =f.label :sender_state, 'State', class: 'form-control-label'
+              =f.select :sender_state, options_for_select(STATES, @rules.sender_state), {}, class: 'form-control select2'
           .col-lg-4
             .form-group.required
-              = f.label :sender_zip, 'ZIP Code', class: 'form-control-label'
-              = f.text_field :sender_zip, class: 'form-control'
+              =f.label :sender_zip, 'ZIP Code', class: 'form-control-label'
+              =f.text_field :sender_zip, class: 'form-control'
+      label.section-title Rules
+      .row
+        .col-lg-8
+          .form-group.required
+            =f.label :rules_documents, 'File', class: 'form-control-label'
+            .custom-file
+              =f.file_field :rules_documents, class: 'custom-file-input'
+              =f.label :rules_documents, 'Choose file', class: 'custom-file-label'
+            small.form-text.text-muted Acceptable file formats are .doc, .docx, and .pdf
+        .col-lg-4
+          .form-group.required
+            =f.label :submission_date, 'Date Submitted', class: 'form-control-label'
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+              =f.text_field :submission_date, class: 'form-control fc-datepicker'
+      .form-layout-footer.mg-t-20.pd-l-20
+        =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
+        =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'

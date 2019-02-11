@@ -31,6 +31,10 @@ class Notice < ApplicationRecord
       follow_up_completed: 3,
       resolved: 4 }.freeze
 
+  def belongs_to?(user)
+    investigator == user
+  end
+
   def formatted_status
     NOTICE_STATUSES[status]
   end
