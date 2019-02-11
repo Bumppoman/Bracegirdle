@@ -116,12 +116,7 @@ class NoticesController < ApplicationController
   end
 
   def notice_date_params
-    date_params = {}
-    %i[response_required_date violation_date].each do |param|
-      date_params[param] = helpers.format_date_param(params[:notice][param])
-    end
-
-    date_params
+    date_params %w(response_required_date violation_date), params[:notice]
   end
 
   def resolve_notice

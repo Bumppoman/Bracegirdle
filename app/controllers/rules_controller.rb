@@ -1,6 +1,7 @@
 class RulesController < ApplicationController
   def create
     @rules = Rules.new(rules_params)
+    @rules.update(rules_date_params)
     @rules.rules_documents.attach(params[:rules][:rules_documents])
 
     begin
@@ -45,7 +46,7 @@ class RulesController < ApplicationController
 
   def upload_revision
     @rules = Rules.find(params[:id])
-    @rules.submission_date = params[:rules][:submission_date]
+    @rules.update(rules_date_params)
     @rules.rules_documents.attach(params[:rules][:rules_documents])
 
     if @rules.save
@@ -64,5 +65,9 @@ class RulesController < ApplicationController
 
   def rules_params
     params.require(:rules).permit(:request_by_email, :sender, :sender_email, :sender_street_address, :sender_city, :sender_state, :sender_zip)
+  end
+
+  def rules_date_params
+    date_params %w(submission_date), params[:rules]
   end
 end

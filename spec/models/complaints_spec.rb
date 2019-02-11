@@ -102,7 +102,7 @@ describe Complaint, type: :model do
 
     describe Complaint, '#formatted_ownership' do
       it 'returns a blank string if there is no ownership information' do
-        expect(subject.formatted_ownership).to eq ''
+        expect(subject.formatted_ownership).to eq nil
       end
 
       it 'returns only the owner if there is no relationship information' do
@@ -121,7 +121,7 @@ describe Complaint, type: :model do
       it 'returns a blank string if there is no owner but is a relationship' do
         subject.relationship = 'Father'
 
-        expect(subject.formatted_ownership).to eq ''
+        expect(subject.formatted_ownership).to eq nil
       end
     end
 
