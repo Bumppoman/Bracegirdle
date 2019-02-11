@@ -1,8 +1,8 @@
-class NonComplianceNotices::NotesController < NotesController
+class Notices::NotesController < NotesController
   before_action :set_notable
 
   private
     def set_notable
-      @notable = NonComplianceNotice.find(params[:non_compliance_notice_id])
+      @notable = Notice.find(params[:notice_id])
     end
 end
