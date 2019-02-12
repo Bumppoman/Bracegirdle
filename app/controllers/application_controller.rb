@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   def set_pending_items
     @pending_items = {}
 
-    if current_user.investigator?
+    if current_user && current_user.investigator?
       @pending_items[:rules] = Rules.pending_review_for(current_user).count
     end
   end
