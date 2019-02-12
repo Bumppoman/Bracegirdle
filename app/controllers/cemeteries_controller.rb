@@ -37,7 +37,7 @@ class CemeteriesController < ApplicationController
   def index; end
 
   def list_by_county
-    @cemeteries = Cemetery.where(county: COUNTIES.key(params[:county].capitalize), active: true).order(:county, :order_id).includes(:town)
+    @cemeteries = Cemetery.where(county: COUNTIES.key(params[:county].capitalize), active: true).order(:county, :order_id).includes(:towns)
 
     @title = "Cemeteries in #{params[:county].capitalize} County"
     @breadcrumbs = { 'All cemeteries' => '#', "#{params[:county].capitalize} County" => nil }
@@ -46,7 +46,7 @@ class CemeteriesController < ApplicationController
   end
 
   def list_by_region
-    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).includes(:town).find_each
+    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).includes(:towns).find_each
 
     @title = "Cemeteries in the #{params[:region].capitalize} Region"
     @breadcrumbs = { 'All cemeteries' => '#', "#{params[:region].capitalize} Region" => nil }
