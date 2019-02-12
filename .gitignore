@@ -30,3 +30,6 @@
 /config/master.key
 
 /config/database.yml
+
+# Ignore RubyMine files
+/.idea

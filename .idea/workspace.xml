@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="154bc6fb-d5da-4f91-a69e-1625ed5e05ec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/spec/models/rules_spec.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/cemeteries_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/cemeteries_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/rules.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/rules.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/cemeteries/new.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/cemeteries/new.html.slim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/rules/index.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/rules/index.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,11 +37,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/models/rules_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-134">
               <caret line="124" column="38" selection-start-line="124" selection-start-column="38" selection-end-line="124" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="344">
+              <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -100,7 +104,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/db/migrate/20190210003508_rename_non_compliance_notices_to_notices.rb" />
         <option value="$PROJECT_DIR$/app/controllers/dashboard_controller.rb" />
         <option value="$PROJECT_DIR$/spec/factories/notice.rb" />
         <option value="$PROJECT_DIR$/app/views/notices/update/_follow_up_date.js.erb" />
@@ -151,6 +154,7 @@
         <option value="$PROJECT_DIR$/app/views/cemeteries/new.html.slim" />
         <option value="$PROJECT_DIR$/app/models/rules.rb" />
         <option value="$PROJECT_DIR$/spec/models/rules_spec.rb" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -554,7 +558,7 @@
       <workItem from="1548288567381" duration="842000" />
       <workItem from="1548290000569" duration="6749000" />
       <workItem from="1548302670060" duration="251811000" />
-      <workItem from="1549734817339" duration="65652000" />
+      <workItem from="1549734817339" duration="65872000" />
     </task>
     <task id="LOCAL-00001" summary="6/7 work">
       <created>1528418550428</created>
@@ -606,7 +610,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="475031000" />
+    <option name="totallyTimeSpent" value="475251000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -653,13 +657,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="6/7 work final" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/db/migrate/20190210172556_add_request_method_to_rules.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="66" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/errors.scss">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -967,6 +964,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-134">
           <caret line="124" column="38" selection-start-line="124" selection-start-column="38" selection-end-line="124" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
         </state>
       </provider>
     </entry>
