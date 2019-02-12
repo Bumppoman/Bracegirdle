@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   Forbidden = Class.new(StandardError)
 
+  before_action :set_pending_items
+
   protected
 
   def date_params(accepted_params, provided_params)
@@ -17,5 +19,15 @@ class ApplicationController < ActionController::Base
     end
 
     date_params
+  end
+
+  private
+
+  def set_pending_items
+    @pending_items = {}
+
+    if current_user.investigator?
+      @pending_items[:rules] = Rules.pending_review_for(current_user).count
+    end
   end
 end

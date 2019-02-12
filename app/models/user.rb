@@ -23,6 +23,10 @@ class User < ApplicationRecord
     role >= NAMED_ROLES[test_role]
   end
 
+  def investigator?
+    true
+  end
+
   def region_name
     NAMED_REGIONS[region].capitalize
   end

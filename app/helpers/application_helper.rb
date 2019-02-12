@@ -10,8 +10,7 @@ module ApplicationHelper
   end
 
   def investigator_inbox_items
-    @rules_count = Rules.pending_review_for(current_user).count
-    @rules_count
+    @pending_items[:rules]
   end
 
   def named_region(region)

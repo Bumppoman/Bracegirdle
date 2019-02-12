@@ -3,7 +3,7 @@
   .rules-revision.mg-b-10 id="revision-#{@revisions}"
     .row
       .col-lg-11
-        label.section-label ="Revision #{@revisions} (submitted #{@current_revision.created_at.to_date})"
+        label.section-label ="Revision #{@revisions} (submitted #{@rules.submission_date})"
       .col-lg-1.text-right
         a.toggle-revision.section-label href="#" data-revision="#{@revisions}"
           i.fa.fa-angle-down.tx-18

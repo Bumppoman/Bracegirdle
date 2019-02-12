@@ -5,7 +5,7 @@ li.nav-item.with-sub
   .sub-item
     ul
       li
-        =active_circle_link 'Rules and Regulations', rules_path, Rules.pending_review_for(current_user).any?
+        =active_circle_link 'Rules and Regulations', rules_path, !@pending_items[:rules].zero?
 li.nav-item.with-sub.mega-dropdown
   a.nav-link href="#"
     i.icon.ion-ios-briefcase
@@ -19,18 +19,19 @@ li.nav-item.with-sub.mega-dropdown
           li =link_to 'Land Sale', '#'
         label.section-label.mg-t-20 Major Renovations
         ul
-          li = link_to 'Mausoleum', '#'
-          li = link_to 'Columbarium', '#'
+          li =link_to 'Mausoleum', '#'
+          li =link_to 'Columbarium', '#'
+      .col-lg.mg-t-30.mg-lg-t-0
+        label.section-label Vandalism
+        ul
+          li =link_to 'Hazardous Monuments', '#'
+          li =link_to 'Vandalism', '#'
+          li =link_to 'Abandonment', '#'
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Land
         ul
-          li = link_to 'Land Purchase', '#'
-          li = link_to 'Land Sale', '#'
-      .col-lg.mg-t-30.mg-lg-t-0
-        label.section-label Land
-        ul
-          li = link_to 'Land Purchase', '#'
-          li = link_to 'Land Sale', '#'
+          li =link_to 'Land Purchase', '#'
+          li =link_to 'Land Sale', '#'
 li.nav-item.with-sub
   a.nav-link href="#"
     i.icon.ion-ios-megaphone
