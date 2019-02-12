@@ -13,9 +13,13 @@
           tr
             td =link_to rules.identifier, rules
             td ="#{rules.cemetery} (##{rules.cemetery.cemetery_id})"
-            td =rules.submission_date
+            td
+              span style="display: none;" =sort_date(rules.submission_date)
+              span =rules.submission_date
             td =rules.named_status
-            td =rules.updated_at.to_date.to_s
+            td
+              span style="display: none;" =sort_date(rules.updated_at)
+              span =rules.updated_at.to_date.to_s
   .mg-t-20
     -if current_user.supervisor?
       ul.nav.nav-gray-600.nav-underline.justify-content-center.mg-b-30

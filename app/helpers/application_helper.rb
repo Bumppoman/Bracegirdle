@@ -16,4 +16,8 @@ module ApplicationHelper
   def named_region(region)
     NAMED_REGIONS[region]
   end
+
+  def sort_date(date)
+    date.strftime('%Y%m%d')
+  end
 end
