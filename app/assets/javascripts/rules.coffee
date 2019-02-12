@@ -13,6 +13,7 @@
         searchPlaceholder: 'Search...',
         sSearch: '',
         lengthMenu: '_MENU_ items/page',
+        order: [[2, 'asc']]
       }
     });
 
