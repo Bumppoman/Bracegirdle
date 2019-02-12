@@ -5,7 +5,7 @@ li.nav-item.with-sub
   .sub-item
     ul
       li
-        =active_circle_link 'Rules and Regulations', rules_path, current_user.rules.any?
+        =active_circle_link 'Rules and Regulations', rules_path, Rules.pending_review_for(current_user).any?
 li.nav-item.with-sub.mega-dropdown
   a.nav-link href="#"
     i.icon.ion-ios-briefcase

@@ -29,6 +29,10 @@ class Cemetery < ApplicationRecord
     COUNTIES[county]
   end
 
+  def investigator_region
+    region :investigator
+  end
+
   def last_audit
     self[:last_audit] || 'No audit recorded'
   end
@@ -39,5 +43,13 @@ class Cemetery < ApplicationRecord
 
   def to_s
     name
+  end
+
+  private
+
+  def region(type)
+    if type == :investigator
+      INVESTIGATOR_COUNTIES_BY_REGION[county]
+    end
   end
 end

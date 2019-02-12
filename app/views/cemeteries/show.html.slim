@@ -32,7 +32,7 @@
                     td =@cemetery.last_audit
                   tr
                     th scope="row" Rules and Regulations
-                    td None added.
+                    td ==@cemetery.rules ? "Approved #{@cemetery.rules.approval_date} (#{link_to 'view', cemetery_rules_path(@cemetery)})" : 'None added.'
                   tr
                     th scope="row" Service Charges
                     td None added.

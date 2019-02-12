@@ -8,7 +8,9 @@ class User < ApplicationRecord
   has_many :rules,
     -> (user) {
       unscope(:where).where(
-        cemetery: user.cemeteries)},
+        cemetery: user.cemeteries).where(
+        'status < ?', 3
+      )},
     class_name: 'Rules'
 
   has_secure_password

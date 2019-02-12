@@ -1,0 +1,15 @@
+.section-wrapper
+  iframe src="#{rules_display_link(@rules.rules_documents.first, request)}" width="100%" height="623px" frameborder="0"
+.section-wrapper.mg-t-5
+  label.section-title Information
+  table.table.table-striped
+    tbody
+      tr
+        th.wd-30p Approval Date
+        td =@rules.approval_date
+      tr
+        th Approved By
+        td =@rules.approver
+      tr
+        th Other Rules
+        td ==older_rules(@rules.cemetery, @rules.id)

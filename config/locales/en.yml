@@ -83,9 +83,11 @@ en:
             cemetery:
               required: 'You must select the cemetery that submitted these rules.'
             request_by_email:
-              blank: 'You must specify whether these were received by email or by postal mail.'
+              inclusion: 'You must specify whether these were received by email or by postal mail.'
             sender:
               blank: 'You must provide the name of the person who submitted these rules.'
+            sender_email:
+              blank: 'You must provide a valid email address to which to send the approval for these rules.'
             sender_street_address:
               blank: &blank_address 'You must provide a valid address to which to send the approval for these rules.'
             sender_city:
@@ -97,3 +99,5 @@ en:
             rules_documents:
               blank: 'You must upload the original rules as an attachment.'
               invalid: 'The file format you uploaded is not valid.'
+            approval_date:
+              blank: 'You must enter the date that these rules were approved.'

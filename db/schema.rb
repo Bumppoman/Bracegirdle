@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_172556) do
+ActiveRecord::Schema.define(version: 2019_02_11_172717) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -139,7 +139,6 @@ ActiveRecord::Schema.define(version: 2019_02_10_172556) do
     t.integer "cemetery_id"
     t.date "submission_date"
     t.date "approval_date"
-    t.string "file_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 1
@@ -150,6 +149,9 @@ ActiveRecord::Schema.define(version: 2019_02_10_172556) do
     t.string "sender_state"
     t.string "sender_zip"
     t.boolean "request_by_email"
+    t.string "identifier"
+    t.integer "approved_by_id"
+    t.index ["approved_by_id"], name: "index_rules_on_approved_by_id"
     t.index ["cemetery_id"], name: "index_rules_on_cemetery_id"
   end
 

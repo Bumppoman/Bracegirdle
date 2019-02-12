@@ -11,14 +11,16 @@
       tbody
         - @rules.each do |rules|
           tr
-            td =link_to rules, rules
+            td.text-center =link_to rules.identifier, rules
             td =rules.cemetery
             td =rules.submission_date
             td =rules.named_status
             td =rules.updated_at.to_date.to_s
-  -if current_user.supervisor?
-    .mg-t-10
-      ul.nav.nav-gray-600.nav-underline.justify-content-center
+  .mg-t-10
+    -if current_user.supervisor?
+      ul.nav.nav-gray-600.nav-underline.justify-content-center.mg-b-30
         - NAMED_REGIONS.each do |_, region|
           li.nav-item
             =link_to region == 'nyc' ? 'NYC' : region.capitalize, regional_rules_path(region: region), class: 'nav-link' + (current_page?(regional_rules_path(region: region)) || (params[:region].nil? && region == named_region(current_user.region)) ? ' active' : '')
+    .text-center
+      =link_to 'Upload new rules', new_rule_path, class: 'tx-gray-600'

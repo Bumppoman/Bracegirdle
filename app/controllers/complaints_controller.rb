@@ -27,10 +27,10 @@ class ComplaintsController < ApplicationController
     end
 
     # Update dates
-    @complaint.update(complaint_date_params)
+    @complaint.assign_attributes(complaint_date_params)
 
     # Update complaint types and manners of contact
-    @complaint.update(
+    @complaint.assign_attributes(
       complaint_type: params[:complaint][:complaint_type].reject(&:empty?).join(', '),
       manner_of_contact: params.dig(:complaint, :manner_of_contact).try(:join, ', '),
       receiver: User.find(params.dig(:complaint, :receiver)))
@@ -39,7 +39,7 @@ class ComplaintsController < ApplicationController
       @complaint.investigator = User.find(params[:complaint][:investigator]) unless params[:complaint][:investigator].blank?
     else
       if current_user.has_role?(:supervisor)
-        @complaint.update(
+        @complaint.assign_attributes(
           status: :closed,
           closed_by: current_user,
           closure_date: Date.current)
@@ -47,7 +47,7 @@ class ComplaintsController < ApplicationController
         @complaint.status = :pending_closure
       end
 
-      @complaint.update(
+      @complaint.assign_attributes(
         investigator: current_user,
         disposition_date: Date.current,
         disposition: params[:complaint][:disposition])

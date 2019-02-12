@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   patch 'cemeteries/:id/trustees/:trustee/edit' => 'cemeteries#update_trustee'
   get 'cemeteries/county/:county' => 'cemeteries#list_by_county'
   get 'cemeteries/region/:region' => 'cemeteries#list_by_region'
+  get 'cemeteries/:id/rules', to: 'rules#show_approved', as: :cemetery_rules
 
   # Complaints
   get 'complaints/unassigned', to: 'complaints#unassigned', as: :unassigned_complaints
@@ -34,10 +35,13 @@ Rails.application.routes.draw do
 
   # Rules
   get 'rules/region/:region', to: 'rules#index', as: :regional_rules
+  get 'rules/upload-old-rules', to: 'rules#upload_old_rules', as: :upload_old_rules
+  post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
   resources :rules do
     resources :notes, module: :rules
   end
   patch 'rules/:id/upload-revision', to: 'rules#upload_revision', as: :rules_upload_revision
+  patch 'rules/:id/review', to: 'rules#review', as: :rules_review
 
   # Users
   resources :sessions, only: [:new, :create, :destroy]

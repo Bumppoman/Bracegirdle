@@ -19,7 +19,7 @@ class NoticesController < ApplicationController
     @notice.investigator = current_user
 
     # Update dates
-    @notice.update(notice_date_params)
+    @notice.assign_attributes(notice_date_params)
 
     if @notice.save
       redirect_to notice_path(@notice, prompt: true) and return
@@ -102,7 +102,7 @@ class NoticesController < ApplicationController
   private
 
   def follow_up_completed
-    @notice.follow_up_inspection_date = helpers.format_date_param(params[:notice][:follow_up_inspection_date])
+    @notice.update(notice_date_params)
     @notice.status = 3
     @response = 'notices/update/follow_up_complete'
   end
@@ -116,7 +116,7 @@ class NoticesController < ApplicationController
   end
 
   def notice_date_params
-    date_params %w(response_required_date violation_date), params[:notice]
+    date_params %w(response_required_date violation_date follow_up_inspection_date), params[:notice]
   end
 
   def resolve_notice

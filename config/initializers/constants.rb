@@ -73,6 +73,12 @@ COUNTIES = {
     62 => 'Yates'
 }.freeze
 
+INVESTIGATOR_COUNTIES_BY_REGION = {
+    4 => 5,
+    8 => 5,
+    9 => 5
+}.freeze
+
 DOCUMENTS = {
     1 => "Rules and Regulations"
 }.freeze
