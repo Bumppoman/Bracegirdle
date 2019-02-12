@@ -13,8 +13,8 @@
         searchPlaceholder: 'Search...',
         sSearch: '',
         lengthMenu: '_MENU_ items/page',
-        order: [[2, 'desc']]
-      }
+      },
+      order: [[2, 'asc']]
     });
 
     method_select = ->
