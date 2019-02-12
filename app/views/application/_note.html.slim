@@ -4,4 +4,4 @@ li.media.mb-4
     h5.mt-0.mb-1
       strong =note.user.name
       span.text-muted =" on #{note.created_at}"
-    =note.body
+    =simple_format(note.body)
