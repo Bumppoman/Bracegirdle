@@ -9,11 +9,11 @@
     $('#rules-data-table').DataTable({
       responsive: true,
       language: {
-        emptyTable: "There are no rules to display."
+        emptyTable: "There are no rules to display.",
         searchPlaceholder: 'Search...',
         sSearch: '',
         lengthMenu: '_MENU_ items/page',
-        order: [[2, 'asc']]
+        order: [[2, 'desc']]
       }
     });
 
