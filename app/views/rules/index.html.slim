@@ -11,7 +11,7 @@
       tbody
         - @rules.each do |rules|
           tr
-            td.text-center =link_to rules.identifier, rules
+            td =link_to rules.identifier, rules
             td =rules.cemetery
             td =rules.submission_date
             td =rules.named_status

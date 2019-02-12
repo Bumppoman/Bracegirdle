@@ -1,44 +1,42 @@
 .section-wrapper
+  label.section-title Cemetery
   =form_for @cemetery do |f|
     .form-layout
       .row
-        .col-lg-12
-          .form-group
+        .col-lg-6
+          .form-group.required
             =f.label :name, class: 'form-control-label'
             =f.text_field :name, class: 'form-control'
-      .row
-        .col-lg-12
-          .form-group
+        .col-lg-4
+          .form-group.required
             =f.label :county, class: 'form-control-label'
             =f.select :county, COUNTIES.invert, {}, class: 'form-control select2-show-search'
-      .row
-        .col-lg-12
-          .form-group
+        .col-lg-2
+          .form-group.required
             =f.label :order_id, 'Order ID', class: 'form-control-label'
             =f.text_field :order_id, class: 'form-control'
+            small.form-text.text-muted Ex. Enter 1 for #01-001
       .row
         .col-lg-12
-          .form-group
+          .form-group.required
             =label_tag 'location', nil, class: 'form-control-label'
             =text_field_tag 'location', nil, class: 'form-control'
+            small.form-text.text-muted Latitude and longitude coordinates only (ex. -42.001234, 73.009876)
       .row
-        .col-lg-12
-          .form-group
+        .col-lg-8
+          .form-group.required
             =f.label :town_ids, 'Towns', class: 'form-control-label'
             =f.select :town_ids, grouped_options_for_select(@towns, @cemetery.towns), {}, multiple: true, class: 'form-control select2-show-search'
-      .row
-        .col-lg-12
-          .form-group
+            small.form-text.text-muted Choose all that apply
+        .col-lg-4
+          .form-group.required
             =f.label :active, 'Status', class: 'form-control-label'
-            .row
-              .col-lg-2
-                label.rdiobox
-                  =f.radio_button :active, true, checked: @cemetery.active?
-                  span Active
-              .col-lg-2
-                label.rdiobox
-                  =f.radio_button :active, true, checked: @cemetery.abandoned?
-                  span Abandoned
-      .form-layout-footer.mg-t-20.text-right
-        button.btn.btn-primary.mg-r-5 Submit
+            label.rdiobox
+              =f.radio_button :active, true, checked: @cemetery.active?
+              span Active
+            label.rdiobox
+              =f.radio_button :active, true, checked: @cemetery.abandoned?
+              span Abandoned
+      .form-layout-footer.mg-t-20
+        =f.button 'Submit', class: 'btn btn-primary mg-r-5'
         =link_to 'Cancel', dashboard_index_path, class: 'btn btn-secondary'

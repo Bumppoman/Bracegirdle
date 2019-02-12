@@ -11,7 +11,7 @@ class Rules < ApplicationRecord
   has_many_attached :rules_documents
 
   scope :active_for, -> (user) {
-    joins(:cemetery).where('status < ?', 3).where(cemeteries: { county: REGIONS[user.region]})
+    joins(:cemetery).where('status < ?', STATUSES[:approved]).where(cemeteries: { county: REGIONS[user.region]})
   }
   scope :approved, -> { where(status: 3) }
   scope :pending_review_for, -> (user) {

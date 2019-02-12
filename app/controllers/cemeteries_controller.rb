@@ -65,8 +65,8 @@ class CemeteriesController < ApplicationController
       ]
     end
 
-    @title = 'Add new cemetery'
-    @breadcrumbs = { 'Add New Cemetery' => nil }
+    @title = 'Add New Cemetery'
+    @breadcrumbs = { 'Add new cemetery' => nil }
   end
 
   def new_trustee
