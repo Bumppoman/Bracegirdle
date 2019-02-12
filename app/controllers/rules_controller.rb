@@ -49,7 +49,7 @@ class RulesController < ApplicationController
 
   def index
     @region = NAMED_REGIONS.key(params[:region]) || current_user.region
-    @rules = Rules.active_for_region(@region).order(submission_date: :desc)
+    @rules = Rules.active_for_region(@region).order(:submission_date)
 
     @title = "Rules Pending Approval for #{helpers.named_region @region} Region"
     @breadcrumbs = { 'Rules pending approval' => nil }
