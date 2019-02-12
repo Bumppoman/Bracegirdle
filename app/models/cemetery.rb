@@ -4,7 +4,8 @@ class Cemetery < ApplicationRecord
   has_one :rules,
     -> (cemetery) {
       where(
-        cemetery: cemetery).order(
+        cemetery: cemetery,
+        status: Rules::STATUSES[:approved]).order(
         approval_date: :desc)}
   has_and_belongs_to_many :towns
   has_many :trustees, dependent: :destroy

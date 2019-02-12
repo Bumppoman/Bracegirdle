@@ -94,7 +94,7 @@ class RulesController < ApplicationController
       @revisions = @documents.length
       @current_revision = @documents.pop
 
-      @title = "Review Rules for #{@rules.cemetery.name}"
+      @title = "Review rules for #{@rules.cemetery.name}"
       @breadcrumbs = { 'Rules pending approval' => rules_path, @title => nil }
     end
   end
