@@ -12,7 +12,7 @@
         - @rules.each do |rules|
           tr
             td =link_to rules.identifier, rules
-            td =rules.cemetery
+            td ="#{rules.cemetery} (##{rules.cemetery.cemetery_id})"
             td =rules.submission_date
             td =rules.named_status
             td =rules.updated_at.to_date.to_s

@@ -115,10 +115,22 @@ class RulesController < ApplicationController
 
   def upload_revision
     @rules = Rules.find(params[:id])
+    old_submission_date = @rules.submission_date
     @rules.status = :received
     @rules.assign_attributes(rules_date_params)
 
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])
+      first_revision = @rules.rules_documents.last
+      old_submission_time = first_revision.created_at
+      first_revision.created_at = Time.mktime(
+          old_submission_date.year,
+          old_submission_date.month,
+          old_submission_date.day,
+          old_submission_time.hour,
+          old_submission_time.min,
+          old_submission_time.sec)
+      first_revision.save
+
       @rules.save
       @rules.rules_documents.attach(params[:rules][:rules_documents])
       redirect_to rule_path(@rules)
