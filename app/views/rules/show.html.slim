@@ -7,8 +7,8 @@
       .col-lg-1.text-right
         a.toggle-revision.section-label href="#" data-revision="#{@revisions}"
           i.fa.fa-angle-down.tx-18
-    .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-      iframe.embed-responsive-item id="revision-#{@revisions}-content" src="#{rules_display_link(@current_revision, request)}"
+    .embed-responsive id="revision-#{@revisions}-content" style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
+      iframe.embed-responsive-item src="#{rules_display_link(@current_revision, request)}"
   -if @documents.any?
     -@documents.to_enum.with_index.reverse_each do |document, index|
       .rules-revision.mg-t-10
