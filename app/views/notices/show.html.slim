@@ -22,10 +22,10 @@
     tbody
       tr
         th scope="row" style="width: 20%;" Law Sections
-        td colspan="4" =@notice.law_sections
+        td colspan="4" ==simple_format(@notice.law_sections)
       tr
         th scope="row" Specific Information
-        td colspan="4" =@notice.specific_information
+        td colspan="4" ==simple_format(@notice.specific_information)
 .section-wrapper.pd-20.mg-t-5
   label.section-title Actions
   #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=@notice.status]
@@ -39,12 +39,10 @@
         label.section-title Status
         fieldset#notice-issued
           label.section-label Notice Issued
-          .card-body
-            p.mb-0 ="Notice issued on #{@notice.created_at}."
-            p.mb-0 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
+          p.mb-0 ="Notice issued on #{@notice.created_at}."
+          p.mg-b-20 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
           -if @notice.belongs_to? current_user
-            .card-footer
-              =f.button 'Response Received', name: 'response_received', class: 'next action-button'
+            =f.button 'Response Received', name: 'response_received', class: 'next action-button'
         fieldset#response-received
           label.section-label Response Received
           .card-body

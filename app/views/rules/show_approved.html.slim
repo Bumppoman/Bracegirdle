@@ -1,5 +1,6 @@
 .section-wrapper
-  iframe src="#{rules_display_link(@rules.rules_documents.first, request)}" width="100%" height="623px" frameborder="0"
+  .embed-responsive style="padding-top: 65%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important;"
+    iframe.embed-responsive-item src="#{rules_display_link(@rules.rules_documents.first, request)}"
 .section-wrapper.mg-t-5.pd-t-30
   label.section-title.mg-b-20 Information
   table.table.table-striped

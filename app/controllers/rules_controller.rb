@@ -1,4 +1,10 @@
 class RulesController < ApplicationController
+  include Permissions
+
+  before_action do
+    stipulate :must_be_investigator
+  end
+
   def create
     @rules = Rules.new(rules_params)
     @rules.assign_attributes(rules_date_params)
@@ -82,7 +88,7 @@ class RulesController < ApplicationController
     @region = NAMED_REGIONS.key(params[:region]) || current_user.region
     @rules = Rules.active_for_region(@region).order(:submission_date)
 
-    @title = "Rules Pending Approval for #{helpers.named_region @region} Region"
+    @title = "Rules Pending Approval for #{helpers.named_region(@region).capitalize} Region"
     @breadcrumbs = { 'Rules pending approval' => nil }
   end
 
