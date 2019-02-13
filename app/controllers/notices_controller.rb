@@ -22,7 +22,7 @@ class NoticesController < ApplicationController
     @notice.assign_attributes(notice_date_params)
 
     if @notice.save
-      redirect_to notice_path(@notice, prompt: true) and return
+      redirect_to notice_path(@notice, download_notice: true) and return
     else
       # Render the form again if the notice didn't save
       @title = 'Issue New Notice of Non-Compliance'

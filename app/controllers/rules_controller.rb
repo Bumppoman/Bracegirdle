@@ -47,6 +47,37 @@ class RulesController < ApplicationController
     end
   end
 
+  def download_approval
+    @rules = Rules.find(params[:id])
+
+    if @rules.request_by_email
+      address_line_one = @rules.sender_email
+      address_line_two = ''
+    else
+      address_line_one = @rules.sender_street_address
+      address_line_two = "#{@rules.sender_city}, #{@rules.sender_state} #{@rules.sender_zip}"
+    end
+
+    # Create Word document approval letter
+    all_params = {
+        approval_date: @rules.approval_date.to_s,
+        cemetery_name: @rules.cemetery.name,
+        second_cemetery_name: @rules.cemetery.name,
+        third_cemetery_name: @rules.cemetery.name,
+        address_line_one: address_line_one,
+        address_line_two: address_line_two,
+        cemetery_number: @rules.cemetery.cemetery_id,
+        submission_date: @rules.submission_date.to_s,
+        investigator_name: @rules.approved_by.name,
+        investigator_title: @rules.approved_by.title
+    }
+    word_notice = helpers.update_docx('lib/document_templates/rules-approval.docx', all_params)
+
+    send_data word_notice,
+              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8;',
+              disposition: "attachment; filename=Rules-Approval-#{@rules.identifier}.docx"
+  end
+
   def index
     @region = NAMED_REGIONS.key(params[:region]) || current_user.region
     @rules = Rules.active_for_region(@region).order(:submission_date)
@@ -72,13 +103,15 @@ class RulesController < ApplicationController
         approved_by: current_user
       )
       @rules.rules_documents.order(id: :desc).offset(1).destroy_all
+      prompt = true
     elsif params.key?(:request_revision)
       @rules.status = :revision_requested
+      prompt = false
     end
 
     @rules.save
 
-    redirect_to cemetery_rules_path(@rules.cemetery) and return
+    redirect_to rule_path(@rules, download_rules_approval: prompt) and return
   end
 
   def show

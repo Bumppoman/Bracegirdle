@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :rules do
     resources :notes, module: :rules
   end
+  get 'rules/:id/download-approval', to: 'rules#download_approval', as: :download_rules_approval
   patch 'rules/:id/upload-revision', to: 'rules#upload_revision', as: :rules_upload_revision
   patch 'rules/:id/review', to: 'rules#review', as: :rules_review
 

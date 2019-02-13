@@ -22,7 +22,7 @@
         event.preventDefault()
 
     url_params = new URLSearchParams(window.location.search)
-    if url_params.has('prompt')
+    if url_params.has('download_notice')
       download()
 
     $('#download-notice').click(download)

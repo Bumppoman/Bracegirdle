@@ -1,7 +1,7 @@
 .section-wrapper
   iframe src="#{rules_display_link(@rules.rules_documents.first, request)}" width="100%" height="623px" frameborder="0"
-.section-wrapper.mg-t-5
-  label.section-title Information
+.section-wrapper.mg-t-5.pd-t-30
+  label.section-title.mg-b-20 Information
   table.table.table-striped
     tbody
       tr
@@ -9,7 +9,22 @@
         td =@rules.approval_date
       tr
         th Approved By
-        td =@rules.approver
+        td =="#{@rules.approver} (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})"
       tr
         th Other Rules
         td ==other_rules(@rules.cemetery, @rules.id)
+#rules-approval-download.modal
+  .modal-dialog.wd-40p role="document"
+    .modal-content
+      .modal-header.pd-x-20
+        h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Download Approval Letter for Rules
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+      .modal-body.pd-25
+        p.text-center
+          | Click below to download the approval letter for these rules.
+          br<>
+          br<>
+          =link_to tag.img(src: image_path('doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download Rules-Approval-#{@rules.identifier}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-rules-approval-link', onclick: "javascript:window.location=\"#{download_rules_approval_path(@rules)}\""
+      .modal-footer
+        button.btn.btn-secondary type="button" data-dismiss="modal" Close
