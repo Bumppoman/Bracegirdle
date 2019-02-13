@@ -10,7 +10,7 @@
         td =@rules.approval_date
       tr
         th Approved By
-        td =="#{@rules.approver} (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})"
+        td ==@rules.approved_by ? "#{@rules.approved_by.name} (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" : 'Unknown'
       tr
         th Other Rules
         td ==other_rules(@rules.cemetery, @rules.id)

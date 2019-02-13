@@ -43,10 +43,6 @@ class Rules < ApplicationRecord
     status == STATUSES[:approved]
   end
 
-  def approver
-    approved_by&.name.presence || 'Unknown'
-  end
-
   def named_status
     NAMED_STATUSES[status]
   end
