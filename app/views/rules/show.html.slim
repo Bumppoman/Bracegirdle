@@ -22,31 +22,32 @@
           iframe.embed-responsive-item src="#{rules_display_link(document, request)}"
   =form_for @rules, url: rules_review_path, method: :patch do |f|
     .form-layout-footer.mg-t-20
-      -if @rules.assigned_to?(current_user) || @rules.accepted_by?(current_user)
+      -if @rules.unaccepted?
+        = f.button 'Take Assignment', name: 'take_assignment', class: 'btn btn-primary'
+      -elsif (@rules.assigned_to?(current_user) || @rules.accepted_by?(current_user)) && @rules.revision_received?
         =f.button 'Approve Rules', name: 'approve_rules', class: 'btn btn-primary mr-1'
         =f.button 'Request Revision', name: 'request_revision', class: 'btn btn-primary'
-      -else
-        =f.button 'Take Assignment', name: 'take_assignment', class: 'btn btn-primary'
-.section-wrapper.mg-t-5.pd-30
-  label.section-title Upload Another Revision
-  =form_for @rules, url: rules_upload_revision_path, method: :patch do |f|
-    .row
-      .col-lg-8
-        .form-group.required
-          = f.label :rules_documents, 'File', class: 'form-control-label'
-          .custom-file
-            = f.file_field :rules_documents, class: 'custom-file-input'
-            = f.label :rules_documents, 'Choose file', class: 'custom-file-label'
-          small.form-text.text-muted Acceptable file formats are .doc, .docx, and .pdf
-      .col-lg-4
-        .form-group.required
-          = f.label :submission_date, 'Date Submitted', class: 'form-control-label'
-          .input-group
-            .input-group-prepend
-              .input-group-text
-                i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-            = f.text_field :submission_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
-    .form-layout-footer.mg-t-20.pd-l-20
-      =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
-      =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
-=render 'application/show_notes', object: @rules
+-if @rules.assigned_to?(current_user) || @rules.accepted_by?(current_user)
+  .section-wrapper.mg-t-5.pd-30
+    label.section-title Upload Another Revision
+    =form_for @rules, url: rules_upload_revision_path, method: :patch do |f|
+      .row
+        .col-lg-8
+          .form-group.required
+            = f.label :rules_documents, 'File', class: 'form-control-label'
+            .custom-file
+              = f.file_field :rules_documents, class: 'custom-file-input'
+              = f.label :rules_documents, 'Choose file', class: 'custom-file-label'
+            small.form-text.text-muted Acceptable file formats are .doc, .docx, and .pdf
+        .col-lg-4
+          .form-group.required
+            = f.label :submission_date, 'Date Submitted', class: 'form-control-label'
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+              = f.text_field :submission_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
+      .form-layout-footer.mg-t-20.pd-l-20
+        =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
+        =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
+  =render 'application/show_notes', object: @rules

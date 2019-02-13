@@ -58,9 +58,18 @@ class Rules < ApplicationRecord
     NAMED_STATUSES[status]
   end
 
+  def revision_received?
+    return true if revision_request_date.nil?
+    return rules_documents.last.created_at.to_date > revision_request_date
+  end
+
   def status=(update)
     update = STATUSES[update] if update.is_a?(Symbol)
     self.write_attribute(:status, update)
+  end
+
+  def unaccepted?
+    status == STATUSES[:received]
   end
 
   private
