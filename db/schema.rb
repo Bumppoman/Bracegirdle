@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_11_172717) do
+ActiveRecord::Schema.define(version: 2019_02_13_025426) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -151,6 +151,8 @@ ActiveRecord::Schema.define(version: 2019_02_11_172717) do
     t.boolean "request_by_email"
     t.string "identifier"
     t.integer "approved_by_id"
+    t.integer "accepted_by_id"
+    t.index ["accepted_by_id"], name: "index_rules_on_accepted_by_id"
     t.index ["approved_by_id"], name: "index_rules_on_approved_by_id"
     t.index ["cemetery_id"], name: "index_rules_on_cemetery_id"
   end

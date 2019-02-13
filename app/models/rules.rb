@@ -6,20 +6,21 @@ class Rules < ApplicationRecord
   attribute :cemetery_county, :string
 
   belongs_to :cemetery
+  belongs_to :accepted_by, class_name: 'User', optional: true
   belongs_to :approved_by, class_name: 'User', optional: true
 
   has_many_attached :rules_documents
 
   scope :active, -> { where('status < ?', STATUSES[:approved]) }
   scope :active_for, -> (user) {
-    active.joins(:cemetery).where(cemeteries: { county: REGIONS[user.region] })
+    active.joins(:cemetery).where('cemeteries.county IN (?) OR accepted_by_id = ?', REGIONS[user.region], user.id)
   }
-  scope :active_for_region, -> (region) {
-    active.joins(:cemetery).where(cemeteries: { county: REGIONS[region] })
-  }
-  scope :approved, -> { where(status: 3) }
+  scope :approved, -> { where(status: STATUSES[:approved]) }
   scope :pending_review_for, -> (user) {
-    joins(:cemetery).where(status: 1, cemeteries: { county: REGIONS[user.region] })
+    joins(:cemetery).where('(status = ? AND cemeteries.county IN (?)) OR (status = ? AND accepted_by_id = ?)', STATUSES[:received], REGIONS[user.region], STATUSES[:accepted], user.id)
+  }
+  scope :pending_review_for_region, -> (region) {
+    joins(:cemetery).where(cemeteries: { county: REGIONS[region] }, status: 1)
   }
 
   validates :request_by_email, inclusion: { in: [true, false] }, unless: :approved?
@@ -28,19 +29,29 @@ class Rules < ApplicationRecord
   validate :address_or_email_must_be_present, unless: :approved?
 
   NAMED_STATUSES = {
-    1 => 'Pending Review',
-    2 => 'Waiting for Revisions',
-    3 => 'Approved'
+    1 => 'Received',
+    2 => 'Pending Review',
+    3 => 'Waiting for Revisions',
+    4 => 'Approved'
   }.freeze
 
   STATUSES = {
     received: 1,
-    revision_requested: 2,
-    approved: 3,
+    accepted: 2,
+    revision_requested: 3,
+    approved: 4,
   }.freeze
+
+  def accepted_by?(user)
+    accepted_by == user
+  end
 
   def approved?
     status == STATUSES[:approved]
+  end
+
+  def assigned_to?(user)
+    REGIONS[user.region].include? cemetery.county
   end
 
   def named_status
