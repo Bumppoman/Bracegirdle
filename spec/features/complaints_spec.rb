@@ -130,6 +130,6 @@ feature 'Complaints' do
     click_button 'Reopen Investigation'
     visit complaints_path
 
-    expect(page).to have_content('2019-0001')
+    expect(page).to have_content(@complaint.complaint_number)
   end
 end

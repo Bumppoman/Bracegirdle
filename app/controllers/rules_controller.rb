@@ -167,7 +167,8 @@ class RulesController < ApplicationController
   def upload_revision
     @rules = Rules.find(params[:id])
     old_submission_date = @rules.submission_date
-    @rules.status = :received
+    @rules.status = :accepted
+    @rules.accepted_by = current_user
     @rules.assign_attributes(rules_date_params)
 
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])
