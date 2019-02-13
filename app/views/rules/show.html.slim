@@ -7,7 +7,8 @@
       .col-lg-1.text-right
         a.toggle-revision.section-label href="#" data-revision="#{@revisions}"
           i.fa.fa-angle-down.tx-18
-    iframe.pd-t-10 id="revision-#{@revisions}-content" src="#{rules_display_link(@current_revision, request)}" width="100%" height="623px" frameborder="0"
+    .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
+      iframe.embed-responsive-item id="revision-#{@revisions}-content" src="#{rules_display_link(@current_revision, request)}"
   -if @documents.any?
     -@documents.to_enum.with_index.reverse_each do |document, index|
       .rules-revision.mg-t-10
@@ -17,7 +18,8 @@
           .col-lg-1.text-right
             a.toggle-revision.section-label href="#" data-revision="#{index + 1}"
               i.fa.fa-angle-down.tx-18
-        iframe.pd-t-10 id="revision-#{index + 1}-content" src="#{rules_display_link(document, request)}" width="100%" height="623px" frameborder="0" style="display: none;"
+        .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
+          iframe.embed-responsive-item id="revision-#{index + 1}-content" src="#{rules_display_link(document, request)}"  style="display: none;"
   =form_for @rules, url: rules_review_path, method: :patch do |f|
     .form-layout-footer.mg-t-20
       =f.button 'Approve Rules', name: 'approve_rules', class: 'btn btn-primary mr-1'
