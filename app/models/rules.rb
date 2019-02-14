@@ -13,7 +13,7 @@ class Rules < ApplicationRecord
 
   scope :active, -> { where('status < ?', STATUSES[:approved]) }
   scope :active_for, -> (user) {
-    active.joins(:cemetery).where('cemeteries.county IN (?) OR accepted_by_id = ?', REGIONS[user.region], user.id)
+    active.joins(:cemetery).where('(cemeteries.county IN (?) AND accepted_by_id IS NULL) OR accepted_by_id = ?', REGIONS[user.region], user.id)
   }
   scope :approved, -> { where(status: STATUSES[:approved]) }
   scope :pending_review_for, -> (user) {
@@ -51,6 +51,7 @@ class Rules < ApplicationRecord
   end
 
   def assigned_to?(user)
+    return false if accepted_by && accepted_by != user
     REGIONS[user.region].include? cemetery.county
   end
 

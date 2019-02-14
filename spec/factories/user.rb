@@ -4,6 +4,7 @@ FactoryBot.define do
     email { 'tester@testdomain.test' }
     password { 'pa$$word' }
     role { 2 }
+    region { 5 }
 
     factory :supervisor do
       role { 4 }
