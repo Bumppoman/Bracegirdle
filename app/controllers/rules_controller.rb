@@ -41,7 +41,7 @@ class RulesController < ApplicationController
     @rules.assign_attributes(
       cemetery_county: params[:rules][:cemetery_county],
       approved_by: investigator,
-      status: 3
+      status: Rules::STATUSES[:approved]
     )
 
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])
@@ -158,7 +158,7 @@ class RulesController < ApplicationController
   end
 
   def upload_old_rules
-    @rules = Rules.new(status: 3)
+    @rules = Rules.new
 
     @title = "Upload Previously Approved Rules"
     @breadcrumbs = { 'Upload previously approved rules' => nil }
