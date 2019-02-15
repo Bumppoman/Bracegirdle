@@ -1,0 +1,26 @@
+.section-wrapper
+  .table-wrapper
+    table#vandalism-data-table.table.display.responsive.no-wrap
+      thead
+        tr
+          th
+          th Cemetery
+          -unless params.key? :type
+            th Type
+          th Submission Date
+          th Status
+          th Last Action
+      tbody
+        - @vandalism.each do |application|
+          tr
+            td =link_to application, application
+            td ="#{application.cemetery} (##{application.cemetery.cemetery_id})"
+            -unless params.key? :type
+              td =application.type
+            td
+              span style="display: none;" =sort_date(application.submission_date)
+              span =application.submission_date
+            td =application.named_status
+            td
+              span style="display: none;" =sort_date(application.updated_at)
+              span =application.updated_at.to_date.to_s

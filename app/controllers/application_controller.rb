@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
 
     if current_user && current_user.investigator?
       @pending_items[:rules] = Rules.pending_review_for(current_user).count
+      @pending_items[:vandalism] = Vandalism.pending_review_for(current_user).count
     end
   end
 end

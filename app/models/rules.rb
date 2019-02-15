@@ -59,6 +59,10 @@ class Rules < ApplicationRecord
     NAMED_STATUSES[status]
   end
 
+  def previously_approved?
+    sender.present?
+  end
+
   def revision_received?
     return true if revision_request_date.nil?
     return rules_documents.last.created_at.to_date > revision_request_date

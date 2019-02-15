@@ -49,6 +49,12 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new', as: :login
   get 'logout', to: 'sessions#destroy', as: :logout
 
+  # Vandalism
+  get 'vandalism/abandonment', to: 'vandalism#index_abandonment', as: :vandalism_abandonment
+  get 'vandalism/hazardous', to: 'vandalism#index_hazardous', as: :vandalism_hazardous
+  get 'vandalism/vandalism', to: 'vandalism#index_vandalism', as: :vandalism_vandalism
+  resources :vandalism
+
   root 'dashboard#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

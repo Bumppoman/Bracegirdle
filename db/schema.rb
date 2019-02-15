@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_13_040825) do
+ActiveRecord::Schema.define(version: 2019_02_15_015556) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -89,6 +89,23 @@ ActiveRecord::Schema.define(version: 2019_02_13_040825) do
     t.integer "closed_by_id"
     t.index ["cemetery_id"], name: "index_complaints_on_cemetery_id"
     t.index ["closed_by_id"], name: "index_complaints_on_closed_by_id"
+  end
+
+  create_table "contractors", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "estimates", force: :cascade do |t|
+    t.integer "vandalism_id"
+    t.integer "contractor_id"
+    t.decimal "amount", precision: 9, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vandalism_id"], name: "index_estimates_on_vandalism_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -182,6 +199,24 @@ ActiveRecord::Schema.define(version: 2019_02_13_040825) do
     t.string "city"
     t.string "zip"
     t.integer "region"
+  end
+
+  create_table "vandalisms", force: :cascade do |t|
+    t.integer "type"
+    t.integer "cemetery_id"
+    t.integer "trustee_id"
+    t.decimal "amount", precision: 9, scale: 2
+    t.date "submission_date"
+    t.date "field_visit_date"
+    t.date "recommendation_date"
+    t.date "supervisor_review_date"
+    t.date "award_date"
+    t.date "completion_date"
+    t.date "follow_up_date"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cemetery_id"], name: "index_vandalisms_on_cemetery_id"
   end
 
 end

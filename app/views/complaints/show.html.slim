@@ -160,11 +160,11 @@
                 tr
                   th scope="row" Complaint Received
                   td =@complaint.created_at.to_date
-                -if @complaint.status > 1
+                -if @complaint.status > 1 && @complaint.investigation_required?
                   tr
                     th scope="row" Investigation Begun
                     td =@complaint.investigation_begin_date
-                  -if @complaint.status > 2
+                  -if @complaint.status > 2 && @complaint.investigation_required?
                     tr
                       th scope="row" Investigation Completed
                       td =@complaint.investigation_completion_date

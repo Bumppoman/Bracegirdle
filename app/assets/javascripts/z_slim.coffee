@@ -1,5 +1,4 @@
 (($) ->
-
   ready = ->
 
     $('.fc-datepicker').datepicker({});

@@ -1,0 +1,2 @@
+module VandalismHelper
+end
