@@ -112,4 +112,15 @@ feature 'Rules' do
 
     expect(page).to have_content 'Approve Rules'
   end
+
+  scenario 'Can approve rules' do
+    @rules = FactoryBot.create(:rules)
+    login
+
+    visit rule_path(@rules)
+    click_button 'Approve Rules'
+    visit rule_path(@rules)
+
+    expect(page).to have_content 'Approved'
+  end
 end
