@@ -13,7 +13,12 @@
     tbody
       tr
         th.wd-30p Approved By
-        td ==@rules.approved_by && !rules.previously_approved? ? "#{@rules.approved_by.name} (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" : 'Unknown'
+        td
+          -if @rules.approved_by
+            =@rules.approved_by.name
+            ==" (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" if !@rules.previously_approved?
+          -else
+            | Unknown
       tr
         th Other Rules
         td ==other_rules(@rules.cemetery, @rules.id)

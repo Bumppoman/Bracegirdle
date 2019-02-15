@@ -151,7 +151,7 @@ class RulesController < ApplicationController
   end
 
   def show_approved
-    @rules = Rules.where(status: 3).order(approval_date: :desc).joins(:cemetery).where(cemeteries: {id: params[:id] }).first
+    @rules = Rules.approved.order(approval_date: :desc).joins(:cemetery).where(cemeteries: {id: params[:id] }).first
 
     @title = "Rules for #{@rules.cemetery.name}"
     @breadcrumbs = { @rules.cemetery.name => cemetery_path(@rules.cemetery), 'Rules and Regulations' => nil }

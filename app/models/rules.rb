@@ -60,7 +60,7 @@ class Rules < ApplicationRecord
   end
 
   def previously_approved?
-    sender.present?
+    !sender.present?
   end
 
   def revision_received?
