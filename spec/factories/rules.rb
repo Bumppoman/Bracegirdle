@@ -22,7 +22,7 @@ FactoryBot.define do
 
     factory :revision_requested do
       status { 3 }
-      revision_request_date { Date.current }
+      revision_request_date { Date.current + 7}
 
       factory :revision_requested_last_week do
         revision_request_date { Date.current - 7 }
