@@ -87,6 +87,10 @@ RSpec.configure do |config|
 
 end
 
+FactoryBot::SyntaxRunner.class_eval do
+  include ActionDispatch::TestProcess
+end
+
 require 'capybara/rails'
 
 Capybara.register_driver :chrome do |app|

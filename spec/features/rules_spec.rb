@@ -6,6 +6,11 @@ feature 'Rules' do
       name: 'Anthony Cemetery',
       county: 4,
       order_id: 1)
+
+    @other_region_cemetery = FactoryBot.create(:cemetery,
+      name: 'Cayuga Cemetery',
+      county: 6,
+      order_id: 1)
   end
 
   scenario 'Unauthorized user tries to add rules' do
@@ -48,5 +53,63 @@ feature 'Rules' do
     click_button 'Submit'
 
     expect(page).to have_content'There was a problem'
+  end
+
+  scenario "Rules from another region can be taken" do
+    @rules = FactoryBot.create(:other_region)
+    login
+    visit rule_path(@rules)
+
+    click_on 'Take Assignment'
+    visit rules_path
+
+    expect(page).to have_content'Cayuga Cemetery'
+  end
+
+  scenario "Rules that were already taken can't be taken again" do
+    @rules = FactoryBot.create(:other_region_taken)
+    login
+
+    visit rule_path(@rules)
+
+    expect(page).to_not have_content 'Take Assignment'
+  end
+
+  scenario 'Rules that were taken no longer show up in region queue' do
+    @rules = FactoryBot.create(:my_region_taken)
+    login
+
+    visit rules_path
+
+    expect(page).to_not have_content 'Anthony Cemetery'
+  end
+
+  scenario "User can't do anything with somebody else's rules in progress" do
+    @rules = FactoryBot.create(:my_region_taken)
+    login
+    @him = FactoryBot.create(:another_investigator)
+
+    visit rule_path(@rules)
+
+    expect(page).to_not have_content 'Take Assignment'
+    expect(page).to_not have_content 'Approve Rules'
+  end
+
+  scenario "Can't approve rules when waiting for a revision" do
+    @rules = FactoryBot.create(:revision_requested)
+    login
+
+    visit rule_path(@rules)
+
+    expect(page).to_not have_content 'Approve Rules'
+  end
+
+  scenario 'Can approve rules once revision was received' do
+    @rules = FactoryBot.create(:revision_requested_last_week)
+    login
+
+    visit rule_path(@rules)
+
+    expect(page).to have_content 'Approve Rules'
   end
 end

@@ -23,5 +23,6 @@ FactoryBot.define do
     email { 'testy@testdomain.test' }
     password { 'pa$$word' }
     role { 2 }
+    region { 4 }
   end
 end
