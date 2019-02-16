@@ -18,8 +18,9 @@
 
   $(document).on('turbolinks:load', ready)
 
-  $(document).on('focus', '.select2', (e) ->
+  $(document).on('focus', '.select2-selection--single', (e) ->
     if (e.originalEvent)
-      $(this).siblings('select').select2('open'));
+      select2_open = $(this).parent().parent().siblings('select');
+      select2_open.select2('open'));
 
 ) jQuery
