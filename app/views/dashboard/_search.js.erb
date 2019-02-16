@@ -1,0 +1,15 @@
+$('.slim-pagetitle').html('Search Results')
+if($('#search-results-breadcrumb').length == 0) {
+    $('.breadcrumb').append('<li id="search-results-breadcrumb" class="breadcrumb-item">Search results</li>')
+}
+$('#page-content').html('<%= render partial: 'search_results', cemeteries: @cemeteries %>')
+$('#search-results-data-table').DataTable({
+    responsive: true,
+    language: {
+        emptyTable: "There are no results to display.",
+        searchPlaceholder: 'Search...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page',
+    }
+});
+$('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });

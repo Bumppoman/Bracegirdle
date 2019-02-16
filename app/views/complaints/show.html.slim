@@ -13,11 +13,11 @@
           table.table.table-striped.mb-0
             tbody
               tr
-                th scope="row" style="width: 25%;" Complainant
+                th.wd-25p scope="row" Complainant
                 td colspan="3"
                   =@complaint.complainant_name
                   br
-                  =@complaint.complainant_address
+                  =@complaint.complainant_address.presence || 'No address'
                   br
                   =(@complaint.complainant_phone.presence || 'No phone number') + ' | ' + (@complaint.complainant_email.presence || 'No email address')
         .section-wrapper.pd-20.mg-t-5.bd-0
@@ -25,7 +25,7 @@
           table.table.table-striped
             tbody
               tr
-                th scope="row" style="width: 25%;" Cemetery
+                th.wd-25p scope="row" Cemetery
                 - if @complaint.cemetery_regulated?
                   td colspan="3" =link_to(@complaint.cemetery, @complaint.cemetery) + " (##{@complaint.cemetery.cemetery_id})"
                 - else

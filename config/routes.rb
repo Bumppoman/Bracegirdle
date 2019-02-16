@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   get 'complaints/:id/investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :complaint_investigation
   patch 'complaints/:id/update-investigation', to: 'complaints#update_investigation', as: :complaint_update_investigation
 
+  # Dashboard
+  post 'dashboard/search', to: 'dashboard#search', as: :search
+  root 'dashboard#index'
+
   # Errors
   get '/403', to: 'errors#forbidden'
   get '/500', to: 'errors#internal_server_error'
@@ -54,8 +58,6 @@ Rails.application.routes.draw do
   get 'vandalism/hazardous', to: 'vandalism#index_hazardous', as: :vandalism_hazardous
   get 'vandalism/vandalism', to: 'vandalism#index_vandalism', as: :vandalism_vandalism
   resources :vandalism
-
-  root 'dashboard#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

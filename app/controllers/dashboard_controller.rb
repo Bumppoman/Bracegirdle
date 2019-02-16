@@ -10,4 +10,17 @@ class DashboardController < ApplicationController
     @notices = Notice.active.where(investigator: current_user).count
     @title = 'Dashboard'
   end
+
+  def search
+    if params[:search] =~ /^[\d-]{1,6}$/
+      /(?<county>\d{2})-?(?<id>\d+)/ =~ params[:search]
+      @cemeteries = Cemetery.where(county: county.to_i, order_id: id.to_i)
+    else
+      @cemeteries = Cemetery.where('name LIKE :name COLLATE NOCASE', name: "%#{params[:search]}%")
+    end
+
+    respond_to do |m|
+      m.js { render partial: 'dashboard/search' }
+    end
+  end
 end

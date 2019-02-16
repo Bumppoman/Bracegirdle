@@ -1,0 +1,13 @@
+.section-wrapper
+  label.section-title Cemeteries
+  .table-wrapper
+    table#search-results-data-table.table.table-striped
+      thead
+        tr
+          th scope="col" Cemetery
+          th scope="col" County
+      tbody
+        -@cemeteries.each do |cemetery|
+          tr
+            td =="#{link_to cemetery.name, cemetery_path(cemetery)} (##{ cemetery.cemetery_id })"
+            td =cemetery.county_name

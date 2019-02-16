@@ -33,6 +33,11 @@ html lang="en"
           .slim-logo
             img src="#{image_path 'cemeteries-logo.jpg'}" height="55" width="193"
         .slim-header-right
+          =form_with url: search_path do |f|
+            .search-box.mg-r-20
+              =f.text_field :search, id: 'search-box', class: 'form-control', placeholder: 'Search for cemeteries'
+              =f.button class: "btn btn-primary" do
+                i.fa.fa-search
           -if current_user
             .dropdown.dropdown-c
               a.logged_user href="#" data-toggle="dropdown"
@@ -59,6 +64,7 @@ html lang="en"
                   li.breadcrumb-item.active =title
                 - else
                   li.breadcrumb-item
-                    a href =link =title
+                    =link_to title, link
             h6.slim-pagetitle =@title
-        == yield
+        #page-content
+          == yield
