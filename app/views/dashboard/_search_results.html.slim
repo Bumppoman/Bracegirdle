@@ -9,5 +9,7 @@
       tbody
         -@cemeteries.each do |cemetery|
           tr
-            td =="#{link_to cemetery.name, cemetery_path(cemetery)} (##{ cemetery.cemetery_id })"
+            td
+              span style="display: none;" ="%02d%03d" % [cemetery.county, cemetery.id]
+              =="#{link_to cemetery.name, cemetery_path(cemetery)} (##{ cemetery.cemetery_id })"
             td =cemetery.county_name
