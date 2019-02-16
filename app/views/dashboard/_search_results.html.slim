@@ -4,12 +4,14 @@
     table#search-results-data-table.table.table-striped
       thead
         tr
-          th scope="col" Cemetery
+          th.wd-40p scope="col" Cemetery
+          th.wd-20p scope="col" Cemetery ID
           th scope="col" County
       tbody
         -@cemeteries.each do |cemetery|
           tr
             td
               span style="display: none;" ="%02d%03d" % [cemetery.county, cemetery.id]
-              =="#{link_to cemetery.name, cemetery_path(cemetery)} (##{ cemetery.cemetery_id })"
+              =link_to cemetery.name, cemetery_path(cemetery)
+            td ="##{cemetery.cemetery_id}"
             td =cemetery.county_name
