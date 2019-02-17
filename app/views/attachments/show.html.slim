@@ -6,7 +6,7 @@
       =link_to @attachment.file, disposition: 'attachment' do
         i.icon.ion-md-download.tx-18.tx-black
   .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-    iframe.embed-responsive-item src="#{rails_blob_path(@attachment.file)}"
+    iframe.embed-responsive-item src="#{attachment_display_link(@attachment.file, request)}"
 .section-wrapper.mg-t-5.pd-t-30
   label.section-title.mg-b-20 Information
   table.table.table-striped
