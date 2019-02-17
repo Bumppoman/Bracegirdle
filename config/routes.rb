@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'complaints/pending-closure', to: 'complaints#pending_closure', as: :complaints_pending_closure
   get 'complaints/all', to: 'complaints#all', as: :all_complaints
   resources :complaints do
+    resources :attachments, module: :complaints
     resources :notes, module: :complaints
   end
   get 'complaints/:id/investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :complaint_investigation

@@ -73,10 +73,32 @@ COUNTIES = {
     62 => 'Yates'
 }.freeze
 
+FILE_ICONS = {
+    'doc' => 'fa-file-word-o',
+    'docx' => 'fa-file-word-o',
+    'jpg' => 'fa-file-picture-o',
+    'pdf' => 'fa-file-pdf-o',
+    'png' => 'fa-file-picture-o',
+    'xls' => 'fa-file-excel-o',
+    'xlsx' => 'fa-file-excel-o'
+}.freeze
+
 INVESTIGATOR_COUNTIES_BY_REGION = {
+    1 => 2,
+    2 => 3,
+    3 => 1,
     4 => 5,
+    5 => 3,
+    6 => 4,
+    7 => 3,
     8 => 5,
-    9 => 5
+    9 => 5,
+    10 => 2,
+    11 => 2,
+    12 => 5,
+    13 => 5,
+    14 => 1,
+    15 => 3
 }.freeze
 
 DOCUMENTS = {

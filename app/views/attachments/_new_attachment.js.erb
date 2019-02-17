@@ -1,0 +1,5 @@
+$('#uploading').removeClass('d-flex').hide()
+$('#no-attachments-message').hide()
+$('#attachments-list').prepend('<%= render partial: 'attachments/attachment', object: @attachment %>')
+$('#attachment-form').trigger('reset')
+$('.custom-file-input').next('label').text('Choose file')

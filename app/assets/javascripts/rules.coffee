@@ -29,11 +29,6 @@
 
     $("input[name=rules\\[request_by_email\\]]").change(method_select)
 
-    $('.custom-file-input').change ->
-      i = $(this).next('label').clone();
-      file = $(this)[0].files[0].name;
-      $(this).next('label').text(file);
-
     $('.toggle-revision').click (event) ->
       revision = $(this).data('revision')
       $('#revision-' + revision + '-content').toggle()

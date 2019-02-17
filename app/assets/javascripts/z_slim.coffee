@@ -15,6 +15,11 @@
 
     $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
 
+    $('.custom-file-input').change ->
+      i = $(this).next('label').clone();
+      file = $(this)[0].files[0].name;
+      $(this).next('label').text(file);
+
 
   $(document).on('turbolinks:load', ready)
 

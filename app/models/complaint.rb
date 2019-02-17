@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Complaint < ApplicationRecord
+  include Attachable
   include Notable
 
   after_commit :set_complaint_number, on: :create
@@ -37,6 +38,10 @@ class Complaint < ApplicationRecord
     investigation_complete: 3,
     pending_closure: 4,
     closed: 5 }.freeze
+
+  def active?
+    status < STATUSES[:pending_closure]
+  end
 
   def belongs_to?(user)
     investigator == user

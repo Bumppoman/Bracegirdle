@@ -91,3 +91,5 @@ gem 'geocoder'
 gem "rubyzip", "~> 1.2.2"
 
 gem "slim"
+
+gem 'remotipart'

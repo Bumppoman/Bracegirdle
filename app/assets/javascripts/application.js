@@ -13,6 +13,7 @@
 //= require activestorage
 //= require turbolinks
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require multistep
 //= require select2/dist/js/select2
 //= require_tree
