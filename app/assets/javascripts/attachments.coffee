@@ -10,10 +10,10 @@
       $('#delete-attachment-button').attr('href', '/' + $(this).data('object-name') + '/' + $(this).data('object-id') + '/attachments/' + $(this).data('id'))
       $('#delete-attachment-confirm').modal()
 
-  $(document).on('turbolinks:load', ready)
+    $('#attachment-upload').click ->
+      $('#attachment-form').hide()
+      $('#uploading').addClass('d-flex').show()
 
-  $(document).on('direct-upload:start', ->
-    $('#attachment-form').hide()
-    $('#uploading').addClass('d-flex').show())
+  $(document).on('turbolinks:load', ready)
 
 ) jQuery

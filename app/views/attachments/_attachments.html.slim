@@ -1,30 +1,31 @@
 .section-wrapper.pd-30.mg-t-5
   label.section-title.mg-b-15 Attachments
   #attachments-list.file-group
-    ==render(partial: 'attachments/attachment', collection: object.attachments) || content_tag(:div, 'There are currently no notes.', id: 'no-attachments-message')
-.section-wrapper.pd-30.mg-t-5
-  label.section-title Upload Attachment
-  #uploading.ht-300.align-items-center style="display: none;"
-    .sk-wave
-      .sk-rect.sk-rect1.bg-gray-800.mg-r-2
-      .sk-rect.sk-rect2.bg-gray-800.mg-r-2
-      .sk-rect.sk-rect3.bg-gray-800.mg-r-2
-      .sk-rect.sk-rect4.bg-gray-800.mg-r-2
-      .sk-rect.sk-rect5.bg-gray-800
-  =form_with model: [object, Attachment.new], id: 'attachment-form' do |f|
-    .row
-      .col-lg-4
-        .form-group.required
-          =f.label :file, 'File', class: 'form-control-label'
-          .custom-file
-            =f.file_field :file, direct_upload: true, class: 'custom-file-input'
-            =f.label :file, 'Choose file', class: 'custom-file-label'
-      .col-lg-8
-        .form-group.required
-          =f.label :description, 'Description', class: 'form-control-label'
-          =f.text_field :description, class: 'form-control'
-    .row.pd-l-15
-      =f.submit 'Upload', class: 'btn btn-primary'
+    ==render(partial: 'attachments/attachment', collection: object.attachments, locals: { object: object }) || content_tag(:div, 'There are currently no attachments.', id: 'no-attachments-message')
+- if object.active?
+  .section-wrapper.pd-30.mg-t-5
+    label.section-title Upload Attachment
+    #uploading.ht-300.align-items-center style="display: none;"
+      .sk-wave
+        .sk-rect.sk-rect1.bg-gray-800.mg-r-2
+        .sk-rect.sk-rect2.bg-gray-800.mg-r-2
+        .sk-rect.sk-rect3.bg-gray-800.mg-r-2
+        .sk-rect.sk-rect4.bg-gray-800.mg-r-2
+        .sk-rect.sk-rect5.bg-gray-800
+    =form_with model: [object, Attachment.new], id: 'attachment-form' do |f|
+      .row
+        .col-lg-5
+          .form-group.required
+            =f.label :file, 'File', class: 'form-control-label'
+            .custom-file
+              =f.file_field :file, direct_upload: true, class: 'custom-file-input'
+              =f.label :file, 'Choose file', class: 'custom-file-label'
+        .col-lg-7
+          .form-group.required
+            =f.label :description, 'Description', class: 'form-control-label'
+            =f.text_field :description, class: 'form-control'
+      .row.pd-l-15
+        =f.submit 'Upload', id: 'attachment-upload', class: 'btn btn-primary'
 #delete-attachment-confirm.modal.fade
   .modal-dialog.modal-sm role="document"
     .modal-content.bd-0.tx-14

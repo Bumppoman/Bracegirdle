@@ -46,6 +46,10 @@ class Rules < ApplicationRecord
     accepted_by == user
   end
 
+  def active?
+    status < STATUSES[:approved]
+  end
+
   def approved?
     status == STATUSES[:approved]
   end

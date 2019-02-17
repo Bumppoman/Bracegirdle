@@ -2,7 +2,8 @@
   label.section-title.mg-b-15 Notes
   ul.list-unstyled.mb-0 id="notes-list"
     ==render(partial: 'application/note', collection: object.notes) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
-.section-wrapper.pd-30.mg-t-5
+- if object.active?
+  .section-wrapper.pd-30.mg-t-5
     label.section-title Add New Note
     .text-right.mg-t-10
       =form_with model: [object, Note.new] do |f|

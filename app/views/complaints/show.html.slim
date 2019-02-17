@@ -149,11 +149,11 @@
                   td colspan="3"
                     span#current-investigator-name ="#{@complaint.investigator&.name || 'Unassigned'} "
                     - if @complaint.status < 5
-                      a#edit-investigator.pl-2 href="" style=[@complaint.unassigned? ? "display: none;" : nil]
+                      a#edit-investigator.pl-2 href="" style=[@complaint.unassigned? ? 'display: none;' : nil]
                         i.fa.fa-pencil
-                      #edit-investigator-area.form-layout style="width: 50%; display: none;"
+                      #edit-investigator-area.form-layout.wd-50p style="display: none;"
                         .pb-1
-                          =f.select :investigator, grouped_options_for_select(employee_options), { prompt: "Select employee" }, class: "form-control"
+                          =f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2 wd-250'
                         .form-layout-footer
                           =f.submit 'Update', class: 'btn btn-primary bd-0 mr-1'
                           a#cancel-edit-investigator.btn.btn-secondary.bd-0 href="#" Cancel
@@ -193,7 +193,7 @@
             | Assign this complaint to an investigator:
             br<>
             br<>
-            =f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control'
+            =f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2'
         .modal-footer
           =f.button 'Assign', name: 'assign_investigator', class: 'btn btn-primary'
           button.btn.btn-secondary type="button" data-dismiss="modal" Close

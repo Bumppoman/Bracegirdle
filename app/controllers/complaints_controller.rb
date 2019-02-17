@@ -87,7 +87,7 @@ class ComplaintsController < ApplicationController
   end
 
   def show
-    @complaint = Complaint.find(params[:id])
+    @complaint = Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
 
     @title = "Complaint ##{@complaint.complaint_number}"
     @breadcrumbs = { 'My active complaints' => complaints_path, @title => nil }

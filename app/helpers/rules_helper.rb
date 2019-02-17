@@ -7,12 +7,4 @@ module RulesHelper
 
     links.empty? ? 'None added.' : links.join(content_tag(:span, ' | ', class: 'mg-l-5 mg-r-10'))
   end
-
-  def rules_display_link(document, request)
-    if %w(application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document).include? document.content_type
-      "https://view.officeapps.live.com/op/embed.aspx?src=#{request.protocol}#{request.host}#{url_for document}"
-    else
-      "https://drive.google.com/viewerng/viewer?embedded=true&url=#{request.protocol}#{request.host}#{url_for document}"
-    end
-  end
 end

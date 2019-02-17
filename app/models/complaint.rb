@@ -86,6 +86,10 @@ class Complaint < ApplicationRecord
     COMPLAINT_STATUSES[status]
   end
 
+  def link_text
+    "Complaint ##{complaint_number}"
+  end
+
   def ownership_type_string
     OWNERSHIP_TYPES[ownership_type]
   end
