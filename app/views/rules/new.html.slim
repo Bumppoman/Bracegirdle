@@ -67,6 +67,11 @@
                 .input-group-text
                   i.icon.ion-ios-calendar.tx-16.lh-0.op-6
               =f.text_field :submission_date, class: 'form-control fc-datepicker'
+      .row
+        .col-lg-12
+          .form-group.required
+            = f.label :investigator, 'Investigator'
+            = f.select :investigator, grouped_options_for_select(employee_options), {prompt: 'Unassigned'}, class: 'form-control select2'
       .form-layout-footer.mg-t-20.pd-l-20
         =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
         =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'

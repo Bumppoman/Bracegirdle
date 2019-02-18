@@ -15,6 +15,11 @@ class RulesController < ApplicationController
       @rules.cemetery = nil
     end
 
+    unless params[:rules][:investigator].blank?
+      @rules.investigator = User.find(params[:rules][:investigator])
+      @rules.status = :pending_review
+    end
+
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])
       @rules.save
       @rules.rules_documents.attach(params[:rules][:rules_documents])
@@ -37,10 +42,10 @@ class RulesController < ApplicationController
       @rules.cemetery = nil
     end
 
-    investigator = params[:rules][:approved_by].present? ? User.find(params[:rules][:approved_by]) : nil
+    investigator = params[:rules][:investigator].present? ? User.find(params[:rules][:investigator]) : nil
     @rules.assign_attributes(
       cemetery_county: params[:rules][:cemetery_county],
-      approved_by: investigator,
+      investigator: investigator,
       status: Rules::STATUSES[:approved]
     )
 
@@ -74,8 +79,8 @@ class RulesController < ApplicationController
         address_line_two: address_line_two,
         cemetery_number: @rules.cemetery.cemetery_id,
         submission_date: @rules.submission_date.to_s,
-        investigator_name: @rules.approved_by.name,
-        investigator_title: @rules.approved_by.title
+        investigator_name: @rules.investigator.name,
+        investigator_title: @rules.investigator.title
     }
     word_notice = helpers.update_docx('lib/document_templates/rules-approval.docx', all_params)
 
@@ -85,20 +90,14 @@ class RulesController < ApplicationController
   end
 
   def index
-    @region = NAMED_REGIONS.key(params[:region]) || current_user.region
-    if params.key?(:region) && @region != current_user.region
-      @title = "Rules Pending Approval for #{helpers.named_region(@region).capitalize} Region"
-      @rules = Rules.pending_review_for_region(@region).order(:submission_date)
-    else
-      @title = 'Rules Pending Approval'
-      @rules = Rules.active_for(current_user).order(:submission_date)
-    end
+    @rules = Rules.active_for(current_user).order(:submission_date)
 
+    @title = 'Rules Pending Approval'
     @breadcrumbs = { 'Rules pending approval' => nil }
   end
 
   def new
-    @rules = Rules.new(submission_date: Date.current.strftime('%m/%d/%Y'), request_by_email: false, sender_state: 'NY')
+    @rules = Rules.new(submission_date: Date.current.strftime('%m/%d/%Y'), request_by_email: false, sender_state: 'NY', investigator: current_user)
 
     @title = 'Upload New Rules'
     @breadcrumbs = { 'Upload new rules' => nil }
@@ -110,26 +109,20 @@ class RulesController < ApplicationController
     if params.key?(:approve_rules)
       @rules.update(
         status: :approved,
-        approval_date: Date.current,
-        approved_by: current_user
+        approval_date: Date.current
       )
       @rules.rules_documents.order(id: :desc).offset(1).destroy_all
       @prompt = true
     elsif params.key?(:request_revision)
+      @rules.status = :revision_requested
+    elsif params.key?(:assign_rules)
       @rules.update(
-        status: :revision_requested,
-        accepted_by: current_user
+        status: :pending_review,
+        investigator_id: params[:rules][:investigator]
       )
-      @prompt = false
-    elsif params.key?(:take_assignment)
-      @rules.update(
-        status: :accepted,
-        accepted_by: current_user
-      )
-      @prompt = false
     end
 
-    redirect_to rule_path(@rules, download_rules_approval: @prompt) and return
+    redirect_to rule_path(@rules, download_rules_approval: @prompt || false) and return
   end
 
   def show
@@ -167,8 +160,6 @@ class RulesController < ApplicationController
   def upload_revision
     @rules = Rules.find(params[:id])
     old_submission_date = @rules.submission_date
-    @rules.status = :accepted
-    @rules.accepted_by = current_user
     @rules.assign_attributes(rules_date_params)
 
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])

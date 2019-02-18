@@ -1,0 +1,14 @@
+.section-wrapper
+  =form_for @application do |f|
+    .form-layout
+      ==content_tag(:div, 'There was a problem uploading this application!', class: 'alert alert-danger', role: 'alert') if @application.errors.any?
+      label.section-title Cemetery Information
+      .row
+        .col-lg-6
+          .form-group.required
+            =f.label :cemetery_county, 'County', class: 'form-control-label'
+            =f.select :cemetery_county, options_for_select(COUNTIES.invert, @application.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search county'
+        .col-lg-6
+          .form-group.required
+            =f.label :cemetery, 'Cemetery', class: 'form-control-label'
+            =f.select :cemetery, grouped_options_for_select(cemetery_options, @application.cemetery&.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'

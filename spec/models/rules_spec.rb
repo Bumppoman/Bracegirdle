@@ -9,7 +9,8 @@ def create_rules
     sender_city: 'Rochester',
     sender_state: 'NY',
     sender_zip: '14677',
-    request_by_email: false
+    request_by_email: false,
+    status: Rules::STATUSES[:pending_review]
   )
 end
 
@@ -27,29 +28,11 @@ describe Rules, type: :model do
   end
 
   describe 'Associations' do
-    it { should belong_to(:cemetery) }
+    it { should belong_to :cemetery }
+    it { should belong_to :investigator }
   end
 
   describe 'Instance Methods' do
-    describe Rules, '#accepted_by?' do
-      it 'returns true if the rules were accepted by the user' do
-        user = User.new
-        subject.accepted_by = user
-
-        expect(subject.accepted_by?(user)).to be true
-      end
-
-      it 'returns false if the rules were not accepted' do
-        expect(subject.accepted_by?(User.new)).to be false
-      end
-
-      it 'returns false if the rules were accepted by another user' do
-        subject.accepted_by = User.new
-
-        expect(subject.accepted_by?(User.new)).to be false
-      end
-    end
-
     describe Rules, '#approved?' do
       it 'returns approved if the rules are approved' do
         subject.status = :approved
@@ -62,31 +45,9 @@ describe Rules, type: :model do
       end
     end
 
-    describe Rules, '#assigned_to?' do
-      it 'returns true if the rules are assigned to the user' do
-        user = User.new(region: 5)
-
-        expect(subject.assigned_to?(user)).to be true
-      end
-
-      it 'returns false if the rules are not assigned to the user' do
-        user = User.new(region: 4)
-
-        expect(subject.assigned_to?(user)).to be false
-      end
-
-      it 'returns false if the rules would be assigned to the user but were already accepted' do
-        user = User.new(region: 5)
-        accepter = User.new(region: 4)
-        subject.accepted_by = accepter
-
-        expect(subject.assigned_to?(user)).to be false
-      end
-    end
-
     describe Rules, '#named_status' do
       it 'returns the correct status' do
-        expect(subject.named_status).to eq 'Received'
+        expect(subject.named_status).to eq 'Pending Review'
       end
     end
 
@@ -104,25 +65,25 @@ describe Rules, type: :model do
       end
     end
 
-    describe Rules, '#unaccepted?' do
-      it 'returns true if the rules were not accepted' do
-        expect(subject.unaccepted?).to be true
+    describe Rules, '#unassigned?' do
+      it 'returns true if the rules were not assigned' do
+        subject.status = Rules::STATUSES[:received]
+
+        expect(subject.unassigned?).to be true
       end
 
-      it 'returns false if the rules were accepted' do
-        subject.status = :pending_review
-
-        expect(subject.unaccepted?).to be false
+      it 'returns false if the rules were assigned' do
+        expect(subject.unassigned?).to be false
       end
     end
   end
 
   describe 'Scopes' do
     before :each do
-      @me = User.new(password: 'test', region: 5)
+      @me = User.new(password: 'test', role: 2)
       @me.save
       @active = create_rules
-      @active.save
+      @active.update(investigator_id: 1)
     end
 
     describe Rules, '.active' do
@@ -138,35 +99,15 @@ describe Rules, type: :model do
 
     describe Rules, '.active_for' do
       before :each do
-        @him = User.new(password: 'test', region: 4)
+        @him = User.new(password: 'test', role: 2)
         @him.save
       end
 
       it 'returns only active rules' do
         approved = create_rules
-        approved.update(cemetery: Cemetery.new(county: 4), status: Rules::STATUSES[:approved])
+        approved.update(cemetery: Cemetery.new(county: 4), status: Rules::STATUSES[:approved], investigator_id: 1)
         his_active = create_rules
-        his_active.update(cemetery: Cemetery.new(county: 6))
-
-        result = Rules.active_for(@me)
-
-        expect(result).to eq [@active]
-      end
-
-      it 'also returns rules user has accepted' do
-        accepted = create_rules
-        accepted.update(cemetery: Cemetery.new(county: 6), accepted_by: @me, status: Rules::STATUSES[:accepted])
-        not_accepted = create_rules
-        not_accepted.update(cemetery: Cemetery.new(county: 6))
-
-        result = Rules.active_for(@me)
-
-        expect(result).to eq [@active, accepted]
-      end
-
-      it "doesn't return rules that would be assigned to user but were accepted by someone else" do
-        accepted_by_him = create_rules
-        accepted_by_him.update(accepted_by: @him, status: Rules::STATUSES[:accepted])
+        his_active.update(cemetery: Cemetery.new(county: 6), investigator_id: 2)
 
         result = Rules.active_for(@me)
 
@@ -175,7 +116,7 @@ describe Rules, type: :model do
 
       it 'also returns rules that are awaiting revisions' do
         awaiting_revisions = create_rules
-        awaiting_revisions.update(status: Rules::STATUSES[:revision_requested])
+        awaiting_revisions.update(status: Rules::STATUSES[:revision_requested], investigator_id: 1)
 
         result = Rules.active_for(@me)
 
@@ -188,8 +129,7 @@ describe Rules, type: :model do
         approved = create_rules
         approved.update(
             status: :approved,
-            approval_date: Date.current,
-            approved_by_id: 1)
+            approval_date: Date.current)
         my_active = create_rules
         my_active.save
 
@@ -201,35 +141,15 @@ describe Rules, type: :model do
 
     describe Rules, '.pending_review_for' do
       before :each do
-        @him = User.new(password: 'test', region: 4)
+        @him = User.new(password: 'test')
         @him.save
       end
 
       it 'returns only rules pending review' do
         approved = create_rules
-        approved.update(cemetery: Cemetery.new(county: 4), status: Rules::STATUSES[:approved])
+        approved.update(cemetery: Cemetery.new(county: 4), status: Rules::STATUSES[:approved], investigator_id: 1)
         his_active = create_rules
-        his_active.update(cemetery: Cemetery.new(county: 6))
-
-        result = Rules.pending_review_for(@me)
-
-        expect(result).to eq [@active]
-      end
-
-      it 'also returns rules user has accepted' do
-        accepted = create_rules
-        accepted.update(cemetery: Cemetery.new(county: 6), accepted_by: @me, status: Rules::STATUSES[:accepted])
-        not_accepted = create_rules
-        not_accepted.update(cemetery: Cemetery.new(county: 6))
-
-        result = Rules.pending_review_for(@me)
-
-        expect(result).to eq [@active, accepted]
-      end
-
-      it "doesn't return rules that would be assigned to user but were accepted by someone else" do
-        accepted_by_him = create_rules
-        accepted_by_him.update(accepted_by: @him, status: Rules::STATUSES[:accepted])
+        his_active.update(cemetery: Cemetery.new(county: 6), investigator_id: 2)
 
         result = Rules.pending_review_for(@me)
 
@@ -246,34 +166,14 @@ describe Rules, type: :model do
       end
     end
 
-    describe Rules, '.pending_review_for_region' do
-      it 'only returns rules for the requested region' do
-        other_region = create_rules
-        other_region.update(cemetery: Cemetery.new(county: 6))
+    describe Rules, '.unassigned' do
+      it 'returns only unassigned rules' do
+        unassigned = create_rules
+        unassigned.update(status: :received)
 
-        result = Rules.pending_review_for_region(5)
+        result = Rules.unassigned
 
-        expect(result).to eq [@active]
-      end
-
-      it 'only returns rules that are pending review' do
-        approved = create_rules
-        approved.update(status: Rules::STATUSES[:approved])
-
-        result = Rules.pending_review_for_region(5)
-
-        expect(result).to eq [@active]
-      end
-
-      it "doesn't return rules that were accepted" do
-        @him = User.new(region: 4)
-        @him.save
-        his_rules = create_rules
-        his_rules.update(accepted_by: @him, status: Rules::STATUSES[:accepted])
-
-        result = Rules.pending_review_for_region(5)
-
-        expect(result).to eq [@active]
+        expect(result).to eq [unassigned]
       end
     end
   end

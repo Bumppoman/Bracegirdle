@@ -31,6 +31,18 @@ describe Complaint, type: :model do
   end
 
   describe 'Instance Methods' do
+    describe Complaint, 'active?' do
+      it 'returns true when the complaint is active' do
+        expect(subject.active?).to be true
+      end
+
+      it 'returns false when the complaint is not active' do
+        subject.status = :closed
+
+        expect(subject.active?).to be false
+      end
+    end
+
     describe Complaint, '#belongs_to?' do
       it 'returns true when the complaint belongs to the user' do
         @investigator = User.new(password: 'test')
@@ -130,6 +142,14 @@ describe Complaint, type: :model do
         subject.status = :investigation_begun
 
         expect(subject.last_action).to eq 'Investigation Begun'
+      end
+    end
+
+    describe Complaint, '#link_text' do
+      it 'returns the correct link text' do
+        subject.save
+
+        expect(subject.link_text).to eq "Complaint ##{subject.complaint_number}"
       end
     end
 

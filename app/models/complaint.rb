@@ -58,7 +58,7 @@ class Complaint < ApplicationRecord
   end
 
   def closed?
-    status == 5
+    status == STATUSES[:closed]
   end
 
   def complaint_type

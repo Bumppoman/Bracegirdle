@@ -5,7 +5,8 @@
 - if object.active?
   .section-wrapper.pd-30.mg-t-5
     label.section-title Add New Note
-    .text-right.mg-t-10
+    .mg-t-10
       =form_with model: [object, Note.new] do |f|
         =f.text_area :body, rows: 8, class: 'form-control'
-        =f.button 'Submit', class: 'btn btn-primary mt-1 mg-r-10'
+        .form-layout-footer.mg-t-10
+          =f.button 'Submit', class: 'btn btn-primary mt-1 mg-r-10'

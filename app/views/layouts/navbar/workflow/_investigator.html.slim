@@ -22,11 +22,11 @@ li.nav-item.with-sub.mega-dropdown
           li =link_to 'Mausoleum', '#'
           li =link_to 'Columbarium', '#'
       .col-lg.mg-t-30.mg-lg-t-0
-        label.section-label Vandalism
+        label.section-label Restoration
         ul
-          li =link_to 'Hazardous Monuments', vandalism_hazardous_path
-          li =link_to 'Vandalism', vandalism_vandalism_path
-          li =link_to 'Abandonment', vandalism_abandonment_path
+          li =link_to 'Hazardous Monuments', restoration_index_path(type: :hazardous)
+          li =link_to 'Vandalism', restoration_index_path(type: :vandalism)
+          li =link_to 'Abandonment', restoration_index_path(type: :abandonment)
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Land
         ul

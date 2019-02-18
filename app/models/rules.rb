@@ -6,22 +6,23 @@ class Rules < ApplicationRecord
   attribute :cemetery_county, :string
 
   belongs_to :cemetery
-  belongs_to :accepted_by, class_name: 'User', optional: true
-  belongs_to :approved_by, class_name: 'User', optional: true
+  belongs_to :investigator, class_name: 'User', optional: true
 
   has_many_attached :rules_documents
 
-  scope :active, -> { where('status < ?', STATUSES[:approved]) }
+  scope :active, -> { where(status: [2, 3]) }
   scope :active_for, -> (user) {
-    active.joins(:cemetery).where('(cemeteries.county IN (?) AND accepted_by_id IS NULL) OR accepted_by_id = ?', REGIONS[user.region], user.id)
+    if user.supervisor?
+      where(investigator: user, status: [2, 3]).or(where(status: 1))
+    else
+      active.where(investigator: user)
+    end
   }
   scope :approved, -> { where(status: STATUSES[:approved]) }
   scope :pending_review_for, -> (user) {
-    joins(:cemetery).where('(status = ? AND cemeteries.county IN (?)) OR (status = ? AND accepted_by_id = ?)', STATUSES[:received], REGIONS[user.region], STATUSES[:accepted], user.id)
+    where(status: STATUSES[:pending_review], investigator: user)
   }
-  scope :pending_review_for_region, -> (region) {
-    joins(:cemetery).where(cemeteries: { county: REGIONS[region] }, status: 1)
-  }
+  scope :unassigned, -> { where(status: STATUSES[:received]) }
 
   validates :request_by_email, inclusion: { in: [true, false] }, unless: :approved?
   validates :sender, presence: true, unless: :approved?
@@ -37,14 +38,10 @@ class Rules < ApplicationRecord
 
   STATUSES = {
     received: 1,
-    accepted: 2,
+    pending_review: 2,
     revision_requested: 3,
     approved: 4,
   }.freeze
-
-  def accepted_by?(user)
-    accepted_by == user
-  end
 
   def active?
     status < STATUSES[:approved]
@@ -55,8 +52,7 @@ class Rules < ApplicationRecord
   end
 
   def assigned_to?(user)
-    return false if accepted_by && accepted_by != user
-    REGIONS[user.region].include? cemetery.county
+    user == investigator
   end
 
   def named_status
@@ -77,7 +73,7 @@ class Rules < ApplicationRecord
     self.write_attribute(:status, update)
   end
 
-  def unaccepted?
+  def unassigned?
     status == STATUSES[:received]
   end
 

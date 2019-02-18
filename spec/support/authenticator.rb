@@ -15,6 +15,10 @@ module Authenticator
   def login_supervisor
     login(FactoryBot.create(:supervisor))
   end
+
+  def logout
+    visit logout_path
+  end
 end
 
 RSpec.configure do |config|

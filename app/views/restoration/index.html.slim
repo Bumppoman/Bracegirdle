@@ -1,6 +1,6 @@
 .section-wrapper
   .table-wrapper
-    table#vandalism-data-table.table.display.responsive.no-wrap
+    table#restoration-data-table.table.display.responsive.no-wrap
       thead
         tr
           th
@@ -11,7 +11,7 @@
           th Status
           th Last Action
       tbody
-        - @vandalism.each do |application|
+        - @applications.each do |application|
           tr
             td =link_to application, application
             td ="#{application.cemetery} (##{application.cemetery.cemetery_id})"
@@ -24,3 +24,7 @@
             td
               span style="display: none;" =sort_date(application.updated_at)
               span =application.updated_at.to_date.to_s
+  .mg-t-20
+    ul.nav.nav-gray-600.nav-underline.justify-content-center
+      li.nav-item
+        = link_to 'Upload new application', new_restoration_path(type: params[:type]), class: 'nav-link'

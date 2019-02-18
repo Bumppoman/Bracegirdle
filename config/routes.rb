@@ -38,8 +38,11 @@ Rails.application.routes.draw do
   get 'notices/:id/download', to: 'notices#download', as: :download_notice
   patch 'notices/:id/update-parameters', to: 'notices#update_status', as: :notice_update_status
 
+  # Restoration
+  restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join("|"))
+  resources :restoration, path: ':type', constraints: { type: restoration_type }
+
   # Rules
-  get 'rules/region/:region', to: 'rules#index', as: :regional_rules
   get 'rules/upload-old-rules', to: 'rules#upload_old_rules', as: :upload_old_rules
   post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
   resources :rules do
@@ -53,12 +56,6 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   get 'login' => 'sessions#new', as: :login
   get 'logout', to: 'sessions#destroy', as: :logout
-
-  # Vandalism
-  get 'vandalism/abandonment', to: 'vandalism#index_abandonment', as: :vandalism_abandonment
-  get 'vandalism/hazardous', to: 'vandalism#index_hazardous', as: :vandalism_hazardous
-  get 'vandalism/vandalism', to: 'vandalism#index_vandalism', as: :vandalism_vandalism
-  resources :vandalism
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

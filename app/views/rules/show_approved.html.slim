@@ -14,8 +14,8 @@
       tr
         th.wd-30p Approved By
         td
-          -if @rules.approved_by
-            =@rules.approved_by.name
+          -if @rules.investigator
+            =@rules.investigator.name
             ==" (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" if !@rules.previously_approved?
           -else
             | Unknown

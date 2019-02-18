@@ -10,7 +10,7 @@
 
   ready = ->
 
-    $('#vandalism-data-table').DataTable({
+    $('#restoration-data-table').DataTable({
       responsive: true,
       language: {
         emptyTable: "There are no applications to display.",

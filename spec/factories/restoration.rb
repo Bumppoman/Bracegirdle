@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :vandalism do
+  factory :restoration do
     
   end
 end

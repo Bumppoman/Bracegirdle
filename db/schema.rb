@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_16_180313) do
+ActiveRecord::Schema.define(version: 2019_02_18_040240) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -113,12 +113,12 @@ ActiveRecord::Schema.define(version: 2019_02_16_180313) do
   end
 
   create_table "estimates", force: :cascade do |t|
-    t.integer "vandalism_id"
+    t.integer "restoration_id"
     t.integer "contractor_id"
     t.decimal "amount", precision: 9, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["vandalism_id"], name: "index_estimates_on_vandalism_id"
+    t.index ["restoration_id"], name: "index_estimates_on_restoration_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -165,6 +165,24 @@ ActiveRecord::Schema.define(version: 2019_02_16_180313) do
     t.float "longitude"
   end
 
+  create_table "restoration", force: :cascade do |t|
+    t.integer "application_type"
+    t.integer "cemetery_id"
+    t.integer "trustee_id"
+    t.decimal "amount", precision: 9, scale: 2
+    t.date "submission_date"
+    t.date "field_visit_date"
+    t.date "recommendation_date"
+    t.date "supervisor_review_date"
+    t.date "award_date"
+    t.date "completion_date"
+    t.date "follow_up_date"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cemetery_id"], name: "index_restoration_on_cemetery_id"
+  end
+
   create_table "rules", force: :cascade do |t|
     t.integer "cemetery_id"
     t.date "submission_date"
@@ -180,12 +198,10 @@ ActiveRecord::Schema.define(version: 2019_02_16_180313) do
     t.string "sender_zip"
     t.boolean "request_by_email"
     t.string "identifier"
-    t.integer "approved_by_id"
-    t.integer "accepted_by_id"
+    t.integer "investigator_id"
     t.date "revision_request_date"
-    t.index ["accepted_by_id"], name: "index_rules_on_accepted_by_id"
-    t.index ["approved_by_id"], name: "index_rules_on_approved_by_id"
     t.index ["cemetery_id"], name: "index_rules_on_cemetery_id"
+    t.index ["investigator_id"], name: "index_rules_on_investigator_id"
   end
 
   create_table "towns", force: :cascade do |t|
@@ -212,24 +228,6 @@ ActiveRecord::Schema.define(version: 2019_02_16_180313) do
     t.string "city"
     t.string "zip"
     t.integer "region"
-  end
-
-  create_table "vandalisms", force: :cascade do |t|
-    t.integer "type"
-    t.integer "cemetery_id"
-    t.integer "trustee_id"
-    t.decimal "amount", precision: 9, scale: 2
-    t.date "submission_date"
-    t.date "field_visit_date"
-    t.date "recommendation_date"
-    t.date "supervisor_review_date"
-    t.date "award_date"
-    t.date "completion_date"
-    t.date "follow_up_date"
-    t.integer "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cemetery_id"], name: "index_vandalisms_on_cemetery_id"
   end
 
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Rules' do
+feature 'Restoration' do
   before :each do
     @cemetery = FactoryBot.create(:cemetery,
       name: 'Anthony Cemetery',
@@ -14,7 +14,7 @@ feature 'Rules' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    #click_on 'Upload new application'
+    click_on 'Upload new application'
     #visit vandalism_hazardous_path
 
     #expect(page).to have_content 'Anthony Cemetery'

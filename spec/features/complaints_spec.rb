@@ -132,4 +132,49 @@ feature 'Complaints' do
 
     expect(page).to have_content(@complaint.complaint_number)
   end
+
+  scenario 'Investigator can add note to complaint', js: true do
+    login
+    @complaint = FactoryBot.create(:brand_new_complaint)
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+    fill_in 'note[body]', with: 'Adding a note to this complaint'
+    click_on 'Submit'
+
+    expect(page).to have_content 'Adding a note to this complaint'
+  end
+
+  scenario "Note can't be added to a closed complaint", js: true do
+    login
+    @complaint = FactoryBot.create(:complaint_pending_closure)
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+
+    expect(page).to_not have_content 'ADD NEW NOTE'
+  end
+
+  scenario 'Investigator can upload attachment', js: true do
+    login
+    @complaint = FactoryBot.create(:brand_new_complaint)
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+    attach_file 'attachment_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    fill_in 'attachment[description]', with: 'Adding an attachment to this complaint'
+    click_on 'Upload'
+
+    expect(page).to have_content 'Adding an attachment to this complaint'
+  end
+
+  scenario "Attachment can't be added to a closed complaint", js: true do
+    login
+    @complaint = FactoryBot.create(:complaint_pending_closure)
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+
+    expect(page).to_not have_content 'UPLOAD ATTACHMENT'
+  end
 end
