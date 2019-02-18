@@ -80,7 +80,7 @@ class CemeteriesController < ApplicationController
   end
 
   def show
-    @cemetery = Cemetery.find(params[:id])
+    @cemetery = Cemetery.includes(:complaints, :trustees).find(params[:id])
 
     @title = 'Cemetery Information'
     @breadcrumbs = { 'All cemeteries' => '#', "#{@cemetery.county_name} County" => url_for(controller: :cemeteries, action: :list_by_county, county: @cemetery.county_name.downcase), @cemetery.name => nil }

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Cemetery < ApplicationRecord
+  has_many :complaints
   has_one :rules,
     -> (cemetery) {
       where(

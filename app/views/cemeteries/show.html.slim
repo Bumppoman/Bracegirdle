@@ -1,12 +1,12 @@
 .section-wrapper
-  label.section-title =@cemetery.name
+  label.section-title ="#{@cemetery.name} (##{@cemetery.cemetery_id})"
   nav
     #nav-tab.nav.nav-tabs role="tablist"
-      a#nav-details-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :details || params[:tab].nil?)] data-toggle="tab" href="#nav-details" role="tab" aria-controls="nav-details" aria-selected="true" Details
-      a#nav-trustees-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :trustees)] data-toggle="tab" href="#nav-trustees" role="tab" aria-controls="nav-trustees" aria-selected="false" Trustees
-      a#nav-finances-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :finances)] data-toggle="tab" href="#nav-finances" role="tab" aria-controls="nav-finances" aria-selected="false" Finances
+      a#nav-details-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :details || params[:tab].nil?)] data-toggle="tab" href="#nav-details" role="tab" Details
+      a#nav-trustees-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :trustees)] data-toggle="tab" href="#nav-trustees" role="tab" Trustees
+      a#nav-complaints-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :complaints)] data-toggle="tab" href="#nav-complaints" role="tab" Complaints
   .tab-content.pl-3.pt-2
-    #nav-details class=['tab-pane', 'fade', ('show active' if params[:tab] == :details || params[:tab].nil?)] role="tabpanel" aria-labelledby="nav-details-tab"
+    #nav-details class=['tab-pane', 'fade', ('show active' if params[:tab] == :details || params[:tab].nil?)] role="tabpanel"
       .row
         .col-lg-6
           .card.border.border-secondary
@@ -38,7 +38,7 @@
                     td None added.
         .col-lg-6
           iframe width="100%" height="425" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=#{Rails.application.credentials.google[:api_key]}&q=#{@cemetery.latitude},#{@cemetery.longitude}"
-    #nav-trustees class=['tab-pane', 'fade', ('show active' if params[:tab] == :trustees)] role="tabpanel" aria-labelledby="nav-trustees-tab"
+    #nav-trustees class=['tab-pane', 'fade', ('show active' if params[:tab] == :trustees)] role="tabpanel"
       .card.border.border-secondary
         .card-header
           strong.card-title Trustees
@@ -71,5 +71,23 @@
         =link_to new_trustee_path(@cemetery), class: 'btn btn-secondary' do
           i.fa.fa-plus-square-o
           |  Add new trustee
-    #nav-finances.tab-pane.fade role="tabpanel" aria-labelledby="nav-finances-tab"
-      p Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi.
+    #nav-complaints class=['tab-pane', 'fade', ('show active' if params[:tab] == :complaints)] role="tabpanel"
+      .section-wrapper.bd-0.pd-0.mg-t-15
+        label.section-title Complaints
+        .table-wrapper
+          table#cemetery-complaints-data-table.table.table-striped
+            thead
+              tr
+                th
+                th Complainant
+                th Complaint Date
+                th Status
+                th Last Action
+            tbody
+              - @cemetery.complaints.each do |complaint|
+                tr
+                  td = link_to complaint, complaint
+                  td = complaint.complainant_name
+                  td = complaint.created_at.to_date.to_s
+                  td == complaint.last_action
+                  td = complaint.updated_at.to_date.to_s

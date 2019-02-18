@@ -109,7 +109,8 @@ class RulesController < ApplicationController
     if params.key?(:approve_rules)
       @rules.update(
         status: :approved,
-        approval_date: Date.current
+        approval_date: Date.current,
+        investigator: current_user
       )
       @rules.rules_documents.order(id: :desc).offset(1).destroy_all
       @prompt = true

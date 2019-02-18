@@ -130,4 +130,15 @@ feature 'Rules' do
 
     expect(page).to have_content 'Anthony Cemetery'
   end
+
+  scenario 'Supervisor can approve unassigned rules', js: true do
+    @rules = FactoryBot.create(:rules)
+    login_supervisor
+
+    visit rule_path(@rules)
+    click_button 'Approve Rules'
+    visit rule_path(@rules)
+
+    expect(page).to have_content 'Approved'
+  end
 end

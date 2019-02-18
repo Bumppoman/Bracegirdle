@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Cemeteries
   resources :cemeteries
   get 'cemeteries/:id/trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :cemetery_trustees
+  get 'cemeteries/:id/complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :cemetery_complaints
   post 'cemeteries/:id/trustees/new' => 'cemeteries#create_new_trustee', as: :create_new_trustee
   get 'cemeteries/:id/trustees/new' => 'cemeteries#new_trustee', as: :new_trustee
   get 'cemeteries/:id/trustees/:trustee/edit' => 'cemeteries#edit_trustee', as: :edit_trustee

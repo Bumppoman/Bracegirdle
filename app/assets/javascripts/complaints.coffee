@@ -30,7 +30,7 @@
 
     $("input[name=complaint\\[investigation_required\\]]").change(investigator_select)
 
-    $('#complaints-data-table').DataTable({
+    $('#complaints-data-table, #cemetery-complaints-data-table').DataTable({
       responsive: true,
       language: {
         emptyTable: "There are no complaints to display."

@@ -15,9 +15,6 @@
             td =cemetery.cemetery_id
             td =link_to cemetery.name, cemetery
             td ="#{cemetery.county_name} County"
-            td
-              a href="http://google.com/maps/?q=#{cemetery.latitude},#{cemetery.longitude}" Google Maps
-              br
-              =cemetery.towns.to_sentence
+            td =cemetery.towns.to_sentence
             td =cemetery.last_inspection
             td =cemetery.last_audit
