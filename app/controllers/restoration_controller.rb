@@ -9,28 +9,19 @@ class RestorationController < ApplicationController
     hazardous: {
       new: {
         title: 'Upload New Abandonment Application',
-        breadcrumbs: {
-          'Abandonment applications' => Rails.application.routes.url_helpers.restoration_index_path(type: :abandonment),
-          'Upload new application' => nil
-        }
+        breadcrumbs: 'Abandonment applications'
       }
     },
     hazardous: {
       new: {
         title: 'Upload New Hazardous Monuments Application',
-        breadcrumbs: {
-          'Hazardous monuments applications' => Rails.application.routes.url_helpers.restoration_index_path(type: :hazardous),
-          'Upload new application' => nil
-        }
+        breadcrumbs: 'Hazardous monuments applications'
       }
     },
     vandalism: {
       new: {
         title: 'Upload New Vandalism Application',
-        breadcrumbs: {
-          'Vandalism applications' => Rails.application.routes.url_helpers.restoration_index_path(type: :vandalism),
-          'Upload new application' => nil
-        }
+        breadcrumbs: 'Vandalism applications'
       }
     }
   }.freeze
@@ -44,7 +35,7 @@ class RestorationController < ApplicationController
     @application = Restoration.new(application_type: type)
 
     @title = PAGE_INFO[type][:new][:title]
-    @breadcrumbs = PAGE_INFO[type][:new][:breadcrumbs]
+    @breadcrumbs = { PAGE_INFO[type][:new][:breadcrumbs] => restoration_index_path(type: params[:type]), 'Upload new application' => nil }
   end
 
   private

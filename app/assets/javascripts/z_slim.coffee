@@ -20,6 +20,10 @@
       file = $(this)[0].files[0].name;
       $(this).next('label').text(file);
 
+    $('a[data-toggle="tab"]').on('shown.bs.tab', (e) ->
+      $($.fn.dataTable.tables(true)).css('width', '100%');
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw())
+
 
   $(document).on('turbolinks:load', ready)
 
