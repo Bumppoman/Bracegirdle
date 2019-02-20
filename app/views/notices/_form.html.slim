@@ -16,7 +16,7 @@ label.section-title Cemetery Information
   .col-lg-6
     .form-group.required
       =f.label :served_on_title, 'Title', class: 'form-control-label'
-      =f.select :served_on_title, options_for_select(POSITIONS.invert, @notice.served_on_title), { prompt: 'Select position' }, class: 'form-control select2'
+      =f.select :served_on_title, options_for_select(POSITIONS.invert, @notice.served_on_title), { prompt: 'Select position' }, class: 'form-control select2-basic'
 .row
   .col-lg-12
     .form-group.required
@@ -30,7 +30,7 @@ label.section-title Cemetery Information
   .col-lg-2
     .form-group.required
       =f.label :served_on_state, 'State', class: 'form-control-label'
-      =f.select :served_on_state, options_for_select(STATES, @notice.served_on_state), {}, class: 'form-control select2'
+      =f.select :served_on_state, options_for_select(STATES, @notice.served_on_state), {}, class: 'form-control select2-basic'
   .col-lg-4
     .form-group.required
       =f.label :served_on_zip, 'ZIP Code', class: 'form-control-label'

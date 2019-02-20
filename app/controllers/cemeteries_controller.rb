@@ -37,12 +37,21 @@ class CemeteriesController < ApplicationController
   def index; end
 
   def list_by_county
-    @cemeteries = Cemetery.where(county: COUNTIES.key(params[:county].capitalize), active: true).order(:county, :order_id).includes(:towns)
+    if /\d{1,2}/ =~ params[:county]
+      search_county = params[:county]
+    else
+      search_county = COUNTIES.key(params[:county].capitalize)
+    end
+
+    @cemeteries = Cemetery.where(county: search_county, active: true).order(:county, :order_id).includes(:towns)
 
     @title = "Cemeteries in #{params[:county].capitalize} County"
     @breadcrumbs = { 'All cemeteries' => '#', "#{params[:county].capitalize} County" => nil }
 
-    render :index
+    respond_to do |format|
+      #format.html { render :index }
+      format.html { render json: @cemeteries.map { |cemetery| { id: cemetery.id, text: "#{cemetery.cemetery_id} #{cemetery.name}"} }.to_json }
+    end
   end
 
   def list_by_region
@@ -84,6 +93,11 @@ class CemeteriesController < ApplicationController
 
     @title = 'Cemetery Information'
     @breadcrumbs = { 'All cemeteries' => '#', "#{@cemetery.county_name} County" => url_for(controller: :cemeteries, action: :list_by_county, county: @cemetery.county_name.downcase), @cemetery.name => nil }
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @cemetery.to_json(methods: :investigator) }
+    end
   end
 
   def update_trustee

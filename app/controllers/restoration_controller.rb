@@ -6,7 +6,7 @@ class RestorationController < ApplicationController
   end
 
   PAGE_INFO = {
-    hazardous: {
+    abandonment: {
       new: {
         title: 'Upload New Abandonment Application',
         breadcrumbs: 'Abandonment applications'
@@ -25,6 +25,11 @@ class RestorationController < ApplicationController
       }
     }
   }.freeze
+
+  def create
+    @application = Application.new(application_create_params)
+    @application.application_type = params[:type]
+  end
 
   def index
     self.send(params[:type])
@@ -45,6 +50,10 @@ class RestorationController < ApplicationController
 
     @title = 'Pending Abandonment Applications'
     @breadcrumbs = { 'Pending abandonment applications' => nil}
+  end
+
+  def application_create_params
+    params.require(:application).permit(:cemetery, :cemetery_county, :trustee, :submission_date, :raw_application_file)
   end
 
   def hazardous

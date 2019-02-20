@@ -31,8 +31,8 @@ class Cemetery < ApplicationRecord
     COUNTIES[county]
   end
 
-  def investigator_region
-    region :investigator
+  def investigator
+    User.find_by_region(region :investigator)
   end
 
   def last_audit

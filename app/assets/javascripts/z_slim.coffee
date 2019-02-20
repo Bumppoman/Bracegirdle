@@ -3,7 +3,7 @@
 
     $('.fc-datepicker').datepicker({});
 
-    $('.select2').select2({
+    $('.select2-basic').select2({
       minimumResultsForSearch: Infinity,
       selectOnClose: true
     });

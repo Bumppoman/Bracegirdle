@@ -11,4 +11,42 @@
         .col-lg-6
           .form-group.required
             =f.label :cemetery, 'Cemetery', class: 'form-control-label'
-            =f.select :cemetery, grouped_options_for_select(cemetery_options, @application.cemetery&.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
+            =f.select :cemetery, [], { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
+      .row
+        #restoration-submitted-by.col-lg-12
+          .form-group.required
+            =f.label :trustee, 'Submitted By', class: 'form-control-label'
+            =f.select :trustee, [], { prompt: 'Select trustee' }, disabled: true, class: 'form-control select2-basic'
+      label.section-title Application
+      .row
+        .col-lg-6
+          .form-group.required
+            =f.label :submission_date, 'Submitted On', class: 'form-control-label'
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+              = f.text_field :submission_date, class: 'form-control fc-datepicker'
+        .col-lg-6
+          .form-group.required
+            =f.label :amount
+            .input-group
+              .input-group-prepend
+                span.input-group-text $
+              =f.text_field :amount, class: 'form-control'
+      .row
+        .col-lg-12
+          .form-group.required
+            = f.label :file, 'File', class: 'form-control-label'
+            .custom-file
+              = f.file_field :raw_application_file, direct_upload: true, class: 'custom-file-input'
+              = f.label :file, 'Choose file', class: 'custom-file-label'
+              small.form-text.text-muted Raw applications (.pdf) only.  Individual parts will be processed later.
+      .row
+        .col-lg-12
+          .form-group.required
+            =f.label :investigator, 'Assign To', class: 'form-control-label'
+            = f.select :investigator, grouped_options_for_select(employee_options), {prompt: 'Unassigned'}, class: 'form-control select2-basic'
+      .form-layout-footer.mg-t-20
+        =f.submit 'Upload Application', class: 'btn btn-primary mr-1'
+        =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary'

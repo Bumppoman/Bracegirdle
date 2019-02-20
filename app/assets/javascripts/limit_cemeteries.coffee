@@ -6,7 +6,24 @@
 
   ready = ->
 
-    original_cemeteries = $(".cemeteries-by-county").html()
+    #$('.county').change ->
+    #  $('.cemeteries-by-county').prop('disabled', false)
+    #  $('.cemeteries-by-county').select2({
+    #    ajax: {
+    #      url: '/cemeteries/county/' + $('.county').val(),
+    #      type: 'GET',
+    #      dataType: 'json',
+    #      processResults: (data) ->
+    #        return {
+    #          results: data
+    #        }
+    #    }
+    #  })
+
+    #if $('.county').val() != ''
+    #  $('.county').trigger('change')
+
+    original_cemeteries = $('.cemeteries-by-county').html()
 
     limitCemeteries = ->
       $(".cemeteries-by-county").prop('disabled', false)
@@ -21,7 +38,6 @@
       limitCemeteries()
 
     $(".county").change(limitCemeteries)
-
 
   $(document).on('turbolinks:load', ready)
 

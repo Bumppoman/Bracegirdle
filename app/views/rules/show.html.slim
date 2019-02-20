@@ -57,6 +57,6 @@
         .col-lg-12
           .form-group.required
             = f.label :investigator, 'Investigator'
-            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unassigned' }, class: 'form-control select2'
+            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unassigned' }, class: 'form-control select2-basic'
       .form-layout-footer
         =f.button 'Assign Rules', name: 'assign_rules', class: 'btn btn-primary'

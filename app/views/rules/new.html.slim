@@ -45,7 +45,7 @@
           .col-lg-2
             .form-group.required
               =f.label :sender_state, 'State', class: 'form-control-label'
-              =f.select :sender_state, options_for_select(STATES, @rules.sender_state), {}, class: 'form-control select2'
+              =f.select :sender_state, options_for_select(STATES, @rules.sender_state), {}, class: 'form-control select2-basic'
           .col-lg-4
             .form-group.required
               =f.label :sender_zip, 'ZIP Code', class: 'form-control-label'
@@ -71,7 +71,7 @@
         .col-lg-12
           .form-group.required
             = f.label :investigator, 'Investigator'
-            = f.select :investigator, grouped_options_for_select(employee_options), {prompt: 'Unassigned'}, class: 'form-control select2'
+            = f.select :investigator, grouped_options_for_select(employee_options), {prompt: 'Unassigned'}, class: 'form-control select2-basic'
       .form-layout-footer.mg-t-20.pd-l-20
         =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
         =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'

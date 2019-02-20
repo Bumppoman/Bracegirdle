@@ -16,6 +16,7 @@
 //= require jquery.remotipart
 //= require multistep
 //= require select2/dist/js/select2
+//= require jquery-steps/build/jquery.steps.min
 //= require_tree
 //
 //
