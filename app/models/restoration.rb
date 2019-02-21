@@ -19,6 +19,11 @@ class Restoration < ApplicationRecord
   }
   scope :vandalism, -> { where(application_type: TYPES[:vandalism]) }
 
+  with_options if: :newly_created? do |application|
+    application.validates :amount, presence: true
+    application.validates :submission_date, presence: true
+  end
+
   TYPES = {
       vandalism: 1,
       hazardous: 2,
@@ -29,4 +34,7 @@ class Restoration < ApplicationRecord
     self.write_attribute(:application_type, TYPES[type])
   end
 
+  def newly_created?
+    id.nil?
+  end
 end

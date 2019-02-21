@@ -53,6 +53,9 @@ Rails.application.routes.draw do
   patch 'rules/:id/upload-revision', to: 'rules#upload_revision', as: :rules_upload_revision
   patch 'rules/:id/review', to: 'rules#review', as: :rules_review
 
+  # Towns
+  get 'towns/county/:county/options', to: 'towns#options_for_county'
+
   # Users
   resources :sessions, only: [:new, :create, :destroy]
   get 'login' => 'sessions#new', as: :login

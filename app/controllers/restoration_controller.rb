@@ -27,8 +27,17 @@ class RestorationController < ApplicationController
   }.freeze
 
   def create
-    @application = Application.new(application_create_params)
-    @application.application_type = params[:type]
+    @restoration = Restoration.new(application_create_params)
+    @restoration.application_type = params[:type]
+
+    if @restoration.save
+    else
+      type = params[:type].to_sym
+      @title = PAGE_INFO[type][:new][:title]
+      @breadcrumbs = { PAGE_INFO[type][:new][:breadcrumbs] => restoration_index_path(type: params[:type]), 'Upload new application' => nil }
+
+      render :new
+    end
   end
 
   def index
@@ -37,7 +46,7 @@ class RestorationController < ApplicationController
 
   def new
     type = params[:type].to_sym
-    @application = Restoration.new(application_type: type)
+    @restoration = Restoration.new(application_type: type)
 
     @title = PAGE_INFO[type][:new][:title]
     @breadcrumbs = { PAGE_INFO[type][:new][:breadcrumbs] => restoration_index_path(type: params[:type]), 'Upload new application' => nil }
@@ -53,7 +62,7 @@ class RestorationController < ApplicationController
   end
 
   def application_create_params
-    params.require(:application).permit(:cemetery, :cemetery_county, :trustee, :submission_date, :raw_application_file)
+    params.require(:restoration).permit(:amount, :cemetery, :cemetery_county, :trustee, :submission_date, :raw_application_file)
   end
 
   def hazardous

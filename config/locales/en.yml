@@ -78,6 +78,14 @@ en:
               blank:  "You must enter the date on which the violation occurred."
             response_required_date:
               blank:  'You must specify the date on which the notice must be answered.'
+        restoration:
+          attributes:
+            amount:
+              blank: 'You must enter the amount requested on the application.'
+            cemetery:
+              required: 'You must select the cemetery that submitted this application.'
+            submission_date:
+              blank: 'You must enter the date that this application was submitted.'
         rules:
           attributes:
             cemetery:

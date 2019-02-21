@@ -10,7 +10,7 @@
         .col-lg-4
           .form-group.required
             =f.label :county, class: 'form-control-label'
-            =f.select :county, COUNTIES.invert, {}, class: 'form-control select2-show-search'
+            =f.select :county, COUNTIES.invert, { prompt: 'Select county' }, class: 'form-control select2-show-search', id: 'new-cemetery-county'
         .col-lg-2
           .form-group.required
             =f.label :order_id, 'Order ID', class: 'form-control-label'
@@ -25,8 +25,9 @@
       .row
         .col-lg-8
           .form-group.required
+            =hidden_field_tag :selected_ids, @cemetery.towns.map{ |t| t.id }.join(','), class: 'towns-selected-ids'
             =f.label :town_ids, 'Towns', class: 'form-control-label'
-            =f.select :town_ids, grouped_options_for_select(@towns, @cemetery.towns), {}, multiple: true, class: 'form-control select2-show-search'
+            =f.select :town_ids, [], {}, multiple: true, class: 'form-control select2-show-search', id: 'new-cemetery-towns'
             small.form-text.text-muted Choose all that apply
         .col-lg-4
           .form-group.required

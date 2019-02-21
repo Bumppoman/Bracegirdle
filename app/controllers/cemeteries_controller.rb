@@ -57,7 +57,7 @@ class CemeteriesController < ApplicationController
     @cemeteries = Cemetery.where(active: true, county: params[:county]).order(:county, :order_id)
     output = helpers.content_tag('option', 'Select cemetery', :value => '') +
         "\n" +
-        helpers.grouped_options_for_select([["#{COUNTIES[params[:county].to_i]} County",  @cemeteries.map {|cemetery| ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]}]], params[:selected_value])
+        helpers.grouped_options_for_select([["#{COUNTIES[params[:county].to_i]} County",  @cemeteries.map {|cemetery| ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]}]], params[:selected_value].split(','))
 
     render html: output
   end
