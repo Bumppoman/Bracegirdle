@@ -2,14 +2,12 @@ Rails.application.routes.draw do
   get 'dashboard/index'
 
   # Cemeteries
-  resources :cemeteries
-  get 'cemeteries/:id/trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :cemetery_trustees
+  resources :cemeteries do
+    resources :trustees
+  end
   get 'cemeteries/:id/complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :cemetery_complaints
-  post 'cemeteries/:id/trustees/new' => 'cemeteries#create_new_trustee', as: :create_new_trustee
-  get 'cemeteries/:id/trustees/new' => 'cemeteries#new_trustee', as: :new_trustee
-  get 'cemeteries/:id/trustees/:trustee/edit' => 'cemeteries#edit_trustee', as: :edit_trustee
-  patch 'cemeteries/:id/trustees/:trustee/edit' => 'cemeteries#update_trustee'
   get 'cemeteries/county/:county' => 'cemeteries#list_by_county'
+  get 'cemeteries/county/:county/options', to: 'cemeteries#options_for_county'
   get 'cemeteries/region/:region' => 'cemeteries#list_by_region'
   get 'cemeteries/:id/rules', to: 'rules#show_approved', as: :cemetery_rules
   get 'cemeteries/:id/details.json', to: 'cemeteries#as_json', as: :cemetery_json

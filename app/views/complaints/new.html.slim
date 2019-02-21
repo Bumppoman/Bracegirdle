@@ -41,7 +41,8 @@
           .form-group.required
             =f.label :cemetery, 'Cemetery', class: 'form-control-label'
             #complaint-cemetery-select-area
-              =f.select :cemetery, grouped_options_for_select(cemetery_options, @complaint.cemetery&.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
+              =hidden_field_tag :selected_id, @complaint.cemetery&.id, class: 'cemetery-selected-id'
+              =f.select :cemetery, [], { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
             =f.text_field :cemetery_alternate_name, class: 'form-control', style: 'display: none;'
       .row
         .col-lg-12

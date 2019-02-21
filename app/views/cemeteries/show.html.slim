@@ -68,7 +68,7 @@
                 tr
                   td No trustees listed.
       .pd-t-5.text-right
-        =link_to new_trustee_path(@cemetery), class: 'btn btn-secondary' do
+        =link_to new_cemetery_trustee_path(@cemetery), class: 'btn btn-secondary' do
           i.fa.fa-plus-square-o
           |  Add new trustee
     #nav-complaints class=['tab-pane', 'fade', ('show active' if params[:tab] == :complaints)] role="tabpanel"

@@ -14,7 +14,7 @@
           tr
             td =link_to complaint, complaint
             td =complaint.complainant_name
-            td =complaint.formatted_cemetery + (complaint.cemetery_regulated? ? "(##{complaint.cemetery.cemetery_id})" : '')
+            td =complaint.formatted_cemetery + (complaint.cemetery_regulated? ? " (##{complaint.cemetery.cemetery_id})" : '')
             td =complaint.created_at.to_date.to_s
             td ==complaint.last_action
             td =complaint.updated_at.to_date.to_s

@@ -6,38 +6,32 @@
 
   ready = ->
 
-    #$('.county').change ->
-    #  $('.cemeteries-by-county').prop('disabled', false)
-    #  $('.cemeteries-by-county').select2({
-    #    ajax: {
-    #      url: '/cemeteries/county/' + $('.county').val(),
-    #      type: 'GET',
-    #      dataType: 'json',
-    #      processResults: (data) ->
-    #        return {
-    #          results: data
-    #        }
-    #    }
-    #  })
+    #original_cemeteries = $('.cemeteries-by-county').html()
 
-    #if $('.county').val() != ''
-    #  $('.county').trigger('change')
+    #limitCemeteries = ->
+    #  $(".cemeteries-by-county").prop('disabled', false)
+    #  $(".cemeteries-by-county").html(original_cemeteries)
+    #  county = $(".county").find(":selected").text() + " County"
+    #  $(".cemeteries-by-county optgroup").each ->
+    #    if $(this).attr('label') != county
+    #      $(this).children().remove()
+    #      $(this).remove()
 
-    original_cemeteries = $('.cemeteries-by-county').html()
+    #if $(".cemeteries-by-county").val() != "" || $(".county").val() != ""
+    #  limitCemeteries()
 
-    limitCemeteries = ->
-      $(".cemeteries-by-county").prop('disabled', false)
-      $(".cemeteries-by-county").html(original_cemeteries)
-      county = $(".county").find(":selected").text() + " County"
-      $(".cemeteries-by-county optgroup").each ->
-        if $(this).attr('label') != county
-          $(this).children().remove()
-          $(this).remove()
+    #$(".county").change(limitCemeteries)
 
-    if $(".cemeteries-by-county").val() != "" || $(".county").val() != ""
-      limitCemeteries()
+    $('.county').change ->
+      $('.cemeteries-by-county').prop('disabled', false)
+      $.ajax({
+        url: '/cemeteries/county/' + $('.county').val() + '/options?selected_value=' + $('.cemetery-selected-id').val(),
+        success: (data) ->
+          $('.cemeteries-by-county').html(data).trigger('change')
+      })
 
-    $(".county").change(limitCemeteries)
+    if $('.county').val() != ''
+      $('.county').trigger('change')
 
   $(document).on('turbolinks:load', ready)
 
