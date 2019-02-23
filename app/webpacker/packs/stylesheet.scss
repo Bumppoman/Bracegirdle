@@ -1,0 +1,11 @@
+// Vendor stylesheets
+@import '~select2/dist/css/select2.min';
+@import '~bootstrap/scss/bootstrap';
+
+// App stylesheets
+@import '../src/stylesheets/slim.min';
+@import '../src/stylesheets/multistep';
+@import '../src/stylesheets/tweaks';
+
+// Specific module stylesheets
+@import '../src/stylesheets/notices';

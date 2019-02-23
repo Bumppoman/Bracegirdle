@@ -1,0 +1,16 @@
+.form-group.required label:first-child {
+  font-weight: bold;
+}
+
+.form-group.required label:first-child:after {
+  content: " *";
+}
+
+.active-circle {
+  background-color: #1b84e7;
+  border-radius: 100%;
+  display: inline-block;
+  height: 7px;
+  margin-left: 6px;
+  width: 7px;
+}
