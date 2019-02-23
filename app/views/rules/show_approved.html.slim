@@ -36,6 +36,6 @@
           | Click below to download the approval letter for these rules.
           br<>
           br<>
-          =link_to tag.img(src: image_path('doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download Rules-Approval-#{@rules.identifier}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-rules-approval-link', onclick: "javascript:window.location=\"#{download_rules_approval_path(@rules)}\""
+          =link_to tag.img(src: asset_pack_path('media/doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download Rules-Approval-#{@rules.identifier}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-rules-approval-link', onclick: "javascript:window.location=\"#{download_rules_approval_path(@rules)}\""
       .modal-footer
         button.btn.btn-secondary type="button" data-dismiss="modal" Close

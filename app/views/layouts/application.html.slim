@@ -17,14 +17,14 @@ html lang="en"
     = stylesheet_pack_tag 'stylesheet', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
-    = favicon_link_tag asset_pack_path('images/favicon.ico')
+    = favicon_link_tag asset_pack_path('media/favicon.ico')
 
   body
     .slim-header
       .container
         .slim-header-left
           .slim-logo
-            img src="#{asset_pack_path 'images/cemeteries-logo.jpg'}" height="55" width="193"
+            img src="#{asset_pack_path 'media/cemeteries-logo.jpg'}" height="55" width="193"
         .slim-header-right
           -if current_user
             =form_with url: search_path, local: true do |f|
