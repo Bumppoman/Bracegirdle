@@ -8,12 +8,7 @@ class ComplaintsController < ApplicationController
   end
 
   def all
-    @complaints = Complaint.all.includes(:cemetery)
-
-    @title = 'All Complaints'
-    @breadcrumbs = { 'All complaints' => nil }
-
-    render :index
+    @complaints = Complaint.includes(:cemetery).all
   end
 
   def create
@@ -57,50 +52,30 @@ class ComplaintsController < ApplicationController
       Complaints::ComplaintAddEvent.new(@complaint, current_user).trigger
       redirect_to @complaint
     else
-      @title = 'Add New Complaint'
-      @breadcrumbs = { 'Add new complaint' => nil }
-
       render action: :new
     end
   end
 
   def index
     @complaints = Complaint.where(investigator: current_user).where('status < ?', 4).includes(:cemetery)
-
-    @title = 'My Active Complaints'
-    @breadcrumbs = { 'My active complaints' => nil }
   end
 
   def new
     @complaint = Complaint.new(receiver: current_user)
-
-    @title = 'Add New Complaint'
-    @breadcrumbs = { 'Add new complaint' => nil }
   end
 
   def pending_closure
-    @complaints = Complaint.pending_closure
-
-    @title = 'Complaints Pending Closure'
-    @breadcrumbs = { 'Complaints pending closure' => nil }
-
-    render :index
+    @complaints = Complaint.includes(:cemetery).pending_closure
   end
 
   def show
     @complaint = Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
 
-    @title = "Complaint ##{@complaint.complaint_number}"
     @breadcrumbs = { 'My active complaints' => complaints_path, @title => nil }
   end
 
   def unassigned
-    @complaints = Complaint.unassigned
-
-    @title = 'Unassigned Complaints'
-    @breadcrumbs = { 'Unassigned complaints' => nil }
-
-    render :index
+    @complaints = Complaint.includes(:cemetery).unassigned
   end
 
   def update_investigation

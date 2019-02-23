@@ -3,15 +3,15 @@ activities:
     color: 'primary'
     add:
       icon: 'icon ion-ios-add-circle'
-      text: 'received a complaint against {{cemetery.name}}'
+      text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery.name %>'
       title: 'Received new complaint'
   rules:
     color: 'teal'
     approval:
       icon: 'icon ion-ios-thumbs-up'
-      text: 'approved rules for {{cemetery.name}}'
+      text: 'approved <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
       title: 'Approved rules'
     upload:
       icon: 'icon ion-ios-cloud-upload'
-      text: 'uploaded new rules for {{cemetery.name}}'
+      text: 'uploaded new <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
       title: 'Uploaded new rules'

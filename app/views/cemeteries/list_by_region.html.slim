@@ -1,0 +1,3 @@
+- content_for :title, "Cemeteries in the #{params[:region].capitalize} Region"
+- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], "#{params[:region].capitalize} region"])
+= render 'cemeteries_list'

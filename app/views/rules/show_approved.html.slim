@@ -1,3 +1,5 @@
+- content_for :title, "Rules for #{@rules.cemetery.name}"
+- content_for :breadcrumbs, breadcrumbs_helper([[@rules.cemetery.name, cemetery_path(@rules.cemetery)], 'Rules and Regulations'])
 .section-wrapper
   .row.mg-b-10
     .col-lg-11.col-sm-3

@@ -5,7 +5,7 @@ html lang="en"
     meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
     =csrf_meta_tag
 
-    title =@title
+    title =yield :title
 
     link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"
     link rel="stylesheet" href="https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css"
@@ -58,14 +58,8 @@ html lang="en"
     .slim-mainpanel
       .container
         .slim-pageheader
-          -if breadcrumbs&.any?
-            ol.breadcrumb.slim-breadcrumb
-              - breadcrumbs.each do |title, link|
-                - if link.nil?
-                  li.breadcrumb-item.active =title
-                - else
-                  li.breadcrumb-item
-                    =link_to title, link
-            h6.slim-pagetitle =@title
+          ol.breadcrumb.slim-breadcrumb
+            = yield :breadcrumbs
+          h6.slim-pagetitle =yield :title
         #page-content
           == yield

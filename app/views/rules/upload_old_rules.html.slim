@@ -1,3 +1,5 @@
+- content_for :title, 'Upload Previously Approved Rules'
+- content_for :breadcrumbs, breadcrumbs_helper(['Upload previously approved rules'])
 .section-wrapper
   =form_for @rules, url: create_old_rules_path, method: :post do |f|
     .form-layout

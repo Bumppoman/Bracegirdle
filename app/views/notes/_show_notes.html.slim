@@ -1,7 +1,7 @@
 .section-wrapper.pd-30.mg-t-5
   label.section-title.mg-b-15 Notes
-  ul.list-unstyled.mb-0 id="notes-list"
-    ==render(partial: 'application/note', collection: object.notes) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
+  ul#notes-list.list-unstyled.mb-0
+    ==render(partial: 'notes/note', collection: object.notes) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
 - if object.active?
   .section-wrapper.pd-30.mg-t-5
     label.section-title Add New Note

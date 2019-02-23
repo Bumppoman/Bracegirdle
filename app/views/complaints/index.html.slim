@@ -1,20 +1,3 @@
-.section-wrapper
-  .table-wrapper
-    table#complaints-data-table.table.display.responsive.no-wrap
-      thead
-        tr
-          th
-          th Complainant
-          th Cemetery
-          th Complaint Date
-          th Status
-          th Last Action
-      tbody
-        - @complaints.each do |complaint|
-          tr
-            td =link_to complaint, complaint
-            td =complaint.complainant_name
-            td =complaint.formatted_cemetery + (complaint.cemetery_regulated? ? " (##{complaint.cemetery.cemetery_id})" : '')
-            td =complaint.created_at.to_date.to_s
-            td ==complaint.last_action
-            td =complaint.updated_at.to_date.to_s
+- content_for :title, 'My Active Complaints'
+- content_for :breadcrumbs, breadcrumbs_helper(['My active complaints'])
+= render 'complaints_table'

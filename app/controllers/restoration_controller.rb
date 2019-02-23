@@ -32,33 +32,25 @@ class RestorationController < ApplicationController
 
     if @restoration.save
     else
-      type = params[:type].to_sym
-      @title = PAGE_INFO[type][:new][:title]
-      @breadcrumbs = { PAGE_INFO[type][:new][:breadcrumbs] => restoration_index_path(type: params[:type]), 'Upload new application' => nil }
-
       render :new
     end
   end
 
   def index
     self.send(params[:type])
+    render params[:type]
   end
 
   def new
-    type = params[:type].to_sym
-    @restoration = Restoration.new(application_type: type)
-
-    @title = PAGE_INFO[type][:new][:title]
-    @breadcrumbs = { PAGE_INFO[type][:new][:breadcrumbs] => restoration_index_path(type: params[:type]), 'Upload new application' => nil }
+    @type = params[:type].to_sym
+    @restoration = Restoration.new(application_type: @type)
+    @page_info = PAGE_INFO[@type]
   end
 
   private
 
   def abandonment
     @applications = Restoration.abandonment
-
-    @title = 'Pending Abandonment Applications'
-    @breadcrumbs = { 'Pending abandonment applications' => nil}
   end
 
   def application_create_params
@@ -67,15 +59,9 @@ class RestorationController < ApplicationController
 
   def hazardous
     @applications = Restoration.hazardous
-
-    @title = 'Pending Hazardous Monuments Applications'
-    @breadcrumbs = { 'Pending hazardous applications' => nil}
   end
 
   def vandalism
     @applications = Restoration.vandalism
-
-    @title = 'Pending Vandalism Applications'
-    @breadcrumbs = { 'Pending vandalism applications' => nil}
   end
 end

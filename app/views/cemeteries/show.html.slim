@@ -1,3 +1,5 @@
+- content_for :title, 'Cemetery Information'
+- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], ["#{@cemetery.county_name} County", cemeteries_by_county_path(@cemetery.county_name.downcase)], @cemetery.name])
 .section-wrapper
   label.section-title ="#{@cemetery.name} (##{@cemetery.cemetery_id})"
   nav
@@ -62,7 +64,7 @@
                     td =trustee.person.phone_number
                     td =trustee.person.email
                     td
-                      =link_to edit_trustee_path(@cemetery, trustee) do
+                      =link_to edit_cemetery_trustee_path(@cemetery, trustee) do
                         i.fa.fa-edit
               -else
                 tr

@@ -1,5 +1,5 @@
 .row.row-xs.pd-t-10
-  .col-md-5.col-lg-6.col-xl-5
+  .col-md-4
     .card.card-activities.pd-20
       h6.slim-card-title Recent Activity
       -if @recent_activity.any?
@@ -11,7 +11,7 @@
                 i class="#{activity.icon}"
               .media-body
                 h6 =activity.title
-                p =activity.text
+                p =="#{activity.user.name} #{render inline: activity.text, locals: { activity: activity }}"
                 span ="#{time_ago_in_words(activity.created_at)} ago"
       -else
         p No recent activity

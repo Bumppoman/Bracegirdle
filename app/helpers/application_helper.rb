@@ -9,6 +9,21 @@ module ApplicationHelper
     "active" if expression
   end
 
+  def breadcrumbs_helper(breadcrumbs)
+    html = ''
+    html << content_tag(:li, link_to('Dashboard', root_path), class: 'breadcrumb-item')
+    breadcrumbs.each do |item|
+      case item.class.to_s
+      when 'Array'
+        string, link = item
+        html << content_tag(:li, link_to(string, link), class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
+      when 'String'
+        html << content_tag(:li, item, class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
+      end
+    end
+    html.html_safe
+  end
+
   def investigator_inbox_items
     @pending_items[:rules]
   end

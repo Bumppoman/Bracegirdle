@@ -24,11 +24,7 @@ class NoticesController < ApplicationController
     if @notice.save
       redirect_to notice_path(@notice, download_notice: true) and return
     else
-      # Render the form again if the notice didn't save
-      @title = 'Issue New Notice of Non-Compliance'
-      @breadcrumbs = { 'Issue new Notice of Non-Compliance' => nil }
       @notice.cemetery_county = params[:notice][:cemetery_county]
-
       render action: :new
     end
   end
@@ -57,30 +53,18 @@ class NoticesController < ApplicationController
               disposition: "attachment; filename=#{@notice.notice_number}.docx"
   end
 
-  def edit
-    @title = 'Update Notice of Non-Compliance'
-  end
+  def edit; end
 
   def index
-    @notices = Notice.active.where(investigator: current_user)
-
-    @title = 'My Active Notices of Non-Compliance'
-    @breadcrumbs = { 'My Active Notices of Non-Compliance' => nil }
+    @notices = Notice.includes(:cemetery).active.where(investigator: current_user)
   end
 
   def new
-    @notice = Notice.new
-    @notice.served_on_state = 'NY'
-
-    @title = 'Issue New Notice of Non-Compliance'
-    @breadcrumbs = { 'Issue new Notice of Non-Compliance' => nil }
+    @notice = Notice.new(served_on_state: 'NY')
   end
 
   def show
     @notice = Notice.includes(notes: :user).find(params[:id])
-
-    @title = "Notice of Non-Compliance ##{@notice.notice_number}"
-    @breadcrumbs = { 'My active notices' => notices_path, @title => nil }
   end
 
   def update_status

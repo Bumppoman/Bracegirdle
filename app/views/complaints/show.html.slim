@@ -1,3 +1,5 @@
+- content_for :title, "Complaint ##{@complaint.complaint_number}"
+- content_for :breadcrumbs, breadcrumbs_helper([['My active complaints', complaints_path], yield(:title)])
 .card.mb-1
   .card-header
     ul.nav.nav-tabs.card-header-tabs
@@ -178,7 +180,7 @@
                   tr
                     th scope="row" Closure Comments
                     td colspan="3" ="#{@complaint.closure_review_comments.presence || 'None'} (closed by #{@complaint.closed_by.name})"
-        =render 'application/show_notes', object: @complaint
+        =render 'notes/show_notes', object: @complaint
         =render 'attachments/attachments', object: @complaint, form: @complaint.active?
 =form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
   #assign-investigator.modal.fade

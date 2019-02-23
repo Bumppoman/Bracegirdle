@@ -1,3 +1,5 @@
+- content_for :title, 'Upload New Rules'
+- content_for :breadcrumbs, breadcrumbs_helper(['Upload new rules'])
 .section-wrapper
   =form_for @rules, url: rules_path do |f|
     .form-layout

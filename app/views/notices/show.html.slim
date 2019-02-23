@@ -1,3 +1,5 @@
+- content_for :title, "Notice of Non-Compliance ##{@notice.notice_number}"
+- content_for :breadcrumbs, breadcrumbs_helper([['My active notices', notices_path], yield(:title)])
 .section-wrapper.pd-20
   label.section-title Notice Details
   table.table.table-striped
@@ -6,7 +8,7 @@
         th scope="row" colspan="5" Cemetery Information
     tbody
       tr
-        th scope="row" style="width: 20%;" Notice Number
+        th.wd-20p scope="row" Notice Number
         td colspan="4"
           =="#{@notice.notice_number} (#{link_to 'download', '#', id: 'download-notice'})"
       tr
@@ -21,7 +23,7 @@
         th scope="row" colspan="5" Violation Information
     tbody
       tr
-        th scope="row" style="width: 20%;" Law Sections
+        th.wd-20p scope="row" Law Sections
         td colspan="4" ==simple_format(@notice.law_sections)
       tr
         th scope="row" Specific Information
@@ -59,7 +61,7 @@
           label.section-label Notice Resolved
           .card-body
             p.mb-0 =="Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
-=render 'application/show_notes', object: @notice
+=render 'notes/show_notes', object: @notice
 #non-compliance-download-notice.modal
   .modal-dialog.wd-30p role="document"
     .modal-content

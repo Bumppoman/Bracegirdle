@@ -1,3 +1,5 @@
+- content_for :title, @page_info[:new][:title]
+- content_for :breadcrumbs, breadcrumbs_helper([[@page_info[:new][:breadcrumbs], restoration_index_path(type: @type)], 'Upload new application'])
 .section-wrapper
   =form_for @restoration do |f|
     .form-layout

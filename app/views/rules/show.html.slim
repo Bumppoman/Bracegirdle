@@ -1,3 +1,5 @@
+- content_for :title, "Review rules for #{@rules.cemetery.name}"
+- content_for :breadcrumbs, breadcrumbs_helper([['Rules pending approval', rules_path], yield(:title)])
 .section-wrapper.pd-30
   label.section-title Rules
   .rules-revision.mg-b-10 id="revision-#{@revisions}"
@@ -48,7 +50,7 @@
       .form-layout-footer
         =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
         =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
-  =render 'application/show_notes', object: @rules
+  =render 'notes/show_notes', object: @rules
 -if @rules.unassigned? && current_user.supervisor?
   .section-wrapper.mg-t-5.pd-30
     label.section-title Assign Rules

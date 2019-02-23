@@ -27,10 +27,7 @@ class RulesController < ApplicationController
       Rules::RulesUploadEvent.new(@rules, current_user).trigger
       redirect_to @rules
     else
-      @title = 'Upload New Rules'
-      @breadcrumbs = { 'Upload new rules' => nil }
       @rules.cemetery_county = params[:rules][:cemetery_county]
-
       render action: :new
     end
   end
@@ -92,17 +89,16 @@ class RulesController < ApplicationController
   end
 
   def index
-    @rules = Rules.active_for(current_user).order(:submission_date)
-
-    @title = 'Rules Pending Approval'
-    @breadcrumbs = { 'Rules pending approval' => nil }
+    @rules = Rules.includes(:cemetery).active_for(current_user).order(:submission_date)
   end
 
   def new
-    @rules = Rules.new(submission_date: Date.current.strftime('%m/%d/%Y'), request_by_email: false, sender_state: 'NY', investigator: current_user)
-
-    @title = 'Upload New Rules'
-    @breadcrumbs = { 'Upload new rules' => nil }
+    @rules = Rules.new(
+        submission_date: Date.current.strftime('%m/%d/%Y'),
+        request_by_email: false,
+        sender_state: 'NY',
+        investigator: current_user
+    )
   end
 
   def review
@@ -134,32 +130,20 @@ class RulesController < ApplicationController
     @rules = Rules.with_attached_rules_documents.find(params[:id])
 
     if @rules.approved?
-      @title = "Rules for #{@rules.cemetery.name}"
-      @breadcrumbs = { @rules.cemetery.name => cemetery_path(@rules.cemetery), 'Rules and Regulations' => nil }
-
       render :show_approved
     else
       @documents = @rules.rules_documents.clone.to_a
       @revisions = @documents.length
       @current_revision = @documents.pop
-
-      @title = "Review rules for #{@rules.cemetery.name}"
-      @breadcrumbs = { 'Rules pending approval' => rules_path, @title => nil }
     end
   end
 
   def show_approved
-    @rules = Rules.approved.order(approval_date: :desc).joins(:cemetery).where(cemeteries: {id: params[:id] }).first
-
-    @title = "Rules for #{@rules.cemetery.name}"
-    @breadcrumbs = { @rules.cemetery.name => cemetery_path(@rules.cemetery), 'Rules and Regulations' => nil }
+    @rules = Rules.approved.order(approval_date: :desc).joins(:cemetery).where(cemeteries: { id: params[:id] }).first
   end
 
   def upload_old_rules
     @rules = Rules.new
-
-    @title = "Upload Previously Approved Rules"
-    @breadcrumbs = { 'Upload previously approved rules' => nil }
   end
 
   def upload_revision
@@ -183,7 +167,6 @@ class RulesController < ApplicationController
       @rules.rules_documents.attach(params[:rules][:rules_documents])
       redirect_to rule_path(@rules)
     else
-      @title = "Review Rules for #{@rules.cemetery.name}"
       @documents = @rules.rules_documents.clone.to_a
       @revisions = @documents.length
       @current_revision = @documents.pop
