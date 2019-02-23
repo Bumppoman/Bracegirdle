@@ -24,7 +24,7 @@ class RulesController < ApplicationController
       @rules.save
       @rules.rules_documents.attach(params[:rules][:rules_documents])
 
-      RulesUploadEvent.new(@rules, current_user).trigger
+      Rules::RulesUploadEvent.new(@rules, current_user).trigger
       redirect_to @rules
     else
       @title = 'Upload New Rules'

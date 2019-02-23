@@ -34,12 +34,12 @@ html lang="en"
           .slim-logo
             img src="#{image_path 'cemeteries-logo.jpg'}" height="55" width="193"
         .slim-header-right
-          =form_with url: search_path do |f|
-            .search-box.mg-r-20
-              =f.text_field :search, id: 'search-box', class: 'form-control', placeholder: 'Search for cemeteries'
-              =f.button class: "btn btn-primary" do
-                i.fa.fa-search
           -if current_user
+            =form_with url: search_path, local: true do |f|
+              .search-box.mg-r-20
+                =f.text_field :search, id: 'search-box', class: 'form-control', placeholder: 'Search for cemeteries'
+                =f.button class: "btn btn-primary" do
+                  i.fa.fa-search
             .dropdown.dropdown-c
               a.logged_user href="#" data-toggle="dropdown"
                 = "#{current_user.name} "

@@ -20,8 +20,7 @@ class DashboardController < ApplicationController
       @cemeteries = Cemetery.where('name ILIKE :name', name: "%#{params[:search]}%").order(:county, :order_id)
     end
 
-    respond_to do |m|
-      m.js { render partial: 'dashboard/search' }
-    end
+    @title = "Search Results for \"#{params[:search]}\""
+    @breadcrumbs = { 'Search results' => nil }
   end
 end

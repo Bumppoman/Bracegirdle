@@ -1,6 +1,6 @@
 $('.slim-pagetitle').html('Search Results')
 if($('#search-results-breadcrumb').length == 0) {
-    $('.breadcrumb').append('<li id="search-results-breadcrumb" class="breadcrumb-item">Search results</li>')
+    $('.breadcrumb').append('<li id="search-results-breadcrumb" class="breadcrumb-item"></li>')
 }
 $('#page-content').html('<%= render partial: 'search_results', cemeteries: @cemeteries %>')
 $('#search-results-data-table').DataTable({
