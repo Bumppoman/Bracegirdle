@@ -8,6 +8,7 @@ class DashboardController < ApplicationController
       @complaints = Complaint.active_for(current_user).count
     end
     @notices = Notice.active.where(investigator: current_user).count
+    @recent_activity = Activity.where(user: current_user).order(created_at: :desc).limit(3).load
     @title = 'Dashboard'
   end
 

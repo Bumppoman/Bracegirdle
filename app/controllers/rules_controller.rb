@@ -23,6 +23,8 @@ class RulesController < ApplicationController
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])
       @rules.save
       @rules.rules_documents.attach(params[:rules][:rules_documents])
+
+      RulesUploadEvent.new(@rules, current_user).trigger
       redirect_to @rules
     else
       @title = 'Upload New Rules'
@@ -114,6 +116,8 @@ class RulesController < ApplicationController
       )
       @rules.rules_documents.order(id: :desc).offset(1).destroy_all
       @prompt = true
+
+      Rules::RulesApprovalEvent.new(@rules, current_user).trigger
     elsif params.key?(:request_revision)
       @rules.status = :revision_requested
     elsif params.key?(:assign_rules)
@@ -123,7 +127,7 @@ class RulesController < ApplicationController
       )
     end
 
-    redirect_to rule_path(@rules, download_rules_approval: @prompt || false) and return
+    redirect_to rule_path(@rules, download_rules_approval: @prompt || false)
   end
 
   def show

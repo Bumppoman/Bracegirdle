@@ -1,0 +1,14 @@
+.row.row-xs.pd-t-10
+  .col-md-5.col-lg-6.col-xl-5
+    .card.card-activities.pd-20
+      h6.slim-card-title Recent Activity
+      p ="Last active #{time_ago_in_words(@recent_activity.first.created_at)} ago"
+      .media-list
+        -@recent_activity.each do |activity|
+          .media
+            div class="activity-icon bg-#{activity.color}"
+              i class="#{activity.icon}"
+            .media-body
+              h6 =activity.title
+              p =activity.text
+              span ="#{time_ago_in_words(activity.created_at)} ago"

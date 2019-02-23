@@ -54,6 +54,7 @@ class ComplaintsController < ApplicationController
     end
 
     if @complaint.save
+      Complaints::ComplaintAddEvent.new(@complaint, current_user).trigger
       redirect_to @complaint
     else
       @title = 'Add New Complaint'
