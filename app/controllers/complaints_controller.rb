@@ -57,7 +57,7 @@ class ComplaintsController < ApplicationController
   end
 
   def index
-    @complaints = Complaint.where(investigator: current_user).where('status < ?', 4).includes(:cemetery)
+    @complaints = Complaint.includes(:cemetery).where(investigator: current_user).where('status < ?', 4)
   end
 
   def new

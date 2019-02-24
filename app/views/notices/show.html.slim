@@ -31,7 +31,7 @@
 .section-wrapper.pd-20.mg-t-5
   label.section-title Actions
   #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=@notice.status]
-    =form_with model: @notice, url: notice_update_status_path, method: :patch, id: 'msform' do |f|
+    =form_with model: @notice, url: update_status_notice_path, method: :patch, id: 'msform' do |f|
       ul#progressbar
         li class=[active_item(@notice.status >= 1)] Notice Issued
         li class=[active_item(@notice.status >= 2)] Response Received
@@ -66,7 +66,7 @@
   .modal-dialog.wd-30p role="document"
     .modal-content
       .modal-header.pd-x-20
-        h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Download .docx Notice of Non-Compliance
+        h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Download Notice of Non-Compliance
         button.close type="button" data-dismiss="modal" aria-label="Close"
           span aria-hidden="true" &times;
       .modal-body.pd-25
@@ -74,10 +74,10 @@
           | Click below to download this Notice of Non-Compliance.
           br<>
           br<>
-          =link_to tag.img(src: asset_pack_path('media/doc_icon.svg'), height: 32, width: 32, class: 'mg-r-15') + "Download #{@notice.notice_number}.docx", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-docx-notice-link', onclick: "javascript:window.location=\"#{download_notice_path(@notice)}\""
+          ==link_to content_tag(:i, '', class: 'fa fa-file-pdf-o mg-r-15 tx-danger tx-24') + "Download #{@notice.notice_number}.pdf", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-pdf-notice-link', onclick: "javascript:window.location=\"#{download_notice_path(@notice, filename: @notice.notice_number)}\""
       .modal-footer
         button.btn.btn-secondary type="button" data-dismiss="modal" Close
-=form_with model: @notice, url: notice_update_status_path, method: :patch do |f|
+=form_with model: @notice, url: update_status_notice_path, method: :patch do |f|
   #follow-up-date.modal.fade
     .modal-dialog.wd-30p role="document"
       .modal-content

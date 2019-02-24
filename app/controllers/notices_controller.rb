@@ -30,27 +30,25 @@ class NoticesController < ApplicationController
   end
 
   def download
-    # Get notice
     @notice = Notice.find(params[:id])
-
-    # Create Word document notice
-    all_params = @notice.attributes.merge(
-      cemetery_name: @notice.cemetery.name,
-      cemetery_number: @notice.cemetery.cemetery_id,
-      investigator_name: @notice.investigator.name,
-      investigator_title: @notice.investigator.title,
-      response_street_address: @notice.investigator.street_address,
-      response_city: @notice.investigator.city,
-      response_zip: @notice.investigator.zip,
-      notice_date: @notice.created_at,
-      secondary_law_sections: @notice.law_sections,
-      'served_on_title' => POSITIONS[@notice.served_on_title.to_i]
+    pdf = NoticePDF.new(
+        @notice.attributes.merge(
+            'cemetery_name' => @notice.cemetery.name,
+            'cemetery_number' => @notice.cemetery.cemetery_id,
+            'investigator_name' => @notice.investigator.name,
+            'investigator_title' => @notice.investigator.title,
+            'response_street_address' => @notice.investigator.street_address,
+            'response_city' => @notice.investigator.city,
+            'response_zip' => @notice.investigator.zip,
+            'notice_date' => @notice.created_at,
+            'secondary_law_sections' => @notice.law_sections,
+            'served_on_title' => POSITIONS[@notice.served_on_title.to_i]
+        )
     )
-    word_notice = helpers.update_docx('lib/document_templates/non-compliance.docx', all_params)
-
-    send_data word_notice,
-              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8;',
-              disposition: "attachment; filename=#{@notice.notice_number}.docx"
+    send_data pdf.render,
+              filename: "#{@notice.notice_number}.pdf",
+              type: 'application/pdf',
+              disposition: 'inline'
   end
 
   def edit; end

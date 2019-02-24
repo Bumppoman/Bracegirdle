@@ -80,12 +80,19 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# For geocoding cemetery locations
 gem 'geocoder'
 
 gem "rubyzip", "~> 1.2.2"
 
+# For Slim templates
 gem "slim"
 
+# For submitting files through Ajax
 gem 'remotipart'
 
+# Using Webpacker instead of Sprockets
 gem 'webpacker'
+
+# For generating PDFs
+gem 'prawn'

@@ -35,9 +35,11 @@ Rails.application.routes.draw do
   # Notices
   resources :notices do
     resources :notes, module: :notices
+    member do
+      get '*filename.pdf', to: 'notices#download', as: :download
+      patch 'update-status', to: 'notices#update_status'
+    end
   end
-  get 'notices/:id/download', to: 'notices#download', as: :download_notice
-  patch 'notices/:id/update-parameters', to: 'notices#update_status', as: :notice_update_status
 
   # Restoration
   restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join("|"))
