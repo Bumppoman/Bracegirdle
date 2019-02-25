@@ -22,7 +22,7 @@
                     td#cemetery-name =@cemetery.name
                   tr
                     th scope="row" Cemetery ID
-                    td =@cemetery.cemetery_id
+                    td ="##{@cemetery.cemetery_id}"
                   tr
                     th scope="row" Location
                     td ="#{@cemetery.towns.to_sentence}, #{@cemetery.county_name} County"

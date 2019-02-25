@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Cemetery < ApplicationRecord
+  include Locatable
+
   has_many :complaints
   has_one :rules,
     -> (cemetery) {
@@ -42,6 +44,14 @@ class Cemetery < ApplicationRecord
   def last_inspection
     self[:last_inspection] || 'No inspection recorded'
   end
+
+  #def latitude
+  #  locations.first.latitude
+  #end
+
+  #def longitude
+  #  locations.first.longitude
+  #end
 
   def to_s
     name

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_21_230046) do
+ActiveRecord::Schema.define(version: 2019_02_25_201245) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -129,6 +129,13 @@ ActiveRecord::Schema.define(version: 2019_02_21_230046) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restoration_id"], name: "index_estimates_on_restoration_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.integer "locatable_id"
+    t.string "locatable_type"
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "notes", force: :cascade do |t|
