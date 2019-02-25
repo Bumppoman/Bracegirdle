@@ -1,15 +1,20 @@
-class ExportPDF
+class DefaultPDF
   include Prawn::View
 
-  def initialize
+  def initialize(params, **options)
+    @params = params
+    @options = options
+
     font_families.update("Arial" => {
         :normal => "/Library/Fonts/Arial.ttf",
         :italic => "/Library/Fonts/Arial Italic.ttf",
         :bold => "/Library/Fonts/Arial Bold.ttf",
         :bold_italic => "/Library/Fonts/Arial Bold Italic.ttf"
     })
+    font_size 11
 
     content
+
     repeat :all do
       footer
     end

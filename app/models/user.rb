@@ -31,6 +31,11 @@ class User < ApplicationRecord
     NAMED_REGIONS[region].capitalize
   end
 
+  def signature
+    filename = "#{name.to_s.downcase.split(' ').join}.tif"
+    Pathname.new(Rails.root.join('app', 'pdfs', 'signatures', filename)).exist? ? filename : nil
+  end
+
   def supervisor?
     has_role?(:supervisor)
   end

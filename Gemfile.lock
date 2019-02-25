@@ -163,6 +163,10 @@ GEM
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     pdf-core (0.7.0)
+    pdfjs_viewer-rails (0.3.1)
+      json (> 1.8.4)
+      rails (> 4.2.0)
+      sass-rails (~> 5.0)
     pg (1.1.4)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
@@ -321,6 +325,7 @@ DEPENDENCIES
   geocoder
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
+  pdfjs_viewer-rails
   pg
   prawn
   puma (~> 3.11)

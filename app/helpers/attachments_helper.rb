@@ -3,7 +3,7 @@ module AttachmentsHelper
     if %w(application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document).include? attachment.content_type
       "https://view.officeapps.live.com/op/embed.aspx?src=#{request.protocol}#{request.host}#{url_for attachment}"
     elsif attachment.content_type == 'application/pdf'
-      "https://drive.google.com/viewerng/viewer?embedded=true&url=#{request.protocol}#{request.host}#{url_for attachment}"
+      pdfjs.full_path(file: url_for(attachment))
     else
       rails_blob_path(attachment)
     end

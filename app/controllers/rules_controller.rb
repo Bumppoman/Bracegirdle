@@ -59,7 +59,6 @@ class RulesController < ApplicationController
 
   def download_approval
     @rules = Rules.find(params[:id])
-
     if @rules.request_by_email
       address_line_one = @rules.sender_email
       address_line_two = ''
@@ -68,24 +67,22 @@ class RulesController < ApplicationController
       address_line_two = "#{@rules.sender_city}, #{@rules.sender_state} #{@rules.sender_zip}"
     end
 
-    # Create Word document approval letter
-    all_params = {
+    pdf = Letters::RulesApprovalPDF.new({
         approval_date: @rules.approval_date.to_s,
         cemetery_name: @rules.cemetery.name,
-        second_cemetery_name: @rules.cemetery.name,
-        third_cemetery_name: @rules.cemetery.name,
         address_line_one: address_line_one,
         address_line_two: address_line_two,
         cemetery_number: @rules.cemetery.cemetery_id,
         submission_date: @rules.submission_date.to_s,
-        investigator_name: @rules.investigator.name,
-        investigator_title: @rules.investigator.title
-    }
-    word_notice = helpers.update_docx('lib/document_templates/rules-approval.docx', all_params)
+        name: @rules.investigator.name,
+        title: @rules.investigator.title,
+        signature: @rules.investigator.signature
+    }, date: :approval_date, recipient: :cemetery_name)
 
-    send_data word_notice,
-              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8;',
-              disposition: "attachment; filename=Rules-Approval-#{@rules.identifier}.docx"
+    send_data pdf.render,
+              filename: "Rules-Approval-#{@rules.identifier}.pdf",
+              type: 'application/pdf',
+              disposition: 'inline'
   end
 
   def index
@@ -123,7 +120,7 @@ class RulesController < ApplicationController
       )
     end
 
-    redirect_to rule_path(@rules, download_rules_approval: @prompt || false)
+    redirect_to rules_path(@rules, download_rules_approval: @prompt || false)
   end
 
   def show

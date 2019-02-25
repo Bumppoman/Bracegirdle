@@ -1,5 +1,5 @@
 - content_for :title, "Review rules for #{@rules.cemetery.name}"
-- content_for :breadcrumbs, breadcrumbs_helper([['Rules pending approval', rules_path], yield(:title)])
+- content_for :breadcrumbs, breadcrumbs_helper([['Rules pending approval', rules_index_path], yield(:title)])
 .section-wrapper.pd-30
   label.section-title Rules
   .rules-revision.mg-b-10 id="revision-#{@revisions}"
@@ -22,7 +22,7 @@
               i.fa.fa-angle-down.tx-18
         .embed-responsive id="revision-#{index + 1}-content" style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll; display: none;"
           iframe.embed-responsive-item src="#{attachment_display_link(document, request)}"
-  =form_for @rules, url: rules_review_path, method: :patch do |f|
+  =form_for @rules, url: review_rules_path, method: :patch do |f|
     .form-layout-footer.mg-t-20
       -if (@rules.assigned_to?(current_user) || (@rules.unassigned? && current_user.supervisor?)) && @rules.revision_received?
         =f.button 'Approve Rules', name: 'approve_rules', class: 'btn btn-primary mr-1'
@@ -30,7 +30,7 @@
 -if @rules.assigned_to?(current_user) || (@rules.unassigned? && current_user.supervisor?)
   .section-wrapper.mg-t-5.pd-30
     label.section-title Upload Another Revision
-    =form_for @rules, url: rules_upload_revision_path, method: :patch do |f|
+    =form_for @rules, url: upload_revision_rules_path, method: :patch do |f|
       .row
         .col-lg-8
           .form-group.required
@@ -54,7 +54,7 @@
 -if @rules.unassigned? && current_user.supervisor?
   .section-wrapper.mg-t-5.pd-30
     label.section-title Assign Rules
-    =form_for @rules, url: rules_review_path, method: :patch do |f|
+    =form_for @rules, url: review_rules_path, method: :patch do |f|
       .row
         .col-lg-12
           .form-group.required

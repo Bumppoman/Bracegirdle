@@ -14,7 +14,7 @@ feature 'Rules' do
   end
 
   scenario 'Unauthorized user tries to add rules' do
-    expect { visit new_rule_path }.to raise_error(ApplicationController::Forbidden)
+    expect { visit new_rules_path }.to raise_error(ApplicationController::Forbidden)
   end
 
   scenario 'Investigator adds new rules', js: true do
@@ -33,7 +33,7 @@ feature 'Rules' do
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
-    visit rules_path
+    visit rules_index_path
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -62,7 +62,7 @@ feature 'Rules' do
     login
     @him = FactoryBot.create(:another_investigator)
 
-    visit rule_path(@rules)
+    visit rules_path(@rules)
 
     expect(page).to_not have_content 'Approve Rules'
   end
@@ -71,7 +71,7 @@ feature 'Rules' do
     @rules = FactoryBot.create(:revision_requested)
     login
 
-    visit rule_path(@rules)
+    visit rules_path(@rules)
 
     expect(page).to_not have_content 'Approve Rules'
   end
@@ -80,7 +80,7 @@ feature 'Rules' do
     @rules = FactoryBot.create(:revision_requested_last_week)
     login
 
-    visit rule_path(@rules)
+    visit rules_path(@rules)
 
     expect(page).to have_content 'Approve Rules'
   end
@@ -90,9 +90,9 @@ feature 'Rules' do
     @rules.update(investigator_id: 1)
     login
 
-    visit rule_path(@rules)
+    visit rules_path(@rules)
     click_button 'Approve Rules'
-    visit rule_path(@rules)
+    visit rules_path(@rules)
 
     expect(page).to have_content 'Approved'
   end
@@ -101,7 +101,7 @@ feature 'Rules' do
     @rules = FactoryBot.create(:rules)
     login_supervisor
 
-    visit rules_path
+    visit rules_index_path
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -111,7 +111,7 @@ feature 'Rules' do
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
 
-    visit rules_path
+    visit rules_index_path
 
     expect(page).to_not have_content 'Anthony Cemetery'
   end
@@ -121,12 +121,12 @@ feature 'Rules' do
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
 
-    visit rule_path(@rules)
+    visit rules_path(@rules)
     select2 'Bob Wood', from: 'Investigator'
     click_on 'Assign Rules'
     logout
     login(@him)
-    visit rules_path
+    visit rules_index_path
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -135,9 +135,9 @@ feature 'Rules' do
     @rules = FactoryBot.create(:rules)
     login_supervisor
 
-    visit rule_path(@rules)
+    visit rules_path(@rules)
     click_button 'Approve Rules'
-    visit rule_path(@rules)
+    visit rules_path(@rules)
 
     expect(page).to have_content 'Approved'
   end

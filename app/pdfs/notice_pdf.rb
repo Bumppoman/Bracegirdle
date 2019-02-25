@@ -1,9 +1,4 @@
-class NoticePDF < ExportPDF
-  def initialize(params)
-    @params = params
-    super()
-  end
-
+class NoticePDF < DefaultPDF
   def content
     super
 
@@ -38,11 +33,11 @@ class NoticePDF < ExportPDF
 
     # Response page
     start_new_page
-    text "I affirm that I represent the above named cemetery corporation, and that we have resolved the above offenses in the following manner:\n\n"
+    text "I affirm that I represent the above named cemetery corporation, and that we have resolved the above offenses in the following manner:\n\n\n"
     15.times do
-      text '_____________________________________________________________________________', leading: 12
+      text '_______________________________________________________________________________________', leading: 12
     end
-    text "\n\n\n\n\n_______________________________                              _______________________________"
-    text '(Signature and Title)                                                            (Date)'
+    text "\n\n\n\n\n____________________________________                              ____________________________________"
+    text '(Signature and Title)                                                                      (Date)'
   end
 end

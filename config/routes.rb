@@ -41,6 +41,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # PDFs
+  mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+
   # Restoration
   restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join("|"))
   resources :restoration, path: ':type', constraints: { type: restoration_type }
@@ -50,10 +53,12 @@ Rails.application.routes.draw do
   post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
   resources :rules do
     resources :notes, module: :rules
+    member do
+      get '*filename.pdf', to: 'rules#download_approval', as: :download_approval
+      patch 'review', to: 'rules#review'
+      patch 'upload-revision', to: 'rules#upload_revision'
+    end
   end
-  get 'rules/:id/download-approval', to: 'rules#download_approval', as: :download_rules_approval
-  patch 'rules/:id/upload-revision', to: 'rules#upload_revision', as: :rules_upload_revision
-  patch 'rules/:id/review', to: 'rules#review', as: :rules_review
 
   # Towns
   get 'towns/county/:county/options', to: 'towns#options_for_county'

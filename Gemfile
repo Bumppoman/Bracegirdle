@@ -96,3 +96,6 @@ gem 'webpacker'
 
 # For generating PDFs
 gem 'prawn'
+
+# For using PDF.js with Rails
+gem 'pdfjs_viewer-rails'

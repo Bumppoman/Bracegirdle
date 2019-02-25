@@ -1,7 +1,7 @@
 - content_for :title, 'Upload New Rules'
 - content_for :breadcrumbs, breadcrumbs_helper(['Upload new rules'])
 .section-wrapper
-  =form_for @rules, url: rules_path do |f|
+  =form_for @rules do |f|
     .form-layout
       ==content_tag(:div, 'There was a problem saving these rules!', class: 'alert alert-danger', role: 'alert') if @rules.errors.any?
       label.section-title Cemetery Information
