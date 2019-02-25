@@ -17,9 +17,9 @@ $(document).on('turbolinks:load', function () {
                 $('#new-cemetery-towns').html(data).trigger('change');
             }
         });
-
-        if ($('#new-cemetery-county').val() != '') {
-            $('#new-cemetery-county').trigger('change');
-        }
     });
+
+    if ($('#new-cemetery-county').val() != '') {
+        $('#new-cemetery-county').trigger('change');
+    }
 });
