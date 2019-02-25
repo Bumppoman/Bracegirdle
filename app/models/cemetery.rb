@@ -45,13 +45,13 @@ class Cemetery < ApplicationRecord
     self[:last_inspection] || 'No inspection recorded'
   end
 
-  #def latitude
-  #  locations.first.latitude
-  #end
+  def latitude
+    locations.first.latitude
+  end
 
-  #def longitude
-  #  locations.first.longitude
-  #end
+  def longitude
+    locations.first.longitude
+  end
 
   def to_s
     name
