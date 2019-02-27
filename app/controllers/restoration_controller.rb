@@ -68,6 +68,7 @@ class RestorationController < ApplicationController
   end
 
   # TODO:  fix report date
+  # TODO:  fix exhibits
   def view_report
     @restoration = Restoration.find(params[:id])
     @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
@@ -77,7 +78,11 @@ class RestorationController < ApplicationController
       writer_title: current_user.title,
       cemetery_name: @restoration.cemetery.name,
       cemetery_number: @restoration.cemetery.cemetery_id,
-      report_date: Date.current
+      report_date: Date.current,
+      estimates: [
+          'McFee Memorials estimate for $26,926.00',
+          'Humphrey Memorials estimate for $31,380.00'
+      ]
     })
 
     send_data pdf.render,

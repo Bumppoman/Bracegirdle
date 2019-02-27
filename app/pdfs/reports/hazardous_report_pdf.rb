@@ -17,5 +17,7 @@ class Reports::HazardousReportPDF < Reports::ReportPDF
     @params[:estimates].each do |estimate|
       exhibits << [estimate, nil]
     end
+
+    exhibits
   end
 end
