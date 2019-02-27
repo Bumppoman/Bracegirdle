@@ -5,12 +5,6 @@ class DefaultPDF
     @params = params
     @options = options
 
-    font_families.update("Arial" => {
-        :normal => "/Library/Fonts/Arial.ttf",
-        :italic => "/Library/Fonts/Arial Italic.ttf",
-        :bold => "/Library/Fonts/Arial Bold.ttf",
-        :bold_italic => "/Library/Fonts/Arial Bold Italic.ttf"
-    })
     font_size 11
 
     content
@@ -22,6 +16,17 @@ class DefaultPDF
 
   def content
     header
+  end
+
+  def document
+    @document ||= Prawn::Document.new(margin: [36, 56])
+    @document.font_families.update("Arial" => {
+        :normal => "/Library/Fonts/Arial.ttf",
+        :italic => "/Library/Fonts/Arial Italic.ttf",
+        :bold => "/Library/Fonts/Arial Bold.ttf",
+        :bold_italic => "/Library/Fonts/Arial Bold Italic.ttf"
+    })
+    @document
   end
 
   private

@@ -1,0 +1,39 @@
+- content_for :title, "View #{@restoration.formatted_application_type} Application"
+- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'View application'])
+.section-wrapper
+  label.section-title ="View #{@restoration.formatted_application_type} Application"
+  table.table.table-striped.mg-t-10
+    thead
+      tr
+        th colspan="2" Application Information
+    tbody
+      tr
+        th.wd-30p scope="row" Cemetery
+        td == "#{link_to @restoration.cemetery, @restoration.cemetery.name} (##{@restoration.cemetery.cemetery_id})"
+      tr
+        th scope="row" Submited By
+        td = "#{@restoration.trustee.person.name} (#{@restoration.trustee.position_name.downcase})"
+      tr
+        th scope="row" Submitted On
+        td = @restoration.submission_date
+      tr
+        th scope="row" Amount Requested
+        td = number_to_currency(@restoration.amount)
+      tr
+        th scope="row" Application
+        td = link_to 'View application', view_raw_application_restoration_path(@restoration.id, type: @restoration.application_type)
+.section-wrapper.mg-t-5
+  label.section-title Actions
+  #process-restoration.mg-t-20
+    h3 Application
+    section
+      p Try the keyboard navigation by clicking arrow left or right!
+    h3 Estimates
+    section
+      p Wonderful transition effects.
+    h3 Legal Notice
+    section
+      p The next and previous buttons help you to navigate through your content.
+    h3 Summary
+    section
+      p Summary

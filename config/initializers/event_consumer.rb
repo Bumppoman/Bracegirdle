@@ -1,5 +1,6 @@
 EVENT_CONSUMER_MAPPING = {
   ComplaintEvent::Type::ADD => [ActivityConsumer],
+  RestorationEvent::Type::RECEIVED => [ActivityConsumer, AssignmentConsumer],
   RulesEvent::Type::APPROVAL => [ActivityConsumer],
   RulesEvent::Type::UPLOAD => [ActivityConsumer]
 }.freeze

@@ -46,7 +46,12 @@ Rails.application.routes.draw do
 
   # Restoration
   restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join("|"))
-  resources :restoration, path: ':type', constraints: { type: restoration_type }
+  resources :restoration, path: ':type', constraints: { type: restoration_type } do
+    member do
+      get 'raw-application', to: 'restoration#view_raw_application', as: :view_raw_application
+      get 'view-report', to: 'restoration#view_report', as: :view_report
+    end
+  end
 
   # Rules
   get 'rules/upload-old-rules', to: 'rules#upload_old_rules', as: :upload_old_rules

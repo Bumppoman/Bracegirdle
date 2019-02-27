@@ -3,13 +3,12 @@ class DashboardController < ApplicationController
     redirect_to login_path and return unless current_user
 
     if current_user.supervisor?
-      @complaints = Complaint.active_for(current_user).or(Complaint.pending_closure).or(Complaint.unassigned).count
+      @complaints = Complaint.pending_closure.or(Complaint.unassigned).count + @pending_items[:complaints]
     else
-      @complaints = Complaint.active_for(current_user).count
+      @complaints = @pending_items[:complaints]
     end
-    @notices = Notice.active.where(investigator: current_user).count
+
     @recent_activity = Activity.includes(:user).where(user: current_user).order(created_at: :desc).limit(3).load
-    @title = 'Dashboard'
   end
 
   def search
@@ -19,8 +18,5 @@ class DashboardController < ApplicationController
     else
       @cemeteries = Cemetery.where('name ILIKE :name', name: "%#{params[:search]}%").order(:county, :order_id)
     end
-
-    @title = "Search Results for \"#{params[:search]}\""
-    @breadcrumbs = { 'Search results' => nil }
   end
 end

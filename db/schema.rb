@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_25_204939) do
+ActiveRecord::Schema.define(version: 2019_02_26_145206) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -192,10 +192,13 @@ ActiveRecord::Schema.define(version: 2019_02_25_204939) do
     t.date "award_date"
     t.date "completion_date"
     t.date "follow_up_date"
-    t.integer "status"
+    t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.string "identifier"
     t.index ["cemetery_id"], name: "index_restoration_on_cemetery_id"
+    t.index ["user_id"], name: "index_restoration_on_user_id"
   end
 
   create_table "rules", force: :cascade do |t|

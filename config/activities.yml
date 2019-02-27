@@ -15,3 +15,9 @@ activities:
       icon: 'icon ion-ios-cloud-upload'
       text: 'uploaded new <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
       title: 'Uploaded new rules'
+  restoration:
+    color: 'indigo'
+    received:
+      icon: 'fas fa-satellite-dish'
+      text: 'received a <%= link_to("restoration application", restoration_path(activity.object.id, type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
+      title: 'Received restoration application'

@@ -5,18 +5,14 @@
         tr
           th
           th Cemetery
-          -unless params.key? :type
-            th Type
           th Submission Date
           th Status
           th Last Action
       tbody
         - @applications.each do |application|
           tr
-            td =link_to application, application
+            td =link_to application, restoration_path(application.id, type: application.application_type)
             td ="#{application.cemetery} (##{application.cemetery.cemetery_id})"
-            -unless params.key? :type
-              td =application.type
             td
               span style="display: none;" =sort_date(application.submission_date)
               span =application.submission_date

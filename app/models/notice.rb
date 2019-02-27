@@ -12,7 +12,8 @@ class Notice < ApplicationRecord
                             foreign_key: :investigator_id,
                             inverse_of: :notices
 
-  scope :active, -> { where('status < ?', 4)}
+  scope :active, -> { where('status < ?', STATUSES[:resolved])}
+  scope :active_for, -> (user) { active.where(investigator: user) }
 
   validates :served_on_name, presence: true
   validates :served_on_title, presence: true
@@ -48,7 +49,7 @@ class Notice < ApplicationRecord
     if date < response_required_date
       "#{(response_required_date - date).to_i} days remaining"
     elsif date == response_required_date
-      "due today"
+      'due today'
     else
       "#{(date - response_required_date).to_i} days overdue"
     end

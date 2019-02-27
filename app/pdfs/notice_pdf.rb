@@ -35,9 +35,9 @@ class NoticePDF < DefaultPDF
     start_new_page
     text "I affirm that I represent the above named cemetery corporation, and that we have resolved the above offenses in the following manner:\n\n\n"
     15.times do
-      text '_______________________________________________________________________________________', leading: 12
+      text '_________________________________________________________________________________', leading: 12
     end
-    text "\n\n\n\n\n____________________________________                              ____________________________________"
-    text '(Signature and Title)                                                                      (Date)'
+    text "\n\n\n\n\n__________________________________                          __________________________________"
+    text '(Signature and Title)                                                              (Date)'
   end
 end

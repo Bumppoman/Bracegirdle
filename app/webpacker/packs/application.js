@@ -8,19 +8,20 @@
 // layout file, like app/views/layouts/application.html.erb
 window.$ = $; // to get jQuery or some other library you're after, if you'd want it
 
-require("@rails/activestorage").start()
-require("@rails/ujs").start()
-require("turbolinks").start()
+require("@rails/activestorage").start();
+require("@rails/ujs").start();
+require("turbolinks").start();
 import 'bootstrap/dist/js/bootstrap';
-import 'select2/dist/js/select2.min'
+import 'select2/dist/js/select2.min';
+import 'jquery-steps/build/jquery.steps.min'
 
-require('jquery-ui/ui/widgets/datepicker')
-require('jquery-ui/ui/effect')
+require('jquery-ui/ui/widgets/datepicker');
+require('jquery-ui/ui/effect');
 
-require('datatables.net')(window, $)
-require('datatables.net-responsive')(window, $)
+require('datatables.net')(window, $);
+require('datatables.net-responsive')(window, $);
 
-import '../src/javascript/multistep'
+import '../src/javascript/multistep';
 
 import '../src/javascript/attachments';
 import '../src/javascript/cemeteries';

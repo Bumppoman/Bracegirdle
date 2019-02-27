@@ -1,8 +1,13 @@
 $(document).on('turbolinks:load', function () {
 
     $('#restoration_cemetery').change(function () {
-        $('#restoration_trustee').prop('disabled', false);
         const selected_cemetery = $("#restoration_cemetery").find(":selected").val();
+
+        if (selected_cemetery == '') {
+            return false
+        }
+
+        $('#restoration_trustee').prop('disabled', false);
         $.ajax({
             url: '/cemeteries/' + selected_cemetery + '/trustees/api/list',
             success: function (data) {
@@ -27,4 +32,12 @@ $(document).on('turbolinks:load', function () {
             lengthMenu: '_MENU_ items/page',
         },
     }).columns(-3).order('asc').draw();
+
+    $('#process-restoration').steps({
+        headerTag: 'h3',
+        bodyTag: 'section',
+        autoFocus: true,
+        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+        cssClass: 'wizard wizard-style-2'
+    });
 });
