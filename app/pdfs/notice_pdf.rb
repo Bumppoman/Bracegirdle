@@ -11,8 +11,8 @@ class NoticePDF < DefaultPDF
     text "Cemetery Number:  <b>##{@params['cemetery_number']}</b>", inline_format: true
     text "Date of Issue:  <b>#{@params['notice_date']}</b>", inline_format: true
     text "\nServed On:        <b>#{@params['served_on_name']}, #{@params['served_on_title']}</b>", inline_format: true
-    text @params['served_on_street_address'], indent_paragraphs: 87, style: :bold
-    text "#{@params['served_on_city']}, #{@params['served_on_state']} #{@params['served_on_zip']}", indent_paragraphs: 87, style: :bold
+    text @params['served_on_street_address'], indent_paragraphs: 80, style: :bold
+    text "#{@params['served_on_city']}, #{@params['served_on_state']} #{@params['served_on_zip']}", indent_paragraphs: 80, style: :bold
     text "\n\nA written statement of compliance is required by <b>#{@params['response_required_date']}</b>.  Failure to respond will result in formal notification to the New York State Cemetery Board.", inline_format: true
     text "\nYou are hereby ordered to correct such non-compliance and to show proof that violations have been corrected.  Your notice of compliance is to be sent to the district office located at the following address:"
     text "\nDivision of Cemeteries\n#{@params['response_street_address']}\n#{@params['response_city']}, NY #{@params['response_zip']}"

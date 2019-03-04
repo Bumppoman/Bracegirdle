@@ -46,7 +46,7 @@ label.section-title Violation Information
         .input-group-prepend
           .input-group-text
             i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-        =f.date_field :violation_date, class: 'form-control fc-datepicker'
+        =f.text_field :violation_date, class: 'form-control fc-datepicker'
   .col-lg-6
     .form-group.required
       =f.label :response_required_date, 'Response Required', class: 'form-control-label'
@@ -54,4 +54,4 @@ label.section-title Violation Information
         .input-group-prepend
           .input-group-text
             i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-        =f.date_field :response_required_date, class: 'form-control fc-datepicker'
+        =f.text_field :response_required_date, class: 'form-control fc-datepicker'

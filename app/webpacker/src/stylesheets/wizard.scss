@@ -195,11 +195,11 @@
   height: 100%;
 }
 
-.wizard > .content > .body input
+/*.wizard > .content > .body input
 {
   display: block;
   border: 1px solid #ccc;
-}
+}*/
 
 .wizard > .content > .body input[type="checkbox"]
 {
@@ -213,7 +213,7 @@
   color: #8a1f11;
 }
 
-.wizard > .content > .body label
+.wizard > .content > .body label:not(.rdiobox)
 {
   display: inline-block;
   margin-bottom: 0.5em;

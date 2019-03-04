@@ -1,0 +1,7 @@
+$('#estimate').modal('hide');
+$('#no-estimates-message').hide();
+$('#estimates-list').append('<%= j render partial: "estimates/estimate", locals: { restoration: @estimate.restoration, estimate: @estimate } %>')
+
+
+$('#new-estimate-form').trigger('reset')
+$('.custom-file-input').next('label').text('Choose file')

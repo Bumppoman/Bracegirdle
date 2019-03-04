@@ -35,7 +35,8 @@ class RestorationController < ApplicationController
       cemetery_id: params[:restoration][:cemetery],
       user_id: params[:restoration][:investigator],
       trustee_id: params[:restoration][:trustee],
-      application_type: params[:type])
+      application_type: params[:type],
+      submission_date: date_params(:submission_date, params)[:submission_date])
 
     if @restoration.save
       Restoration::RestorationReceivedEvent.new(@restoration, current_user).trigger
@@ -57,7 +58,38 @@ class RestorationController < ApplicationController
   end
 
   def show
+    @restoration = Restoration.includes(
+        application_form_attachment: :blob,
+        estimates: [:contractor, document_attachment: :blob],
+        legal_notice_attachment: :blob)
+      .find(params[:id])
+    @contractors = Contractor.all.order(:name)
+  end
+
+  def upload_application
     @restoration = Restoration.find(params[:id])
+    @restoration.update(
+      application_form: params[:restoration][:application_form],
+      monuments: params[:restoration][:monuments],
+      application_form_complete: params[:restoration][:application_form_complete]
+    )
+  end
+
+  def upload_legal_notice
+    @restoration = Restoration.find(params[:id])
+    @restoration.update(
+      legal_notice: params[:restoration][:legal_notice],
+      legal_notice_newspaper: params[:restoration][:legal_notice_newspaper],
+      legal_notice_cost: params[:restoration][:legal_notice_cost],
+      legal_notice_format: params[:restoration][:legal_notice_format]
+    )
+  end
+
+  def view_application_form
+    @restoration = Restoration.find(params[:id])
+    @portion = 'Application Form'
+    @file = @restoration.application_form
+    render 'view_portion'
   end
 
   def view_raw_application
@@ -68,21 +100,20 @@ class RestorationController < ApplicationController
   end
 
   # TODO:  fix report date
-  # TODO:  fix exhibits
   def view_report
     @restoration = Restoration.find(params[:id])
     @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
 
     pdf = @report_class.new({
-      writer_name: current_user.name,
-      writer_title: current_user.title,
-      cemetery_name: @restoration.cemetery.name,
-      cemetery_number: @restoration.cemetery.cemetery_id,
+      writer: @restoration.investigator,
+      cemetery: @restoration.cemetery,
+      restoration: @restoration,
       report_date: Date.current,
-      estimates: [
-          'McFee Memorials estimate for $26,926.00',
-          'Humphrey Memorials estimate for $31,380.00'
-      ]
+      verification_date: Date.current,
+      previous: {
+          type: 'hazardous monuments',
+          date: 'September 2017'
+      }
     })
 
     send_data pdf.render,
@@ -98,7 +129,7 @@ class RestorationController < ApplicationController
   end
 
   def application_create_params
-    params.require(:restoration).permit(:amount, :cemetery_county, :submission_date, :raw_application_file)
+    params.require(:restoration).permit(:amount, :cemetery_county, :raw_application_file)
   end
 
   def hazardous

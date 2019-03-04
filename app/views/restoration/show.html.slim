@@ -22,18 +22,7 @@
       tr
         th scope="row" Application
         td = link_to 'View application', view_raw_application_restoration_path(@restoration.id, type: @restoration.application_type)
-.section-wrapper.mg-t-5
-  label.section-title Actions
-  #process-restoration.mg-t-20
-    h3 Application
-    section
-      p Try the keyboard navigation by clicking arrow left or right!
-    h3 Estimates
-    section
-      p Wonderful transition effects.
-    h3 Legal Notice
-    section
-      p The next and previous buttons help you to navigate through your content.
-    h3 Summary
-    section
-      p Summary
+- unless @restoration.processed?
+  .section-wrapper.mg-t-5
+    label.section-title Actions
+    = render partial: 'restoration/process/process'

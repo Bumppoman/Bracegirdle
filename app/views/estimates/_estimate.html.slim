@@ -1,0 +1,11 @@
+.file-item
+  .row.no-gutters.wd-100p
+    .col-9.col-sm-5.d-flex.align-items-center
+      i.fa.fa-file-pdf-o
+      = link_to "#{estimate.contractor.name} estimate.pdf", restoration_estimate_path(restoration.id, estimate.id, type: restoration.application_type)
+    .col-6.col-sm-4.mg-t-5.mg-sm-t-0 = "Cost: #{number_to_currency(estimate.amount)}; Warranty: #{estimate.formatted_warranty}"
+    .col-6.col-sm-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
+      = link_to estimate.document do
+        i.icon.ion-md-download.mg-r-15
+      = link_to '#' do
+        i.icon.ion-ios-trash

@@ -1,0 +1,108 @@
+#process-restoration.mg-t-20 data-step="#{@restoration.current_processing_step}"
+  h3 Application
+  section.pd-t-10-force
+    label.section-title style="margin-left: -15px;" Application
+    - if @restoration.application_form.attached?
+      .file-group
+        .file-item
+          .row.no-gutters.wd-100p
+            .col-lg-9.d-flex.align-items-center
+              i.fa.fa-file-pdf-o
+              = link_to 'Exhibit A (application).pdf', view_application_form_restoration_path(@restoration.id, type: @restoration.application_type)
+            .col-lg-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
+              = link_to @restoration.application_form do
+                i.icon.ion-md-download.mg-r-15
+              = link_to '#' do
+                i.icon.ion-ios-trash
+    - else
+      = render partial: 'restoration/process/application'
+  h3 Estimates
+  section.pd-t-10-force
+    label.section-title style="margin-left: -15px;" Estimates
+    #estimates-list.file-group
+      ==render(partial: 'estimates/estimate', collection: @restoration.estimates, locals: { restoration: @restoration }) || content_tag(:div, 'There are currently no estimates.', id: 'no-estimates-message')
+    button#add-new-estimate.btn.btn-primary.mg-t-25 Add New Estimate
+  h3 Legal Notice
+  section.pd-t-10-force
+    label.section-title style="margin-left: -15px;" Legal Notice
+    - if @restoration.legal_notice.attached?
+      .file-group
+        .file-item
+          .row.no-gutters.wd-100p
+            .col-lg-9.d-flex.align-items-center
+              i.fa.fa-file-pdf-o
+              = link_to 'Legal Notice.pdf', view_legal_notice_restoration_path(@restoration.id, type: @restoration.application_type)
+            .col-lg-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
+              = link_to @restoration.application_form do
+                i.icon.ion-md-download.mg-r-15
+              = link_to '#' do
+                i.icon.ion-ios-trash
+    - else
+      = render partial: 'restoration/process/legal_notice'
+  h3 Previous Restoration
+  section.pd-t-10-force
+    label.section-title style="margin-left: -15px;" Previous Restoration
+    - if @restoration.previous_exists?
+      .file-group
+        .file-item
+          .row.no-gutters.wd-100p
+            .col-9.col-sm-5.d-flex.align-items-center
+              i.fa.fa-file-pdf-o
+              = link_to "Previous Restoration Report.pdf", view_previous_restoration_report_restoration_path(@restoration.id, type: @restoration.application_type)
+            .col-6.col-sm-4.mg-t-5.mg-sm-t-0 = "#{@restoration.formatted_previous_type}; completed #{@restoration.previous_date}"
+            .col-6.col-sm-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
+              = link_to @restoration.previous_report do
+                i.icon.ion-md-download.mg-r-15
+              = link_to '#' do
+                i.icon.ion-ios-trash
+    - else
+      = render partial: 'restoration/process/previous'
+  h3 Summary
+  section
+    p Summary
+= form_with model: [@restoration, Estimate.new], url: restoration_estimates_path(@restoration, type: @restoration.application_type), html: { id: 'new-estimate-form' } do |f|
+  #estimate.modal.fade
+    .modal-dialog.modal-lg role="document"
+      .modal-content
+        .modal-header.pd-x-20
+          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Upload New Estimate
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+        .modal-body.pd-25
+          .container-fluid
+            .row
+              .col-lg-8
+                .form-group.required
+                  = f.label :document, 'Estimate', class: 'form-control-label'
+                  .custom-file
+                    = f.file_field :document, direct_upload: true, class: 'custom-file-input'
+                    = f.label :document, 'Choose file', class: 'custom-file-label'
+              .col-lg-4
+                .form-group.required
+                  = f.label :amount, class: 'form-control-label'
+                  .input-group
+                    .input-group-prepend
+                      span.input-group-text
+                        i.fa.fa-dollar-sign
+                    = f.text_field :amount, class: 'form-control'
+            .row
+              .col-lg-6
+                .form-group.required
+                  = f.label :contractor, class: 'form-control-label'
+                  = f.select :contractor, options_from_collection_for_select(@contractors, :id, :name), { prompt: 'Select contractor' }, class: 'form-control'
+              .col-lg-6
+                .form-group.required
+                  = f.label :warranty, class: 'form-control-label'
+                  = f.select :warranty, options_for_select(WARRANTY_LENGTHS.invert), { prompt: 'Select warranty length' }, class: 'form-control'
+            .row
+              .col-lg-8
+                .form-group.required
+                  = f.label :proper_format, 'Does the estimate appear to be in the proper format?', class: 'form-control-label'
+              .col-lg-4
+                = f.radio_button :proper_format, true
+                span.mg-r-50.pd-l-10 Yes
+                = f.radio_button :proper_format, false
+                span.pd-l-10 No
+          .modal-footer
+            =f.button 'Upload Estimate', class: 'btn btn-primary'
+            button.btn.btn-secondary type="button" data-dismiss="modal" Close

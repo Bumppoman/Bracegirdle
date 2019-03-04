@@ -100,3 +100,7 @@ gem 'prawn-table'
 
 # For using PDF.js with Rails
 gem 'pdfjs_viewer-rails'
+
+# Language processing
+gem 'numbers_and_words'
+gem 'indefinite_article'

@@ -2,16 +2,16 @@ class Restoration < ApplicationRecord
   after_commit :set_identifier, on: :create
 
   attribute :cemetery_county, :string
-  attribute :trustee_position, :integer
 
   belongs_to :cemetery
-  belongs_to :investigator, class_name: 'User', optional: true
+  belongs_to :investigator, class_name: 'User', foreign_key: :user_id, optional: true
   belongs_to :trustee
 
-  has_many :estimates
+  has_many :estimates, -> { order(:amount) }
 
-  has_one_attached :application
+  has_one_attached :application_form
   has_one_attached :legal_notice
+  has_one_attached :previous_report
   has_one_attached :raw_application_file
 
   scope :abandonment, -> { where(application_type: TYPES[:abandonment]) }
@@ -72,6 +72,14 @@ class Restoration < ApplicationRecord
     self.write_attribute(:amount, amount.delete(',').to_f)
   end
 
+  def current_processing_step
+    return 0 if status >= STATUSES[:processed]
+    return 3 if legal_notice.attached?
+    return 2 if estimates.length > 0
+    return 1 if application_form.attached?
+    0
+  end
+
   def formatted_application_type
     case application_type
     when :vandalism
@@ -91,8 +99,16 @@ class Restoration < ApplicationRecord
     id.nil?
   end
 
+  def processed?
+    status == STATUSES[:processed]
+  end
+
   def to_s
     identifier
+  end
+
+  def total
+    estimates.order(:amount).first.amount + legal_notice_cost
   end
 
   private

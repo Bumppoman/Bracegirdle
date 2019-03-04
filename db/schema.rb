@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_26_145206) do
+ActiveRecord::Schema.define(version: 2019_03_04_021653) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -116,16 +116,14 @@ ActiveRecord::Schema.define(version: 2019_02_26_145206) do
     t.string "name"
     t.string "address"
     t.string "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "estimates", force: :cascade do |t|
     t.integer "restoration_id"
     t.integer "contractor_id"
     t.decimal "amount", precision: 9, scale: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "warranty"
+    t.boolean "proper_format"
     t.index ["restoration_id"], name: "index_estimates_on_restoration_id"
   end
 
@@ -197,6 +195,14 @@ ActiveRecord::Schema.define(version: 2019_02_26_145206) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.string "identifier"
+    t.integer "monuments"
+    t.boolean "application_form_complete", default: false
+    t.decimal "legal_notice_cost", precision: 9, scale: 2
+    t.text "legal_notice_newspaper"
+    t.boolean "legal_notice_format", default: false
+    t.boolean "previous_exists", default: false
+    t.integer "previous_type"
+    t.string "previous_date"
     t.index ["cemetery_id"], name: "index_restoration_on_cemetery_id"
     t.index ["user_id"], name: "index_restoration_on_user_id"
   end

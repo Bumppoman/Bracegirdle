@@ -35,3 +35,15 @@ $(document).on('focus', '.select2-selection--single', function (e) {
 $(document).on('select2:opening.disabled', ':disabled', function () {
     return false;
 });
+
+$.fn.steps.setStep = function (step) {
+    var currentIndex = $(this).steps('getCurrentIndex');
+    for(var i = 0; i < Math.abs(step - currentIndex); i++){
+        if(step > currentIndex) {
+            $(this).steps('next');
+        }
+        else{
+            $(this).steps('previous');
+        }
+    }
+};

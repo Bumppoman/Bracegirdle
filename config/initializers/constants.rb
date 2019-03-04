@@ -226,3 +226,10 @@ STATES = {
     "CT" => "CT",
     "NY" => "NY"
 }.freeze
+
+WARRANTY_LENGTHS = {
+    10 => '10 years',
+    20 => '20 years',
+    75 => '75 years',
+    1000 => 'Lifetime'
+}.freeze
