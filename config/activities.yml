@@ -5,6 +5,16 @@ activities:
       icon: 'icon ion-ios-add-circle'
       text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery.name %>'
       title: 'Received new complaint'
+  notice:
+    color: 'danger'
+    issue:
+      icon: 'icon ion-ios-mail'
+      text: 'issued a <%= link_to "Notice of Non-Compliance", activity.object %> to <%= activity.object.cemetery.name %>'
+      title: 'Issued notice'
+    response:
+      icon: 'icon ion-ios-mail-open'
+      text: 'received a response to a <%= link_to "Notice of Non-Compliance", activity.object %> from <%= activity.object.cemetery.name %>'
+      title: 'Received response to notice'
   rules:
     color: 'teal'
     approval:

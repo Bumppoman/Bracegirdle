@@ -1,5 +1,7 @@
 EVENT_CONSUMER_MAPPING = {
   ComplaintEvent::Type::ADD => [ActivityConsumer],
+  NoticeEvent::Type::ISSUE => [ActivityConsumer],
+  NoticeEvent::Type::RESPONSE => [ActivityConsumer],
   RestorationEvent::Type::RECEIVED => [ActivityConsumer, AssignmentConsumer],
   RulesEvent::Type::APPROVAL => [ActivityConsumer],
   RulesEvent::Type::UPLOAD => [ActivityConsumer]

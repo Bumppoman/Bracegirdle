@@ -22,6 +22,7 @@ class NoticesController < ApplicationController
     @notice.assign_attributes(notice_date_params)
 
     if @notice.save
+      Notices::NoticeIssueEvent.new(@notice, current_user).trigger
       redirect_to notice_path(@notice, download_notice: true) and return
     else
       @notice.cemetery_county = params[:notice][:cemetery_county]
@@ -111,5 +112,6 @@ class NoticesController < ApplicationController
     @notice.response_received_date = Date.current
     @notice.status = 2
     @response = 'notices/update/response_received'
+    Notices::NoticeResponseEvent.new(@notice, current_user).trigger
   end
 end
