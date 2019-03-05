@@ -1,28 +1,5 @@
 - content_for :title, "View #{@restoration.formatted_application_type} Application"
 - content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'View application'])
-.section-wrapper
-  label.section-title ="View #{@restoration.formatted_application_type} Application"
-  table.table.table-striped.mg-t-10
-    thead
-      tr
-        th colspan="2" Application Information
-    tbody
-      tr
-        th.wd-30p scope="row" Cemetery
-        td == "#{link_to @restoration.cemetery, @restoration.cemetery.name} (##{@restoration.cemetery.cemetery_id})"
-      tr
-        th scope="row" Submited By
-        td = "#{@restoration.trustee.person.name} (#{@restoration.trustee.position_name.downcase})"
-      tr
-        th scope="row" Submitted On
-        td = @restoration.submission_date
-      tr
-        th scope="row" Amount Requested
-        td = number_to_currency(@restoration.amount)
-      tr
-        th scope="row" Application
-        td = link_to 'View application', view_raw_application_restoration_path(@restoration.id, type: @restoration.application_type)
-- unless @restoration.processed?
-  .section-wrapper.mg-t-5
-    label.section-title Actions
-    = render partial: 'restoration/process/process'
+= render 'restoration/summary'
+- unless @restoration.unprocessed?
+  = render 'restoration/exhibits'

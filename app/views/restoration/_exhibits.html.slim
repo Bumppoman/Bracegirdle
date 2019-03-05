@@ -1,0 +1,13 @@
+.section-wrapper.mg-t-5
+  label.section-title.mg-b-20 Report and Exhibits
+  - @remaining_letters = ('B'..'Z').to_a
+  .file-group.mg-t-10
+    .file-item
+      .row.no-gutters.wd-100p
+        .col-lg-9.d-flex.align-items-center
+          i.fa.fa-file-pdf-o
+          = link_to 'Report.pdf', view_report_restoration_path(@restoration.id, type: @restoration.application_type)
+    = render partial: 'restoration/process/application', locals: {display_links: false}
+    = render partial: 'restoration/process/estimate', collection: @restoration.estimates, locals: {display_links: false}
+    = render partial: 'restoration/process/legal_notice', locals: {display_links: false}
+    = render(partial: 'restoration/process/previous', locals: {display_links: false}) if @restoration.previous_exists?

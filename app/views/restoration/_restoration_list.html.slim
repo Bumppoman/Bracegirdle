@@ -11,7 +11,7 @@
       tbody
         - @applications.each do |application|
           tr
-            td =link_to application, restoration_path(application.id, type: application.application_type)
+            td = restoration_link application
             td ="#{application.cemetery} (##{application.cemetery.cemetery_id})"
             td
               span style="display: none;" =sort_date(application.submission_date)

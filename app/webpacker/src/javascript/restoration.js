@@ -39,6 +39,9 @@ $(document).on('turbolinks:load', function () {
         autoFocus: true,
         titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
         cssClass: 'wizard wizard-style-2',
+        labels: {
+            finish: 'Submit for Consideration'
+        },
         onStepChanging: function (event, currentIndex, newIndex) {
             if (currentIndex == 0) {
                 const appform_object = $('#restoration-application-form');
@@ -62,8 +65,28 @@ $(document).on('turbolinks:load', function () {
                         contentType: false
                     });
                 }
+            } else if (currentIndex == 3) {
+                const previous_form_object = $('#restoration-previous-form');
+                if (previous_form_object.length > 0) {
+                    let previous_form = new FormData(previous_form_object[0]);
+                    $.post({
+                        url: previous_form_object.attr('action'),
+                        data: previous_form,
+                        processData: false,
+                        contentType: false
+                    });
+                }
             }
             return true;
+        },
+        onFinishing: function () {
+            $.ajax({
+                url: $('#process-restoration-p-4').data('finish-processing'),
+                type: 'PATCH',
+                success: function () {
+                    window.location.reload(true);
+                }
+            });
         }
     });
 

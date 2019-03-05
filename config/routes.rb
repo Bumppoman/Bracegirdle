@@ -49,13 +49,21 @@ Rails.application.routes.draw do
   restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join("|"))
   resources :restoration, path: ':type', constraints: { type: restoration_type } do
     resources :estimates
+    resources :notes, module: :restoration
+    collection do
+      get 'unreviewed', to: 'restoration#unreviewed', as: :unreviewed
+    end
+
     member do
+      patch 'finish-processing', to: 'restoration#finish_processing', as: :finish_processing
       patch 'upload-application', to: 'restoration#upload_application', as: :upload_application
       patch 'upload-legal-notice', to: 'restoration#upload_legal_notice', as: :upload_legal_notice
       patch 'upload-previous', to: 'restoration#upload_previous', as: :upload_previous
+      get 'process', to: 'restoration#process_restoration', as: :process
+      get 'review', to: 'restoration#review', as: :review
       get 'view-application-form', to: 'restoration#view_application_form', as: :view_application_form
       get 'view-legal-notice', to: 'restoration#view_legal_notice', as: :view_legal_notice
-      get 'view-previous', to: 'restoration#view_previous', as: :view_previous
+      get 'view-previous-report', to: 'restoration#view_previous_report', as: :view_previous_report
       get 'view-raw-application', to: 'restoration#view_raw_application', as: :view_raw_application
       get 'view-report', to: 'restoration#view_report', as: :view_report
     end

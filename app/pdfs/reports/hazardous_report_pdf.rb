@@ -38,9 +38,9 @@ foundation made of solid concrete poured to a depth of 42 inches; and replace th
 
     text "\n\n<u>Recommendation</u>\n\n", style: :bold, inline_format: true
     recommendation = 'The cemetery is current with its payments to the vandalism fund and with the filing of its annual reports.  '
-    if (@params.key? :previous)
-      recommendation << "The cemetery previously received a disbursement for #{@params[:previous][:type]} work in \
-#{@params[:previous][:date]}, and the funds were spent appropriately (Exhibit #{letters.shift}).  "
+    if (@params[:restoration].previous_exists?)
+      recommendation << "The cemetery previously received a disbursement for #{@params[:restoration].formatted_previous_type} work in \
+#{@params[:restoration].previous_date}, and the funds were spent appropriately (Exhibit #{letters.shift}).  "
     end
     recommendation << "All documents appear to be in order, and this appears to be a legitimate claim for \
 #{ActionController::Base.helpers.number_to_currency(@params[:restoration].total)}.  I recommend that this application be approved."
@@ -60,8 +60,8 @@ foundation made of solid concrete poured to a depth of 42 inches; and replace th
 
     exhibits << "Invoice and copy from #{@params[:restoration].legal_notice_newspaper} legal notice \
 for #{ActionController::Base.helpers.number_to_currency(@params[:restoration].legal_notice_cost)}"
-    exhibits << "Completion report for previous #{@params[:previous][:type]} work \
-awarded in #{@params[:previous][:date]}" if @params.key? :previous
+    exhibits << "Completion report for previous #{@params[:restoration].formatted_previous_type} work \
+awarded in #{@params[:restoration].previous_date}" if @params[:restoration].previous_exists?
 
     exhibits
   end

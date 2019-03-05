@@ -47,11 +47,9 @@
             =f.button 'Response Received', name: 'response_received', class: 'next action-button'
         fieldset#response-received
           label.section-label Response Received
-          .card-body
-            p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
+          p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
           -if @notice.belongs_to? current_user
-            .card-footer
-              =f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
+            =f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
         fieldset#follow-up-completed
           label.section-label Follow-Up Completed
           p.mb-10 =="Follow-up inspection completed on #{tag.span(@notice.follow_up_inspection_date, id: 'follow-up-inspection-date')}."
@@ -59,8 +57,7 @@
             =f.button 'Resolve Notice', name: 'resolve_notice', class: 'next action-button'
         fieldset#notice-resolved
           label.section-label Notice Resolved
-          .card-body
-            p.mb-0 =="Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
+          p.mb-0 =="Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
 =render 'notes/show_notes', object: @notice
 #non-compliance-download-notice.modal
   .modal-dialog.wd-30p role="document"

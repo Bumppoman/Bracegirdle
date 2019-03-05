@@ -55,7 +55,7 @@ class NoticesController < ApplicationController
   def edit; end
 
   def index
-    @notices = Notice.includes(:cemetery).active.where(investigator: current_user)
+    @notices = current_user.notices.includes(:cemetery)
   end
 
   def new

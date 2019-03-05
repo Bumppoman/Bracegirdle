@@ -30,7 +30,8 @@ class Notice < ApplicationRecord
       issued: 1,
       response_received: 2,
       follow_up_completed: 3,
-      resolved: 4 }.freeze
+      resolved: 4
+  }.freeze
 
   def active?
     status < STATUSES[:resolved]

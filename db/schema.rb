@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_04_021653) do
+ActiveRecord::Schema.define(version: 2019_03_05_170100) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -169,6 +169,20 @@ ActiveRecord::Schema.define(version: 2019_03_04_021653) do
     t.index ["investigator_id"], name: "index_notices_on_investigator_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "receiver_id"
+    t.integer "sender_id"
+    t.string "model_type"
+    t.integer "model_id"
+    t.string "message"
+    t.text "custom_body"
+    t.boolean "read"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
+    t.index ["sender_id"], name: "index_notifications_on_sender_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name"
     t.string "address"
@@ -193,7 +207,7 @@ ActiveRecord::Schema.define(version: 2019_03_04_021653) do
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.integer "investigator_id"
     t.string "identifier"
     t.integer "monuments"
     t.boolean "application_form_complete", default: false
@@ -203,8 +217,10 @@ ActiveRecord::Schema.define(version: 2019_03_04_021653) do
     t.boolean "previous_exists", default: false
     t.integer "previous_type"
     t.string "previous_date"
+    t.integer "reviewer_id"
     t.index ["cemetery_id"], name: "index_restoration_on_cemetery_id"
-    t.index ["user_id"], name: "index_restoration_on_user_id"
+    t.index ["investigator_id"], name: "index_restoration_on_investigator_id"
+    t.index ["reviewer_id"], name: "index_restoration_on_reviewer_id"
   end
 
   create_table "rules", force: :cascade do |t|

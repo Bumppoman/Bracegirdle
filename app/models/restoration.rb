@@ -1,10 +1,13 @@
 class Restoration < ApplicationRecord
+  include Notable
+
   after_commit :set_identifier, on: :create
 
   attribute :cemetery_county, :string
 
   belongs_to :cemetery
-  belongs_to :investigator, class_name: 'User', foreign_key: :user_id, optional: true
+  belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
+  belongs_to :reviewer, class_name: 'User', foreign_key: :reviewer_id, optional: true
   belongs_to :trustee
 
   has_many :estimates, -> { order(:amount) }
@@ -16,9 +19,7 @@ class Restoration < ApplicationRecord
 
   scope :abandonment, -> { where(application_type: TYPES[:abandonment]) }
   scope :hazardous, -> { where(application_type: TYPES[:hazardous]) }
-  scope :pending_review_for, -> (user) {
-    all
-  }
+  scope :pending_supervisor_review, -> { where(status: STATUSES[:processed]) }
   scope :vandalism, -> { where(application_type: TYPES[:vandalism]) }
 
   with_options if: :newly_created? do |application|
@@ -72,8 +73,13 @@ class Restoration < ApplicationRecord
     self.write_attribute(:amount, amount.delete(',').to_f)
   end
 
+  def calculated_amount
+    estimates.first.amount + legal_notice_cost
+  end
+
   def current_processing_step
     return 0 if status >= STATUSES[:processed]
+    return 4 unless previous_exists.nil?
     return 3 if legal_notice.attached?
     return 2 if estimates.length > 0
     return 1 if application_form.attached?
@@ -81,14 +87,11 @@ class Restoration < ApplicationRecord
   end
 
   def formatted_application_type
-    case application_type
-    when :vandalism
-      'Vandalism'
-    when :hazardous
-      'Hazardous Monuments'
-    when :abandonment
-      'Abandonment'
-    end
+    formatted_type(application_type)
+  end
+
+  def formatted_previous_type
+    formatted_type(previous_type).downcase
   end
 
   def named_status
@@ -99,8 +102,22 @@ class Restoration < ApplicationRecord
     id.nil?
   end
 
+  def previous_type
+    TYPES.key(self.read_attribute(:previous_type))
+  end
+
+
   def processed?
     status == STATUSES[:processed]
+  end
+
+  def reviewed?
+    status == STATUSES[:reviewed]
+  end
+
+  def status=(update)
+    update = STATUSES[update] if update.is_a?(Symbol)
+    self.write_attribute(:status, update)
   end
 
   def to_s
@@ -111,7 +128,22 @@ class Restoration < ApplicationRecord
     estimates.order(:amount).first.amount + legal_notice_cost
   end
 
+  def unprocessed?
+    status == STATUSES[:received]
+  end
+
   private
+
+  def formatted_type(type)
+    case type
+    when :vandalism
+      'Vandalism'
+    when :hazardous
+      'Hazardous Monuments'
+    when :abandonment
+      'Abandonment'
+    end
+  end
 
   def set_identifier
     self.identifier = "#{TYPE_CODES[application_type]}-#{created_at.year}-#{'%04d' % id}"

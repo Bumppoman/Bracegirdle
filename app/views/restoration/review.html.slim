@@ -1,0 +1,4 @@
+- content_for :title, "Review #{@restoration.formatted_application_type} Application"
+- content_for :breadcrumbs, breadcrumbs_helper([["#{@restoration.application_type.capitalize} applications for review", unreviewed_restoration_index_path(type: @restoration.application_type)], 'Review application'])
+= render 'restoration/summary'
+= render 'restoration/exhibits'

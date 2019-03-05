@@ -1,28 +1,13 @@
-= form_with model: @restoration, url: upload_previous_restoration_path(@restoration, type: @restoration.application_type), html: { id: 'restoration-previous-form' } do |f|
-  .row
-    .col-lg-8
-      .form-group.required
-        = f.label :previous_exists, 'Has the cemetery had previous restoration work?', class: 'form-control-label'
-    .col-lg-4
-      = f.radio_button :previous_exists, true
-      span.mg-r-50.pd-l-10 Yes
-      = f.radio_button :previous_exists, false
-      span.pd-l-10 No
-  #upload-previous-report style="display: none;"
-    .row
-      .col-lg-8
-        .form-group.required
-          = f.label :previous_report, 'Previous Completion Report', class: 'form-control-label'
-          .custom-file
-            = f.file_field :previous_report, direct_upload: true, class: 'custom-file-input'
-            = f.label :previous_report, 'Choose file', class: 'custom-file-label'
-      .col-lg-4
-        .form-group.required
-          = f.label :previous_type, 'Type of Project', class: 'form-control-label'
-          = f.select :previous_type, Restoration::TYPES.invert.inject(Restoration::TYPES.invert){ |h, (k,str)| h[k] = str.capitalize; h }.invert, { prompt: 'Choose project type' }, class: 'form-control'
-    .row
-      .col-lg-12
-        .form-group.required
-          = f.label :previous_date, 'Date Previous Work Approved', class: 'form-control-label'
-          = f.text_field :previous_date, class: 'form-control'
-          small.text-muted Month and year only
+.file-group
+  .file-item
+    .row.no-gutters.wd-100p
+      .col-9.col-sm-5.d-flex.align-items-center
+        i.fa.fa-file-pdf-o
+        = link_to "Exhibit #{@remaining_letters.shift} (previous restoration report).pdf", view_previous_report_restoration_path(@restoration.id, type: @restoration.application_type)
+      .col-6.col-sm-4.mg-t-5.mg-sm-t-0 = "#{@restoration.formatted_previous_type.capitalize}; completed #{@restoration.previous_date}"
+      .col-6.col-sm-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
+        - if display_links
+          = link_to @restoration.previous_report do
+            i.icon.ion-md-download.mg-r-15
+          = link_to '#' do
+            i.icon.ion-ios-trash

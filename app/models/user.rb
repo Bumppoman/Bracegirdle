@@ -3,15 +3,43 @@ class User < ApplicationRecord
     -> (user) {
       unscope(:where).where(
         county: REGIONS[user.region])}
-  has_many :complaints, foreign_key: :investigator_id, inverse_of: :investigator
-  has_many :notices, foreign_key: :investigator_id, inverse_of: :investigator
+
+  has_many :complaints,
+    -> (user) {
+      where('status < ?', Complaint::STATUSES[:pending_closure])
+    },
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
+  has_many :notices,
+    -> (user) {
+      where('status < ?', Notice::STATUSES[:resolved])
+    },
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
+  has_many :notifications
+
+  has_many :restoration,
+    -> (user) {
+      where(status: [
+        Restoration::STATUSES[:received]
+      ])
+    },
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
   has_many :rules,
     -> (user) {
-      unscope(:where).where(
-        cemetery: user.cemeteries).where(
-        'status < ?', 3
-      )},
-    class_name: 'Rules'
+      if user.supervisor?
+        unscope(:where).where(investigator: user, status: [2, 3]).or(where(status: 1))
+      else
+        where('status < ?', Rules::STATUSES[:approved]).order(:submission_date)
+      end
+    },
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
 
   has_secure_password
 

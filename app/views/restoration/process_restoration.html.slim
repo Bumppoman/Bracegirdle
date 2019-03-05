@@ -1,0 +1,83 @@
+- content_for :title, "Process #{@restoration.formatted_application_type} Application"
+- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'Process application'])
+= render partial: 'restoration/summary'
+.section-wrapper.mg-t-5
+  label.section-title Actions
+  #process-restoration.mg-t-20 data-step="#{@restoration.current_processing_step}"
+    h3 Application
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Application
+      - if @restoration.application_form.attached?
+        = render partial: 'restoration/process/application', locals: {display_links: true}
+      - else
+        = render partial: 'restoration/process/application_form'
+    - @remaining_letters = ('B'..'Z').to_a
+    h3 Estimates
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Estimates
+      #estimates-list.file-group
+        ==render(partial: 'restoration/process/estimate', collection: @restoration.estimates, locals: { display_links: true }) || content_tag(:div, 'There are currently no estimates.', id: 'no-estimates-message')
+      button#add-new-estimate.btn.btn-primary.mg-t-25 Add New Estimate
+    h3 Legal Notice
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Legal Notice
+      - if @restoration.legal_notice.attached?
+        = render partial: 'restoration/process/legal_notice', locals: { display_links: true }
+      - else
+        = render partial: 'restoration/process/legal_notice_form'
+    h3 Previous Restoration
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Previous Restoration
+      - if @restoration.previous_exists?
+        = render partial: 'restoration/process/previous', locals: { display_links: true }
+      - else
+        = render partial: 'restoration/process/previous_form'
+    h3 Summary
+    section.pd-t-10-force data-finish-processing="#{finish_processing_restoration_path(@restoration, type: @restoration.application_type)}"
+      = render partial: 'restoration/exhibits'
+= form_with model: [@restoration, Estimate.new], url: restoration_estimates_path(@restoration, type: @restoration.application_type), html: { id: 'new-estimate-form' } do |f|
+  #estimate.modal.fade
+    .modal-dialog.modal-lg role="document"
+      .modal-content
+        .modal-header.pd-x-20
+          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Upload New Estimate
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+        .modal-body.pd-25
+          .container-fluid
+            .row
+              .col-lg-8
+                .form-group.required
+                  = f.label :document, 'Estimate', class: 'form-control-label'
+                  .custom-file
+                    = f.file_field :document, direct_upload: true, class: 'custom-file-input'
+                    = f.label :document, 'Choose file', class: 'custom-file-label'
+              .col-lg-4
+                .form-group.required
+                  = f.label :amount, class: 'form-control-label'
+                  .input-group
+                    .input-group-prepend
+                      span.input-group-text
+                        i.fa.fa-dollar-sign
+                    = f.text_field :amount, class: 'form-control'
+            .row
+              .col-lg-6
+                .form-group.required
+                  = f.label :contractor, class: 'form-control-label'
+                  = f.select :contractor, options_from_collection_for_select(@contractors, :id, :name), { prompt: 'Select contractor' }, class: 'form-control'
+              .col-lg-6
+                .form-group.required
+                  = f.label :warranty, class: 'form-control-label'
+                  = f.select :warranty, options_for_select(WARRANTY_LENGTHS.invert), { prompt: 'Select warranty length' }, class: 'form-control'
+            .row
+              .col-lg-8
+                .form-group.required
+                  = f.label :proper_format, 'Does the estimate appear to be in the proper format?', class: 'form-control-label'
+              .col-lg-4
+                = f.radio_button :proper_format, true
+                span.mg-r-50.pd-l-10 Yes
+                = f.radio_button :proper_format, false
+                span.pd-l-10 No
+          .modal-footer
+            =f.button 'Upload Estimate', class: 'btn btn-primary'
+            button.btn.btn-secondary type="button" data-dismiss="modal" Close

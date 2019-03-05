@@ -86,7 +86,7 @@ class RulesController < ApplicationController
   end
 
   def index
-    @rules = Rules.includes(:cemetery).active_for(current_user).order(:submission_date)
+    @rules = current_user.rules.includes(:cemetery)
   end
 
   def new

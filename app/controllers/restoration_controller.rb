@@ -36,13 +36,33 @@ class RestorationController < ApplicationController
       user_id: params[:restoration][:investigator],
       trustee_id: params[:restoration][:trustee],
       application_type: params[:type],
-      submission_date: date_params(:submission_date, params)[:submission_date])
+      submission_date: date_params([:submission_date], params[:restoration])[:submission_date]
+    )
 
     if @restoration.save
       Restoration::RestorationReceivedEvent.new(@restoration, current_user).trigger
       redirect_to restoration_path(@restoration, type: params[:type])
     else
       render :new
+    end
+  end
+
+  def finish_processing
+    @restoration = Restoration.find(params[:id])
+
+    if current_user.supervisor?
+      @restoration.update(
+        status: :reviewed,
+        recommendation_date: Date.current,
+        supervisor_review_date: Date.current
+      )
+      Restoration::RestorationReviewedEvent.new(@restoration, current_user).trigger
+    else
+      @restoration.update(
+        status: :processed,
+        recommendation_date: Date.current
+      )
+      Restoration::RestorationProcessedEvent.new(@restoration, current_user).trigger
     end
   end
 
@@ -57,7 +77,7 @@ class RestorationController < ApplicationController
     @page_info = PAGE_INFO[@type][:new]
   end
 
-  def show
+  def process_restoration
     @restoration = Restoration.includes(
         application_form_attachment: :blob,
         estimates: [:contractor, document_attachment: :blob],
@@ -66,12 +86,23 @@ class RestorationController < ApplicationController
     @contractors = Contractor.all.order(:name)
   end
 
+  def review
+    @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
+  end
+
+  def show
+    @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
+
+    redirect_to :process_restoration if @restoration.unprocessed? && @restoration.investigator == current_user
+  end
+
   def upload_application
     @restoration = Restoration.find(params[:id])
     @restoration.update(
       application_form: params[:restoration][:application_form],
       monuments: params[:restoration][:monuments],
-      application_form_complete: params[:restoration][:application_form_complete]
+      application_form_complete: params[:restoration][:application_form_complete],
+      field_visit_date: date_params([:field_visit_date], params[:restoration])[:submission_date]
     )
   end
 
@@ -82,6 +113,16 @@ class RestorationController < ApplicationController
       legal_notice_newspaper: params[:restoration][:legal_notice_newspaper],
       legal_notice_cost: params[:restoration][:legal_notice_cost],
       legal_notice_format: params[:restoration][:legal_notice_format]
+    )
+  end
+
+  def upload_previous
+    @restoration = Restoration.find(params[:id])
+    @restoration.update(
+      previous_report: params[:restoration][:previous_report],
+      previous_exists: params[:restoration][:previous_exists],
+      previous_type: params[:restoration][:previous_type],
+      previous_date: params[:restoration][:previous_date]
     )
   end
 
@@ -101,7 +142,7 @@ class RestorationController < ApplicationController
 
   # TODO:  fix report date
   def view_report
-    @restoration = Restoration.find(params[:id])
+    @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
     @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
 
     pdf = @report_class.new({
@@ -109,11 +150,7 @@ class RestorationController < ApplicationController
       cemetery: @restoration.cemetery,
       restoration: @restoration,
       report_date: Date.current,
-      verification_date: Date.current,
-      previous: {
-          type: 'hazardous monuments',
-          date: 'September 2017'
-      }
+      verification_date: Date.current
     })
 
     send_data pdf.render,
@@ -133,7 +170,7 @@ class RestorationController < ApplicationController
   end
 
   def hazardous
-    @applications = Restoration.hazardous
+    @applications = Restoration.includes(:cemetery).hazardous
   end
 
   def vandalism

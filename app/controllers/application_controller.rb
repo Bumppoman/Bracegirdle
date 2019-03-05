@@ -27,10 +27,10 @@ class ApplicationController < ActionController::Base
     @pending_items = {}
 
     if current_user && current_user.investigator?
-      @pending_items[:complaints] = Complaint.active_for(current_user).count
-      @pending_items[:notices] = Notice.active_for(current_user).count
-      @pending_items[:rules] = Rules.pending_review_for(current_user).count
-      @pending_items[:restoration] = Restoration.pending_review_for(current_user).count
+      @pending_items[:complaints] = current_user.complaints.count
+      @pending_items[:notices] = current_user.notices.count
+      @pending_items[:rules] = current_user.rules.count
+      @pending_items[:restoration] = current_user.restoration.count
     end
   end
 end
