@@ -1,0 +1,4 @@
+$('#notification-<%= @notification.id %>').addClass('read');
+<% unless @unread %>
+  $('#unread-notifications').hide();
+<% end %>

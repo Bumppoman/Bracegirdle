@@ -42,6 +42,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # Notifications
+  patch 'notifications/:id/mark-read', to: 'notifications#mark_read', as: :read_notification
+
   # PDFs
   mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
 

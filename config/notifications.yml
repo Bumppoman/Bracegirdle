@@ -1,0 +1,10 @@
+notifications:
+  complaint:
+    add:
+      text: 'assigned a complaint to you against <%= notification.object.cemetery.name %>'
+  restoration:
+    received:
+      text: 'assigned a restoration application to you for <%= notification.object.cemetery.name %>'
+  rules:
+    upload:
+      text: 'uploaded new rules for <%= notification.object.cemetery.name %>'

@@ -170,7 +170,7 @@ class RestorationController < ApplicationController
   end
 
   def hazardous
-    @applications = Restoration.includes(:cemetery).hazardous
+    @applications = Restoration.includes(:cemetery).hazardous.where(investigator: current_user)
   end
 
   def vandalism

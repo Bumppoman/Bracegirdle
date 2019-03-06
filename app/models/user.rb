@@ -18,7 +18,11 @@ class User < ApplicationRecord
     foreign_key: :investigator_id,
     inverse_of: :investigator
 
-  has_many :notifications
+  has_many :notifications,
+    -> (user) {
+      where(read: false)
+    },
+    foreign_key: :receiver_id
 
   has_many :restoration,
     -> (user) {

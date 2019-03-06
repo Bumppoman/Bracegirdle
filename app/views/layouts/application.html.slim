@@ -32,6 +32,23 @@ html lang="en"
                 =f.text_field :search, id: 'search-box', class: 'form-control', placeholder: 'Search for cemeteries'
                 =f.button class: "btn btn-primary" do
                   i.fa.fa-search
+            .dropdown.dropdown-b.mg-r-10
+              a.header-notification.tx-primary href="" data-toggle="dropdown"
+                i.icon.ion-ios-notifications
+                - if @pending_items[:notifications] > 0
+                  span#unread-notifications.indicator
+              .dropdown-menu
+                .dropdown-menu-header
+                  h6.dropdown-menu-title Notifications
+                  div
+                    a href="" Mark All as Read
+                    a href="" Settings
+                .dropdown-list
+                  = render(partial: 'dashboard/notification', collection: Notification.includes(:sender).for_user(current_user).order(created_at: :desc).limit(5)) || render(partial: 'notifications/none')
+                  .dropdown-list-footer
+                    a href="#"
+                      i.fa.fa-angle-down
+                      = " Show All Notifications"
             .dropdown.dropdown-c
               a.logged_user href="#" data-toggle="dropdown"
                 = "#{current_user.name} "
@@ -39,10 +56,10 @@ html lang="en"
               .dropdown-menu.dropdown-menu-right
                 nav.nav
                   a.nav-link href="#"
-                    i.icon.ion-ios-gear
+                    i.icon.ion-ios-settings
                     |  Settings
                   =link_to logout_path, class: 'nav-link' do
-                    i.icon.ion-forward
+                    i.icon.ion-ios-arrow-forward
                     |  Sign Out
           -else
             =link_to 'Sign In', login_path

@@ -8,4 +8,13 @@ $(document).on('turbolinks:load', function () {
             lengthMenu: '_MENU_ items/page',
         }
     });
+
+    $('.notification-link').click(function () {
+        if (!$(this).hasClass('read')) {
+            $.ajax({
+                url: $(this).data('read-link'),
+                method: 'PATCH'
+            });
+        }
+    });
 });
