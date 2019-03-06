@@ -177,29 +177,4 @@ feature 'Complaints' do
 
     expect(page).to_not have_content 'UPLOAD ATTACHMENT'
   end
-
-  scenario 'Assigning a complaint sends a notification', js: true do
-    @employee = FactoryBot.create(:user)
-    login(FactoryBot.create(:mean_supervisor))
-    click_on 'Complaints'
-    click_on 'Add new complaint'
-    fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-    fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
-    select2 'Burial issues', from: 'Complaint Type'
-    fill_in 'complaint[summary]', with: 'Testing.'
-    fill_in 'complaint[form_of_relief]', with: 'Testing'
-    fill_in 'complaint[date_of_event]', with: '12/31/2018'
-    all('span', text: 'Yes').last.click
-    select2 'Chester Butkiewicz', from: 'Investigator'
-    click_on 'Submit'
-    logout
-    login
-
-    visit root_path
-    click_on class: 'header-notification'
-
-    expect(page).to have_content('John Smith assigned a complaint')
-  end
 end

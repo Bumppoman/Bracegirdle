@@ -17,6 +17,7 @@ import 'jquery-steps/build/jquery.steps.min'
 
 require('jquery-ui/ui/widgets/datepicker');
 require('jquery-ui/ui/effect');
+require('jquery-ui/ui/effects/effect-highlight')
 
 require('datatables.net')(window, $);
 require('datatables.net-responsive')(window, $);

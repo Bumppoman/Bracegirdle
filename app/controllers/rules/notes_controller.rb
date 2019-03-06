@@ -3,6 +3,6 @@ class Rules::NotesController < NotesController
 
   private
   def set_notable
-    @notable = Rules.find(params[:rule_id])
+    @notable = Rules.find(params[:rules_id])
   end
 end

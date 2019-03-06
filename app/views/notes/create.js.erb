@@ -1,17 +1,8 @@
-$("#notes-list").prepend(
-    '       <li class="media mb-4" id="new-note-<%= @note.id %>">\n' +
-    '        <img class="img-responsive user-photo mr-3" width="64" height="64" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">\n' +
-    '        <div class="media-body">\n' +
-    '          <h5 class="mt-0 mb-1"><strong><%= @note.user.name %></strong> <span class="text-muted"> on <%= @note.created_at %></span></h5>\n' +
-    '          <%= @body %>\n' +
-    '        </div>\n' +
-    '      </li>'
-)
+$("#notes-list").prepend('<%= render partial: "notes/note", locals: { note: @note } %>');
 
-$("#new-note-<%= @note.id %>").focus();
+$("#note-<%= @note.id %>").focus();
+$("#note-<%= @note.id %>").effect("highlight", {}, 3000);
 
-$("#new-note-<%= @note.id %>").effect("highlight", {}, 3000);
+$("#note_body").val('');
 
-$("#note_body").val('')
-
-$("#no-notes-message").hide()
+$("#no-notes-message").hide();
