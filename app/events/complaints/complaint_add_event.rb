@@ -1,6 +1,6 @@
 class Complaints::ComplaintAddEvent < ComplaintEvent
   def event_type
-    Type::ADD
+    Type::COMPLAINT_ADDED
   end
 
   def payload

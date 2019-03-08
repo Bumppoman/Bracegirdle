@@ -1,9 +1,8 @@
 class ActivityConsumer < Consumer
   def call
     activity = Activity.new(
-      user_id: payload[:user].id,
-      model_id: payload[:object].id,
-      model_type: payload[:object].class,
+      user: payload[:user],
+      object: payload[:object],
       activity_performed: payload[:event_type]
     )
 

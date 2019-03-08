@@ -1,6 +1,6 @@
 class Restoration::RestorationReceivedEvent < RestorationEvent
   def event_type
-    Type::RECEIVED
+    Type::RESTORATION_RECEIVED
   end
 
   def payload

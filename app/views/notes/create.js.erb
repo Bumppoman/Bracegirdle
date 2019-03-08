@@ -1,4 +1,4 @@
-$("#notes-list").prepend('<%= render partial: "notes/note", locals: { note: @note } %>');
+$("#notes-list").prepend('<%= j render partial: "notes/note", locals: { note: @note } %>');
 
 $("#note-<%= @note.id %>").focus();
 $("#note-<%= @note.id %>").effect("highlight", {}, 3000);

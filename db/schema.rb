@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_05_193337) do
+ActiveRecord::Schema.define(version: 2019_03_07_231727) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 2019_03_05_193337) do
 
   create_table "activities", force: :cascade do |t|
     t.integer "user_id"
-    t.string "model_type"
-    t.integer "model_id"
+    t.string "object_type"
+    t.integer "object_id"
     t.string "activity_performed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -172,8 +172,8 @@ ActiveRecord::Schema.define(version: 2019_03_05_193337) do
   create_table "notifications", force: :cascade do |t|
     t.integer "receiver_id"
     t.integer "sender_id"
-    t.string "model_type"
-    t.integer "model_id"
+    t.string "object_type"
+    t.integer "object_id"
     t.string "message"
     t.text "custom_body"
     t.boolean "read", default: false

@@ -6,6 +6,8 @@ class Complaint < ApplicationRecord
 
   after_commit :set_complaint_number, on: :create
 
+  alias_attribute :user, :investigator
+
   belongs_to :cemetery, optional: true
   belongs_to :closed_by, class_name: 'User', foreign_key: :closed_by_id, optional: true
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
@@ -40,7 +42,7 @@ class Complaint < ApplicationRecord
     closed: 5 }.freeze
 
   def active?
-    status < STATUSES[:pending_closure]
+    status < STATUSES[:closed]
   end
 
   def belongs_to?(user)
@@ -63,6 +65,10 @@ class Complaint < ApplicationRecord
 
   def complaint_type
     self[:complaint_type].split(', ') if self[:complaint_type].respond_to? :split
+  end
+
+  def concern_text
+    ['complaint',  "##{complaint_number}", "against #{cemetery.name}"]
   end
 
   def formatted_cemetery

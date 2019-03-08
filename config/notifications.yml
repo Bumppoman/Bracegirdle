@@ -1,10 +1,13 @@
 notifications:
   complaint:
-    add:
+    added:
       text: 'assigned a complaint to you against <%= notification.object.cemetery.name %>'
+  note:
+    comment:
+      text: 'added a comment to <%= note_text(notification.object) %>'
   restoration:
     received:
       text: 'assigned a restoration application to you for <%= notification.object.cemetery.name %>'
   rules:
-    upload:
+    uploaded:
       text: 'uploaded new rules for <%= notification.object.cemetery.name %>'

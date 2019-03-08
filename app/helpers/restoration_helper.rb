@@ -1,12 +1,18 @@
 module RestorationHelper
   def restoration_link(restoration, title = nil)
-    link_title = (title.nil? ? restoration : title)
-
     case restoration.status
     when Restoration::STATUSES[:received]
-      link_to link_title, process_restoration_path(restoration, type: restoration.application_type)
-    when Restoration::STATUSES[:processed], Restoration::STATUSES[:reviewed]
-      link_to link_title, restoration_path(restoration, type: restoration.application_type)
+      path = :process_restoration_path
+    when Restoration::STATUSES[:processed]
+      if current_user.supervisor?
+        path = :review_restoration_path
+      else
+        path = :restoration_path
+      end
+    when Restoration::STATUSES[:reviewed]
+      path = :restoration_path
     end
+
+    link_to (title.nil? ? restoration : title), self.send(path, restoration, type: restoration.application_type)
   end
 end

@@ -1,9 +1,9 @@
 class RestorationEvent < Event
   class Type
-    PROCESSED = 'processed'
-    RECEIVED = 'received'
-    REJECTED = 'rejected'
-    REVIEWED = 'reviewed'
+    RESTORATION_PROCESSED = 'processed'
+    RESTORATION_RECEIVED = 'received'
+    RESTORATION_REJECTED = 'rejected'
+    RESTORATION_REVIEWED = 'reviewed'
   end
 
   attr_accessor :restoration, :user

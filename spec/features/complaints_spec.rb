@@ -147,7 +147,7 @@ feature 'Complaints' do
 
   scenario "Note can't be added to a closed complaint", js: true do
     login
-    @complaint = FactoryBot.create(:complaint_pending_closure)
+    @complaint = FactoryBot.create(:closed_complaint)
 
     visit complaint_path(@complaint)
     click_on 'Investigation Details'
@@ -170,7 +170,7 @@ feature 'Complaints' do
 
   scenario "Attachment can't be added to a closed complaint", js: true do
     login
-    @complaint = FactoryBot.create(:complaint_pending_closure)
+    @complaint = FactoryBot.create(:closed_complaint)
 
     visit complaint_path(@complaint)
     click_on 'Investigation Details'

@@ -35,10 +35,10 @@
           .form-group.required
             =f.label :active, 'Status', class: 'form-control-label'
             label.rdiobox
-              =f.radio_button :active, true, checked: @cemetery.active?
+              =f.radio_button :active, true
               span Active
             label.rdiobox
-              =f.radio_button :active, true, checked: @cemetery.abandoned?
+              =f.radio_button :active, false
               span Abandoned
       .form-layout-footer.mg-t-20
         =f.button 'Submit', class: 'btn btn-primary mg-r-5'

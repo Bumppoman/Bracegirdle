@@ -1,13 +1,14 @@
 EVENT_CONSUMER_MAPPING = {
-  ComplaintEvent::Type::ADD => [ActivityConsumer, AssignmentConsumer],
-  NoticeEvent::Type::ISSUE => [ActivityConsumer],
-  NoticeEvent::Type::RESPONSE => [ActivityConsumer],
-  RestorationEvent::Type::PROCESSED => [ActivityConsumer, SupervisorConsumer],
-  RestorationEvent::Type::RECEIVED => [ActivityConsumer, AssignmentConsumer],
-  RestorationEvent::Type::REJECTED => [ActivityConsumer, AssignmentConsumer],
-  RestorationEvent::Type::REVIEWED => [ActivityConsumer],
-  RulesEvent::Type::APPROVAL => [ActivityConsumer],
-  RulesEvent::Type::UPLOAD => [ActivityConsumer, AssignmentConsumer]
+  ComplaintEvent::Type::COMPLAINT_ADDED => [ActivityConsumer, AssignmentConsumer],
+  NoteEvent::Type::COMMENT => [ActivityConsumer, NotificationConsumer],
+  NoticeEvent::Type::NOTICE_ISSUED => [ActivityConsumer],
+  NoticeEvent::Type::NOTICE_RESPONSE => [ActivityConsumer],
+  RestorationEvent::Type::RESTORATION_PROCESSED => [ActivityConsumer, SupervisorConsumer],
+  RestorationEvent::Type::RESTORATION_RECEIVED => [ActivityConsumer, AssignmentConsumer],
+  RestorationEvent::Type::RESTORATION_REJECTED => [ActivityConsumer, AssignmentConsumer],
+  RestorationEvent::Type::RESTORATION_REVIEWED => [ActivityConsumer],
+  RulesEvent::Type::RULES_APPROVED => [ActivityConsumer],
+  RulesEvent::Type::RULES_UPLOADED => [ActivityConsumer, AssignmentConsumer]
 }.freeze
 
 EVENT_CONSUMER_MAPPING.each do |event_name, consumer_list|

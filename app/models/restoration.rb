@@ -3,6 +3,8 @@ class Restoration < ApplicationRecord
 
   after_commit :set_identifier, on: :create
 
+  alias_attribute :user, :investigator
+
   attribute :cemetery_county, :string
 
   belongs_to :cemetery
@@ -60,6 +62,10 @@ class Restoration < ApplicationRecord
       hazardous: 'HAZD',
       abandonment: 'ABND'
   }.freeze
+
+  def active?
+    status < STATUSES[:closed]
+  end
 
   def application_type
     TYPES.key(self.read_attribute(:application_type))

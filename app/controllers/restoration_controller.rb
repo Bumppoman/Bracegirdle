@@ -162,7 +162,7 @@ class RestorationController < ApplicationController
   private
 
   def abandonment
-    @applications = Restoration.abandonment
+    @applications = Restoration.includes(:cemetery).abandonment.where(investigator: current_user)
   end
 
   def application_create_params
@@ -174,6 +174,6 @@ class RestorationController < ApplicationController
   end
 
   def vandalism
-    @applications = Restoration.vandalism
+    @applications = Restoration.includes(:cemetery).vandalism.where(investigator: current_user)
   end
 end

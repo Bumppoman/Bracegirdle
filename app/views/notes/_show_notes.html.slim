@@ -1,12 +1,12 @@
 .section-wrapper.pd-30.mg-t-5
   label.section-title.mg-b-15 Notes
   ul#notes-list.list-unstyled.mb-0
-    ==render(partial: 'notes/note', collection: object.notes.includes(:user)) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
+    == render(partial: 'notes/note', collection: object.notes.includes(:user)) || content_tag(:li, 'There are no notes.', class: 'media', id: 'no-notes-message')
 - if object.active?
   .section-wrapper.pd-30.mg-t-5
     label.section-title Add New Note
     .mg-t-10
-      =form_with model: [object, Note.new] do |f|
-        =f.text_area :body, rows: 8, class: 'form-control'
+      = form_with model: [object, Note.new], url: (defined?(url) ? url : nil) do |f|
+        = f.text_area :body, rows: 8, class: 'form-control'
         .form-layout-footer.mg-t-10
-          =f.button 'Submit', class: 'btn btn-primary mt-1 mg-r-10'
+          = f.button 'Submit', class: 'btn btn-primary mt-1 mg-r-10'

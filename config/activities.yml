@@ -1,13 +1,19 @@
 activities:
   complaint:
     color: 'primary'
-    add:
+    added:
       icon: 'icon ion-ios-add-circle'
       text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery.name %>'
       title: 'Received new complaint'
+  note:
+    color: 'orange'
+    comment:
+      icon: 'fas fa-comment'
+      text: 'commented on <%= note_link(activity.object) %>'
+      title: 'Added a note'
   notice:
     color: 'danger'
-    issue:
+    issued:
       icon: 'icon ion-ios-mail'
       text: 'issued a <%= link_to "Notice of Non-Compliance", activity.object %> to <%= activity.object.cemetery.name %>'
       title: 'Issued notice'
@@ -17,11 +23,11 @@ activities:
       title: 'Received response to notice'
   rules:
     color: 'teal'
-    approval:
+    approved:
       icon: 'icon ion-ios-thumbs-up'
       text: 'approved <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
       title: 'Approved rules'
-    upload:
+    uploaded:
       icon: 'icon ion-ios-cloud-upload'
       text: 'uploaded new <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
       title: 'Uploaded new rules'

@@ -1,5 +1,5 @@
 class Notices::NoticeIssueEvent < NoticeEvent
   def event_type
-    Type::ISSUE
+    Type::NOTICE_ISSUED
   end
 end

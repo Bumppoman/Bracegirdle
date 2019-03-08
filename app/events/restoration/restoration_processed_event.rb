@@ -1,5 +1,5 @@
 class Restoration::RestorationProcessedEvent < RestorationEvent
   def event_type
-    Type::PROCESSED
+    Type::RESTORATION_PROCESSED
   end
 end

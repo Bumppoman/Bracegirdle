@@ -25,6 +25,11 @@ FactoryBot.define do
       disposition { 'Testing' }
       disposition_date { Date.current }
       status { 4 }
+
+      factory :closed_complaint, class: 'Complaint' do
+        closed_by_id { 1 }
+        status { 5 }
+      end
     end
 
     factory :no_investigation_complaint, class: 'Complaint' do

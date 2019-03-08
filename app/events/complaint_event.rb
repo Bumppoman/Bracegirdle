@@ -1,6 +1,6 @@
 class ComplaintEvent < Event
   class Type
-    ADD = 'add'
+    COMPLAINT_ADDED = 'added'
   end
 
   attr_accessor :complaint, :user

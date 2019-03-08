@@ -1,5 +1,5 @@
 class Notices::NoticeResponseEvent < NoticeEvent
   def event_type
-    Type::RESPONSE
+    Type::NOTICE_RESPONSE
   end
 end

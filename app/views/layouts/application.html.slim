@@ -44,7 +44,7 @@ html lang="en"
                     a href="" Mark All as Read
                     a href="" Settings
                 .dropdown-list
-                  = render(partial: 'dashboard/notification', collection: Notification.includes(:sender).for_user(current_user).order(created_at: :desc).limit(5)) || render(partial: 'notifications/none')
+                  = render(partial: 'notifications/notification', collection: Notification.includes(:sender, :object).for_user(current_user).order(created_at: :desc).limit(5)) || render(partial: 'notifications/none')
                   .dropdown-list-footer
                     a href="#"
                       i.fa.fa-angle-down

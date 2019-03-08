@@ -1,5 +1,5 @@
 class Restoration::RestorationReviewedEvent < RestorationEvent
   def event_type
-    Type::REVIEWED
+    Type::RESTORATION_REVIEWED
   end
 end

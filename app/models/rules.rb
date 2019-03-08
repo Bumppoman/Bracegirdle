@@ -3,6 +3,8 @@ class Rules < ApplicationRecord
 
   after_commit :set_identifier, on: :create
 
+  alias_attribute  :user, :investigator
+
   attribute :cemetery_county, :string
 
   belongs_to :cemetery
@@ -53,6 +55,10 @@ class Rules < ApplicationRecord
 
   def assigned_to?(user)
     user == investigator
+  end
+
+  def concern_text
+    [nil, 'rules', "for #{cemetery.name}"]
   end
 
   def named_status

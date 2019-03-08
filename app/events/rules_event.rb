@@ -1,7 +1,7 @@
 class RulesEvent < Event
   class Type
-    APPROVAL = 'approval'
-    UPLOAD = 'upload'
+    RULES_APPROVED = 'approved'
+    RULES_UPLOADED = 'uploaded'
   end
 
   attr_accessor :rules, :user

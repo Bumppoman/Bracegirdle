@@ -1,6 +1,6 @@
 class Rules::RulesUploadEvent < RulesEvent
   def event_type
-    Type::UPLOAD
+    Type::RULES_UPLOADED
   end
 
   def payload
