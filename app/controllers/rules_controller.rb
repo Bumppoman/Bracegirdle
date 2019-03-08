@@ -112,7 +112,7 @@ class RulesController < ApplicationController
 
       Rules::RulesApprovalEvent.new(@rules, current_user).trigger
     elsif params.key?(:request_revision)
-      @rules.status = :revision_requested
+      @rules.update(status: :revision_requested)
     elsif params.key?(:assign_rules)
       @rules.update(
         status: :pending_review,

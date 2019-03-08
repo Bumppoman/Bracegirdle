@@ -8,7 +8,7 @@ class DashboardController < ApplicationController
       @complaints = @pending_items[:complaints]
     end
 
-    @recent_activity = Activity.includes(:user, :object).where(user: current_user).order(created_at: :desc).limit(3).load
+    @recent_activity = Activity.includes(:user, :object).where(user: current_user).order(created_at: :desc).limit(3)
   end
 
   def search

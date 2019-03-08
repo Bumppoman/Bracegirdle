@@ -38,6 +38,7 @@ feature 'Activities' do
     click_on 'Investigation Details'
     fill_in 'note[body]', with: 'Adding a note to this complaint'
     click_on 'Submit'
+    visit complaint_path(@complaint) # Necessary to fix a timing issue
     visit root_path
 
     expect(page).to have_content 'Chester Butkiewicz commented on complaint #2019-0001 against Anthony Cemetery'
