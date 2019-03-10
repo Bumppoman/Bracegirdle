@@ -4,6 +4,7 @@ class Cemetery < ApplicationRecord
   include Locatable
 
   has_many :complaints
+  has_many :notices
   has_one :rules,
     -> (cemetery) {
       where(

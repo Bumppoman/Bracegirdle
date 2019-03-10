@@ -9,5 +9,7 @@ notifications:
     received:
       text: 'assigned a restoration application to you for <%= notification.object.cemetery.name %>'
   rules:
+    assigned:
+      text: 'assigned you new rules for <%= notification.object.cemetery.name %>'
     uploaded:
       text: 'uploaded new rules for <%= notification.object.cemetery.name %>'

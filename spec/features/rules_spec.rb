@@ -141,4 +141,19 @@ feature 'Rules' do
 
     expect(page).to have_content 'Approved'
   end
+
+  scenario 'User can request a revision to rules', js: true do
+  end
+
+  scenario 'User can upload a revision to rules', js: true do
+    @rules = FactoryBot.create(:revision_requested)
+    login
+
+    visit rules_path(@rules)
+    attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    first(:button, 'Submit').click
+    visit rules_path(@rules)
+
+    expect(page).to have_content 'REVISION 2'
+  end
 end

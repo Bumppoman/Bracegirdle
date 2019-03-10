@@ -12,7 +12,7 @@ class Rules < ApplicationRecord
 
   has_many_attached :rules_documents
 
-  scope :active, -> { where(status: [2, 3]) }
+  scope :active, -> { where(status: [STATUSES[:pending_review], STATUSES[:revision_requested]]) }
   scope :active_for, -> (user) {
     if user.supervisor?
       where(investigator: user, status: [2, 3]).or(where(status: 1))
@@ -46,7 +46,7 @@ class Rules < ApplicationRecord
   }.freeze
 
   def active?
-    status < STATUSES[:approved]
+    !approved?
   end
 
   def approved?

@@ -38,6 +38,18 @@ describe Notice, type: :model do
   end
 
   describe 'Instance Methods' do
+    describe Notice, '#active?' do
+      it 'returns true when the notice is active' do
+        expect(subject.active?).to be true
+      end
+
+      it 'returns false when the notice is not active' do
+        subject.status = :resolved
+
+        expect(subject.active?).to be false
+      end
+    end
+
     describe Notice, '#belongs_to?' do
       it 'returns true when the notice belongs to the user' do
         expect(subject.belongs_to?(@investigator)).to be true
@@ -97,17 +109,48 @@ describe Notice, type: :model do
 
     describe Notice, '.active' do
       it 'returns only active complaints' do
-        closed = create_notice
-        closed.update(
+        resolved = create_notice
+        resolved.update(
           response_received_date: Date.current,
           follow_up_inspection_date: Date.current,
           status: :resolved
         )
-        closed.save
+        resolved.save
 
         result = Notice.active
 
         expect(result).to eq [@active]
+      end
+    end
+
+    describe Notice, '.active_for' do
+      it "returns only the user's active notices" do
+        him = User.new(password: 'test')
+        him.save
+        me = User.new(password: 'itsme')
+        me.save
+        resolved = create_notice
+        resolved.update(
+            response_received_date: Date.current,
+            follow_up_inspection_date: Date.current,
+            status: :resolved,
+            investigator_id: 1
+        )
+        resolved.save
+        my_active = create_notice
+        my_active.investigator_id = 2
+        my_active.save
+        my_resolved = create_notice
+        my_resolved.update(
+            response_received_date: Date.current,
+            follow_up_inspection_date: Date.current,
+            status: :resolved,
+            investigator_id: 2)
+        my_resolved.save
+
+        result = Notice.active_for(me)
+
+        expect(result).to eq [my_active]
       end
     end
   end

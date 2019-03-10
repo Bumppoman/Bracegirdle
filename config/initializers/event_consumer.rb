@@ -6,8 +6,11 @@ EVENT_CONSUMER_MAPPING = {
   RestorationEvent::Type::RESTORATION_PROCESSED => [ActivityConsumer, SupervisorConsumer],
   RestorationEvent::Type::RESTORATION_RECEIVED => [ActivityConsumer, AssignmentConsumer],
   RestorationEvent::Type::RESTORATION_REJECTED => [ActivityConsumer, AssignmentConsumer],
-  RestorationEvent::Type::RESTORATION_REVIEWED => [ActivityConsumer],
+  RestorationEvent::Type::RESTORATION_REVIEWED => [ActivityConsumer, NotificationConsumer],
   RulesEvent::Type::RULES_APPROVED => [ActivityConsumer],
+  RulesEvent::Type::RULES_ASSIGNED => [ActivityConsumer, AssignmentConsumer],
+  RulesEvent::Type::RULES_REVISION_REQUESTED => [ActivityConsumer],
+  RulesEvent::Type::RULES_REVISION_RECEIVED => [ActivityConsumer],
   RulesEvent::Type::RULES_UPLOADED => [ActivityConsumer, AssignmentConsumer]
 }.freeze
 

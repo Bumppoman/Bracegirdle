@@ -50,7 +50,10 @@ class CemeteriesController < ApplicationController
   def show
     @cemetery = Cemetery.includes(:complaints, trustees: :person).find(params[:id])
     respond_to do |format|
-      format.html
+      format.html {
+        @complaints = @cemetery.complaints
+        @notices = @cemetery.notices
+      }
       format.json { render json: @cemetery.to_json(methods: :investigator) }
     end
   end

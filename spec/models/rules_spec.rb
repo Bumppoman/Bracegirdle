@@ -2,7 +2,7 @@ require 'rails_helper'
 
 def create_rules
   Rules.new(
-    cemetery: Cemetery.new(county: 4),
+    cemetery: Cemetery.new(name: 'Anthony Cemetery', county: 4),
     submission_date: Date.current,
     sender: 'Bill Cemeterian',
     sender_street_address: '123 Fake St.',
@@ -17,7 +17,7 @@ end
 describe Rules, type: :model do
   subject { create_rules }
 
-  describe 'Actions' do
+  context 'Actions' do
     describe Rules, '#after_commit' do
       it 'sets an identifier after saving' do
         subject.save
@@ -27,14 +27,26 @@ describe Rules, type: :model do
     end
   end
 
-  describe 'Associations' do
+  context 'Associations' do
     it { should belong_to :cemetery }
     it { should belong_to :investigator }
   end
 
-  describe 'Instance Methods' do
+  context 'Instance Methods' do
+    describe Rules, '#active?' do
+      it 'returns true if the rules are active' do
+        expect(subject.active?).to be true
+      end
+
+      it 'returns false if the rules are not active' do
+        subject.status = :approved
+
+        expect(subject.active?).to be false
+      end
+    end
+
     describe Rules, '#approved?' do
-      it 'returns approved if the rules are approved' do
+      it 'returns true if the rules are approved' do
         subject.status = :approved
 
         expect(subject.approved?).to be true
@@ -45,9 +57,82 @@ describe Rules, type: :model do
       end
     end
 
+    describe Rules, '#assigned_to?' do
+      before :each do
+        @me = User.new(password: 'Test')
+        @me.save
+        @him = User.new(password: 'Test')
+        @him.save
+      end
+
+      it 'returns true if the rules are assigned to the user' do
+        subject.investigator = @me
+
+        expect(subject.assigned_to?(@me)).to be true
+      end
+
+      it 'returns false if the rules are assigned to nobody' do
+        expect(subject.assigned_to?(@me)).to be false
+      end
+
+      it 'returns false if the rules are assigned to another user' do
+        subject.investigator = @him
+
+        expect(subject.assigned_to?(@me)).to be false
+      end
+    end
+
+    describe Rules, '#concern_text' do
+      it 'returns the correct text' do
+        expect(subject.concern_text).to eq [nil, 'rules', 'for Anthony Cemetery']
+      end
+    end
+
     describe Rules, '#named_status' do
       it 'returns the correct status' do
         expect(subject.named_status).to eq 'Pending Review'
+      end
+    end
+
+    describe Rules, '#previously_approved?' do
+      it 'returns true if the rules were previously approved' do
+        approved = Rules.new(
+            cemetery: Cemetery.new(name: 'Anthony Cemetery', county: 4),
+            submission_date: Date.current - 20,
+            request_by_email: false,
+            status: :approved
+        )
+
+        expect(approved.previously_approved?).to be true
+      end
+
+      it 'returns false if the rules were not previously approved' do
+        expect(subject.previously_approved?).to be false
+      end
+    end
+
+    describe Rules, '#revision_received?' do
+      before :each do
+        subject.rules_documents.attach(io: File.open(Rails.root.join('lib', 'document_templates', 'rules-approval.docx')), filename: 'Rules.docx', content_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        subject.save
+      end
+
+      it 'returns true if a revision was not requested' do
+        expect(subject.revision_received?).to be true
+      end
+
+      it 'returns false if a revision was requested but not received' do
+        subject.revision_request_date = Date.current + 2
+
+        expect(subject.revision_received?).to be false
+      end
+
+      it 'returns true if a revision was requested and received' do
+        subject.revision_request_date = Date.current - 2
+        subject.rules_documents.attach(io: File.open(Rails.root.join('lib', 'document_templates', 'rules-approval.docx')), filename: 'Rules.docx', content_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        subject.save
+
+        expect(subject.revision_received?).to be true
       end
     end
 
@@ -78,7 +163,7 @@ describe Rules, type: :model do
     end
   end
 
-  describe 'Scopes' do
+  context 'Scopes' do
     before :each do
       @me = User.new(password: 'test', role: 2)
       @me.save
@@ -174,6 +259,92 @@ describe Rules, type: :model do
         result = Rules.unassigned
 
         expect(result).to eq [unassigned]
+      end
+    end
+  end
+
+  context 'Validations' do
+    describe Rules do
+      context 'New rules' do
+        it 'is valid with valid attributes' do
+          expect(subject.valid?).to be true
+        end
+
+        it 'is not valid without knowing the request type' do
+          subject.request_by_email = nil
+
+          expect(subject.valid?).to be false
+        end
+
+        it 'is not valid without the sender' do
+          subject.sender = nil
+
+          expect(subject.valid?).to be false
+        end
+
+        it 'is not valid without email if request is by email' do
+          subject.update(
+            request_by_email: true,
+            sender_street_address: nil,
+            sender_city: nil,
+            sender_state: nil,
+            sender_zip: nil
+          )
+
+          expect(subject.valid?).to be false
+        end
+
+        it 'is not valid without street address if request is by mail' do
+          subject.sender_street_address = nil
+
+          expect(subject.valid?).to be false
+        end
+
+        it 'is not valid without city if request is by mail' do
+          subject.sender_city = nil
+
+          expect(subject.valid?).to be false
+        end
+
+        it 'is not valid without state if request is by mail' do
+          subject.sender_state = nil
+
+          expect(subject.valid?).to be false
+        end
+
+        it 'is not valid without zip code if request is by mail' do
+          subject.sender_zip = nil
+
+          expect(subject.valid?).to be false
+        end
+      end
+
+      context 'Previously approved' do
+        before :each do
+          subject.update(
+            status: :approved,
+            approval_date: '2012-04-04'
+          )
+        end
+
+        it 'is valid without knowing the request type' do
+          subject.request_by_email = nil
+
+          subject.validate
+          expect(subject.valid?).to be true
+        end
+
+        it 'is valid without the sender' do
+          subject.sender = nil
+
+          expect(subject.valid?).to be true
+        end
+
+        it 'is not valid without the approval date' do
+          subject.approval_date = nil
+
+          expect(subject.valid?).to be false
+        end
       end
     end
   end

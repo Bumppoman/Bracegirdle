@@ -27,6 +27,18 @@ activities:
       icon: 'icon ion-ios-thumbs-up'
       text: 'approved <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
       title: 'Approved rules'
+    assigned:
+      icon: 'fas fa-user-plus'
+      text: 'assigned <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %> to <%= activity.object.investigator.name %>'
+      title: 'Assigned rules'
+    revision_received:
+      icon: 'fas fa-envelope-open'
+      text: 'received a revision to <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
+      title: 'Received rules revision'
+    revision_requested:
+      icon: 'fas fa-user-edit'
+      text: 'requested a revision to <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
+      title: 'Requested rules revision'
     uploaded:
       icon: 'icon ion-ios-cloud-upload'
       text: 'uploaded new <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'

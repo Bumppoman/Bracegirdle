@@ -99,6 +99,13 @@ describe Complaint, type: :model do
       end
     end
 
+    describe Complaint, '#concern_text' do
+      it 'provides the correct text' do
+        subject.save
+        expect(subject.concern_text).to eq ['complaint', "##{Date.current.year}-0001", 'against Anthony Cemetery']
+      end
+    end
+
     describe Complaint, '#formatted_cemetery' do
       it 'provides the cemetery name if the cemetery is regulated' do
         expect(subject.formatted_cemetery).to eq 'Anthony Cemetery'

@@ -33,7 +33,7 @@ class RestorationController < ApplicationController
     @restoration = Restoration.new(application_create_params)
     @restoration.assign_attributes(
       cemetery_id: params[:restoration][:cemetery],
-      user_id: params[:restoration][:investigator],
+      investigator_id: params[:restoration][:investigator],
       trustee_id: params[:restoration][:trustee],
       application_type: params[:type],
       submission_date: date_params([:submission_date], params[:restoration])[:submission_date]

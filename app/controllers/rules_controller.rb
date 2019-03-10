@@ -113,11 +113,13 @@ class RulesController < ApplicationController
       Rules::RulesApprovalEvent.new(@rules, current_user).trigger
     elsif params.key?(:request_revision)
       @rules.update(status: :revision_requested)
+      Rules::RulesRevisionRequestedEvent.new(@rules, current_user).trigger
     elsif params.key?(:assign_rules)
       @rules.update(
         status: :pending_review,
         investigator_id: params[:rules][:investigator]
       )
+      Rules::RulesAssignedEvent.new(@rules, current_user).trigger
     end
 
     redirect_to rules_path(@rules, download_rules_approval: @prompt || false)
@@ -162,7 +164,9 @@ class RulesController < ApplicationController
 
       @rules.save
       @rules.rules_documents.attach(params[:rules][:rules_documents])
-      redirect_to rule_path(@rules)
+
+      Rules::RulesRevisionReceivedEvent.new(@rules, current_user).trigger
+      redirect_to rules_path(@rules)
     else
       @documents = @rules.rules_documents.clone.to_a
       @revisions = @documents.length

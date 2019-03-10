@@ -7,6 +7,7 @@
       a#nav-details-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :details || params[:tab].nil?)] data-toggle="tab" href="#nav-details" role="tab" Details
       a#nav-trustees-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :trustees)] data-toggle="tab" href="#nav-trustees" role="tab" Trustees
       a#nav-complaints-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :complaints)] data-toggle="tab" href="#nav-complaints" role="tab" Complaints
+      a#nav-notices-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :notices)] data-toggle="tab" href="#nav-notices" role="tab" Notices of Non-Compliance
   .tab-content.pl-3.pt-2
     #nav-details class=['tab-pane', 'fade', ('show active' if params[:tab] == :details || params[:tab].nil?)] role="tabpanel"
       .row
@@ -74,22 +75,6 @@
           i.fa.fa-plus-square-o
           |  Add new trustee
     #nav-complaints class=['tab-pane', 'fade', ('show active' if params[:tab] == :complaints)] role="tabpanel"
-      .section-wrapper.bd-0.pd-0.mg-t-15
-        label.section-title Complaints
-        .table-wrapper
-          table#cemetery-complaints-data-table.table.table-striped
-            thead
-              tr
-                th
-                th Complainant
-                th Complaint Date
-                th Status
-                th Last Action
-            tbody
-              - @cemetery.complaints.each do |complaint|
-                tr
-                  td = link_to complaint, complaint
-                  td = complaint.complainant_name
-                  td = complaint.created_at.to_date.to_s
-                  td == complaint.last_action
-                  td = complaint.updated_at.to_date.to_s
+      = render partial: 'complaints/complaints_list'
+    #nav-notices class=['tab-pane', 'fade', ('show active' if params[:tab] == :notices)] role="tabpanel"
+      = render partial: 'notices/notices_list'

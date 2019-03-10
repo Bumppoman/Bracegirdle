@@ -101,7 +101,7 @@ class Complaint < ApplicationRecord
   end
 
   def pending_closure?
-    status == 4
+    status == STATUSES[:pending_closure]
   end
 
   def status=(update)
