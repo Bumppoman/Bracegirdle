@@ -1,5 +1,5 @@
 - content_for :title, 'Cemetery Information'
-- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], ["#{@cemetery.county_name} County", cemeteries_by_county_path(@cemetery.county_name.downcase.parameterize)], @cemetery.name])
+- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], ["#{@cemetery.county_name} County", cemeteries_by_county_path(@cemetery.county)], @cemetery.name])
 .section-wrapper
   label.section-title ="#{@cemetery.name} (##{@cemetery.cemetery_id})"
   nav

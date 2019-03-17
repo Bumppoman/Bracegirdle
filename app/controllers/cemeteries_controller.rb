@@ -14,13 +14,8 @@ class CemeteriesController < ApplicationController
   def index; end
 
   def list_by_county
-    if /\d{1,2}/ =~ params[:county]
-      search_county = params[:county]
-      @county = COUNTIES[params[:county].to_i]
-    else
-      search_county = COUNTIES.key(params[:county].capitalize)
-      @county = params[:county].capitalize
-    end
+    search_county = params[:county]
+    @county = COUNTIES[params[:county].to_i]
 
     @cemeteries = Cemetery.includes(:towns).where(county: search_county, active: true).order(:county, :order_id)
 
