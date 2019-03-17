@@ -80,9 +80,9 @@ class RulesController < ApplicationController
     }, date: :approval_date, recipient: :cemetery_name)
 
     send_data pdf.render,
-              filename: "Rules-Approval-#{@rules.identifier}.pdf",
-              type: 'application/pdf',
-              disposition: 'inline'
+      filename: "Rules-Approval-#{@rules.identifier}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
   end
 
   def index

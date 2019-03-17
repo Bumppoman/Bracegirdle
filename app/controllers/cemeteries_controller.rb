@@ -16,7 +16,7 @@ class CemeteriesController < ApplicationController
   def list_by_county
     if /\d{1,2}/ =~ params[:county]
       search_county = params[:county]
-      @county = COUNTIES[params[:county]]
+      @county = COUNTIES[params[:county].to_i]
     else
       search_county = COUNTIES.key(params[:county].capitalize)
       @county = params[:county].capitalize
@@ -48,7 +48,7 @@ class CemeteriesController < ApplicationController
   end
 
   def show
-    @cemetery = Cemetery.includes(:complaints, trustees: :person).find(params[:id])
+    @cemetery = Cemetery.includes(:complaints, :notices, :trustees).find(params[:id])
     respond_to do |format|
       format.html {
         @complaints = @cemetery.complaints

@@ -28,12 +28,13 @@ class ComplaintsController < ApplicationController
     @complaint.assign_attributes(
       complaint_type: params[:complaint][:complaint_type].reject(&:empty?).join(', '),
       manner_of_contact: params.dig(:complaint, :manner_of_contact).try(:join, ', '),
-      receiver: User.find(params.dig(:complaint, :receiver)))
+      receiver: User.find(params[:complaint][:receiver])
+    )
 
     if @complaint.investigation_required?
       @complaint.investigator = User.find(params[:complaint][:investigator]) unless params[:complaint][:investigator].blank?
     else
-      if current_user.has_role?(:supervisor)
+      if current_user.supervisor?
         @complaint.assign_attributes(
           status: :closed,
           closed_by: current_user,

@@ -1,5 +1,5 @@
 - content_for :title, 'Cemetery Information'
-- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], ["#{@cemetery.county_name} County", cemeteries_by_county_path(@cemetery.county_name.downcase)], @cemetery.name])
+- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], ["#{@cemetery.county_name} County", cemeteries_by_county_path(@cemetery.county_name.downcase.parameterize)], @cemetery.name])
 .section-wrapper
   label.section-title ="#{@cemetery.name} (##{@cemetery.cemetery_id})"
   nav
@@ -42,39 +42,8 @@
         .col-lg-6
           iframe width="100%" height="425" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=#{Rails.application.credentials.google[:api_key]}&q=#{@cemetery.latitude},#{@cemetery.longitude}"
     #nav-trustees class=['tab-pane', 'fade', ('show active' if params[:tab] == :trustees)] role="tabpanel"
-      .card.border.border-secondary
-        .card-header
-          strong.card-title Trustees
-        .card-body
-          table.table
-            thead
-              tr
-                th scope="col" Name
-                th scope="col" Position
-                th scope="col" Address
-                th scope="col" Phone Number
-                th scope="col" Email Address
-                th scope="col" Actions
-            tbody
-              -if @cemetery.trustees.any?
-                -@cemetery.trustees.each do |trustee|
-                  tr
-                    td =trustee.person.name
-                    td =trustee.position_name
-                    td =trustee.person.address
-                    td =trustee.person.phone_number
-                    td =trustee.person.email
-                    td
-                      =link_to edit_cemetery_trustee_path(@cemetery, trustee) do
-                        i.fa.fa-edit
-              -else
-                tr
-                  td No trustees listed.
-      .pd-t-5.text-right
-        =link_to new_cemetery_trustee_path(@cemetery), class: 'btn btn-secondary' do
-          i.fa.fa-plus-square-o
-          |  Add new trustee
+      = render partial: 'trustees/list'
     #nav-complaints class=['tab-pane', 'fade', ('show active' if params[:tab] == :complaints)] role="tabpanel"
-      = render partial: 'complaints/complaints_list'
+      = render partial: 'complaints/list'
     #nav-notices class=['tab-pane', 'fade', ('show active' if params[:tab] == :notices)] role="tabpanel"
-      = render partial: 'notices/notices_list'
+      = render partial: 'notices/list'

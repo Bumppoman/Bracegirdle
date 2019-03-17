@@ -1,8 +1,14 @@
 class Trustee < ApplicationRecord
+  geocoded_by :address
+  after_validation :geocode
+
   belongs_to :cemetery
-  belongs_to :person
+
+  def formatted_email
+    email || 'None'
+  end
 
   def position_name
-    POSITIONS[self[:position]]
+    POSITIONS[position]
   end
 end

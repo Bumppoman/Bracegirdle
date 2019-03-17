@@ -138,7 +138,7 @@
         .col-lg-8
           .form-group.required
             =f.label :receiver, 'Complaint Received By'
-            =f.select :receiver, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2-basic'
+            =f.select :receiver, grouped_options_for_select(employee_options, @complaint.receiver.id), { prompt: 'Select employee' }, class: 'form-control select2-basic'
         .col-lg-4
           .form-group.required
             =label :date_acknowledged, 'Date Complaint Received', class: 'form-control-label'
@@ -160,7 +160,7 @@
         .col-lg-8
           #investigator-div.form-group.required
             =f.label :investigator, 'Investigator'
-            =f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unassigned' }, class: 'form-control select2-basic', disabled: true
+            =f.select :investigator, grouped_options_for_select(employee_options, @complaint.investigator&.id), { prompt: 'Unassigned' }, class: 'form-control select2-basic', disabled: true
       #complaint-disposition
         label.section-title Disposition
         .row

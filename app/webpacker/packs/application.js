@@ -32,4 +32,5 @@ import '../src/javascript/limit_cemeteries';
 import '../src/javascript/notices';
 import '../src/javascript/restoration';
 import '../src/javascript/rules';
+import '../src/javascript/trustees';
 import '../src/javascript/slim';

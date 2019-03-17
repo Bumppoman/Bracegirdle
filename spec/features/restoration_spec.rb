@@ -6,7 +6,6 @@ feature 'Restoration' do
       name: 'Anthony Cemetery',
       county: 4,
       order_id: 1)
-    @person = FactoryBot.create(:person)
     @trustee = FactoryBot.create(:trustee)
     @cemetery.trustees << @trustee
     @cemetery.save

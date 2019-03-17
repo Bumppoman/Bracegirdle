@@ -1,0 +1,26 @@
+.section-wrapper
+  .table-wrapper
+    table#trustees-data-table.table.display.responsive.no-wrap
+      thead
+        tr
+          th scope="col" Name
+          th scope="col" Position
+          th scope="col" Address
+          th scope="col" Phone Number
+          th scope="col" Email Address
+          th scope="col" Actions
+      tbody
+        -@cemetery.trustees.each do |trustee|
+          tr
+            td =trustee.name
+            td =trustee.position_name
+            td =trustee.address
+            td =trustee.phone_number
+            td =trustee.email
+            td
+              =link_to edit_cemetery_trustee_path(@cemetery, trustee) do
+                i.fa.fa-edit
+.pd-t-5
+  =link_to new_cemetery_trustee_path(@cemetery), class: 'btn btn-secondary' do
+    i.fa.fa-plus-square-o
+    |  Add new trustee

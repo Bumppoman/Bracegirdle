@@ -5,7 +5,7 @@ li.nav-item.with-sub
   .sub-item
     ul
       li
-        =active_circle_link 'Rules and Regulations', rules_index_path, !@pending_items[:rules].zero?
+        = active_circle_link 'Rules and Regulations', rules_index_path, !@pending_items[:rules].zero?
 li.nav-item.with-sub.mega-dropdown
   a.nav-link href="#"
     i.icon.ion-ios-briefcase
@@ -38,8 +38,8 @@ li.nav-item.with-sub
     span Complaints
   .sub-item
     ul
-      li =link_to 'My complaints', complaints_path
-      -if current_user.supervisor?
+      li = active_circle_link 'My complaints', complaints_path, !@pending_items[:complaints].zero?
+      - if current_user.supervisor?
         li =active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.where(status: 4).any?
         li =active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
       li =link_to 'Add new complaint', new_complaint_path

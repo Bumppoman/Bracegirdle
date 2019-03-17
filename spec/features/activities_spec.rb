@@ -137,7 +137,6 @@ feature 'Activities' do
   end
 
   scenario 'Uploading a hazardous monument application logs activity', js: true do
-    @person = FactoryBot.create(:person)
     @trustee = FactoryBot.create(:trustee)
     @cemetery.trustees << @trustee
     @cemetery.save
