@@ -1,10 +1,27 @@
 $(document).on('turbolinks:load', function () {
 
+    $('#restoration_trustee').select2({
+        selectOnClose: true,
+        tags: true,
+        createTag: function (params) {
+            $('#restoration_trustee_position').prop('disabled', false);
+            return {
+                id: params.term,
+                text: params.term
+            }
+        }
+    });
+
+    $('#restoration_trustee').on('change', function () {
+        const position = $("option:selected", this).val();
+        $('#restoration_trustee_position').val(position).trigger('change');
+    });
+
     $('#restoration_cemetery').change(function () {
         const selected_cemetery = $("#restoration_cemetery").find(":selected").val();
 
         if (selected_cemetery == '') {
-            return false
+            return false;
         }
 
         $('#restoration_trustee').prop('disabled', false);

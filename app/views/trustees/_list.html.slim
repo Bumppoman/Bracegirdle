@@ -11,16 +11,63 @@
           th scope="col" Actions
       tbody
         -@cemetery.trustees.each do |trustee|
-          tr
+          tr id="trustee-#{trustee.id}"
             td =trustee.name
             td =trustee.position_name
-            td =trustee.address
-            td =trustee.phone_number
-            td =trustee.email
-            td
+            td =trustee.full_address
+            td =trustee.phone_number.presence || '---'
+            td =trustee.email.presence || '---'
+            td.text-center
               =link_to edit_cemetery_trustee_path(@cemetery, trustee) do
                 i.fa.fa-edit
-.pd-t-5
-  =link_to new_cemetery_trustee_path(@cemetery), class: 'btn btn-secondary' do
-    i.fa.fa-plus-square-o
-    |  Add new trustee
+  .mg-t-20
+    ul.nav.nav-gray-600.nav-underline.justify-content-center
+      li.nav-item
+        = link_to 'Add new trustee', '#', id: 'add-new-trustee', class: 'nav-link'
+= form_with model: [@cemetery, Trustee.new], url: cemetery_trustees_path(@cemetery), html: { id: 'new-trustee-form' } do |f|
+  #new-trustee.modal.fade
+    .modal-dialog.modal-lg.wd-60p role="document"
+      .modal-content
+        .modal-header.pd-x-20
+          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Add New Trustee
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+        .modal-body.pd-25
+          .container-fluid
+            .row
+              .col-lg-8
+                .form-group.required
+                  = f.label :name, class: 'form-control-label'
+                  = f.text_field :name, class: 'form-control'
+              .col-lg-4
+                .form-group.required
+                  = f.label :position
+                  = f.select :position, options_for_select(POSITIONS.invert), class: 'form-control'
+            .row
+              .col-lg-12
+                .form-group
+                  = f.label :street_address, 'Street address', class: 'form-control-label'
+                  = f.text_field :street_address, class: 'form-control'
+            .row
+              .col-lg-6
+                .form-group
+                  = f.label :city, class: 'form-control-label'
+                  = f.text_field :city, class: 'form-control'
+              .col-lg-2
+                .form-group
+                  = f.label :state, class: 'form-control-label'
+                  = f.select :state, options_for_select(STATES), class: 'form-control'
+              .col-lg-4
+                .form-group
+                  = f.label :zip, 'ZIP Code', class: 'form-control-label'
+                  = f.text_field :zip, class: 'form-control'
+            .row
+              .col-lg-6
+                = f.label :phone_number, 'Phone number', class: 'form-control-label'
+                = f.text_field :phone_number, class: 'form-control'
+              .col-lg-6
+                = f.label :email, 'Email address', class: 'form-control-label'
+                = f.text_field :email, class: 'form-control'
+          .modal-footer.mg-t-20
+            =f.button 'Add New Trustee', class: 'btn btn-primary'
+            button.btn.btn-secondary type="button" data-dismiss="modal" Close

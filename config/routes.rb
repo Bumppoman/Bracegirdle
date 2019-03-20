@@ -4,9 +4,13 @@ Rails.application.routes.draw do
 
   # Cemeteries
   resources :cemeteries do
-    resources :trustees
+    resources :trustees, except: :index
+
+    member do
+      get 'complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :complaints
+      get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
+    end
   end
-  get 'cemeteries/:id/complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :cemetery_complaints
   get 'cemeteries/county/:county', to: 'cemeteries#list_by_county', as: :cemeteries_by_county
   get 'cemeteries/county/:county/options', to: 'cemeteries#options_for_county'
   get 'cemeteries/region/:region' => 'cemeteries#list_by_region'

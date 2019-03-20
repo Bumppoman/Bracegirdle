@@ -30,11 +30,22 @@ class RestorationController < ApplicationController
   }.freeze
 
   def create
+    # Add new trustee if necessary
+    if /\d+/ =~ params[:restoration][:trustee]
+      trustee = params[:restoration][:trustee]
+    else
+      trustee = Trustee.create(
+        name: params[:restoration][:trustee],
+        cemetery_id: params[:restoration][:cemetery],
+        position: params[:restoration][:trustee_position]
+      ).id
+    end
+
     @restoration = Restoration.new(application_create_params)
     @restoration.assign_attributes(
       cemetery_id: params[:restoration][:cemetery],
       investigator_id: params[:restoration][:investigator],
-      trustee_id: params[:restoration][:trustee],
+      trustee_id: trustee,
       application_type: params[:type],
       submission_date: date_params([:submission_date], params[:restoration])[:submission_date]
     )

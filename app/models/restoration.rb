@@ -6,6 +6,7 @@ class Restoration < ApplicationRecord
   alias_attribute :user, :investigator
 
   attribute :cemetery_county, :string
+  attribute :trustee_position, :integer
 
   belongs_to :cemetery
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true

@@ -15,6 +15,6 @@ class TrusteesController < ApplicationController
   private
 
   def trustee_params
-    params.require(:trustee).permit(:name, :address, :phone_number, :email, :position)
+    params.require(:trustee).permit(:name, :street_address, :city, :state, :zip, :phone_number, :email, :position)
   end
 end

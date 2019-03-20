@@ -6,7 +6,7 @@
     tbody
       tr
         th.wd-30p scope="row" Cemetery
-        td == "#{link_to @restoration.cemetery, @restoration.cemetery.name} (##{@restoration.cemetery.cemetery_id})"
+        td == "#{link_to @restoration.cemetery.name, @restoration.cemetery} (##{@restoration.cemetery.cemetery_id})"
       tr
         th scope="row" Submitted By
         td = "#{@restoration.trustee.name} (#{@restoration.trustee.position_name.downcase})"

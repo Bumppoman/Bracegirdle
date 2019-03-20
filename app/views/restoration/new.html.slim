@@ -7,10 +7,14 @@
       label.section-title Cemetery Information
       =render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @restoration }
       .row
-        #restoration-submitted-by.col-lg-12
+        #restoration-submitted-by.col-lg-8
           .form-group.required
             =f.label :trustee, 'Submitted By', class: 'form-control-label'
-            =f.select :trustee, [], { prompt: 'Select trustee' }, disabled: true, class: 'form-control select2-basic'
+            =f.select :trustee, [], { prompt: 'Select trustee' }, disabled: true, class: 'form-control'
+        #restoration-submitted-by-position.col-lg-4
+          .form-group.required
+            = f.label :trustee_position, 'Position', class: 'form-control-label'
+            = f.select :trustee_position, options_for_select(POSITIONS.invert), { prompt: 'Select position' }, disabled: true, class: 'form-control select2-basic'
       label.section-title Application
       .row
         .col-lg-6
