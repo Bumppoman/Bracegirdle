@@ -113,7 +113,7 @@ class RestorationController < ApplicationController
       application_form: params[:restoration][:application_form],
       monuments: params[:restoration][:monuments],
       application_form_complete: params[:restoration][:application_form_complete],
-      field_visit_date: date_params([:field_visit_date], params[:restoration])[:submission_date]
+      field_visit_date: date_params([:field_visit_date], params[:restoration])[:field_visit_date]
     )
   end
 
@@ -151,7 +151,6 @@ class RestorationController < ApplicationController
     render 'view_portion'
   end
 
-  # TODO:  fix report date
   def view_report
     @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
     @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
@@ -160,8 +159,7 @@ class RestorationController < ApplicationController
       writer: @restoration.investigator,
       cemetery: @restoration.cemetery,
       restoration: @restoration,
-      report_date: Date.current,
-      verification_date: Date.current
+      report_date: @restoration.recommendation_date || Date.current
     })
 
     send_data pdf.render,

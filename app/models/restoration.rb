@@ -86,7 +86,7 @@ class Restoration < ApplicationRecord
 
   def current_processing_step
     return 0 if status >= STATUSES[:processed]
-    return 4 unless previous_exists.nil?
+    return 4 if previous_exists
     return 3 if legal_notice.attached?
     return 2 if estimates.length > 0
     return 1 if application_form.attached?
