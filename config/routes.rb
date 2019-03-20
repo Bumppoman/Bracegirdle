@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
   # Cemeteries
   resources :cemeteries do
-    resources :trustees, except: :index
+    resources :trustees, except: :index do
+      member do
+        get 'api/show', to: 'trustees#api_show', as: :api_show
+      end
+    end
 
     member do
       get 'complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :complaints

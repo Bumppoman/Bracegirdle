@@ -14,22 +14,22 @@
           tr id="trustee-#{trustee.id}"
             td =trustee.name
             td =trustee.position_name
-            td =trustee.full_address
+            td =trustee.full_address.presence || '---'
             td =trustee.phone_number.presence || '---'
             td =trustee.email.presence || '---'
             td.text-center
-              =link_to edit_cemetery_trustee_path(@cemetery, trustee) do
+              = link_to '#', class: 'edit-trustee', data: { cemetery: trustee.cemetery.id, trustee: trustee.id } do
                 i.fa.fa-edit
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center
       li.nav-item
         = link_to 'Add new trustee', '#', id: 'add-new-trustee', class: 'nav-link'
-= form_with model: [@cemetery, Trustee.new], url: cemetery_trustees_path(@cemetery), html: { id: 'new-trustee-form' } do |f|
-  #new-trustee.modal.fade
+= form_with model: [@cemetery, Trustee.new], url: cemetery_trustees_path(@cemetery), html: { id: 'trustee-form-object' } do |f|
+  #trustee-form.modal.fade
     .modal-dialog.modal-lg.wd-60p role="document"
       .modal-content
         .modal-header.pd-x-20
-          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Add New Trustee
+          h6#trustee-form-title.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Add New Trustee
           button.close type="button" data-dismiss="modal" aria-label="Close"
             span aria-hidden="true" &times;
         .modal-body.pd-25
@@ -69,5 +69,5 @@
                 = f.label :email, 'Email address', class: 'form-control-label'
                 = f.text_field :email, class: 'form-control'
           .modal-footer.mg-t-20
-            =f.button 'Add New Trustee', class: 'btn btn-primary'
+            =f.button 'Add New Trustee', class: 'btn btn-primary', id: 'trustee-form-submit'
             button.btn.btn-secondary type="button" data-dismiss="modal" Close

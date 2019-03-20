@@ -3,6 +3,13 @@ class TrusteesController < ApplicationController
     render html: helpers.trustees_for_select(Cemetery.includes(:trustees).find(params[:id]))
   end
 
+  def api_show
+    @trustee = Trustee.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @trustee.to_json }
+    end
+  end
+
   def create
     @cemetery = Cemetery.find(params[:cemetery_id])
     @trustee = Trustee.new(trustee_params)

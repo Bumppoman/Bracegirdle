@@ -9,7 +9,7 @@ class Trustee < ApplicationRecord
   end
 
   def full_address
-    "#{street_address}, #{city}, #{state} #{zip}"
+    [street_address.presence, city.presence, [state.presence, zip.presence].join(' ')].compact.join(', ')
   end
 
   def position_name
