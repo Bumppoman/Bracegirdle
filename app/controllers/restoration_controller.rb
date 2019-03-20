@@ -1,3 +1,5 @@
+require 'net/http'
+
 class RestorationController < ApplicationController
   include Permissions
 
@@ -144,6 +146,42 @@ class RestorationController < ApplicationController
     render 'view_portion'
   end
 
+  def view_combined
+    @restoration = Restoration.find(params[:id])
+    output = CombinePDF.new
+    output << CombinePDF.parse(generate_report.render)
+
+    # Include application
+    output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: 'A' }).render)
+    output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.application_form.key))
+
+    # Include estimates
+    exhibit_letters = ('B'..'Z').to_a
+    exhibits = @restoration.estimates.length
+    current = 0
+    while current < exhibits
+      output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
+      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.estimates[current].document.key))
+      current += 1
+    end
+
+    # Include legal notice
+    output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
+    output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.legal_notice.key))
+
+    # Include previous report if applicable
+    if @restoration.previous_exists?
+      current += 1
+      output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
+      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.previous_report.key))
+    end
+
+    send_data output.to_pdf,
+              filename: 'Combined Application.pdf',
+              type: 'application/pdf',
+              disposition: 'inline'
+  end
+
   def view_raw_application
     @restoration = Restoration.find(params[:id])
     @portion = 'Raw Application'
@@ -153,15 +191,8 @@ class RestorationController < ApplicationController
 
   def view_report
     @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
-    @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
 
-    pdf = @report_class.new({
-      writer: @restoration.investigator,
-      cemetery: @restoration.cemetery,
-      restoration: @restoration,
-      report_date: @restoration.recommendation_date || Date.current
-    })
-
+    pdf = generate_report
     send_data pdf.render,
               filename: "Report.pdf",
               type: 'application/pdf',
@@ -176,6 +207,17 @@ class RestorationController < ApplicationController
 
   def application_create_params
     params.require(:restoration).permit(:amount, :cemetery_county, :raw_application_file)
+  end
+
+  def generate_report
+    @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
+
+    @report_class.new({
+      writer: @restoration.investigator,
+      cemetery: @restoration.cemetery,
+      restoration: @restoration,
+      report_date: @restoration.recommendation_date || Date.current
+    })
   end
 
   def hazardous

@@ -26,7 +26,7 @@ Included with this application were #{@params[:restoration].estimates.length.to_
 
     start_new_page
     text "\n<u>The Monuments</u>", style: :bold, inline_format: true
-    text "\nI visited the cemetery on #{@params[:verification_date]} and found that all #{@params[:restoration].monuments} of the monuments \
+    text "\nI visited the cemetery on #{@params[:restoration].field_visit_date} and found that all #{@params[:restoration].monuments} of the monuments \
 were either loose on their foundations or tipping and appeared to pose a hazard to cemetery visitors and employees.  The cemetery has had \
 no response to the legal advertisement which it placed, and has no funds dedicated to the restoration of monuments.  Based on the advanced \
 age of the monuments in question, it is assumed the foundations were laid privately by either the families or by monument contractors.", indent_paragraphs: 38

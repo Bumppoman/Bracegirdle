@@ -62,7 +62,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.6'
 end
 
 group :test do
@@ -97,6 +97,7 @@ gem 'webpacker'
 # For generating PDFs
 gem 'prawn'
 gem 'prawn-table'
+gem 'combine_pdf'
 
 # For using PDF.js with Rails
 gem 'pdfjs_viewer-rails'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_19_180806) do
+ActiveRecord::Schema.define(version: 2019_03_20_135406) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -183,15 +183,6 @@ ActiveRecord::Schema.define(version: 2019_03_19_180806) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
-  create_table "people", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "phone_number"
-    t.string "email"
-    t.float "latitude"
-    t.float "longitude"
-  end
-
   create_table "restoration", force: :cascade do |t|
     t.integer "application_type"
     t.integer "cemetery_id"
@@ -214,7 +205,7 @@ ActiveRecord::Schema.define(version: 2019_03_19_180806) do
     t.decimal "legal_notice_cost", precision: 9, scale: 2
     t.text "legal_notice_newspaper"
     t.boolean "legal_notice_format", default: false
-    t.boolean "previous_exists", default: false
+    t.boolean "previous_exists"
     t.integer "previous_type"
     t.string "previous_date"
     t.integer "reviewer_id"

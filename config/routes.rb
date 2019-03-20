@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       get 'process', to: 'restoration#process_restoration', as: :process
       get 'review', to: 'restoration#review', as: :review
       get 'view-application-form', to: 'restoration#view_application_form', as: :view_application_form
+      get 'view-combined', to: 'restoration#view_combined', as: :view_combined
       get 'view-legal-notice', to: 'restoration#view_legal_notice', as: :view_legal_notice
       get 'view-previous-report', to: 'restoration#view_previous_report', as: :view_previous_report
       get 'view-raw-application', to: 'restoration#view_raw_application', as: :view_raw_application

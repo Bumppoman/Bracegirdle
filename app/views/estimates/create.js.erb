@@ -5,5 +5,6 @@ $('#no-estimates-message').hide();
 $('#estimates-list').append('<%= j render partial: "restoration/process/estimate", locals: { estimate: @estimate, display_links: true } %>')
 
 
-$('#new-estimate-form').trigger('reset')
-$('.custom-file-input').next('label').text('Choose file')
+$('#new-estimate-form').trigger('reset');
+$('.custom-file-input').next('label').text('Choose file');
+$('.custom-file-input').attr('disabled', false);
