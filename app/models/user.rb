@@ -11,6 +11,18 @@ class User < ApplicationRecord
     foreign_key: :investigator_id,
     inverse_of: :investigator
 
+  has_many :hazardous,
+    -> (user) {
+      where(
+        status: [
+          Restoration::STATUSES[:received]
+        ],
+        application_type: Restoration::TYPES[:hazardous])
+    },
+    class_name: 'Restoration',
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
   has_many :notices,
     -> (user) {
       where('status < ?', Notice::STATUSES[:resolved])

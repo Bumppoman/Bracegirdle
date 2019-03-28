@@ -114,7 +114,7 @@ class Restoration < ApplicationRecord
   end
 
   def processed?
-    status == STATUSES[:processed]
+    status >= STATUSES[:processed]
   end
 
   def reviewed?

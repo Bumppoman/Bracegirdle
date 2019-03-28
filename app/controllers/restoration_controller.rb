@@ -182,6 +182,21 @@ class RestorationController < ApplicationController
               disposition: 'inline'
   end
 
+  def view_estimate
+    @restoration = Restoration.find(params[:id])
+    estimate = @restoration.estimates.find(params[:estimate])
+    @portion = "#{estimate.contractor.name} estimate"
+    @file = estimate.document
+    render 'view_portion'
+  end
+
+  def view_legal_notice
+    @restoration = Restoration.find(params[:id])
+    @portion = 'Legal Notice'
+    @file = @restoration.legal_notice
+    render 'view_portion'
+  end
+
   def view_raw_application
     @restoration = Restoration.find(params[:id])
     @portion = 'Raw Application'

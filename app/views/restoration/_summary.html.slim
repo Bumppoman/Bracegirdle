@@ -15,7 +15,7 @@
         td = @restoration.submission_date
       tr
         th scope="row" Amount Requested
-        td = number_to_currency(@restoration.amount)
+        td = @restoration.processed? ? number_to_currency(@restoration.calculated_amount) : number_to_currency(@restoration.amount)
       tr
         th scope="row" Application
         td = link_to 'View application', view_raw_application_restoration_path(@restoration.id, type: @restoration.application_type)

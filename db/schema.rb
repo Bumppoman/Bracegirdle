@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_135406) do
+ActiveRecord::Schema.define(version: 2019_03_21_224357) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -70,6 +70,16 @@ ActiveRecord::Schema.define(version: 2019_03_20_135406) do
     t.integer "town_id"
     t.index ["cemetery_id"], name: "index_cemeteries_towns_on_cemetery_id"
     t.index ["town_id"], name: "index_cemeteries_towns_on_town_id"
+  end
+
+  create_table "cemetery_inspections", force: :cascade do |t|
+    t.integer "cemetery_id"
+    t.integer "investigator_id"
+    t.integer "trustee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cemetery_id"], name: "index_cemetery_inspections_on_cemetery_id"
+    t.index ["trustee_id"], name: "index_cemetery_inspections_on_trustee_id"
   end
 
   create_table "complaints", force: :cascade do |t|
@@ -181,6 +191,15 @@ ActiveRecord::Schema.define(version: 2019_03_20_135406) do
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone_number"
+    t.string "email"
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "restoration", force: :cascade do |t|

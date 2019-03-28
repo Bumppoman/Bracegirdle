@@ -74,6 +74,7 @@ Rails.application.routes.draw do
       get 'review', to: 'restoration#review', as: :review
       get 'view-application-form', to: 'restoration#view_application_form', as: :view_application_form
       get 'view-combined', to: 'restoration#view_combined', as: :view_combined
+      get 'view-estimate/:estimate', to: 'restoration#view_estimate', as: :view_estimate
       get 'view-legal-notice', to: 'restoration#view_legal_notice', as: :view_legal_notice
       get 'view-previous-report', to: 'restoration#view_previous_report', as: :view_previous_report
       get 'view-raw-application', to: 'restoration#view_raw_application', as: :view_raw_application

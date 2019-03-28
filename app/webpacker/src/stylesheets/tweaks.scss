@@ -19,7 +19,7 @@
   height: 100%;
 }
 
-.form-control {
+.form-control:not(textarea) {
   height: 42px !important;
 }
 

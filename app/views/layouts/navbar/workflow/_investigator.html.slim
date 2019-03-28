@@ -24,7 +24,7 @@ li.nav-item.with-sub.mega-dropdown
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Restoration
         ul
-          li =link_to 'Hazardous Monuments', restoration_index_path(type: :hazardous)
+          li = active_circle_link 'Hazardous Monuments', restoration_index_path(type: :hazardous), @current_user.hazardous.any?
           li =link_to 'Vandalism', restoration_index_path(type: :vandalism)
           li =link_to 'Abandonment', restoration_index_path(type: :abandonment)
       .col-lg.mg-t-30.mg-lg-t-0
