@@ -32,3 +32,12 @@
 .select2-container {
   text-align: left;
 }
+
+.slim-navbar .sub-item .sub-with-sub::after {
+  content: '\f054';
+  font-family: 'FontAwesome';
+  font-weight: 400;
+  margin-left: 4px;
+  margin-top: 0;
+  opacity: .7;
+}

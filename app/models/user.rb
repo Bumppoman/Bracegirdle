@@ -23,6 +23,15 @@ class User < ApplicationRecord
     foreign_key: :investigator_id,
     inverse_of: :investigator
 
+  has_many :overdue_inspections,
+    -> (user) {
+      unscope(:where).
+      where(county: REGIONS[user.region]).
+      where('last_inspection < ?', Date.current - 5.years).
+      or(where(last_inspection: nil))
+    },
+    class_name: 'Cemetery'
+
   has_many :notices,
     -> (user) {
       where('status < ?', Notice::STATUSES[:resolved])

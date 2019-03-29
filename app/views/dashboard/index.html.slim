@@ -18,19 +18,17 @@
   .col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
     .card.card-status
       .media
-        = link_to complaints_path do
-          i.icon.ion-ios-megaphone.tx-primary
+        i.icon.ion-ios-search.tx-danger
         .media-body
-          h1 =@complaints
-          p ="Complaint".pluralize(@complaints)
+          h1 = @complaints + @pending_items[:notices]
+          p = "Investigation".pluralize(@complaints + @pending_items[:notices])
   .col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
     .card.card-status
       .media
-        = link_to notices_path do
-          i.icon.ion-ios-document.tx-danger
+        i.icon.ion-ios-flashlight.tx-primary
         .media-body
-          h1 =@pending_items[:notices]
-          p ="#{"Notice".pluralize(@pending_items[:notices])} of Non-Compliance"
+          h1 = @inspections
+          p = "Inspection".pluralize(@inspections)
 =render partial: 'activity'
 /<div class="col-lg-4 col-xl-3 mg-t-10 mg-lg-t-0">
     <div class="card card-people-list pd-20">

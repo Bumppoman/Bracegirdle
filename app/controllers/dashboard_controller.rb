@@ -8,6 +8,7 @@ class DashboardController < ApplicationController
       @complaints = @pending_items[:complaints]
     end
 
+    @inspections = current_user.overdue_inspections.count
     @recent_activity = Activity.includes(:user, :object).where(user: current_user).order(created_at: :desc).limit(3)
   end
 

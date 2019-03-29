@@ -34,20 +34,30 @@ li.nav-item.with-sub.mega-dropdown
           li =link_to 'Land Sale', '#'
 li.nav-item.with-sub
   a.nav-link href="#"
-    i.icon.ion-ios-megaphone
-    span Complaints
+    i.icon.ion-ios-flashlight
+    span Inspections
   .sub-item
     ul
-      li = active_circle_link 'My complaints', complaints_path, !@pending_items[:complaints].zero?
-      - if current_user.supervisor?
-        li =active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.where(status: 4).any?
-        li =active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
-      li =link_to 'Add new complaint', new_complaint_path
+      li
+        a href="#" Incomplete inspections
+      li
+        a href="#" Overdue inspections
 li.nav-item.with-sub
   a.nav-link href="#"
-    i.icon.ion-ios-document
-    span Non-Compliance
+    i.icon.ion-ios-search
+    span Investigations
   .sub-item
     ul
-      li =link_to 'Active notices', notices_path
-      li =link_to 'Issue new notice', new_notice_path
+      li.sub-with-sub
+        a href="#" Complaints
+        ul
+          li = active_circle_link 'My complaints', complaints_path, !@pending_items[:complaints].zero?
+          - if current_user.supervisor?
+            li =active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.where(status: 4).any?
+            li =active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
+          li =link_to 'Add new complaint', new_complaint_path
+      li.sub-with-sub
+        a href="#" Non-Compliance
+        ul
+          li = active_circle_link 'Active notices', notices_path, @current_user.notices.any?
+          li = link_to 'Issue new notice', new_notice_path

@@ -1,0 +1,2 @@
+class CemeteryInspectionsController < ApplicationController
+end
