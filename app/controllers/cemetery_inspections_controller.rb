@@ -14,10 +14,15 @@ class CemeteryInspectionsController < ApplicationController
       @inspection.save
       @inspection.inspection_report.attach(params[:cemetery_inspection][:inspection_report])
       @cemetery.update(last_inspection_date: @inspection.date_performed)
-      redirect_to @inspection
+      redirect_to show_inspection_cemetery_path(date: @inspection)
     else
       render :upload_old_inspection
     end
+  end
+
+  def show
+    @cemetery = Cemetery.find(params[:id])
+    @inspection = CemeteryInspection.where(cemetery: @cemetery, date_performed: Date.strptime(params[:date])).first
   end
 
   def upload_old_inspection

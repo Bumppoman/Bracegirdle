@@ -197,6 +197,15 @@ ActiveRecord::Schema.define(version: 2019_03_29_172124) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone_number"
+    t.string "email"
+    t.float "latitude"
+    t.float "longitude"
+  end
+
   create_table "restoration", force: :cascade do |t|
     t.integer "application_type"
     t.integer "cemetery_id"

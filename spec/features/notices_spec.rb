@@ -14,10 +14,8 @@ feature 'Notices' do
 
   scenario 'Investigator issues notice', js: true do
     login
-    visit root_path
+    visit new_notice_path
 
-    click_on 'Non-Compliance'
-    click_on 'Issue new notice'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Served On', with: 'Herman Munster'
@@ -37,10 +35,8 @@ feature 'Notices' do
 
   scenario 'Investigator issues notice without specific information', js: true do
     login
-    visit root_path
+    visit new_notice_path
 
-    click_on 'Non-Compliance'
-    click_on 'Issue new notice'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Served On', with: 'Herman Munster'

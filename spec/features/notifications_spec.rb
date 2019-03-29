@@ -11,8 +11,7 @@ feature 'Notifications' do
   scenario 'Assigning a complaint sends a notification', js: true do
     @employee = FactoryBot.create(:user)
     login(FactoryBot.create(:mean_supervisor))
-    click_on 'Complaints'
-    click_on 'Add new complaint'
+    visit new_complaint_path
     fill_in 'complaint[complainant_name]', with: 'Herman Munster'
     fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
     select2 'Broome', from: 'County'

@@ -14,10 +14,8 @@ feature 'Complaints' do
 
   scenario 'Investigator adds complaint', js: true do
     login
-    visit root_path
+    visit new_complaint_path
 
-    click_on 'Complaints'
-    click_on 'Add new complaint'
     fill_in 'complaint[complainant_name]', with: 'Herman Munster'
     fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
     select2 'Broome', from: 'County'
@@ -36,10 +34,8 @@ feature 'Complaints' do
 
   scenario 'User adds complaint without a summary', js: true do
     login
-    visit root_path
+    visit new_complaint_path
 
-    click_on 'Complaints'
-    click_on 'Add new complaint'
     fill_in 'complaint[complainant_name]', with: 'Herman Munster'
     fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
     select2 'Broome', from: 'County'

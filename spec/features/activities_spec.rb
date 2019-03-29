@@ -11,8 +11,7 @@ feature 'Activities' do
 
   scenario 'Adding a complaint logs activity', js: true do
     login
-    click_on 'Complaints'
-    click_on 'Add new complaint'
+    visit new_complaint_path
     fill_in 'complaint[complainant_name]', with: 'Herman Munster'
     fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
     select2 'Broome', from: 'County'
@@ -103,9 +102,7 @@ feature 'Activities' do
 
   scenario 'Issuing a notice logs activity', js: true do
     login
-    visit root_path
-    click_on 'Non-Compliance'
-    click_on 'Issue new notice'
+    visit new_notice_path
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Served On', with: 'Herman Munster'
