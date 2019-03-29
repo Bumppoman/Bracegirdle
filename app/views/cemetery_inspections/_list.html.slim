@@ -10,10 +10,10 @@
       tbody
         - @cemetery.cemetery_inspections.each do |inspection|
           tr
-            td = inspection.date_performed
+            td = link_to inspection.date_performed, show_inspection_cemetery_path(@cemetery, date: inspection)
             td = inspection.investigator.name
-            td 100
-            td Status
+            td = inspection.score
+            td = inspection.named_status
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center
       li.nav-item
