@@ -26,6 +26,7 @@ import '../src/javascript/multistep';
 
 import '../src/javascript/attachments';
 import '../src/javascript/cemeteries';
+import '../src/javascript/cemetery_inspections';
 import '../src/javascript/complaints';
 import '../src/javascript/dashboard';
 import '../src/javascript/limit_cemeteries';

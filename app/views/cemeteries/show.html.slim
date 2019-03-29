@@ -7,6 +7,7 @@
       a#nav-details-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :details || params[:tab].nil?)] data-toggle="tab" href="#nav-details" role="tab" Details
       a#nav-trustees-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :trustees)] data-toggle="tab" href="#nav-trustees" role="tab" Trustees
       a#nav-complaints-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :complaints)] data-toggle="tab" href="#nav-complaints" role="tab" Complaints
+      a#nav-inspections-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :inspections)] data-toggle="tab" href="#nav-inspections" role="tab" Inspections
       a#nav-notices-tab class=['nav-item', 'nav-link', ('active' if params[:tab] == :notices)] data-toggle="tab" href="#nav-notices" role="tab" Notices of Non-Compliance
   .tab-content.pl-3.pt-2
     #nav-details class=['tab-pane', 'fade', ('show active' if params[:tab] == :details || params[:tab].nil?)] role="tabpanel"
@@ -29,7 +30,7 @@
                     td ="#{@cemetery.towns.to_sentence}, #{@cemetery.county_name} County"
                   tr
                     th scope="row" Last Inspection
-                    td =@cemetery.last_inspection
+                    td == @cemetery.last_inspection ? "Inspected #{@cemetery.last_inspection_date} (#{link_to 'view', show_inspection_cemetery_path(date: @cemetery.last_inspection)})" : 'No inspection recorded'
                   tr
                     th scope="row" Last Audit
                     td =@cemetery.last_audit
@@ -45,5 +46,7 @@
       = render partial: 'trustees/list'
     #nav-complaints class=['tab-pane', 'fade', ('show active' if params[:tab] == :complaints)] role="tabpanel"
       = render partial: 'complaints/list'
+    #nav-inspections class=['tab-pane', 'fade', ('show active' if params[:tab] == :inspections)] role="tabpanel"
+      = render partial: 'cemetery_inspections/list'
     #nav-notices class=['tab-pane', 'fade', ('show active' if params[:tab] == :notices)] role="tabpanel"
       = render partial: 'notices/list'

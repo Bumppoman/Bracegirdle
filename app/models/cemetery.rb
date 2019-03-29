@@ -4,13 +4,17 @@ class Cemetery < ApplicationRecord
   include Locatable
 
   has_many :complaints
-  has_many :notices
-  has_one :rules,
+  has_many :cemetery_inspections
+  has_one :last_inspection,
     -> (cemetery) {
+      where(date_performed: cemetery.last_inspection_date)
+    },
+    class_name: 'CemeteryInspection'
+  has_many :notices
+  has_one :rules, -> {
       where(
-        cemetery: cemetery,
-        status: Rules::STATUSES[:approved]).order(
-        approval_date: :desc)}
+        status: Rules::STATUSES[:approved]).
+        order(approval_date: :desc)}
   has_and_belongs_to_many :towns
   has_many :trustees, dependent: :destroy
 
@@ -40,10 +44,6 @@ class Cemetery < ApplicationRecord
 
   def last_audit
     self[:last_audit] || 'No audit recorded'
-  end
-
-  def last_inspection
-    self[:last_inspection] || 'No inspection recorded'
   end
 
   def latitude

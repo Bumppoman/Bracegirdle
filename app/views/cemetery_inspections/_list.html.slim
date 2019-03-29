@@ -1,0 +1,20 @@
+.section-wrapper
+  .table-wrapper
+    table#cemetery-inspections-data-table.table.display.responsive.no-wrap
+      thead
+        tr
+          th scope="col" Date
+          th scope="col" Investigator
+          th scope="col" Score
+          th scope="col" Status
+      tbody
+        - @cemetery.cemetery_inspections.each do |inspection|
+          tr
+            td = inspection.date_performed
+            td = inspection.investigator.name
+            td 100
+            td Status
+  .mg-t-20
+    ul.nav.nav-gray-600.nav-underline.justify-content-center
+      li.nav-item
+        = link_to 'Upload inspection', upload_inspection_cemetery_path(@cemetery), class: 'nav-link'

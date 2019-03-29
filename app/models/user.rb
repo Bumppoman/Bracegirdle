@@ -26,9 +26,9 @@ class User < ApplicationRecord
   has_many :overdue_inspections,
     -> (user) {
       unscope(:where).
-      where(county: REGIONS[user.region]).
-      where('last_inspection < ?', Date.current - 5.years).
-      or(where(last_inspection: nil))
+      where(county: REGIONS[user.region], active: true).
+      where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years).
+      order('last_inspection_date ASC')
     },
     class_name: 'Cemetery'
 

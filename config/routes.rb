@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 
     member do
       get 'complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :complaints
+      get 'inspection/:date', to: 'cemetery_inspections#show', as: :show_inspection
+      get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
+      get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
+      post 'upload-inspection', to: 'cemetery_inspections#create_old_inspection', as: :create_old_inspection
     end
   end
   get 'cemeteries/county/:county', to: 'cemeteries#list_by_county', as: :cemeteries_by_county
