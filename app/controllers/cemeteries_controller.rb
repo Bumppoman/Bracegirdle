@@ -26,11 +26,15 @@ class CemeteriesController < ApplicationController
   end
 
   def list_by_region
-    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).includes(:towns).find_each
+    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).includes(:towns)
   end
 
   def new
     @cemetery = Cemetery.new
+  end
+
+  def overdue_inspections
+    @cemeteries = current_user.overdue_inspections
   end
 
   def options_for_county

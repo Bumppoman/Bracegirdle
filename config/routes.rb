@@ -10,6 +10,10 @@ Rails.application.routes.draw do
       end
     end
 
+    collection do
+      get 'overdue-inspections', to: 'cemeteries#overdue_inspections'
+    end
+
     member do
       get 'complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :complaints
       get 'inspection/:date', to: 'cemetery_inspections#show', as: :show_inspection

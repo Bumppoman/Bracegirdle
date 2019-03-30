@@ -12,9 +12,9 @@
       tbody
         - @cemeteries.each do |cemetery|
           tr
-            td =cemetery.cemetery_id
-            td =link_to cemetery.name, cemetery
-            td ="#{cemetery.county_name} County"
-            td =cemetery.towns.to_sentence
-            td =cemetery.last_inspection
-            td =cemetery.last_audit
+            td = cemetery.cemetery_id
+            td = link_to cemetery.name, cemetery
+            td = "#{cemetery.county_name} County"
+            td = cemetery.towns.to_sentence
+            td = cemetery.last_inspection_date || 'No inspection recorded'
+            td = cemetery.last_audit

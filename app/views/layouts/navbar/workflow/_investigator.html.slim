@@ -40,8 +40,7 @@ li.nav-item.with-sub
     ul
       li
         a href="#" Incomplete inspections
-      li
-        a href="#" Overdue inspections
+      li = active_circle_link 'Overdue inspections', overdue_inspections_cemeteries_path, current_user.overdue_inspections.any?
 li.nav-item.with-sub
   a.nav-link href="#"
     i.icon.ion-ios-search
