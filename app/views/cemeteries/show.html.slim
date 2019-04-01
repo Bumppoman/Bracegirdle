@@ -30,7 +30,7 @@
                     td ="#{@cemetery.towns.to_sentence}, #{@cemetery.county_name} County"
                   tr
                     th scope="row" Last Inspection
-                    td = @cemetery.formatted_last_inspection
+                    td = formatted_last_inspection @cemetery
                   tr
                     th scope="row" Last Audit
                     td =@cemetery.last_audit
