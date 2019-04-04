@@ -1,5 +1,6 @@
 $(document).on('turbolinks:load', function () {
     $('#cemetery-inspections-data-table').DataTable({
+        order: [[0, 'desc']],
         responsive: true,
         language: {
             emptyTable: "There are no inspections to display.",
