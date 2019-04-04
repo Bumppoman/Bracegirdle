@@ -1,5 +1,5 @@
 - content_for :title, "View Inspection"
-- content_for :breadcrumbs, breadcrumbs_helper([["#{@inspection.cemetery.name} (#{@inspection.cemetery.cemetery_id})", cemetery_path(@inspection.cemetery)], "View inspection of #{@inspection.date_performed}"])
+- content_for :breadcrumbs, breadcrumbs_helper([["#{@inspection.cemetery.name} (##{@inspection.cemetery.cemetery_id})", cemetery_path(@inspection.cemetery)], "View inspection of #{@inspection.date_performed}"])
 - if @inspection.inspection_report.present?
   .section-wrapper
     .row.mg-b-10
