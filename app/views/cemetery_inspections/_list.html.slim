@@ -8,10 +8,10 @@
           th scope="col" Score
           th scope="col" Status
       tbody
-        - @cemetery.cemetery_inspections.each do |inspection|
+        - @cemetery.cemetery_inspections.order(date_performed: :desc).each do |inspection|
           tr
             td = link_to inspection.date_performed, show_inspection_cemetery_path(@cemetery, date: inspection)
-            td = inspection.investigator.name
+            td = inspection.investigator&.name || 'Unknown'
             td = inspection.score
             td = inspection.named_status
   .mg-t-20

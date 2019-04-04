@@ -13,7 +13,10 @@ class CemeteryInspectionsController < ApplicationController
     if @inspection.valid? && verify_upload(params[:cemetery_inspection][:inspection_report])
       @inspection.save
       @inspection.inspection_report.attach(params[:cemetery_inspection][:inspection_report])
-      @cemetery.update(last_inspection_date: @inspection.date_performed)
+
+      # Only update the inspection date if it's newer than the last
+      @cemetery.update(last_inspection_date: @inspection.date_performed) if @inspection.date_performed > @cemetery.last_inspection_date
+
       redirect_to show_inspection_cemetery_path(date: @inspection)
     else
       render :upload_old_inspection

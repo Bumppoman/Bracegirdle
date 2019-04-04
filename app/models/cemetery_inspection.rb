@@ -3,7 +3,7 @@ class CemeteryInspection < ApplicationRecord
   attribute :date_performed, :date
 
   belongs_to :cemetery
-  belongs_to :investigator, class_name: 'User'
+  belongs_to :investigator, class_name: 'User', optional: true
 
   has_one_attached :inspection_report
 
