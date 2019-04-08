@@ -33,6 +33,17 @@ class CemeteryInspectionsController < ApplicationController
     @inspection = CemeteryInspection.new
   end
 
+  def view_report
+    @cemetery = Cemetery.find(params[:id])
+    @inspection = CemeteryInspection.find_by(cemetery: @cemetery, date_performed: Date.strptime(params[:date]))
+
+    pdf = CemeteryInspectionReportPDF.new({})
+    send_data pdf.render,
+              filename: "Inspection #{params[:date]}.pdf",
+              type: 'application/pdf',
+              disposition: 'inline'
+  end
+
   private
 
   def cemetery_inspection_date_params

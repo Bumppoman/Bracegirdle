@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       get 'complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :complaints
       get 'inspection/:date', to: 'cemetery_inspections#show', as: :show_inspection
+      get 'inspection/:date/view-report', to: 'cemetery_inspections#view_report', as: :view_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
       get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
