@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_04_215935) do
+ActiveRecord::Schema.define(version: 2019_04_30_164437) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -72,22 +72,8 @@ ActiveRecord::Schema.define(version: 2019_04_04_215935) do
     t.index ["town_id"], name: "index_cemeteries_towns_on_town_id"
   end
 
-  create_table "cemetery_inspections", force: :cascade do |t|
-    t.integer "cemetery_id"
-    t.integer "investigator_id"
-    t.date "date_performed"
-    t.integer "status"
-    t.string "trustee_name"
-    t.integer "trustee_position"
-    t.string "trustee_street_address"
-    t.string "trustee_city"
-    t.string "trustee_state"
-    t.string "trustee_zip"
-    t.string "trustee_phone"
-    t.string "trustee_email"
-    t.string "sign"
-    t.index ["cemetery_id"], name: "index_cemetery_inspections_on_cemetery_id"
-  end
+# Could not dump table "cemetery_inspections" because of following StandardError
+#   Unknown type '' for column 'uuid'
 
   create_table "complaints", force: :cascade do |t|
     t.integer "cemetery_id"
@@ -200,6 +186,15 @@ ActiveRecord::Schema.define(version: 2019_04_04_215935) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone_number"
+    t.string "email"
+    t.float "latitude"
+    t.float "longitude"
+  end
+
   create_table "restoration", force: :cascade do |t|
     t.integer "application_type"
     t.integer "cemetery_id"
@@ -262,7 +257,7 @@ ActiveRecord::Schema.define(version: 2019_04_04_215935) do
     t.integer "position"
     t.string "name"
     t.string "street_address"
-    t.string "phone_number"
+    t.string "phone"
     t.string "email"
     t.float "latitude"
     t.float "longitude"

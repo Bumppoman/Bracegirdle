@@ -15,7 +15,7 @@
             td =trustee.name
             td =trustee.position_name
             td =trustee.full_address.presence || '---'
-            td =trustee.phone_number.presence || '---'
+            td =trustee.phone.presence || '---'
             td =trustee.email.presence || '---'
             td.text-center
               = link_to '#', class: 'edit-trustee', data: { cemetery: trustee.cemetery.id, trustee: trustee.id } do

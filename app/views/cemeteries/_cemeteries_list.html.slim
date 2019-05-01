@@ -16,5 +16,7 @@
             td = link_to cemetery.name, cemetery
             td = "#{cemetery.county_name} County"
             td = cemetery.towns.to_sentence
-            td = cemetery.last_inspection_date || 'No inspection recorded'
+            td
+              span.d-none = cemetery.last_inspection_date.try(:strftime, '%Y-%m-%d')
+              = cemetery.last_inspection_date || 'No inspection recorded'
             td = cemetery.last_audit

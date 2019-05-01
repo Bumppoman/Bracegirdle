@@ -1,0 +1,58 @@
+= form_with model: @inspection, url: cemetery_information_inspect_cemetery_path(@cemetery), html: { id: 'inspection-cemetery-information-form' } do |f|
+  .form-layout
+    .row
+      .col-lg-6
+        .form-group.required
+          = f.hidden_field :uuid
+          = f.label :cemetery_county, 'County', class: 'form-control-label'
+          = f.select :cemetery_county, options_for_select(COUNTIES.invert, @cemetery.county), { prompt: 'Select county' }, disabled: true, class: 'form-control select2-show-search'
+      .col-lg-6
+        .form-group.required
+          =f.label :cemetery, 'Cemetery', class: 'form-control-label'
+          =f.select :cemetery, grouped_options_for_select(cemetery_options, @cemetery.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search'
+    .row
+      #cemetery-inspection-interviewee.col-lg-8
+        .form-group.required
+          = f.label :trustee_name, 'Interviewee', class: 'form-control-label'
+          = f.select :trustee_name, trustee_options(@cemetery, @inspection.trustee_name), { prompt: 'Select trustee' }, class: 'form-control'
+      #cemetery-inspection-interviewee-position.col-lg-4
+        .form-group.required
+          = f.label :trustee_position, 'Position', class: 'form-control-label'
+          = f.select :trustee_position, options_for_select(POSITIONS.invert, @inspection.trustee_position), { prompt: 'Select position' }, disabled: true, class: 'form-control select2-basic'
+    .row
+      .col-lg-12
+        .form-group.required
+          = f.label :trustee_street_address, 'Address', class: 'form-control-label'
+          = f.text_field :trustee_street_address, class: 'form-control'
+    .row
+      .col-lg-6
+        .form-group.required
+          = f.label :trustee_city, 'City', class: 'form-control-label'
+          = f.text_field :trustee_city, class: 'form-control'
+      .col-lg-2
+        .form-group.required
+          = f.label :trustee_state, 'State', class: 'form-control-label'
+          = f.select :trustee_state, options_for_select(STATES, @inspection.trustee_state), {}, class: 'form-control select2-basic'
+      .col-lg-4
+        .form-group.required
+          = f.label :trustee_zip, 'ZIP Code', class: 'form-control-label'
+          = f.text_field :trustee_zip, class: 'form-control'
+    .row
+      .col-lg-6
+        .form-group
+          = f.label :trustee_phone, 'Phone Number', class: 'form-control-label'
+          = f.phone_field :trustee_phone, class: 'form-control'
+      .col-lg-6
+        .form-group
+          = f.label :trustee_email, 'Email Address', class: 'form-control-label'
+          = f.email_field :trustee_email, class: 'form-control'
+    .row
+      .col-lg-12
+        .form-group.required
+          = f.label :cemetery_location, 'Location of Cemetery', class: 'form-control-label'
+          = f.text_area :cemetery_location, size: '20x3', class: 'form-control'
+    .row
+      .col-lg-12
+        .form-group.required
+          = f.label :cemetery_sign_text, 'Cemetery Sign', class: 'form-control-label'
+          = f.text_area :cemetery_sign_text, size: '20x3', class: 'form-control'

@@ -26,15 +26,15 @@ class CemeteryInspectionReportPDF
     table(
       [
         [smallcaps('1. Cemetery'), smallcaps('County'), smallcaps('Number')],
-        [' ', '', ''],
+        [@params[:inspection].cemetery.name, @params[:inspection].cemetery.county_name, @params[:inspection].cemetery.cemetery_id],
         [smallcaps('2. Interviewee'), smallcaps('Title'), smallcaps('Date')],
-        [' ', '', ''],
+        [@params[:inspection].trustee_name, POSITIONS[@params[:inspection].trustee_position], @params[:inspection].date_performed],
         [{ content: smallcaps('3. Interviewee Address'), colspan: 2 }, smallcaps('Telephone Number')],
-        [{ content: ' ', colspan: 2 }, ''],
+        [{ content: "#{@params[:inspection].trustee_street_address}, #{@params[:inspection].trustee_city}, #{@params[:inspection].trustee_state} #{@params[:inspection].trustee_zip}", colspan: 2 }, @params[:inspection].trustee_phone || '---'],
         [{ content: smallcaps('4. Location of Cemetery'), colspan: 2 }, smallcaps('Email Address')],
-        [{ content: ' ', colspan: 2 }, ''],
+        [{ content: @params[:inspection].cemetery_location, colspan: 2 }, @params[:inspection].trustee_email || '---'],
         [{ content: smallcaps('5. Sign'), colspan: 3 }],
-        [{ content: ' ', colspan: 3 }]
+        [{ content: @params[:inspection].cemetery_sign_text, colspan: 3 }]
       ],
       cell_style: { inline_format: true },
       column_widths: [bounds.width / 2, bounds.width / 4, bounds.width / 4],
@@ -53,18 +53,18 @@ class CemeteryInspectionReportPDF
     table(
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
-        ['6. Sign displayed (19 NYCRR §201.7)', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['7. Administrative offices', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['8. Rules and regulations conspicuously displayed', smallcaps('yes'), smallcaps('no'), ''],
-        ['9. Service charges and lot prices conspicuously displayed', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['10. Scattering gardens', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['11. Community mausoleum', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Condition')}</font>"],
-        ["12. Proposed mausoleum (i.e., signs or architect's rendering)", "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['13. Private mausoleum', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Condition')}</font>"],
-        ['14. Lawn crypts', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Method of Approval')}</font>"],
-        ['15. Grave liners', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Number Stored')}</font>"],
-        ['16. Evidence of display or sale of monuments', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['17. Fencing', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Describe')}</font>"],
+        ['6. Sign displayed (19 NYCRR §201.7)', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].sign_comments],
+        ['7. Administrative offices', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].offices_comments],
+        ['8. Rules and regulations conspicuously displayed', smallcaps('yes'), smallcaps('no'), @params[:inspection].rules_displayed_comments],
+        ['9. Service charges and lot prices conspicuously displayed', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].prices_displayed_comments],
+        ['10. Scattering gardens', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].scattering_gardens_comments],
+        ['11. Community mausoleum', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Condition')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].community_mausoleum_comments}"],
+        ['12. Private mausoleum', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Condition')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].private_mausoleum_comments}"],
+        ['13. Lawn crypts', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Method of Approval')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].lawn_crypts_comments}"],
+        ['14. Grave liners', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Number Stored')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].grave_liners_comments}"],
+        ['15. Evidence of display or sale of monuments', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].sale_of_monuments_comments],
+        ['16. Fencing', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Describe')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].fencing_comments}"],
+        ['17. Winter burials reasonable', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].winter_burials_comments],
       ],
       cell_style: { border_lines: [:solid, :solid, :solid, :dotted], inline_format: true },
       column_widths: [bounds.width * 0.43, bounds.width * 0.06, bounds.width * 0.06, bounds.width * 0.45]
@@ -81,33 +81,37 @@ class CemeteryInspectionReportPDF
       row(0).column(3).size = 8
       row(0).column(3).font_style = :bold
 
-      rows([6, 8, 9, 10, 12]).column(3).padding = [0, 0, 0, 5]
+      rows([6, 7, 8, 9, 11]).column(3).padding = [0, 0, 0, 5]
     end
     stroke_horizontal_rule
     move_down 10
     stroke_horizontal_rule
 
     # Checkboxes
+    values = %i(
+      sign offices rules_displayed prices_displayed
+      scattering_gardens community_mausoleum private_mausoleum
+      lawn_crypts grave_liners sale_of_monuments fencing winter_burials)
     [500.5, 475.5, 450.5, 425.5, 400.5, 375.5, 350.5, 325.5, 300.5, 275.5, 250.5, 225.5].each_with_index do |y, i|
-      checkbox(245, y, false)
-      checkbox(282, y, false)
+      checkbox(245, y, @params[:inspection].send(values[i]))
+      checkbox(282, y, !@params[:inspection].send(values[i]))
     end
 
     move_down 21
     table(
         [
             [smallcaps('18. Main Road')],
-            [' '],
+            [@params[:inspection].main_road],
             [smallcaps('19. Side Roads')],
-            [' '],
+            [@params[:inspection].side_roads],
             [smallcaps('20. Condition of New Memorials')],
-            [' '],
+            [@params[:inspection].new_memorials],
             [smallcaps('21. Condition of Old Memorials')],
-            [' '],
+            [@params[:inspection].old_memorials],
             [smallcaps('22. Evidence of Vandalism')],
-            [' '],
+            [@params[:inspection].vandalism],
             [smallcaps('23. Evidence of Hazardous Materials')],
-            [' ']
+            [@params[:inspection].hazardous_materials]
         ],
         cell_style: { inline_format: true },
         width: bounds.width) do
@@ -132,12 +136,12 @@ class CemeteryInspectionReportPDF
     # Create receiving vault table
     receiving_vaults = make_table(
       [
-        ['YES –– If YES,', { content: 'NUMBER OF BODIES STORED:', colspan: 2 }],
+        ['YES', "#{Prawn::Text::NBSP * 5}Interior inspected", 'Number of bodies stored:'],
         ['NO', "#{Prawn::Text::NBSP * 5}Clean, dry, free of vermin and rodents", "#{Prawn::Text::NBSP * 5}Used exclusively for human remains"],
         ['', "#{Prawn::Text::NBSP * 5}Obscured from public view", "#{Prawn::Text::NBSP * 5}Secured when unattended"]
       ],
       cell_style: { borders: [] },
-      column_widths: [bounds.width * 0.15, bounds.width * 0.425, bounds.width * 0.425]
+      column_widths: [bounds.width * 0.2, bounds.width * 0.4, bounds.width * 0.4]
     )
 
     # Receiving vault
@@ -147,9 +151,9 @@ class CemeteryInspectionReportPDF
         [smallcaps('24. Receiving Vaults')],
         [receiving_vaults],
         [smallcaps('25. Overall Conditions (sinkage and overgrowth)')],
-        [''],
+        [@params[:inspection].overall_conditions],
         [smallcaps('26. Signs of Major Renovations')],
-        ['']
+        [@params[:inspection].renovations]
       ],
       cell_style: { inline_format: true },
       width: bounds.width
@@ -163,15 +167,21 @@ class CemeteryInspectionReportPDF
 
       row(1).column(1).padding = [0, 40, 0, 0]
 
-      rows([3, 5]).height = 80
+      row(3).height = 80
     end
 
-    checkbox(15, 715.5, false)
-    checkbox(15, 694.5, false)
-    checkbox(113, 694.5, false)
-    checkbox(349, 694.5, false)
-    checkbox(113, 673.5, false)
-    checkbox(349, 673.5, false)
+    checkbox(15, 715.5, @params[:inspection].receiving_vault_exists)
+    checkbox(15, 694.5, !@params[:inspection].receiving_vault_exists)
+    checkbox(140, 715.5, @params[:inspection].receiving_vault_inspected)
+    checkbox(140, 694.5, @params[:inspection].receiving_vault_clean)
+    checkbox(362, 694.5, @params[:inspection].receiving_vault_exclusive)
+    checkbox(140, 673.5, @params[:inspection].receiving_vault_obscured)
+    checkbox(362, 673.5, @params[:inspection].receiving_vault_secured)
+
+    stroke_horizontal_line 475, 515, at: 706
+    bounding_box([475, 718], width: 40, height: 10) do
+      text @params[:inspection].receiving_vault_bodies, align: :center
+    end
 
     move_down 200
     stroke_horizontal_rule
@@ -182,14 +192,16 @@ class CemeteryInspectionReportPDF
     table(
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
-        ['27. Annual meetings held and advertised', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font>"],
-        ['28. Election held', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['29. Burial permits filed within 7 days', smallcaps('yes'), smallcaps('no'), ''],
-        ['30. Body delivery receipt issued', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['31. Deeds signed by president and treasurer', "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['32. Burial book and map kept up-to-date', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Location')}</font>"],
-        ["33. Rules and regulations provided with deed", "#{smallcaps('yes')}", smallcaps('no'), ''],
-        ['34. Rules and regulations approved by Division', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Last Updated')}</font>"],
+        ['27. Annual meetings held and advertised', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
+        ['28. Election held', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Number of Trustees')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].number_of_trustees}"],
+        ['29. Burial permits filed within 7 days', smallcaps('yes'), smallcaps('no'), @params[:inspection].burial_permits_comments],
+        ['30. Body delivery receipt issued', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].body_delivery_receipt_comments],
+        ['31. Deeds signed by president and treasurer', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].deeds_signed_comments],
+        ['32. Burial book and map kept up-to-date', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Location')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].burial_records_comments}"],
+        ['33. Rules and regulations provided with deed', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].rules_provided_comments],
+        ['34. Rules and regulations approved by Division', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Last Updated')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].rules_approved_comments}"],
+        ['35. Maintenance performed by employee', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].employees_comments],
+        ['36. Trustees compensated', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Positions and Amount')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].trustees_compensated_comments}"]
       ],
       cell_style: { border_lines: [:solid, :solid, :solid, :dotted], inline_format: true },
       column_widths: [bounds.width * 0.43, bounds.width * 0.06, bounds.width * 0.06, bounds.width * 0.45]
@@ -206,24 +218,29 @@ class CemeteryInspectionReportPDF
       row(0).column(3).size = 8
       row(0).column(3).font_style = :bold
 
-      rows([1, 6, 8]).column(3).padding = [0, 0, 0, 5]
+      rows([1, 2, 6, 8, 10]).column(3).padding = [0, 0, 0, 5]
     end
     stroke_horizontal_rule
     move_down 10
     stroke_horizontal_rule
 
-    [429.5, 404.5, 379.5, 354.5, 329.5, 304.5, 279.5, 254.5].each_with_index do |y, i|
-      checkbox(245, y, false)
-      checkbox(282, y, false)
+    values = %i(
+      annual_meetings election burial_permits
+      body_delivery_receipt deeds_signed burial_records
+      rules_provided rules_approved employees trustees_compensated
+    )
+    [468.5, 443.5, 418.5, 393.5, 368.5, 343.5, 318.5, 293.5, 268.5, 243.5].each_with_index do |y, i|
+      checkbox(245, y, @params[:inspection].send(values[i]))
+      checkbox(282, y, !@params[:inspection].send(values[i]))
     end
 
-    # Receiving vault
-    move_down 21
+    # Summary and date
+    move_down 20.5
     table(
         [
-            [smallcaps('35. Items for Consideration of the Cemetery')],
+            [smallcaps('37. Items for Consideration of the Cemetery')],
             [' '],
-            [smallcaps('36. Date Letter Sent')],
+            [smallcaps('38. Date Letter Sent')],
             [' ']
         ],
         cell_style: { inline_format: true },
@@ -241,7 +258,7 @@ class CemeteryInspectionReportPDF
       row(1).height = 100
     end
     stroke_horizontal_rule
-    move_down 100
+    move_down 75
 
     # Signature area
     stroke_horizontal_line(0, 275, at: y)

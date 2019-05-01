@@ -1,0 +1,16 @@
+- content_for :title, 'Perform Inspection'
+- content_for :breadcrumbs, breadcrumbs_helper([["#{@inspection.cemetery.name} (##{@inspection.cemetery.cemetery_id})", cemetery_path(@inspection.cemetery)], 'Perform inspection'])
+.section-wrapper
+  #perform-inspection.mg-t-20 data-step="#{@inspection.current_inspection_step}"
+    h3 Cemetery Information
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Cemetery Information
+      = render partial: 'cemetery_inspections/inspection_steps/cemetery_information'
+    h3 Physical Characteristics
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Physical Characteristics
+      = render partial: 'cemetery_inspections/inspection_steps/physical_characteristics'
+    h3 Record Keeping
+    section.pd-t-10-force
+      label.section-title style="margin-left: -15px;" Record Keeping
+      = render partial: 'cemetery_inspections/inspection_steps/record_keeping'

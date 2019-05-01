@@ -1,6 +1,5 @@
 class CemeteryInspection < ApplicationRecord
   attribute :cemetery_county, :integer
-  attribute :date_performed, :date
 
   belongs_to :cemetery
   belongs_to :investigator, class_name: 'User', optional: true
@@ -8,14 +7,21 @@ class CemeteryInspection < ApplicationRecord
   has_one_attached :inspection_report
 
   NAMED_STATUSES = {
-      1 => 'Performed',
+      1 => 'Begun',
+      2 => 'Performed',
       4 => 'Complete'
   }.freeze
 
   STATUSES = {
-    performed: 1,
+    begun: 1,
+    performed: 2,
     complete: 4
   }.freeze
+
+  def current_inspection_step
+    return 1 unless cemetery_sign_text.nil?
+    0
+  end
 
   def named_status
     NAMED_STATUSES[status]
@@ -26,6 +32,6 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def to_param
-    date_performed.strftime('%Y-%m-%d')
+    uuid
   end
 end

@@ -9,7 +9,7 @@ module RestorationHelper
       else
         path = :restoration_path
       end
-    when Restoration::STATUSES[:reviewed]
+    when Restoration::STATUSES[:reviewed], Restoration::STATUSES[:approved]
       path = :restoration_path
     end
 

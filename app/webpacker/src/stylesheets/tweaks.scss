@@ -41,3 +41,12 @@
   margin-top: 0;
   opacity: .7;
 }
+
+.questionnaire div.yesno span.question {
+  display: inline-block;
+  width: 50%;
+}
+
+.questionnaire div.yesno span.question span {
+  padding-left: 10px;
+}
