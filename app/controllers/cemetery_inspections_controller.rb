@@ -1,6 +1,6 @@
 class CemeteryInspectionsController < ApplicationController
   def cemetery_information
-    @inspection = CemeteryInspection.find_by_uuid(params[:cemetery_inspection][:uuid])
+    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(cemetery_information_params)
 
     # Add trustee if he/she doesn't exist
@@ -23,8 +23,7 @@ class CemeteryInspectionsController < ApplicationController
     @inspection.assign_attributes(
       cemetery: @cemetery,
       investigator: investigator,
-      status: CemeteryInspection::STATUSES[:complete],
-      uuid: SecureRandom.uuid
+      status: CemeteryInspection::STATUSES[:complete]
     )
 
     if @inspection.valid? && verify_upload(params[:cemetery_inspection][:inspection_report])
@@ -40,21 +39,29 @@ class CemeteryInspectionsController < ApplicationController
     end
   end
 
+  def incomplete
+    @incomplete = current_user.incomplete_inspections
+  end
+
   def perform
     @cemetery = Cemetery.find(params[:id])
     @inspection = CemeteryInspection.where(cemetery: @cemetery, status: CemeteryInspection::STATUSES[:begun]).first ||
-        CemeteryInspection.new(cemetery: @cemetery, date_performed: Date.current, trustee_state: 'NY', uuid: SecureRandom.uuid)
-    @inspection.save
+        CemeteryInspection.new(
+          cemetery: @cemetery,
+          investigator: current_user,
+          date_performed: Date.current,
+          trustee_state: 'NY')
+    #@inspection.save
   end
 
   def physical_characteristics
-    @inspection = CemeteryInspection.find_by_uuid(params[:cemetery_inspection][:uuid])
+    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(physical_characteristics_params)
   end
 
   def show
     @cemetery = Cemetery.find(params[:id])
-    @inspection = CemeteryInspection.find_by_uuid(params[:uuid])
+    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
   end
 
   def upload_old_inspection
@@ -64,11 +71,11 @@ class CemeteryInspectionsController < ApplicationController
 
   def view_report
     @cemetery = Cemetery.find(params[:id])
-    @inspection = CemeteryInspection.find_by_uuid(params[:uuid])
+    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
 
     pdf = CemeteryInspectionReportPDF.new({ inspection: @inspection })
     send_data pdf.render,
-              filename: "Inspection #{params[:uuid]}.pdf",
+              filename: "Inspection #{params[:identifier]}.pdf",
               type: 'application/pdf',
               disposition: 'inline'
   end
@@ -76,7 +83,10 @@ class CemeteryInspectionsController < ApplicationController
   private
 
   def cemetery_information_params
-    params.require(:cemetery_inspection).permit(:trustee_name, :trustee_position, :trustee_street_address, :trustee_city, :trustee_state, :trustee_zip, :trustee_phone, :trustee_email, :cemetery_location, :cemetery_sign_text)
+    params.require(:cemetery_inspection).permit(
+      :trustee_name, :trustee_position, :trustee_street_address,
+      :trustee_city, :trustee_state, :trustee_zip, :trustee_phone,
+      :trustee_email, :cemetery_location, :cemetery_sign_text)
   end
 
   def cemetery_inspection_date_params
@@ -88,12 +98,12 @@ class CemeteryInspectionsController < ApplicationController
       :sign, :sign_comments, :offices, :offices_comments,
       :rules_displayed, :rules_displayed_comments, :prices_displayed, :prices_displayed_comments,
       :scattering_gardens, :scattering_gardens_comments, :community_mausoleum, :community_mausoleum_comments,
-      :proposed_mausoleum, :proposed_mausoleum_comments, :private_mausoleum, :private_mausoleum_comments,
-      :lawn_crypts, :lawn_crypts_comments, :grave_liners, :grave_liners_comments,
-      :sale_of_monuments, :sale_of_monuments_comments, :fencing, :fencing_comments,
-      :main_road, :side_roads, :new_memorials, :old_memorials, :vandalism, :hazardous_materials,
+      :private_mausoleum, :private_mausoleum_comments, :lawn_crypts, :lawn_crypts_comments,
+      :grave_liners, :grave_liners_comments, :sale_of_monuments, :sale_of_monuments_comments,
+      :fencing, :fencing_comments, :winter_burials, :winter_burials_comments, :main_road,
+      :side_roads, :new_memorials, :old_memorials, :vandalism, :hazardous_materials,
       :receiving_vault_exists, :receiving_vault_inspected, :receiving_vault_bodies, :receiving_vault_clean,
-      :receiving_vault_obscured, :receiving_vault_exclusive, :receiving_vault_secured
+      :receiving_vault_obscured, :receiving_vault_exclusive, :receiving_vault_secured, :overall_conditions, :renovations
     )
   end
 

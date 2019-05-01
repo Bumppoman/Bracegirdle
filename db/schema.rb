@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_164437) do
+ActiveRecord::Schema.define(version: 2019_05_01_230122) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -72,8 +72,83 @@ ActiveRecord::Schema.define(version: 2019_04_30_164437) do
     t.index ["town_id"], name: "index_cemeteries_towns_on_town_id"
   end
 
-# Could not dump table "cemetery_inspections" because of following StandardError
-#   Unknown type '' for column 'uuid'
+  create_table "cemetery_inspections", force: :cascade do |t|
+    t.integer "cemetery_id"
+    t.integer "investigator_id"
+    t.date "date_performed"
+    t.integer "status", default: 1
+    t.string "trustee_name"
+    t.integer "trustee_position"
+    t.string "trustee_street_address"
+    t.string "trustee_city"
+    t.string "trustee_state"
+    t.string "trustee_zip"
+    t.string "trustee_phone"
+    t.string "trustee_email"
+    t.boolean "sign"
+    t.string "identifier"
+    t.text "cemetery_location"
+    t.string "cemetery_sign_text"
+    t.string "sign_comments"
+    t.boolean "offices"
+    t.string "offices_comments"
+    t.boolean "rules_displayed"
+    t.string "rules_displayed_comments"
+    t.boolean "prices_displayed"
+    t.string "prices_displayed_comments"
+    t.boolean "scattering_gardens"
+    t.string "scattering_gardens_comments"
+    t.boolean "community_mausoleum"
+    t.string "community_mausoleum_comments"
+    t.boolean "winter_burials"
+    t.string "winter_burials_comments"
+    t.boolean "private_mausoleum"
+    t.string "private_mausoleum_comments"
+    t.boolean "lawn_crypts"
+    t.string "lawn_crypts_comments"
+    t.boolean "grave_liners"
+    t.string "grave_liners_comments"
+    t.boolean "sale_of_monuments"
+    t.string "sale_of_monuments_comments"
+    t.boolean "fencing"
+    t.string "fencing_comments"
+    t.text "main_road"
+    t.text "side_roads"
+    t.text "new_memorials"
+    t.text "old_memorials"
+    t.text "vandalism"
+    t.text "hazardous_materials"
+    t.boolean "receiving_vault_exists"
+    t.boolean "receiving_vault_inspected"
+    t.string "receiving_vault_bodies"
+    t.boolean "receiving_vault_clean"
+    t.boolean "receiving_vault_obscured"
+    t.boolean "receiving_vault_exclusive"
+    t.boolean "receiving_vault_secured"
+    t.text "overall_conditions"
+    t.text "renovations"
+    t.boolean "annual_meetings"
+    t.string "annual_meetings_comments"
+    t.string "election"
+    t.integer "number_of_trustees"
+    t.boolean "burial_permits"
+    t.string "burial_permits_comments"
+    t.boolean "body_delivery_receipt"
+    t.string "body_delivery_receipt_comments"
+    t.boolean "deeds_signed"
+    t.string "deeds_signed_comments"
+    t.boolean "burial_records"
+    t.string "burial_records_comments"
+    t.boolean "rules_provided"
+    t.string "rules_provided_comments"
+    t.boolean "rules_approved"
+    t.string "rules_approved_comments"
+    t.boolean "employees"
+    t.string "employees_comments"
+    t.boolean "trustees_compensated"
+    t.string "trustees_compensated_comments"
+    t.index ["cemetery_id"], name: "index_cemetery_inspections_on_cemetery_id"
+  end
 
   create_table "complaints", force: :cascade do |t|
     t.integer "cemetery_id"
@@ -184,15 +259,6 @@ ActiveRecord::Schema.define(version: 2019_04_30_164437) do
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
-  end
-
-  create_table "people", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "phone_number"
-    t.string "email"
-    t.float "latitude"
-    t.float "longitude"
   end
 
   create_table "restoration", force: :cascade do |t|

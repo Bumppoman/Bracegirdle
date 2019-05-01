@@ -19,8 +19,8 @@ Rails.application.routes.draw do
       get 'inspect', to: 'cemetery_inspections#perform', as: :inspect
       patch 'inspect/cemetery-information', to: 'cemetery_inspections#cemetery_information', as: :cemetery_information_inspect
       patch 'inspect/physical-characteristics', to: 'cemetery_inspections#physical_characteristics', as: :physical_characteristics_inspect
-      get 'inspection/:uuid', to: 'cemetery_inspections#show', as: :show_inspection
-      get 'inspection/:uuid/view-report', to: 'cemetery_inspections#view_report', as: :view_report
+      get 'inspection/:identifier', to: 'cemetery_inspections#show', as: :show_inspection
+      get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
       get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
@@ -52,6 +52,9 @@ Rails.application.routes.draw do
   # Errors
   get '/403', to: 'errors#forbidden'
   get '/500', to: 'errors#internal_server_error'
+
+  # Inspections
+  get 'inspections/incomplete', to: 'cemetery_inspections#incomplete', as: :incomplete_inspections
 
   # Notices
   resources :notices do

@@ -38,8 +38,7 @@ li.nav-item.with-sub
     span Inspections
   .sub-item
     ul
-      li
-        a href="#" Incomplete inspections
+      li = active_circle_link 'Incomplete inspections', incomplete_inspections_path, current_user.incomplete_inspections.any?
       li = active_circle_link 'Overdue inspections', overdue_inspections_cemeteries_path, current_user.overdue_inspections.any?
 li.nav-item.with-sub
   a.nav-link href="#"

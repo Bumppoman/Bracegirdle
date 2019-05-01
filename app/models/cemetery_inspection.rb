@@ -1,4 +1,6 @@
 class CemeteryInspection < ApplicationRecord
+  after_commit :set_identifier, on: :create
+
   attribute :cemetery_county, :integer
 
   belongs_to :cemetery
@@ -19,6 +21,7 @@ class CemeteryInspection < ApplicationRecord
   }.freeze
 
   def current_inspection_step
+    return 2 unless renovations.nil?
     return 1 unless cemetery_sign_text.nil?
     0
   end
@@ -32,6 +35,13 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def to_param
-    uuid
+    identifier
+  end
+
+  private
+
+  def set_identifier
+    self.identifier = "#{date_performed.year}-INSP-#{'%05d' % id}"
+    save
   end
 end

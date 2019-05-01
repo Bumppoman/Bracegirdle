@@ -1,0 +1,13 @@
+.modal.confirmation-modal id="#{modal_id}"
+  .modal-dialog.modal-sm role="document"
+    .modal-content
+      .modal-header.pd-x-20
+        h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold = "#{modal_title}?"
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+      .modal-body.pd-b-0
+        p.text-center
+          = modal_text
+      .modal-footer.justify-content-center
+        button.confirmation-modal-success-button.btn.btn-primary type="button" data-location="#{modal_success_location}" = modal_title
+        button.btn.btn-secondary type="button" data-dismiss="modal" Close

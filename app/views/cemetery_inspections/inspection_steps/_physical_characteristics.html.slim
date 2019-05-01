@@ -3,8 +3,8 @@
     .row
       .col-lg-6
         .form-group
+          = f.hidden_field :identifier
           = f.label :sign, '201.7 sign posted', class: 'form-control-label'
-          = f.hidden_field :uuid
           .yesno
             span.question
               = f.radio_button :sign, true

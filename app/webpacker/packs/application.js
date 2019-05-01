@@ -28,6 +28,7 @@ import '../src/javascript/attachments';
 import '../src/javascript/cemeteries';
 import '../src/javascript/cemetery_inspections';
 import '../src/javascript/complaints';
+import '../src/javascript/confirmation_modal';
 import '../src/javascript/dashboard';
 import '../src/javascript/limit_cemeteries';
 import '../src/javascript/notices';

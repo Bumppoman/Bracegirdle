@@ -16,7 +16,11 @@
             td = inspection.investigator&.name || 'Unknown'
             td = inspection.score
             td = inspection.named_status
-  .mg-t-20
-    ul.nav.nav-gray-600.nav-underline.justify-content-center
-      li.nav-item
-        = link_to 'Upload inspection', upload_inspection_cemetery_path(@cemetery), class: 'nav-link'
+  - if current_user.investigator?
+    .mg-t-20
+      ul.nav.nav-gray-600.nav-underline.justify-content-center
+        li.nav-item
+          a.with-confirmation-modal.nav-link href="#" data-modal="#confirm-begin-inspection" Begin inspection
+        li.nav-item
+          = link_to 'Upload inspection', upload_inspection_cemetery_path(@cemetery), class: 'nav-link'
+= render 'application/confirmation_modal', modal_id: 'confirm-begin-inspection', modal_title: 'Begin inspection', modal_text: "Do you want to begin an inspection of #{@cemetery.name}?", modal_success_location: inspect_cemetery_path(@cemetery)

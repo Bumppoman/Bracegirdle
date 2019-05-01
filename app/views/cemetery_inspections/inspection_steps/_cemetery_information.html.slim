@@ -3,7 +3,7 @@
     .row
       .col-lg-6
         .form-group.required
-          = f.hidden_field :uuid
+          = f.hidden_field :identifier
           = f.label :cemetery_county, 'County', class: 'form-control-label'
           = f.select :cemetery_county, options_for_select(COUNTIES.invert, @cemetery.county), { prompt: 'Select county' }, disabled: true, class: 'form-control select2-show-search'
       .col-lg-6

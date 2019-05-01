@@ -10,6 +10,17 @@ $(document).on('turbolinks:load', function () {
         }
     });
 
+    $('#incomplete-cemetery-inspections-data-table').DataTable({
+        order: [[0, 'asc']],
+        responsive: true,
+        language: {
+            emptyTable: "There are no inspections to display.",
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+        }
+    });
+
     $('#perform-inspection').steps({
         headerTag: 'h3',
         bodyTag: 'section',
