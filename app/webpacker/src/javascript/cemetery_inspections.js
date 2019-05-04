@@ -53,28 +53,22 @@ $(document).on('turbolinks:load', function () {
                         contentType: false
                     });
                 }
-            } else if (currentIndex == 3) {
-                const previous_form_object = $('#restoration-previous-form');
-                if (previous_form_object.length > 0) {
-                    let previous_form = new FormData(previous_form_object[0]);
-                    $.post({
-                        url: previous_form_object.attr('action'),
-                        data: previous_form,
-                        processData: false,
-                        contentType: false
-                    });
-                }
             }
             return true;
         },
         onFinishing: function () {
-            $.ajax({
-                url: $('#process-restoration-p-4').data('finish-processing'),
-                type: 'PATCH',
-                success: function () {
-                    window.location.reload(true);
-                }
-            });
+            const record_keeping_form_object = $('#inspection-record-keeping-form');
+            if (record_keeping_form_object.length > 0) {
+                let record_keeping_form = new FormData(record_keeping_form_object[0]);
+                $.post({
+                    url: record_keeping_form_object.attr('action'),
+                    data: record_keeping_form,
+                    processData: false,
+                    contentType: false
+                });
+
+                window.location.href = record_keeping_form_object.data('success-url');
+            }
         }
     });
 

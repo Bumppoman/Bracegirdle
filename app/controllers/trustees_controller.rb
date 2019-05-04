@@ -19,6 +19,11 @@ class TrusteesController < ApplicationController
     redirect_to cemetery_trustees_path(@cemetery)
   end
 
+  def update
+    @trustee = Trustee.find(params[:id])
+    @trustee.update(trustee_params)
+  end
+
   private
 
   def trustee_params

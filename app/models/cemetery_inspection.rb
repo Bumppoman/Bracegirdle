@@ -25,8 +25,8 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def current_inspection_step
-    return 2 unless renovations.nil?
-    return 1 unless cemetery_sign_text.nil?
+    return 2 if renovations.present?
+    return 1 if cemetery_sign_text.present?
     0
   end
 
@@ -39,7 +39,7 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def score
-    return '---' unless complete?
+    return '---' unless complete? && !inspection_report.attached?
   end
 
   def to_param

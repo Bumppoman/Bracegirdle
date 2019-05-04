@@ -60,6 +60,14 @@ class CemeteryInspectionsController < ApplicationController
     @inspection.update(physical_characteristics_params)
   end
 
+  def record_keeping
+    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection.update(record_keeping_params)
+
+    # Finalize inspection
+    @inspection.update(status: CemeteryInspection::STATUSES[:performed])
+  end
+
   def show
     @cemetery = Cemetery.find(params[:id])
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
@@ -105,6 +113,16 @@ class CemeteryInspectionsController < ApplicationController
       :side_roads, :new_memorials, :old_memorials, :vandalism, :hazardous_materials,
       :receiving_vault_exists, :receiving_vault_inspected, :receiving_vault_bodies, :receiving_vault_clean,
       :receiving_vault_obscured, :receiving_vault_exclusive, :receiving_vault_secured, :overall_conditions, :renovations
+    )
+  end
+
+  def record_keeping_params
+    params.require(:cemetery_inspection).permit(
+      :annual_meetings, :annual_meetings_comments, :election, :number_of_trustees,
+      :burial_permits, :burial_permits_comments, :body_delivery_receipt, :body_delivery_receipt_comments,
+      :deeds_signed, :deeds_signed_comments, :burial_records, :burial_records_comments,
+      :rules_provided, :rules_provided_comments, :rules_approved, :rules_approved_comments,
+      :employees, :employees_comments, :trustees_compensated, :trustees_compensated_comments
     )
   end
 

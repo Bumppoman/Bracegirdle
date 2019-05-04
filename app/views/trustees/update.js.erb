@@ -1,10 +1,9 @@
 $('#trustee-form').modal('hide');
-var rowNode = $('#trustees-data-table').DataTable().row.add([
+var rowNode = $('#trustees-data-table').DataTable().row('#trustee-<%= @trustee.id %>').data([
     "<%=  @trustee.name %>",
     "<%=  @trustee.position_name %>",
     "<%=  @trustee.full_address %>",
     "<%=  @trustee.phone %>",
     "<%=  @trustee.email %>",
     '<a href="#" class="edit-trustee" data-cemetery="<%= @trustee.cemetery.id %>" data-trustee="<%= @trustee.id %>"><i class="fa fa-edit"></i></a>'
-]).draw(false).node();
-rowNode.attr('id', "trustee-<%= @trustee.id %>");
+]).draw(false);

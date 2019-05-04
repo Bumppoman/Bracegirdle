@@ -35,6 +35,11 @@ $(document).on('turbolinks:load', function () {
         $('#trustee-form-title').text('Edit Trustee');
         $('#trustee-form-submit').text('Edit Trustee');
         $('#trustee-form-object').attr('action', '/cemeteries/' + cemetery + '/trustees/' + trustee);
+        $('<input>').attr({
+            type: 'hidden',
+            name: '_method',
+            value: 'patch'
+        }).appendTo($('#trustee-form-object'));
 
         $.getJSON('/cemeteries/' + cemetery + '/trustees/' + trustee + '/api/show', function (data) {
             Object.keys(data).forEach(function(key) {
