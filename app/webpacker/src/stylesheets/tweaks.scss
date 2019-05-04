@@ -29,8 +29,9 @@
   margin-top: 15px;
 }
 
-.select2-container {
+:not(.dataTables_length > label) > .select2-container {
   text-align: left;
+  width: 100% !important;
 }
 
 .slim-navbar .sub-item .sub-with-sub::after {

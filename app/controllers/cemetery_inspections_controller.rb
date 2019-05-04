@@ -1,6 +1,7 @@
 class CemeteryInspectionsController < ApplicationController
   def cemetery_information
     @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection.date_performed = cemetery_inspection_date_params['date_performed']
     @inspection.update(cemetery_information_params)
 
     # Add trustee if he/she doesn't exist
@@ -33,7 +34,7 @@ class CemeteryInspectionsController < ApplicationController
       # Only update the inspection date if it's newer than the last
       @cemetery.update(last_inspection_date: @inspection.date_performed) if @inspection.date_performed > @cemetery.last_inspection_date
 
-      redirect_to show_inspection_cemetery_path(uuid: @inspection)
+      redirect_to show_inspection_cemetery_path(identifier: @inspection)
     else
       render :upload_old_inspection
     end
@@ -51,7 +52,7 @@ class CemeteryInspectionsController < ApplicationController
           investigator: current_user,
           date_performed: Date.current,
           trustee_state: 'NY')
-    #@inspection.save
+    @inspection.save
   end
 
   def physical_characteristics

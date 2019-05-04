@@ -1,15 +1,23 @@
 = form_with model: @inspection, url: cemetery_information_inspect_cemetery_path(@cemetery), html: { id: 'inspection-cemetery-information-form' } do |f|
   .form-layout
     .row
-      .col-lg-6
+      .col-lg-3
         .form-group.required
           = f.hidden_field :identifier
           = f.label :cemetery_county, 'County', class: 'form-control-label'
           = f.select :cemetery_county, options_for_select(COUNTIES.invert, @cemetery.county), { prompt: 'Select county' }, disabled: true, class: 'form-control select2-show-search'
       .col-lg-6
         .form-group.required
-          =f.label :cemetery, 'Cemetery', class: 'form-control-label'
-          =f.select :cemetery, grouped_options_for_select(cemetery_options, @cemetery.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search'
+          = f.label :cemetery, 'Cemetery', class: 'form-control-label'
+          = f.select :cemetery, grouped_options_for_select(cemetery_options, @cemetery.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search'
+      .col-lg-3
+        .form-group.required
+          = f.label :date_performed, 'Date', class: 'form-control-label'
+          .input-group
+            .input-group-prepend
+              .input-group-text
+                i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+            = f.text_field :date_performed, value: @inspection.date_performed.try(:strftime, '%m/%d/%Y'), class: 'form-control fc-datepicker'
     .row
       #cemetery-inspection-interviewee.col-lg-8
         .form-group.required

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       get 'inspect', to: 'cemetery_inspections#perform', as: :inspect
       patch 'inspect/cemetery-information', to: 'cemetery_inspections#cemetery_information', as: :cemetery_information_inspect
       patch 'inspect/physical-characteristics', to: 'cemetery_inspections#physical_characteristics', as: :physical_characteristics_inspect
+      patch 'inspect/record-keeping', to: 'cemetery_inspections#record-keeping', as: :record_keeping_inspect
       get 'inspection/:identifier', to: 'cemetery_inspections#show', as: :show_inspection
       get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections

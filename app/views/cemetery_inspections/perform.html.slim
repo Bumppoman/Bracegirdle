@@ -1,5 +1,5 @@
 - content_for :title, 'Perform Inspection'
-- content_for :breadcrumbs, breadcrumbs_helper([["#{@inspection.cemetery.name} (##{@inspection.cemetery.cemetery_id})", cemetery_path(@inspection.cemetery)], 'Perform inspection'])
+- content_for :breadcrumbs, breadcrumbs_helper([["#{@inspection.cemetery.name} (##{@inspection.cemetery.cemetery_id})", cemetery_path(@inspection.cemetery)], ['Inspections', inspections_cemetery_path(@inspection.cemetery)], 'Perform inspection'])
 .section-wrapper
   #perform-inspection.mg-t-20 data-step="#{@inspection.current_inspection_step}"
     h3 Cemetery Information

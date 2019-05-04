@@ -9,7 +9,7 @@ class CemeteryInspection < ApplicationRecord
   has_one_attached :inspection_report
 
   NAMED_STATUSES = {
-      1 => 'Begun',
+      1 => 'In progress',
       2 => 'Performed',
       4 => 'Complete'
   }.freeze
@@ -19,6 +19,10 @@ class CemeteryInspection < ApplicationRecord
     performed: 2,
     complete: 4
   }.freeze
+
+  def complete?
+    status == STATUSES[:complete]
+  end
 
   def current_inspection_step
     return 2 unless renovations.nil?
@@ -30,8 +34,12 @@ class CemeteryInspection < ApplicationRecord
     NAMED_STATUSES[status]
   end
 
+  def performed?
+    status == STATUSES[:performed]
+  end
+
   def score
-    return '---' if inspection_report.attached?
+    return '---' unless complete?
   end
 
   def to_param
