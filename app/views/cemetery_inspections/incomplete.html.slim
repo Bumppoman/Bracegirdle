@@ -14,7 +14,7 @@
           tr
             td
               span.d-none = inspection.date_performed.strftime('%Y-%m-%d')
-              = link_to inspection.identifier, inspect_cemetery_path(inspection.cemetery)
+              = cemetery_inspection_link inspection, true
             td = link_to inspection.cemetery.name, inspection.cemetery
             td = inspection.date_performed
             td = inspection.named_status

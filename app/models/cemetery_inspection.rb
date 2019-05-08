@@ -46,6 +46,10 @@ class CemeteryInspection < ApplicationRecord
     identifier
   end
 
+  def violations?
+    true
+  end
+
   private
 
   def set_identifier

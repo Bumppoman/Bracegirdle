@@ -24,10 +24,10 @@
     tbody
       tr
         th.wd-20p scope="row" Law Sections
-        td colspan="4" ==simple_format(@notice.law_sections)
+        td colspan="4" == simple_format(@notice.law_sections)
       tr
         th scope="row" Specific Information
-        td colspan="4" ==simple_format(@notice.specific_information)
+        td colspan="4" == simple_format(@notice.specific_information)
 .section-wrapper.pd-20.mg-t-5
   label.section-title Actions
   #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=@notice.status]

@@ -1,0 +1,219 @@
+cemetery_inspections:
+  sign:
+    report_text: 'You must post a sign indicating you are regulated by the NYS Cemetery Board.'
+    law_section:
+      title: '19 NYCRR § 201.7 Posting of sign at cemetery'
+      body: >
+        (a) Every cemetery corporation shall post in its main office a notice that provides the following in no less than 20-point type:
+        <br><br>
+        (Name of Cemetery)
+        <br><br>
+        is regulated by the
+        <br><br>
+        New York State Cemetery Board
+        <br><br>
+        (Phone number of nearest office of NYS
+        <br><br>
+        Division of Cemeteries, or hotline)
+        <br><br>
+        If the cemetery corporation does not have a main office on or adjacent to the cemetery premises that is open
+        during regular business hours at least five days per week, it shall post such notice at the main entrance to
+        the cemetery in no less than 40-point type. Such notice shall also include the name, title and office telephone
+        number of the superintendent or other person with primary responsibility for the operation of the cemetery.
+        <br><br>
+        (b) The sign shall be legible, in the English language and in any other language deemed appropriate by the
+        cemetery corporation, and posted in a conspicuous, unobstructed location that is readily visible to a visitor
+        to the cemetery corporation's main office or to a person who approaches the cemetery's main entrance.
+  receiving_vault_clean:
+    report_text: 'You must ensure your receiving vault is clean if bodies are being stored.'
+  receiving_vault_obscured:
+    report_text: 'You must ensure all bodies in your receiving vault are obscured from view.'
+  receiving_vault_secured:
+    report_text: 'You must secure the receiving vault when storing bodies.'
+  receiving_vault_exclusive:
+    report_text: 'The receiving vault must be used exclusively for bodies.'
+  annual_meetings:
+    report_text: 'Annual meetings must be held and advertised once weekly for three consecutive weeks prior to the meeting.'
+    law_section:
+      title:
+        - 'NPCL § 603. Meetings of members'
+        - 'NPCL § 605. Notice of meeting of members'
+      body:
+        - >
+          (b) A meeting of the members shall be held annually for the election of directors and the transaction of other business
+          on a date fixed by or under the by-laws.  Failure to hold the annual meeting on the date so fixed or to elect a sufficient
+          number of directors to conduct the business of the corporation shall not work a forfeiture or give cause for dissolution
+          of the corporation, except as provided in paragraph (a) of section 1102.
+        - >
+          (a) Whenever under the provisions of this chapter members are required or permitted to take any action at a meeting,
+          written notice shall state the place, date and hour of the meeting and, unless it is an annual meeting, indicate that it
+          is being issued by or at the direction of the person or persons calling the meeting.  Notice of a special meeting shall also
+          state the purpose or purposes for which the meeting is called.  A copy of the notice of any meeting shall be given, personally,
+          by mail, or by facsimile telecommunications or by electronic mail, to each member entitled to vote at such meeting.  
+          If the notice is given personally, by first class mail or by facsimile telecommunications or by electronic mail,
+          it shall be given not less than ten nor more than fifty days before the date of the meeting;  if mailed by any other class
+          of mail, it shall be given not less than thirty nor more than sixty days before such date.  If mailed, such notice is given
+          when deposited in the United States mail, with postage thereon prepaid, directed to the member at his address as it appears
+          on the record of members, or, if he shall have filed with the secretary of the corporation a written request that notices to
+          him be mailed to some other address, then directed to him at such other address.  If sent by facsimile telecommunication or
+          mailed electronically, such notice is given when directed to the member's fax number or electronic mail address as it appears
+          on the record of members, or, to such fax number or other electronic mail address as filed with the secretary of the corporation.  
+          Notwithstanding the foregoing, such notice shall not be deemed to have been given electronically (1) if the corporation is
+          unable to deliver two consecutive notices to the member by facsimile telecommunication or electronic mail;  or (2)
+          the corporation otherwise becomes aware that notice cannot be delivered to the member by facsimile telecommunication or
+          electronic mail.  An affidavit of the secretary or other person giving the notice or of a transfer agent of the corporation
+          that the notice required by this section has been given shall, in the absence of fraud, be prima facie evidence of the facts
+          therein stated.  Whenever a corporation has more than five hundred members, the notice may be served by publication in a
+          newspaper published in the county in the state in which the principal office of the corporation is located, once a week for
+          three successive weeks next preceding the date of the meeting, provided that the corporation shall also prominently post
+          notice of such meeting on the homepage of any website maintained by the corporation continuously from the date of publication
+          through the date of the meeting.  A corporation shall send notice of meetings by first class mail to any member who requests
+          in writing that such notices be delivered by such method.
+  election:
+    report_text: 'You must hold an election at your annual meeting.'
+    law_section:
+      title: 'NPCL § 603. Meetings of members'
+      body: >
+        (b) A meeting of the members shall be held annually for the election of directors and the transaction of other business
+        on a date fixed by or under the by-laws.  Failure to hold the annual meeting on the date so fixed or to elect a sufficient
+        number of directors to conduct the business of the corporation shall not work a forfeiture or give cause for dissolution
+        of the corporation, except as provided in paragraph (a) of section 1102.
+  burial_permits:
+    report_text: 'Burial permits must be filed with the local registrar within seven days following a full burial.'
+    law_section:
+      title: 'PHL § 4145. Deaths; burial and removal permits; disposition of remains'
+      body: >
+        1. No person in charge of any premises on which interments, cremations or other disposition of the body of a deceased
+        person are made shall inter or permit the interment or other disposition of any body unless it is accompanied by a burial,
+        cremation or transit permit, as provided in this article.
+        <br><br>
+        2. (a) The funeral director or undertaker shall deliver the burial permit to the person in charge of the place of burial
+        or other disposition before interring or otherwise disposing of the body or shall attach the removal or transit permit to
+        the box containing the body, when shipped by any transportation company, which permit shall accompany the remains to its
+        destination, where, if within this state, it shall be delivered to the person in charge of the place of burial or other
+        disposition. (b) Any person or other entity owning, operating, managing, or designated to receive the body of a deceased
+        person at a place of burial, cremation, or other final disposition in this state, who receives the body of a deceased person,
+        shall provide a receipt for the body to the funeral director, undertaker or registered resident who delivered such body.
+        Each receipt shall (i) be endorsed by both such person and the funeral director, undertaker or registered resident,
+        (ii) indicate the date the body was delivered, (iii) include the name of the funeral director, undertaker or registered
+        resident delivering the body and the registration number of such funeral director, undertaker or registered resident,
+        (iv) include the name of the registered funeral firm the funeral director, undertaker or registered resident represents,
+        (v) include the name of the deceased person as it appears on the burial, cremation, or transit permit, and (vi) include the
+        name of the owner, operator, manager, or person in charge of the place of burial, cremation, or other final disposition who
+        received the body of the deceased person. A copy of such receipt shall be retained by the owner, operator, manager, or person
+        in charge of the place of burial, cremation, or other final disposition for a period of not less than four years, and shall be
+        made available for inspection by the division of cemeteries during normal business hours. The original copy of every such
+        receipt shall be retained by the licensed funeral firm for a period of not less than four years pursuant to the rules and
+        regulations of the department governing the maintenance of records.
+        <br><br>
+        3. The person in charge of the place of burial or other disposition shall endorse upon the permit, the date of interment,
+        or cremation or other disposition over his signature, and shall return all permits so endorsed to the registrar of his
+        district within seven days after the date of interment, cremation or other disposition.
+        <br><br>
+        4. When burying or otherwise disposing of the body of a deceased person in a cemetery or burial place having no person in
+        charge, the funeral director or undertaker shall (a) sign the burial or removal permit, giving the date of burial;
+        (b) write across the face of the permit the words "No person in charge; " and (c) file the burial or removal permit within
+        three days with the registrar of the district in which the cemetery is located.
+        <br><br>
+        5. The person in charge of the place of burial, cremation, or other disposition shall keep a record of all bodies interred
+        or otherwise disposed of on the premises under his charge, in each case stating the name of each deceased person,
+        place of death, date of burial or disposal, and name and address of the funeral director or undertaker, which record shall
+        at all time be open to official inspection.
+  body_delivery_receipt:
+    report_text: 'You must provide a Body Delivery Receipt when receiving a body.'
+    law_section:
+      title: 'PHL § 4145. Deaths; burial and removal permits; disposition of remains'
+      body: >
+        2. (a) The funeral director or undertaker shall deliver the burial permit to the person in charge of the place of burial
+        or other disposition before interring or otherwise disposing of the body or shall attach the removal or transit permit to
+        the box containing the body, when shipped by any transportation company, which permit shall accompany the remains to its
+        destination, where, if within this state, it shall be delivered to the person in charge of the place of burial or other
+        disposition. (b) Any person or other entity owning, operating, managing, or designated to receive the body of a deceased
+        person at a place of burial, cremation, or other final disposition in this state, who receives the body of a deceased person,
+        shall provide a receipt for the body to the funeral director, undertaker or registered resident who delivered such body.
+        Each receipt shall (i) be endorsed by both such person and the funeral director, undertaker or registered resident,
+        (ii) indicate the date the body was delivered, (iii) include the name of the funeral director, undertaker or registered
+        resident delivering the body and the registration number of such funeral director, undertaker or registered resident,
+        (iv) include the name of the registered funeral firm the funeral director, undertaker or registered resident represents,
+        (v) include the name of the deceased person as it appears on the burial, cremation, or transit permit, and (vi) include the
+        name of the owner, operator, manager, or person in charge of the place of burial, cremation, or other final disposition who
+        received the body of the deceased person. A copy of such receipt shall be retained by the owner, operator, manager, or person
+        in charge of the place of burial, cremation, or other final disposition for a period of not less than four years, and shall be
+        made available for inspection by the division of cemeteries during normal business hours. The original copy of every such
+        receipt shall be retained by the licensed funeral firm for a period of not less than four years pursuant to the rules and
+        regulations of the department governing the maintenance of records.
+  deeds_signed:
+    report_text: 'Deeds must have two signatures; preferably, the president and the treasurer.'
+    law_section:
+      title: 'NPCL § 1513. Sale of burial rights'
+      body: >
+        (b) Prices for burial rights and instruments of conveyance. (1) The directors must fix and determine the prices of the burial
+        lots, plots or parts thereof, and keep a plainly printed copy of the schedules of such prices conspicuously posted in each of
+        the offices of the corporation, open at all reasonable times to inspection, and shall file a schedule of such prices in the
+        office of the cemetery board. (2) Unless its certificate of incorporation or by-laws otherwise provide, and subject to its
+        rules and regulations, the corporation shall sell and convey to any person the use of the lots, plots or parts thereof
+        designated on the map filed in the office of the corporation, on payment of the prices so fixed and determined, but need not
+        sell and convey more than one lot, plot or part thereof to any one person. <b>Conveyances of lots, plots and parts thereof shall
+        be signed by the president or vice-president and treasurer or assistant treasurer of the corporation.</b> A written contract for
+        the sale or use of a lot, plot or part thereof shall have attached thereto and made a part thereof a copy of the rules and
+        regulations of the cemetery corporation or such parts of such rules and regulations as relate to the size and placement of
+        monuments, restrictions on plot usage, warranties, obligations of the cemetery corporation and financial obligations and
+        duties of the lot owner. If a lot, plot or part thereof is sold without a written contract, the corporation shall, before any
+        part of the purchase price is paid by the purchaser, deliver to the purchaser a copy of the rules and regulations or such
+        parts thereof as would be required to be attached to a written contract. Nothing in this subdivision shall prevent the
+        subsequent amendment of such rules and regulations to increase the charges for services rendered by the corporation or in
+        other particulars by or with the consent of the cemetery board under section fifteen hundred nine of this article. (3) A
+        cemetery corporation that shall sell a lot, plot or part thereof, in excess of the price shown on the schedule filed in the
+        office of the cemetery board, and any person acting for or on behalf of the cemetery corporation in connection with such sale,
+        shall each forfeit to the people of the state of New York a sum equivalent to three times the excess amount so paid. Such
+        penalty may be recovered in a civil action by the cemetery board. (4) The instrument of conveyance of any burial lot, plot
+        or part thereof shall include the actual amount paid therefor and a description showing the dimensions of the property
+        conveyed, and the plot number, section and block number as they appear on the cemetery map.
+  rules_provided:
+    report_text: "You must provide a copy of your cemetery's rules and regulations with each deed."
+    law_section:
+      title: 'NPCL § 1513. Sale of burial rights'
+      body: >
+        (b) Prices for burial rights and instruments of conveyance. (1) The directors must fix and determine the prices of the burial
+        lots, plots or parts thereof, and keep a plainly printed copy of the schedules of such prices conspicuously posted in each of
+        the offices of the corporation, open at all reasonable times to inspection, and shall file a schedule of such prices in the
+        office of the cemetery board. (2) Unless its certificate of incorporation or by-laws otherwise provide, and subject to its
+        rules and regulations, the corporation shall sell and convey to any person the use of the lots, plots or parts thereof
+        designated on the map filed in the office of the corporation, on payment of the prices so fixed and determined, but need not
+        sell and convey more than one lot, plot or part thereof to any one person. Conveyances of lots, plots and parts thereof shall
+        be signed by the president or vice-president and treasurer or assistant treasurer of the corporation. <b>A written contract for
+        the sale or use of a lot, plot or part thereof shall have attached thereto and made a part thereof a copy of the rules and
+        regulations of the cemetery corporation or such parts of such rules and regulations as relate to the size and placement of
+        monuments, restrictions on plot usage, warranties, obligations of the cemetery corporation and financial obligations and
+        duties of the lot owner.</b> If a lot, plot or part thereof is sold without a written contract, the corporation shall, before any
+        part of the purchase price is paid by the purchaser, deliver to the purchaser a copy of the rules and regulations or such
+        parts thereof as would be required to be attached to a written contract. Nothing in this subdivision shall prevent the
+        subsequent amendment of such rules and regulations to increase the charges for services rendered by the corporation or in
+        other particulars by or with the consent of the cemetery board under section fifteen hundred nine of this article. (3) A
+        cemetery corporation that shall sell a lot, plot or part thereof, in excess of the price shown on the schedule filed in the
+        office of the cemetery board, and any person acting for or on behalf of the cemetery corporation in connection with such sale,
+        shall each forfeit to the people of the state of New York a sum equivalent to three times the excess amount so paid. Such
+        penalty may be recovered in a civil action by the cemetery board. (4) The instrument of conveyance of any burial lot, plot
+        or part thereof shall include the actual amount paid therefor and a description showing the dimensions of the property
+        conveyed, and the plot number, section and block number as they appear on the cemetery map.
+  rules_approved:
+    report_text: 'Your cemetery must create rules and regulations, which must first be approved by the Division.'
+    law_section:
+      title: 'NPCL § 1509. Cemetery rules and regulations; charges and lot tax assessments'
+      body: >
+        (a) Rules and regulations. The directors of a cemetery corporation shall make reasonable rules and regulations for the use,
+        care, management and protection of the property of the corporation and of all lots, plots and parts thereof; for regulating
+        the dividing marks between the lots, plots and parts thereof; for prohibiting or regulating the erection of structures upon
+        such lots, plots or parts thereof; for preventing unsightly monuments, effigies and structures within the cemetery grounds,
+        and for the removal thereof; for regulating the introduction and care of plants, trees and shrubs within such grounds; for the
+        prevention of the burial in a lot, plot or part thereof, of a body not entitled to burial therein; for regulating or preventing
+        disinterments; for regulating the conduct of persons while within the cemetery grounds; for excluding improper persons and
+        preventing improper assemblages therein. The directors may prescribe penalties for the violation of any such rule or
+        regulation, not exceeding twenty-five dollars for each violation, which shall be recoverable by the corporation in a civil
+        action.
+        <br><br>
+        (e) Amendment and modification. (1) The rules and regulations of a cemetery corporation may be amended or added to by the
+        corporation by filing such proposed amendments or additions in the office of the cemetery board but no such amendment or
+        addition shall be effective unless and until an order approving such amendments or additions is made by the cemetery board
+        and filed in its office in the same manner as that applicable to the original filing of the rules, regulations and charges
+        of the cemetery corporation.

@@ -40,6 +40,15 @@ class CemeteryInspectionsController < ApplicationController
     end
   end
 
+  def finalize
+    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection.update(
+      status: CemeteryInspection::STATUSES[:complete],
+      date_mailed: Date.current
+    )
+    @inspection.cemetery.update(last_inspection_date: @inspection.date_performed)
+  end
+
   def incomplete
     @incomplete = current_user.incomplete_inspections
   end
@@ -68,6 +77,11 @@ class CemeteryInspectionsController < ApplicationController
     @inspection.update(status: CemeteryInspection::STATUSES[:performed])
   end
 
+  def revise
+    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection.update(status: CemeteryInspection::STATUSES[:begun])
+  end
+
   def show
     @cemetery = Cemetery.find(params[:id])
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
@@ -78,11 +92,50 @@ class CemeteryInspectionsController < ApplicationController
     @inspection = CemeteryInspection.new
   end
 
+  def view_full_package
+    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    output = CombinePDF.new
+
+    # Add appropriate letter
+    if @inspection.violations?
+      output << CombinePDF.parse(Letters::CemeteryInspectionViolationsPDF.new(
+        {
+          date: Date.current,
+          recipient: @inspection.cemetery.name,
+          address_line_one: @inspection.trustee_street_address,
+          address_line_two: "#{@inspection.trustee_city}, #{@inspection.trustee_state} #{@inspection.trustee_zip}",
+          cemetery: @inspection.cemetery,
+          name: @inspection.investigator.name,
+          title: @inspection.investigator.title,
+          signature: @inspection.investigator.signature
+        },
+      ).render)
+      output << CombinePDF.parse(BlankPDF.new({}).render)
+    else
+    end
+
+    # Add inspection report
+    output << CombinePDF.parse(generate_report.render)
+
+    # Output violation items
+    if @inspection.violations?
+      output << CombinePDF.parse(CemeteryInspectionItemsPDF.new({ inspection: @inspection }).render)
+      output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Rules and Regulations.pdf'))
+    end
+
+
+    # Output package
+    send_data output.to_pdf,
+      filename: "Inspection Package #{@inspection.identifier}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
+
   def view_report
     @cemetery = Cemetery.find(params[:id])
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
 
-    pdf = CemeteryInspectionReportPDF.new({ inspection: @inspection })
+    pdf = generate_report
     send_data pdf.render,
               filename: "Inspection #{params[:identifier]}.pdf",
               type: 'application/pdf',
@@ -100,6 +153,14 @@ class CemeteryInspectionsController < ApplicationController
 
   def cemetery_inspection_date_params
     date_params %w(date_performed), params[:cemetery_inspection]
+  end
+
+  def generate_report
+    CemeteryInspectionReportPDF.new(
+        {
+            inspection: @inspection,
+            signature: @inspection.investigator.signature
+        })
   end
 
   def physical_characteristics_params

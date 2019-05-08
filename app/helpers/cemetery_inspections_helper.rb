@@ -1,5 +1,5 @@
 module CemeteryInspectionsHelper
-  def display_inspection_report(inspection, request)
+  def display_cemetery_inspection_report(inspection, request)
     if inspection.inspection_report.attached?
       attachment_display_link(inspection.inspection_report, request)
     else
@@ -7,7 +7,7 @@ module CemeteryInspectionsHelper
     end
   end
 
-  def download_inspection_report_link(inspection)
+  def download_cemetery_inspection_report_link(inspection)
     if inspection.inspection_report.attached?
       rails_blob_path(inspection.inspection_report, disposition: 'attachment')
     else
@@ -15,11 +15,17 @@ module CemeteryInspectionsHelper
     end
   end
 
-  def inspection_link(inspection)
-    if !inspection.performed?
-      link_to inspection.date_performed, inspect_cemetery_path(inspection.cemetery)
-    else
-      link_to inspection.date_performed, show_inspection_cemetery_path(inspection.cemetery, identifier: inspection)
+  def cemetery_inspection_link(inspection, identifier = false)
+    path = inspection.performed? ? show_inspection_cemetery_path(inspection.cemetery, inspection) : inspect_cemetery_path(inspection.cemetery)
+    link_to (identifier ? inspection.identifier : inspection.date_performed), path
+  end
+
+  def verbose_cemetery_inspection_status(inspection)
+    case inspection.status
+    when CemeteryInspection::STATUSES[:performed]
+      'Performed; not yet mailed'
+    when CemeteryInspection::STATUSES[:complete]
+      "Complete (mailed #{@inspection.date_mailed})"
     end
   end
 end

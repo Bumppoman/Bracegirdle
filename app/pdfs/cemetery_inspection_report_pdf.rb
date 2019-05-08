@@ -30,9 +30,9 @@ class CemeteryInspectionReportPDF
         [smallcaps('2. Interviewee'), smallcaps('Title'), smallcaps('Date')],
         [@params[:inspection].trustee_name, POSITIONS[@params[:inspection].trustee_position], @params[:inspection].date_performed],
         [{ content: smallcaps('3. Interviewee Address'), colspan: 2 }, smallcaps('Telephone Number')],
-        [{ content: "#{@params[:inspection].trustee_street_address}, #{@params[:inspection].trustee_city}, #{@params[:inspection].trustee_state} #{@params[:inspection].trustee_zip}", colspan: 2 }, @params[:inspection].trustee_phone || '---'],
+        [{ content: "#{@params[:inspection].trustee_street_address}, #{@params[:inspection].trustee_city}, #{@params[:inspection].trustee_state} #{@params[:inspection].trustee_zip}", colspan: 2 }, @params[:inspection].trustee_phone.presence || '---'],
         [{ content: smallcaps('4. Location of Cemetery'), colspan: 2 }, smallcaps('Email Address')],
-        [{ content: @params[:inspection].cemetery_location, colspan: 2 }, @params[:inspection].trustee_email || '---'],
+        [{ content: @params[:inspection].cemetery_location, colspan: 2 }, @params[:inspection].trustee_email.presence || '---'],
         [{ content: smallcaps('5. Sign'), colspan: 3 }],
         [{ content: @params[:inspection].cemetery_sign_text, colspan: 3 }]
       ],
@@ -239,19 +239,19 @@ class CemeteryInspectionReportPDF
     table(
         [
             [smallcaps('37. Items for Consideration of the Cemetery')],
-            [' '],
+            [items_for_consideration.join(' ')],
             [smallcaps('38. Date Letter Sent')],
-            [' ']
+            [@params[:inspection].date_mailed || 'Not yet sent']
         ],
         cell_style: { inline_format: true },
         width: bounds.width
     ) do
-      rows([0, 2, 4]).padding = [0, 0, 0, 0]
-      rows([0, 2, 4]).borders = [:top]
-      rows([0, 2, 4]).size = 8
+      rows([0, 2]).padding = [0, 0, 0, 0]
+      rows([0, 2]).borders = [:top]
+      rows([0, 2]).size = 8
 
-      rows([1, 3, 5]).borders = []
-      row(1).column(0).padding = [0, 0, 10, 20]
+      rows([1, 3]).borders = []
+      row(1).column(0).padding = [5, 0, 10, 20]
 
       row(1).column(1).padding = [0, 40, 0, 0]
 
@@ -260,13 +260,27 @@ class CemeteryInspectionReportPDF
     stroke_horizontal_rule
     move_down 75
 
-    # Signature area
+    # Signature and date lines
     stroke_horizontal_line(0, 275, at: y)
     stroke_horizontal_line(bounds.width - 225, bounds.width, at: y)
-    bounding_box([bounds.left, y - 5], width: 60, height: 40) do
+
+    # Signature
+    if @params[:signature]
+      bounding_box [bounds.left, y + 39], width: 300 do
+        image Rails.root.join('app', 'pdfs', 'signatures', @params[:signature]), height: 38, width: 140
+      end
+    end
+
+    bounding_box([bounds.left, 20], width: 60, height: 40) do
       text smallcaps('Investigator'), size: 8
     end
-    bounding_box([bounds.width - 225, y+20], width: 40, height: 40) do
+
+    # Date
+    bounding_box [bounds.width - 225, y + 38], width: 100 do
+      text "#{@params[:inspection].date_performed}"
+    end
+
+    bounding_box([bounds.width - 225, 20], width: 40, height: 40) do
       text smallcaps('Date'), size: 8
     end
   end
@@ -275,10 +289,10 @@ class CemeteryInspectionReportPDF
     font_directory = Rails.root.join('app', 'pdfs', 'fonts')
     @document ||= Prawn::Document.new(margin: [20, 28])
     @document.font_families.update("Arial" => {
-        :normal => font_directory.join('Arial.ttf'),
-        :italic => font_directory.join('Arial Italic.ttf'),
-        :bold => font_directory.join('Arial Bold.ttf'),
-        :bold_italic => font_directory.join('Arial Bold Italic.ttf')
+        normal: font_directory.join('Arial.ttf'),
+        italic: font_directory.join('Arial Italic.ttf'),
+        bold: font_directory.join('Arial Bold.ttf'),
+        bold_italic: font_directory.join('Arial Bold Italic.ttf')
     })
     @document
   end
@@ -290,6 +304,16 @@ class CemeteryInspectionReportPDF
       stroke_bounds
       text 'x', align: :center, size: 5, style: :bold if selected
     end
+  end
+
+  def items_for_consideration
+    items_text = []
+    items = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections']
+    items.each do |item, values|
+      items_text << values['report_text'] if !@params[:inspection].send(item).nil? && !@params[:inspection].send(item)
+    end
+
+    items_text
   end
 
   def smallcaps(string)

@@ -90,7 +90,7 @@
       .col-lg-6
         .form-group
           = f.label :community_mausoleum_comments, 'Condition', class: 'form-control-label'
-          = f.text_field :community_mausoleum_comments, class: 'form-control'
+          = f.text_field :community_mausoleum_comments, value: @inspection.community_mausoleum_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -105,7 +105,7 @@
       .col-lg-6
         .form-group
           = f.label :private_mausoleum_comments, 'Condition', class: 'form-control-label'
-          = f.text_field :private_mausoleum_comments, class: 'form-control'
+          = f.text_field :private_mausoleum_comments, value: @inspection.private_mausoleum_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -119,8 +119,8 @@
               span No
       .col-lg-6
         .form-group
-          = f.label :lawn_crypts_comments, 'Method of Approval', class: 'form-control-label'
-          = f.text_field :lawn_crypts_comments, class: 'form-control'
+          = f.label :lawn_crypts_comments, 'Method of approval', class: 'form-control-label'
+          = f.text_field :lawn_crypts_comments, value: @inspection.lawn_crypts_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -134,8 +134,8 @@
               span No
       .col-lg-6
         .form-group
-          = f.label :grave_liners_comments, 'Number Stored', class: 'form-control-label'
-          = f.text_field :grave_liners_comments, class: 'form-control'
+          = f.label :grave_liners_comments, 'Number stored', class: 'form-control-label'
+          = f.text_field :grave_liners_comments, value: @inspection.grave_liners_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -165,7 +165,7 @@
       .col-lg-6
         .form-group
           = f.label :fencing_comments, 'Describe', class: 'form-control-label'
-          = f.text_field :fencing_comments, class: 'form-control'
+          = f.text_field :fencing_comments, value: @inspection.fencing_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -225,26 +225,26 @@
         .form-group
           p Receiving vault inspected
           label.rdiobox
-            =f.radio_button :receiving_vault_inspected, true
+            =f.radio_button :receiving_vault_inspected, true, disabled: true, class: 'vault-1'
             span Yes
           label.rdiobox
-            =f.radio_button :receiving_vault_inspected, false, checked: !@inspection.receiving_vault_inspected
+            =f.radio_button :receiving_vault_inspected, false, disabled: true, checked: !@inspection.receiving_vault_inspected, class: 'vault-1'
             span No
       .col-lg-6
         .form-group
           = f.label :receiving_vault_bodies, 'Number of bodies stored', class: 'form-control-label'
-          = f.text_field :receiving_vault_bodies, class: 'form-control'
+          = f.text_field :receiving_vault_bodies, class: 'form-control vault-2', disabled: true
         .form-group
-          = f.check_box :receiving_vault_clean
+          = f.check_box :receiving_vault_clean, disabled: true, class: 'vault-2'
           span.pd-l-10 Clean, dry, free of vermin and rodents
         .form-group
-          = f.check_box :receiving_vault_obscured
+          = f.check_box :receiving_vault_obscured, disabled: true, class: 'vault-2'
           span.pd-l-10 Obscured from public view
         .form-group
-          = f.check_box :receiving_vault_exclusive
+          = f.check_box :receiving_vault_exclusive, disabled: true, class: 'vault-2'
           span.pd-l-10 Used exclusively for human remains
         .form-group
-          = f.check_box :receiving_vault_secured
+          = f.check_box :receiving_vault_secured, disabled: true, class: 'vault-2'
           span.pd-l-10 Secured when unattended
     .row
       .col-lg-12

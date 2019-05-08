@@ -21,6 +21,9 @@ Rails.application.routes.draw do
       patch 'inspect/physical-characteristics', to: 'cemetery_inspections#physical_characteristics', as: :physical_characteristics_inspect
       patch 'inspect/record-keeping', to: 'cemetery_inspections#record_keeping', as: :record_keeping_inspect
       get 'inspection/:identifier', to: 'cemetery_inspections#show', as: :show_inspection
+      patch 'inspection/:identifier/finalize', to: 'cemetery_inspections#finalize', as: :finalize_inspection
+      patch 'inspection/:identifier/revise', to: 'cemetery_inspections#revise', as: :revise_inspection
+      get 'inspection/:identifier/view-full-package', to: 'cemetery_inspections#view_full_package', as: :view_full_inspection_package
       get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_inspection_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees

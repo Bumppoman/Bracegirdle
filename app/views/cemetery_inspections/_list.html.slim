@@ -12,7 +12,7 @@
           tr
             td
               span.d-none = inspection.date_performed.strftime('%Y-%m-%d')
-              = inspection_link inspection
+              = cemetery_inspection_link inspection
             td = inspection.investigator&.name || 'Unknown'
             td = inspection.score
             td = inspection.named_status
