@@ -47,6 +47,7 @@ class CemeteryInspectionsController < ApplicationController
       date_mailed: Date.current
     )
     @inspection.cemetery.update(last_inspection_date: @inspection.date_performed)
+    CemeteryInspections::CemeteryInspectionCompletedEvent.new(@inspection, current_user).trigger
   end
 
   def incomplete

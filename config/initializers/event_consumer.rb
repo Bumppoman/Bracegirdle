@@ -1,4 +1,5 @@
 EVENT_CONSUMER_MAPPING = {
+  CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_COMPLETED => [ActivityConsumer],
   ComplaintEvent::Type::COMPLAINT_ADDED => [ActivityConsumer, AssignmentConsumer],
   NoteEvent::Type::COMMENT => [ActivityConsumer, NotificationConsumer],
   NoticeEvent::Type::NOTICE_ISSUED => [ActivityConsumer],

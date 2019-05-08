@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_08_015726) do
+ActiveRecord::Schema.define(version: 2019_05_08_213004) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -274,7 +274,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_015726) do
   create_table "restoration", force: :cascade do |t|
     t.integer "application_type"
     t.integer "cemetery_id"
-    t.integer "trustee_id"
+    t.string "trustee_name"
     t.decimal "amount", precision: 9, scale: 2
     t.date "submission_date"
     t.date "field_visit_date"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_015726) do
     t.integer "previous_type"
     t.string "previous_date"
     t.integer "reviewer_id"
+    t.integer "trustee_position"
     t.index ["cemetery_id"], name: "index_restoration_on_cemetery_id"
     t.index ["investigator_id"], name: "index_restoration_on_investigator_id"
     t.index ["reviewer_id"], name: "index_restoration_on_reviewer_id"

@@ -1,10 +1,9 @@
 $(document).on('turbolinks:load', function () {
 
-    $('#restoration_trustee').select2({
+    $('#restoration_trustee_name').select2({
         selectOnClose: true,
         tags: true,
         createTag: function (params) {
-            $('#restoration_trustee_position').prop('disabled', false);
             return {
                 id: params.term,
                 text: params.term
@@ -12,8 +11,9 @@ $(document).on('turbolinks:load', function () {
         }
     });
 
-    $('#restoration_trustee').on('change', function () {
-        const position = $("option:selected", this).val();
+    $('#restoration_trustee_name').on('change', function () {
+        const position = $("option:selected", this).data('position');
+        $('#restoration_trustee_position').prop('disabled', false);
         $('#restoration_trustee_position').val(position).trigger('change');
     });
 
@@ -24,12 +24,12 @@ $(document).on('turbolinks:load', function () {
             return false;
         }
 
-        $('#restoration_trustee').prop('disabled', false);
+        $('#restoration_trustee_name').prop('disabled', false);
         $.ajax({
-            url: '/cemeteries/' + selected_cemetery + '/trustees/api/list',
+            url: '/cemeteries/' + selected_cemetery + '/trustees/api/list?name_only',
             success: function (data) {
-                $('#restoration_trustee').html(data);
-                $('#restoration_trustee').trigger('change');
+                $('#restoration_trustee_name').html(data);
+                $('#restoration_trustee_name').trigger('change');
             }
         });
 
@@ -97,11 +97,12 @@ $(document).on('turbolinks:load', function () {
             return true;
         },
         onFinishing: function () {
+            const path = $('#process-restoration-p-4').data('path');
             $.ajax({
                 url: $('#process-restoration-p-4').data('finish-processing'),
                 type: 'PATCH',
                 success: function () {
-                    window.location.reload(true);
+                    window.location.href = path;
                 }
             });
         }
@@ -133,11 +134,25 @@ $(document).on('turbolinks:load', function () {
 
     $('#add-new-estimate').click(function () {
         $('#estimate').modal();
-        $("[name=estimate\\[contractor\\]], [name=estimate\\[warranty\\]]").select2({
+        $("[name=estimate\\[warranty\\]]").select2({
             dropdownParent: $("#estimate"),
             minimumResultsForSearch: '',
             selectOnClose: true,
             width: '100%'
         });
+
+        $("[name=estimate\\[contractor\\]]").select2({
+            dropdownParent: $("#estimate"),
+            minimumResultsForSearch: '',
+            selectOnClose: true,
+            width: '100%',
+            tags: true,
+            createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term
+                }
+            }
+        })
     });
 });

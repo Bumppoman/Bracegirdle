@@ -9,8 +9,8 @@
       .row
         #restoration-submitted-by.col-lg-8
           .form-group.required
-            =f.label :trustee, 'Submitted By', class: 'form-control-label'
-            =f.select :trustee, [], { prompt: 'Select trustee' }, disabled: true, class: 'form-control'
+            =f.label :trustee_name, 'Submitted By', class: 'form-control-label'
+            =f.select :trustee_name, [], { prompt: 'Select trustee' }, disabled: true, class: 'form-control'
         #restoration-submitted-by-position.col-lg-4
           .form-group.required
             = f.label :trustee_position, 'Position', class: 'form-control-label'

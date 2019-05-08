@@ -5,8 +5,12 @@ activities:
       icon: 'icon ion-ios-add-circle'
       text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery.name %>'
       title: 'Received new complaint'
-  cemetery_inspection:
+  cemeteryinspection:
     color: 'primary'
+    completed:
+      icon: 'icon ion-ios-flashlight'
+      text: 'completed an <%= link_to "inspection", show_inspection_cemetery_path(activity.object.cemetery, activity.object) %> of <%= activity.object.cemetery.name %>'
+      title: 'Completed an inspection'
   note:
     color: 'orange'
     comment:

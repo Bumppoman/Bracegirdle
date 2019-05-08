@@ -9,7 +9,7 @@
         td == "#{link_to @restoration.cemetery.name, @restoration.cemetery} (##{@restoration.cemetery.cemetery_id})"
       tr
         th scope="row" Submitted By
-        td = "#{@restoration.trustee.name} (#{@restoration.trustee.position_name.downcase})"
+        td = "#{@restoration.trustee_name} (#{POSITIONS[@restoration.trustee_position].downcase})"
       tr
         th scope="row" Submitted On
         td = @restoration.submission_date

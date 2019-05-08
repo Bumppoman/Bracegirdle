@@ -11,7 +11,6 @@ class Restoration < ApplicationRecord
   belongs_to :cemetery
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
   belongs_to :reviewer, class_name: 'User', foreign_key: :reviewer_id, optional: true
-  belongs_to :trustee
 
   has_many :estimates, -> { order(:amount) }
 

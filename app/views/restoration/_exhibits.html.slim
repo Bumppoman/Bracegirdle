@@ -6,6 +6,11 @@
       .row.no-gutters.wd-100p
         .col-lg-9.d-flex.align-items-center
           i.fa.fa-file-pdf-o
+          = link_to 'Combined Package.pdf', view_combined_restoration_path(@restoration.id, type: @restoration.application_type)
+    .file-item
+      .row.no-gutters.wd-100p
+        .col-lg-9.d-flex.align-items-center
+          i.fa.fa-file-pdf-o
           = link_to 'Report.pdf', view_report_restoration_path(@restoration.id, type: @restoration.application_type)
     = render partial: 'restoration/process/application', locals: {display_links: false}
     = render partial: 'restoration/process/estimate', collection: @restoration.estimates, locals: {display_links: false}
