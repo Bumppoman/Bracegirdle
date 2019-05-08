@@ -1,26 +1,4 @@
 $(document).on('turbolinks:load', function () {
-    $('#cemetery_inspection_trustee_name').select2({
-        selectOnClose: true,
-        tags: true,
-        width: '100%',
-        createTag: function (params) {
-            $('#cemetery_inspection_trustee_position').prop('disabled', false);
-            return {
-                id: params.term,
-                text: params.term
-            }
-        }
-    });
-
-    $('#cemetery_inspection_trustee_name').on('change', function () {
-        const position = $("option:selected", this).data('position');
-        $('#cemetery_inspection_trustee_position').val(position).trigger('change');
-    });
-
-    if ($('#cemetery_inspection_trustee_position').val()) {
-        $('#cemetery_inspection_trustee_position').prop('disabled', false);
-    }
-
     $('#cemetery-inspections-data-table').DataTable({
         order: [[0, 'desc']],
         responsive: true,
@@ -145,4 +123,26 @@ $(document).on('turbolinks:load', function () {
     }
     vault2_disable();
     $("input[name=cemetery_inspection\\[receiving_vault_inspected\\]]").on('change', vault2_disable);
+
+    $('#cemetery_inspection_trustee_name').select2({
+        selectOnClose: true,
+        tags: true,
+        width: '100%',
+        createTag: function (params) {
+            $('#cemetery_inspection_trustee_position').prop('disabled', false);
+            return {
+                id: params.term,
+                text: params.term
+            }
+        }
+    });
+
+    $('#cemetery_inspection_trustee_name').on('change', function () {
+        const position = $("option:selected", this).data('position');
+        $('#cemetery_inspection_trustee_position').val(position).trigger('change');
+    });
+
+    if ($('#cemetery_inspection_trustee_position').val()) {
+        $('#cemetery_inspection_trustee_position').prop('disabled', false);
+    }
 });

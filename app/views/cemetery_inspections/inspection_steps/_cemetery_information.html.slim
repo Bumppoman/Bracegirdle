@@ -22,7 +22,7 @@
       #cemetery-inspection-interviewee.col-lg-8
         .form-group.required
           = f.label :trustee_name, 'Interviewee', class: 'form-control-label'
-          = f.select :trustee_name, trustee_options(@cemetery, @inspection.trustee_name), { prompt: 'Select trustee' }, class: 'form-control'
+          = f.select :trustee_name, trustees_for_select(@cemetery, true, @inspection.trustee_name), { prompt: 'Select trustee' }, class: 'form-control'
       #cemetery-inspection-interviewee-position.col-lg-4
         .form-group.required
           = f.label :trustee_position, 'Position', class: 'form-control-label'
