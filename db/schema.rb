@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_08_213004) do
+ActiveRecord::Schema.define(version: 2019_05_09_204548) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_213004) do
     t.boolean "active", default: true
     t.date "last_inspection_date"
     t.date "last_audit"
+    t.integer "investigator_region"
   end
 
   create_table "cemeteries_towns", id: false, force: :cascade do |t|
@@ -260,15 +261,6 @@ ActiveRecord::Schema.define(version: 2019_05_08_213004) do
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
-  end
-
-  create_table "people", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "phone_number"
-    t.string "email"
-    t.float "latitude"
-    t.float "longitude"
   end
 
   create_table "restoration", force: :cascade do |t|

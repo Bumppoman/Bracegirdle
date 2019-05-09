@@ -1,13 +1,12 @@
 class CemeteriesController < ApplicationController
   def api_overdue_inspections_by_region
 
-    counts = []
-    NAMED_REGIONS.each do |region, name|
-      counts << {
-        region: name,
-        inspections: Cemetery.where(county: REGIONS[region]).where('last_inspection_date > ?', Date.current - 5.years).count
-      }
-    end
+    overdue = Cemetery
+      .where(active: true)
+      .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
+      .group(:investigator_region)
+      .count(:id)
+    counts = overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count } }
 
     respond_to do |format|
       format.json { render json: counts.to_json }
@@ -78,3 +77,4 @@ class CemeteriesController < ApplicationController
     params[:cemetery].permit(:name, :county, :order_id, :active, town_ids: [])
   end
 end
+
