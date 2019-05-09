@@ -16,7 +16,7 @@ module CemeteryInspectionsHelper
   end
 
   def cemetery_inspection_link(inspection, identifier = false)
-    path = inspection.performed? ? show_inspection_cemetery_path(inspection.cemetery, inspection) : inspect_cemetery_path(inspection.cemetery)
+    path = (inspection.performed? || inspection.complete?) ? show_inspection_cemetery_path(inspection.cemetery, inspection) : inspect_cemetery_path(inspection.cemetery)
     link_to (identifier ? inspection.identifier : inspection.date_performed), path
   end
 

@@ -138,8 +138,14 @@ $(document).on('turbolinks:load', function () {
     });
 
     $('#cemetery_inspection_trustee_name').on('change', function () {
-        const position = $("option:selected", this).data('position');
-        $('#cemetery_inspection_trustee_position').val(position).trigger('change');
+        $('#cemetery_inspection_trustee_position').prop('disabled', false);
+        $('#cemetery_inspection_trustee_position').val($("option:selected", this).data('position')).trigger('change');
+        $('#cemetery_inspection_trustee_street_address').val($("option:selected", this).data('street-address'));
+        $('#cemetery_inspection_trustee_city').val($("option:selected", this).data('city'));
+        $('#cemetery_inspection_trustee_state').val($("option:selected", this).data('state')).trigger('change');
+        $('#cemetery_inspection_trustee_zip').val($("option:selected", this).data('zip'));
+        $('#cemetery_inspection_trustee_email').val($("option:selected", this).data('email'));
+        $('#cemetery_inspection_trustee_phone').val($("option:selected", this).data('phone'));
     });
 
     if ($('#cemetery_inspection_trustee_position').val()) {

@@ -54,15 +54,13 @@ class Cemetery < ApplicationRecord
     locations.first.longitude
   end
 
-  def to_s
-    name
-  end
-
-  private
-
   def region(type)
     if type == :investigator
       INVESTIGATOR_COUNTIES_BY_REGION[county]
     end
+  end
+
+  def to_s
+    name
   end
 end

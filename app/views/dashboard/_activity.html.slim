@@ -1,17 +1,16 @@
-.row.row-xs.pd-t-10
-  .col-md-4
-    .card.card-activities.pd-20
-      h6.slim-card-title Recent Activity
-      -if @recent_activity.any?
-        p ="Last active #{time_ago_in_words(@recent_activity.first.created_at)} ago"
-        .media-list
-          -@recent_activity.each do |activity|
-            .media
-              div class="activity-icon bg-#{activity.color}"
-                i class="#{activity.icon}"
-              .media-body
-                h6 =activity.title
-                p =="#{activity.user.name} #{render inline: activity.text, locals: { activity: activity }}"
-                span ="#{time_ago_in_words(activity.created_at)} ago"
-      -else
-        p No recent activity
+.col-md-4
+  .card.card-activities
+    h6.slim-card-title Recent Activity
+    -if @recent_activity.any?
+      p ="Last active #{time_ago_in_words(@recent_activity.first.created_at)} ago"
+      .media-list
+        -@recent_activity.each do |activity|
+          .media
+            div class="activity-icon bg-#{activity.color}"
+              i class="#{activity.icon}"
+            .media-body
+              h6 =activity.title
+              p =="#{activity.user.name} #{render inline: activity.text, locals: { activity: activity }}"
+              span ="#{time_ago_in_words(activity.created_at)} ago"
+    -else
+      p No recent activity

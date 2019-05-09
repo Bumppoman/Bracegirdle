@@ -5,15 +5,17 @@ class CemeteryInspectionsController < ApplicationController
     @inspection.update(cemetery_information_params)
 
     # Add trustee if he/she doesn't exist
-    Trustee.find_or_create_by(cemetery: @inspection.cemetery, name: params[:cemetery_inspection][:trustee_name]).update(
-      position: params[:cemetery_inspection][:trustee_position],
-      street_address: params[:cemetery_inspection][:trustee_street_address],
-      city: params[:cemetery_inspection][:trustee_city],
-      state: params[:cemetery_inspection][:trustee_state],
-      zip: params[:cemetery_inspection][:trustee_zip],
-      phone: params[:cemetery_inspection][:trustee_phone],
-      email: params[:cemetery_inspection][:trustee_email]
-    )
+    if params[:cemetery_inspection][:trustee_name].present?
+      Trustee.find_or_create_by(cemetery: @inspection.cemetery, name: params[:cemetery_inspection][:trustee_name]).update(
+        position: params[:cemetery_inspection][:trustee_position],
+        street_address: params[:cemetery_inspection][:trustee_street_address],
+        city: params[:cemetery_inspection][:trustee_city],
+        state: params[:cemetery_inspection][:trustee_state],
+        zip: params[:cemetery_inspection][:trustee_zip],
+        phone: params[:cemetery_inspection][:trustee_phone],
+        email: params[:cemetery_inspection][:trustee_email]
+      )
+    end
   end
 
   def create_old_inspection

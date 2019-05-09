@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
     collection do
       get 'overdue-inspections', to: 'cemeteries#overdue_inspections'
+      get 'api/overdue-inspections-by-region', to: 'cemeteries#api_overdue_inspections_by_region'
     end
 
     member do

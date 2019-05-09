@@ -1,4 +1,19 @@
 class CemeteriesController < ApplicationController
+  def api_overdue_inspections_by_region
+
+    counts = []
+    NAMED_REGIONS.each do |region, name|
+      counts << {
+        region: name,
+        inspections: Cemetery.where(county: REGIONS[region]).where('last_inspection_date > ?', Date.current - 5.years).count
+      }
+    end
+
+    respond_to do |format|
+      format.json { render json: counts.to_json }
+    end
+  end
+
   def create
     @cemetery = Cemetery.new(cemetery_params)
 

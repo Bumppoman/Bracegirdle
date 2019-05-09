@@ -7,6 +7,7 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 window.$ = $; // to get jQuery or some other library you're after, if you'd want it
+window.jQuery = jQuery;
 
 require("@rails/activestorage").start();
 require("@rails/ujs").start();
