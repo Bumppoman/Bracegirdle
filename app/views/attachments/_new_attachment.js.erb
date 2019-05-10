@@ -1,9 +1,10 @@
-$('#uploading').removeClass('d-flex').hide()
-$('#no-attachments-message').hide()
-$('#attachments-list').prepend('<%= j render partial: "attachments/attachment", locals: { object: @attachment.attachable, attachment: @attachment } %>')
-$('#attachment-<%= @attachment.id %>').focus()
+$('#uploading').removeClass('d-flex').hide();
+$('#no-attachments-message').hide();
+$('#attachments-list').prepend('<%= j render partial: "attachments/attachment", locals: { object: @attachment.attachable, attachment: @attachment } %>');
+$('#attachment-<%= @attachment.id %>').focus();
 $("#attachment-<%= @attachment.id %>").effect("highlight", {}, 3000);
 
-$('#attachment-form').trigger('reset')
-$('.custom-file-input').next('label').text('Choose file')
-$('#attachment-form').show()
+$('#attachment-form').trigger('reset');
+$('.custom-file-input').next('label').text('Choose file');
+$('#attachment_file').prop('disabled', false);
+$('#attachment-form').show();

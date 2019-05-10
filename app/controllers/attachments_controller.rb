@@ -3,7 +3,9 @@ class AttachmentsController < ApplicationController
 
     # Create the attachment
     @attachment = @attachable.attachments.new(attachment_params)
-    @attachment.update(user: current_user, cemetery: @attachable.cemetery)
+    @attachment.user = current_user
+    @attachment.cemetery = @attachable&.cemetery || nil
+    @attachment.save
 
     # Respond
     respond_to do |m|

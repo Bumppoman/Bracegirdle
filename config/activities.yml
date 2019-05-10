@@ -3,7 +3,7 @@ activities:
     color: 'danger'
     added:
       icon: 'icon ion-ios-add-circle'
-      text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery.name %>'
+      text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Received new complaint'
   cemeteryinspection:
     color: 'primary'
