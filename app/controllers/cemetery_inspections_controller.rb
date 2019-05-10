@@ -1,4 +1,10 @@
 class CemeteryInspectionsController < ApplicationController
+  include Permissions
+
+  before_action do
+    stipulate :must_be_investigator
+  end
+
   def cemetery_information
     @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.date_performed = cemetery_inspection_date_params['date_performed']

@@ -1,10 +1,10 @@
 class CemeteriesController < ApplicationController
   def api_overdue_inspections_by_region
-
     overdue = Cemetery
       .where(active: true)
       .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
       .group(:investigator_region)
+      .order(:investigator_region)
       .count(:id)
     counts = overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count } }
 

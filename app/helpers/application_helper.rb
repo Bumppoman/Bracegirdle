@@ -17,7 +17,7 @@ module ApplicationHelper
       when 'Array'
         string, link = item
         html << content_tag(:li, link_to(string, link), class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
-      when 'String'
+      when 'String', 'ActiveSupport::SafeBuffer'
         html << content_tag(:li, item, class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
       end
     end

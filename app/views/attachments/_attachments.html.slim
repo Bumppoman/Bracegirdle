@@ -1,9 +1,9 @@
-.section-wrapper.pd-30.mg-t-5
+.section-wrapper.pd-30-force.mg-t-5-force
   label.section-title.mg-b-15 Attachments
   #attachments-list.file-group
     ==render(partial: 'attachments/attachment', collection: object.attachments, locals: { object: object }) || content_tag(:div, 'There are currently no attachments.', id: 'no-attachments-message')
 - if object.active?
-  .section-wrapper.pd-30.mg-t-5
+  .section-wrapper.pd-30-force.mg-t-5-force
     label.section-title Upload Attachment
     #uploading.ht-300.align-items-center style="display: none;"
       .sk-wave
