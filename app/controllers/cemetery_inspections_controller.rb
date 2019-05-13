@@ -129,7 +129,8 @@ class CemeteryInspectionsController < ApplicationController
     # Output violation items
     if @inspection.violations?
       output << CombinePDF.parse(CemeteryInspectionItemsPDF.new({ inspection: @inspection }).render)
-      output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Rules and Regulations.pdf'))
+      output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Sign.pdf')) unless @inspection.sign?
+      output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Rules and Regulations.pdf')) unless @inspection.rules_approved?
     end
 
 

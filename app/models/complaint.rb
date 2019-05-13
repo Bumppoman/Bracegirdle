@@ -68,7 +68,7 @@ class Complaint < ApplicationRecord
   end
 
   def concern_text
-    ['complaint',  "##{complaint_number}", "against #{cemetery.name}"]
+    ['complaint',  "##{complaint_number}", "against #{cemetery&.name || cemetery_alternate_name}"]
   end
 
   def formatted_cemetery
