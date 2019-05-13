@@ -22,7 +22,7 @@ class CemeteryInspectionReportPDF
     end
 
     # Cemetery information
-    move_down 25
+    move_down 20
     table(
       [
         [smallcaps('1. Cemetery'), smallcaps('County'), smallcaps('Number')],
@@ -44,6 +44,7 @@ class CemeteryInspectionReportPDF
         rows([0, 2, 4, 6, 8]).size = 8
 
         rows([1, 3, 5, 7, 9]).borders = []
+        row(7).height = 30 if row(7).height < 30
     end
     stroke_horizontal_rule
     move_down 10
@@ -70,7 +71,7 @@ class CemeteryInspectionReportPDF
       column_widths: [bounds.width * 0.43, bounds.width * 0.06, bounds.width * 0.06, bounds.width * 0.45]
     ) do
       cells.borders = [:top]
-      cells.height = 25
+      cells.height = 24
       column(0).size = 8
       columns([1, 2]).padding = [5, 5, 5, 0]
       columns([1, 2]).align = :right
@@ -92,12 +93,12 @@ class CemeteryInspectionReportPDF
       sign offices rules_displayed prices_displayed
       scattering_gardens community_mausoleum private_mausoleum
       lawn_crypts grave_liners sale_of_monuments fencing winter_burials)
-    [500.5, 475.5, 450.5, 425.5, 400.5, 375.5, 350.5, 325.5, 300.5, 275.5, 250.5, 225.5].each_with_index do |y, i|
+    [494.5, 470.5, 446.5, 422.5, 398.5, 374.5, 350.5, 326.5, 302.5, 278.5, 254.5, 230.5].each_with_index do |y, i|
       checkbox(245, y, @params[:inspection].send(values[i]))
       checkbox(282, y, !@params[:inspection].send(values[i]))
     end
 
-    move_down 21
+    move_down 20
     table(
         [
             [smallcaps('18. Main Road')],
@@ -123,11 +124,11 @@ class CemeteryInspectionReportPDF
     end
     stroke_horizontal_rule
 
-    bounding_box([bounds.left, bounds.bottom], width: 40, height: 40) do
+    bounding_box([bounds.left, bounds.bottom + 5], width: 40, height: 20) do
       text smallcaps('DOS-540'), size: 8
     end
 
-    bounding_box([bounds.left, bounds.bottom], width: bounds.width, height: 40) do
+    bounding_box([bounds.left, bounds.bottom + 5], width: bounds.width, height: 20) do
       text '–– CONTINUED ON REVERSE ––', align: :center, size: 8, style: :bold
     end
 
@@ -180,7 +181,7 @@ class CemeteryInspectionReportPDF
 
     stroke_horizontal_line 475, 515, at: 706
     bounding_box([475, 718], width: 40, height: 10) do
-      text @params[:inspection].receiving_vault_bodies, align: :center
+      text @params[:inspection].receiving_vault_bodies || '---', align: :center
     end
 
     move_down 200
