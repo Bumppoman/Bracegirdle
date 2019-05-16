@@ -1,4 +1,4 @@
-class DefaultPDF
+class DefaultPdf
   include Prawn::View
 
   def initialize(params, **options)
@@ -34,7 +34,7 @@ class DefaultPDF
 
   def footer
     bounding_box [bounds.left, bounds.bottom + 55], width: bounds.width do
-      image Rails.root.join('app', 'webpacker', 'images', 'cemeteries-logo.jpg'), height: 55, width: 193, position: :center
+      image Rails.root.join('app', 'javascript', 'images', 'cemeteries-logo.jpg'), height: 55, width: 193, position: :center
     end
   end
 

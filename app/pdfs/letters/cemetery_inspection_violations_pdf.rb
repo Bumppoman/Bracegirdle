@@ -1,4 +1,4 @@
-class Letters::CemeteryInspectionViolationsPDF < Letters::LetterPDF
+class Letters::CemeteryInspectionViolationsPdf < Letters::LetterPdf
   def letter_body
     text "\nRE: #{@params[:cemetery].name}, ##{@params[:cemetery].cemetery_id}"
     text "\nDear Cemeterian,"

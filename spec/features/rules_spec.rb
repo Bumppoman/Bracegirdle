@@ -59,6 +59,7 @@ feature 'Rules' do
 
   scenario "User can't do anything with somebody else's rules in progress" do
     @rules = FactoryBot.create(:another_investigator_rules)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
     @him = FactoryBot.create(:another_investigator)
 
@@ -69,6 +70,7 @@ feature 'Rules' do
 
   scenario "Can't approve rules when waiting for a revision" do
     @rules = FactoryBot.create(:revision_requested)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
     visit rules_path(@rules)
@@ -78,6 +80,7 @@ feature 'Rules' do
 
   scenario 'Can approve rules once revision was received' do
     @rules = FactoryBot.create(:revision_requested_last_week)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
     visit rules_path(@rules)
@@ -88,6 +91,7 @@ feature 'Rules' do
   scenario 'Can approve rules' do
     @rules = FactoryBot.create(:rules)
     @rules.update(investigator_id: 1)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
     visit rules_path(@rules)
@@ -99,6 +103,7 @@ feature 'Rules' do
 
   scenario 'Supervisor has unassigned rules in queue' do
     @rules = FactoryBot.create(:rules)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login_supervisor
 
     visit rules_index_path
@@ -108,6 +113,7 @@ feature 'Rules' do
 
   scenario "Supervisor does not have another user's rules in queue" do
     @rules = FactoryBot.create(:another_investigator_rules)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
 
@@ -118,6 +124,7 @@ feature 'Rules' do
 
   scenario 'Supervisor can assign rules', js: true do
     @rules = FactoryBot.create(:rules)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
 
@@ -133,6 +140,7 @@ feature 'Rules' do
 
   scenario 'Supervisor can approve unassigned rules', js: true do
     @rules = FactoryBot.create(:rules)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login_supervisor
 
     visit rules_path(@rules)
@@ -147,6 +155,7 @@ feature 'Rules' do
 
   scenario 'User can upload a revision to rules', js: true do
     @rules = FactoryBot.create(:revision_requested)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
     visit rules_path(@rules)

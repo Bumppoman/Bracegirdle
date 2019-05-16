@@ -4,7 +4,6 @@ FactoryBot.define do
     sender { 'Herman Munster' }
     request_by_email { true }
     sender_email { 'herman@munster.com' }
-    rules_documents { fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx')) }
     submission_date { Date.current - 2 }
 
     factory :revision_requested do

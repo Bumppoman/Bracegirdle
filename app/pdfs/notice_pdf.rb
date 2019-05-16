@@ -1,4 +1,4 @@
-class NoticePDF < DefaultPDF
+class NoticePdf < DefaultPdf
   def content
     super
 

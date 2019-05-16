@@ -1,4 +1,4 @@
-class Letters::LetterPDF < DefaultPDF
+class Letters::LetterPdf < DefaultPdf
   def content
     super
 

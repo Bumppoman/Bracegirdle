@@ -1,4 +1,4 @@
-class BlankPDF
+class BlankPdf
   include Prawn::View
 
   def initialize(params, **options)

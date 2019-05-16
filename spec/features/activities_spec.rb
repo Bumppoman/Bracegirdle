@@ -66,6 +66,7 @@ feature 'Activities' do
   scenario 'Approving rules logs activity', js: true do
     @rules = FactoryBot.create(:rules)
     @rules.update(investigator_id: 1)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
     visit rules_path(@rules)
     click_button 'Approve Rules'
@@ -77,6 +78,7 @@ feature 'Activities' do
 
   scenario 'Assigning rules logs activity', js: true do
     @rules = FactoryBot.create(:rules)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
     visit rules_path(@rules)
@@ -90,6 +92,7 @@ feature 'Activities' do
 
   scenario 'Uploading a revision to rules logs activity', js: true do
     @rules = FactoryBot.create(:revision_requested)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
     visit rules_path(@rules)
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false

@@ -1,4 +1,4 @@
-class ExhibitSheetPDF
+class ExhibitSheetPdf
   include Prawn::View
 
   def initialize(params, **options)

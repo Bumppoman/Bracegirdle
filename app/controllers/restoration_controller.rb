@@ -20,7 +20,7 @@ class RestorationController < ApplicationController
         breadcrumbs: 'Hazardous monuments applications'
       },
       report: {
-        class: Reports::HazardousReportPDF,
+        class: Reports::HazardousReportPdf,
       }
     },
     vandalism: {
@@ -148,7 +148,7 @@ class RestorationController < ApplicationController
     output << CombinePDF.parse(generate_report.render)
 
     # Include application
-    output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: 'A' }).render)
+    output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: 'A' }).render)
     output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.application_form.key))
 
     # Include estimates
@@ -156,7 +156,7 @@ class RestorationController < ApplicationController
     exhibits = @restoration.estimates.length
     current = 0
     while current < exhibits
-      output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
+      output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: exhibit_letters[current]}).render)
       output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.estimates[current].document.key))
       current += 1
     end

@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '6.0.0rc1'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
@@ -12,8 +12,8 @@ gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
+# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
+gem 'webpacker', '~> 4.0'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -30,6 +30,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.4.2', require: false
+
 # Use Capistrano for deployment
 gem 'capistrano', group: :development
 gem 'capistrano-rails', group: :development
@@ -39,9 +42,6 @@ gem 'capistrano-puma', group: :development
 # Use PostgreSQL for production
 gem 'pg', group: :production
 
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -50,30 +50,32 @@ group :development, :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'factory_bot_rails'
   gem 'travis'
-  #gem 'bullet'
+
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3', '~> 1.4'
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3', '~> 1.3.6'
 end
+
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara'
-  gem 'capybara-select-2'
+  gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
 
+  # For the Select2 tests
+  gem 'capybara-select-2'
+
   gem 'database_cleaner'
-  gem 'rails-controller-testing'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -89,9 +91,6 @@ gem "slim"
 
 # For submitting files through Ajax
 gem 'remotipart'
-
-# Using Webpacker instead of Sprockets
-gem 'webpacker'
 
 # For generating PDFs
 gem 'prawn'

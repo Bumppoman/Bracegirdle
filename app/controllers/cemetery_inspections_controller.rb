@@ -169,7 +169,7 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def generate_report
-    CemeteryInspectionReportPDF.new(
+    CemeteryInspectionReportPdf.new(
         {
             inspection: @inspection,
             signature: @inspection.investigator.signature

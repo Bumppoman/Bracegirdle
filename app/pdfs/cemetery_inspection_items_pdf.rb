@@ -1,4 +1,4 @@
-class CemeteryInspectionItemsPDF
+class CemeteryInspectionItemsPdf
   include Prawn::View
 
   def initialize(params, **options)

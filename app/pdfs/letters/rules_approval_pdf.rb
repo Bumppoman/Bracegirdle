@@ -1,4 +1,4 @@
-class Letters::RulesApprovalPDF < Letters::LetterPDF
+class Letters::RulesApprovalPdf < Letters::LetterPdf
   def letter_body
     text "\nRE: #{@params[:cemetery_name]}, ##{@params[:cemetery_number]}"
     text "\nDear Cemeterian,"

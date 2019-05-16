@@ -1,4 +1,4 @@
-class CemeteryInspectionReportPDF
+class CemeteryInspectionReportPdf
   include Prawn::View
 
   def initialize(params, **options)
@@ -14,7 +14,7 @@ class CemeteryInspectionReportPDF
     font 'Arial'
 
     bounding_box [bounds.left, bounds.top], width: bounds.width do
-      image Rails.root.join('app', 'webpacker', 'images', 'cemeteries-logo.jpg'), height: 55, width: 193
+      image Rails.root.join('app', 'javascript', 'images', 'cemeteries-logo.jpg'), height: 55, width: 193
     end
 
     bounding_box [bounds.right - 193, bounds.top - 20], width: bounds.width do
@@ -44,7 +44,7 @@ class CemeteryInspectionReportPDF
         rows([0, 2, 4, 6, 8]).size = 8
 
         rows([1, 3, 5, 7, 9]).borders = []
-        row(7).height = 30 if row(7).height < 30
+        row(7).height = 31.74 if row(7).height < 31.74
     end
     stroke_horizontal_rule
     move_down 10
