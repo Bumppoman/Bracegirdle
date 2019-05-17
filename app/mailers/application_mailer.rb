@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'system@cemeteries.brendonstanton.com'
+  default from: 'system@mg.brendonstanton.com'
   layout 'mailer'
 end
