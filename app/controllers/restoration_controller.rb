@@ -162,13 +162,13 @@ class RestorationController < ApplicationController
     end
 
     # Include legal notice
-    output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
+    output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: exhibit_letters[current]}).render)
     output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.legal_notice.key))
 
     # Include previous report if applicable
     if @restoration.previous_exists?
       current += 1
-      output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
+      output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: exhibit_letters[current]}).render)
       output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.previous_report.key))
     end
 

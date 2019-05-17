@@ -205,12 +205,12 @@
       .col-lg-12
         .form-group
           = f.label :vandalism, 'Evidence of vandalism', class: 'form-control-label'
-          = f.text_area :vandalism, size: '20x3', class: 'form-control'
+          = f.text_area :vandalism, value: @inspection.vandalism || 'None noted.', size: '20x3', class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :hazardous_materials, 'Evidence of hazardous materials', class: 'form-control-label'
-          = f.text_area :hazardous_materials, size: '20x3', class: 'form-control'
+          = f.text_area :hazardous_materials, value: @inspection.hazardous_materials || 'None noted.', size: '20x3', class: 'form-control'
     .row
       .col-lg-3
         .form-group
@@ -255,4 +255,4 @@
       .col-lg-12
         .form-group
           = f.label :renovations, 'Signs of cemetery renovations', class: 'form-control-label'
-          = f.text_area :renovations, size: '20x3', class: 'form-control'
+          = f.text_area :renovations, value: @inspection.renovations || 'None noted.', size: '20x3', class: 'form-control'

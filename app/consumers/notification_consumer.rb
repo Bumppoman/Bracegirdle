@@ -14,6 +14,8 @@ class NotificationConsumer < Consumer
           message: payload[:event_type]
       )
       notification.save
+
+      NotificationMailer.notification_email(receiver, notification.id).deliver
     end
   end
 end
