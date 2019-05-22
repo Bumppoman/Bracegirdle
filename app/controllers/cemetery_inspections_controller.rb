@@ -107,7 +107,7 @@ class CemeteryInspectionsController < ApplicationController
 
     # Add appropriate letter
     if @inspection.violations?
-      output << CombinePDF.parse(Letters::CemeteryInspectionViolationsPDF.new(
+      output << CombinePDF.parse(Letters::CemeteryInspectionViolationsPdf.new(
         {
           date: Date.current,
           recipient: @inspection.cemetery.name,
@@ -128,7 +128,7 @@ class CemeteryInspectionsController < ApplicationController
 
     # Output violation items
     if @inspection.violations?
-      output << CombinePDF.parse(CemeteryInspectionItemsPDF.new({ inspection: @inspection }).render)
+      output << CombinePDF.parse(CemeteryInspectionItemsPdf.new({ inspection: @inspection }).render)
       unless @inspection.sign?
         output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Sign.pdf'))
         output << CombinePDF.parse(BlankPDF.new({}).render)

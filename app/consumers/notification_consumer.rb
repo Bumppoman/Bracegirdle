@@ -15,7 +15,10 @@ class NotificationConsumer < Consumer
       )
       notification.save
 
-      NotificationMailer.notification_email(receiver, notification.id).deliver
+      configuration = YAML.load_file(Rails.root.join('config', 'notifications.yml'))['notifications'][notification.object_type.downcase][notification.message]
+      if configuration.key? 'mailer'
+        #NotificationMailer.send(configuration['mailer'], receiver, notification.id).deliver
+      end
     end
   end
 end

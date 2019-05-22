@@ -1,5 +1,6 @@
 class Restoration < ApplicationRecord
   include Notable
+  include Statable
 
   after_commit :set_identifier, on: :create
 
@@ -12,6 +13,23 @@ class Restoration < ApplicationRecord
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
   belongs_to :reviewer, class_name: 'User', foreign_key: :reviewer_id, optional: true
 
+  enum status: {
+      received: 1,
+      processed: 2,
+      reviewed: 3,
+      approved: 4,
+      paid: 5,
+      repaired: 6,
+      verified: 7,
+      closed: 8
+  }
+
+  enum application_type: {
+      vandalism: 1,
+      hazardous: 2,
+      abandonment: 3
+  }
+
   has_many :estimates, -> { order(:amount) }
 
   has_one_attached :application_form
@@ -19,10 +37,7 @@ class Restoration < ApplicationRecord
   has_one_attached :previous_report
   has_one_attached :raw_application_file
 
-  scope :abandonment, -> { where(application_type: TYPES[:abandonment]) }
-  scope :hazardous, -> { where(application_type: TYPES[:hazardous]) }
-  scope :pending_supervisor_review, -> { where(status: STATUSES[:processed]) }
-  scope :vandalism, -> { where(application_type: TYPES[:vandalism]) }
+  scope :pending_supervisor_review, -> { where(status: :processed) }
 
   with_options if: :newly_created? do |application|
     application.validates :amount, presence: true
@@ -30,31 +45,14 @@ class Restoration < ApplicationRecord
   end
 
   NAMED_STATUSES = {
-    1 => 'Received',
-    2 => 'Sent to supervisor',
-    3 => 'Sent to Cemetery Board',
-    4 => 'Approved by Cemetery Board',
-    5 => 'Awaiting repairs',
-    6 => 'Repairs completed',
-    7 => 'Follow up inspection completed',
-    8 => 'Closed'
-  }.freeze
-
-  STATUSES = {
-    received: 1,
-    processed: 2,
-    reviewed: 3,
-    approved: 4,
-    paid: 5,
-    repaired: 6,
-    verified: 7,
-    closed: 8
-  }.freeze
-
-  TYPES = {
-      vandalism: 1,
-      hazardous: 2,
-      abandonment: 3
+    received: 'Received',
+    processed: 'Sent to supervisor',
+    reviewed: 'Sent to Cemetery Board',
+    approved: 'Approved by Cemetery Board',
+    paid: 'Awaiting repairs',
+    repaired: 'Repairs completed',
+    verified: 'Follow up inspection completed',
+    closed: 'Closed'
   }.freeze
 
   TYPE_CODES = {
@@ -64,15 +62,7 @@ class Restoration < ApplicationRecord
   }.freeze
 
   def active?
-    status < STATUSES[:closed]
-  end
-
-  def application_type
-    TYPES.key(self.read_attribute(:application_type))
-  end
-
-  def application_type=(type)
-    self.write_attribute(:application_type, TYPES[type.to_sym])
+    !closed?
   end
 
   def amount=(amount)
@@ -84,12 +74,16 @@ class Restoration < ApplicationRecord
   end
 
   def current_processing_step
-    return 0 if status >= STATUSES[:processed]
+    return 0 unless received?
     return 4 unless previous_exists.nil?
     return 3 if legal_notice.attached?
     return 2 if estimates.length > 0
     return 1 if application_form.attached?
     0
+  end
+
+  def current_status
+    status_changes.first.status
   end
 
   def formatted_application_type
@@ -101,7 +95,7 @@ class Restoration < ApplicationRecord
   end
 
   def named_status
-    NAMED_STATUSES[status]
+    NAMED_STATUSES[status.to_sym]
   end
 
   def newly_created?
@@ -109,20 +103,7 @@ class Restoration < ApplicationRecord
   end
 
   def previous_type
-    TYPES.key(self.read_attribute(:previous_type))
-  end
-
-  def processed?
-    status >= STATUSES[:processed]
-  end
-
-  def reviewed?
-    status == STATUSES[:reviewed]
-  end
-
-  def status=(update)
-    update = STATUSES[update] if update.is_a?(Symbol)
-    self.write_attribute(:status, update)
+    self.class.application_types.key(self.read_attribute(:previous_type))
   end
 
   def to_s
@@ -131,10 +112,6 @@ class Restoration < ApplicationRecord
 
   def total
     estimates.order(:amount).first.amount + legal_notice_cost
-  end
-
-  def unprocessed?
-    status == STATUSES[:received]
   end
 
   private

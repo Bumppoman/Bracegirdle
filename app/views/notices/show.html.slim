@@ -10,13 +10,13 @@
       tr
         th.wd-20p scope="row" Notice Number
         td colspan="4"
-          =="#{@notice.notice_number} (#{link_to 'download', '#', id: 'download-notice'})"
+          == "#{@notice.notice_number} (#{link_to 'download', '#', id: 'download-notice'})"
       tr
         th scope="row" Cemetery
-        td colspan="4" =="#{link_to @notice.cemetery.name, @notice.cemetery} (##{@notice.cemetery.cemetery_id})"
+        td colspan="4" == "#{link_to @notice.cemetery.name, @notice.cemetery} (##{@notice.cemetery.cemetery_id})"
       tr
         th scope="row" Served On
-        td colspan="4" =="#{@notice.served_on_name}<br />#{@notice.served_on_street_address}<br />#{@notice.served_on_city}, #{@notice.served_on_state} #{@notice.served_on_zip}"
+        td colspan="4" == "#{@notice.served_on_name}<br />#{@notice.served_on_street_address}<br />#{@notice.served_on_city}, #{@notice.served_on_state} #{@notice.served_on_zip}"
   table.table.table-striped
     thead
       tr
@@ -30,34 +30,34 @@
         td colspan="4" == simple_format(@notice.specific_information)
 .section-wrapper.pd-20.mg-t-5
   label.section-title Actions
-  #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=@notice.status]
+  #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=Notice.statuses[@notice.status]]
     =form_with model: @notice, url: update_status_notice_path, method: :patch, id: 'msform' do |f|
       ul#progressbar
-        li class=[active_item(@notice.status >= 1)] Notice Issued
-        li class=[active_item(@notice.status >= 2)] Response Received
-        li class=[active_item(@notice.status >= 3)] Follow-Up Completed
-        li class=[active_item(@notice.status == 4)] Notice Resolved
+        li class=[active_item(true)] Notice Issued
+        li class=[active_item(!@notice.issued?)] Response Received
+        li class=[active_item(@notice.follow_up_completed? || @notice.resolved?)] Follow-Up Completed
+        li class=[active_item(@notice.resolved?)] Notice Resolved
       .section-wrapper.pd-20.mg-t-5
         label.section-title Status
         fieldset#notice-issued
           label.section-label Notice Issued
           p.mb-0 ="Notice issued on #{@notice.created_at}."
           p.mg-b-20 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
-          -if @notice.belongs_to? current_user
-            =f.button 'Response Received', name: 'response_received', class: 'next action-button'
+          - if @notice.belongs_to? current_user
+            = f.button 'Response Received', name: 'response_received', class: 'next action-button'
         fieldset#response-received
           label.section-label Response Received
-          p.mb-0 =="Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
-          -if @notice.belongs_to? current_user
+          p.mb-0 == "Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
+          - if @notice.belongs_to? current_user
             =f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
         fieldset#follow-up-completed
           label.section-label Follow-Up Completed
-          p.mb-10 =="Follow-up inspection completed on #{tag.span(@notice.follow_up_inspection_date, id: 'follow-up-inspection-date')}."
-          -if @notice.belongs_to? current_user
-            =f.button 'Resolve Notice', name: 'resolve_notice', class: 'next action-button'
+          p.mb-10 == "Follow-up inspection completed on #{tag.span(@notice.follow_up_inspection_date, id: 'follow-up-inspection-date')}."
+          - if @notice.belongs_to? current_user
+            = f.button 'Resolve Notice', name: 'resolve_notice', class: 'next action-button'
         fieldset#notice-resolved
           label.section-label Notice Resolved
-          p.mb-0 =="Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
+          p.mb-0 == "Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
 =render 'notes/show_notes', object: @notice
 #non-compliance-download-notice.modal
   .modal-dialog.wd-30p role="document"
@@ -71,10 +71,10 @@
           | Click below to download this Notice of Non-Compliance.
           br<>
           br<>
-          ==link_to content_tag(:i, '', class: 'fa fa-file-pdf-o mg-r-15 tx-danger tx-24') + "Download #{@notice.notice_number}.pdf", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-pdf-notice-link', onclick: "javascript:window.location=\"#{download_notice_path(@notice, filename: @notice.notice_number)}\""
+          == link_to content_tag(:i, '', class: 'fa fa-file-pdf-o mg-r-15 tx-danger tx-24') + "Download #{@notice.notice_number}.pdf", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-pdf-notice-link', onclick: "javascript:window.location=\"#{download_notice_path(@notice, filename: @notice.notice_number)}\""
       .modal-footer
         button.btn.btn-secondary type="button" data-dismiss="modal" Close
-=form_with model: @notice, url: update_status_notice_path, method: :patch do |f|
+= form_with model: @notice, url: update_status_notice_path, method: :patch do |f|
   #follow-up-date.modal.fade
     .modal-dialog.wd-30p role="document"
       .modal-content
@@ -91,7 +91,7 @@
               .input-group-prepend
                 .input-group-text
                   i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-              =f.text_field :follow_up_inspection_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
+              = f.text_field :follow_up_inspection_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
         .modal-footer
-          =f.button 'Follow-Up Completed', name: 'follow_up_completed', class: 'btn btn-primary', id: 'follow-up-completed'
+          = f.button 'Follow-Up Completed', name: 'follow_up_completed', class: 'btn btn-primary', id: 'follow-up-completed'
           button.btn.btn-secondary type="button" data-dismiss="modal" Close

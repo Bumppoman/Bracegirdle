@@ -12,19 +12,24 @@ class Rules < ApplicationRecord
 
   has_many_attached :rules_documents
 
-  scope :active, -> { where(status: [STATUSES[:pending_review], STATUSES[:revision_requested]]) }
+  enum status: {
+      received: 1,
+      pending_review: 2,
+      revision_requested: 3,
+      approved: 4
+  }
+
+  scope :active, -> { where(status: [:pending_review, :revision_requested]) }
   scope :active_for, -> (user) {
     if user.supervisor?
-      where(investigator: user, status: [2, 3]).or(where(status: 1))
+      where(investigator: user, status: [:pending_review, :revision_requested]).or(where(status: :received))
     else
       active.where(investigator: user)
     end
   }
-  scope :approved, -> { where(status: STATUSES[:approved]) }
   scope :pending_review_for, -> (user) {
-    where(status: STATUSES[:pending_review], investigator: user)
+    where(status: :pending_review, investigator: user)
   }
-  scope :unassigned, -> { where(status: STATUSES[:received]) }
 
   validates :request_by_email, inclusion: { in: [true, false] }, unless: :approved?
   validates :sender, presence: true, unless: :approved?
@@ -32,25 +37,14 @@ class Rules < ApplicationRecord
   validate :address_or_email_must_be_present, unless: :approved?
 
   NAMED_STATUSES = {
-    1 => 'Received',
-    2 => 'Pending Review',
-    3 => 'Waiting for Revisions',
-    4 => 'Approved'
-  }.freeze
-
-  STATUSES = {
-    received: 1,
-    pending_review: 2,
-    revision_requested: 3,
-    approved: 4,
+    received: 'Received',
+    pending_review: 'Pending Review',
+    revision_requested: 'Waiting for Revisions',
+    approved: 'Approved'
   }.freeze
 
   def active?
     !approved?
-  end
-
-  def approved?
-    status == STATUSES[:approved]
   end
 
   def assigned_to?(user)
@@ -62,7 +56,7 @@ class Rules < ApplicationRecord
   end
 
   def named_status
-    NAMED_STATUSES[status]
+    NAMED_STATUSES[status.to_sym]
   end
 
   def previously_approved?
@@ -72,15 +66,6 @@ class Rules < ApplicationRecord
   def revision_received?
     return true if revision_request_date.nil?
     return rules_documents.last.created_at.to_date > revision_request_date
-  end
-
-  def status=(update)
-    update = STATUSES[update] if update.is_a?(Symbol)
-    self.write_attribute(:status, update)
-  end
-
-  def unassigned?
-    status == STATUSES[:received]
   end
 
   private

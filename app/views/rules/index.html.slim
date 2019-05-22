@@ -13,15 +13,15 @@
       tbody
         - @rules.each do |rules|
           tr
-            td =link_to rules.identifier, rules
-            td ="#{rules.cemetery} (##{rules.cemetery.cemetery_id})"
+            td = link_to rules.identifier, rules
+            td = "#{rules.cemetery} (##{rules.cemetery.cemetery_id})"
             td
-              span style="display: none;" =sort_date(rules.submission_date)
-              span =rules.submission_date
-            td =rules.named_status
+              span style="display: none;" = sort_date(rules.submission_date)
+              span = rules.submission_date
+            td = rules.named_status
             td
-              span style="display: none;" =sort_date(rules.updated_at)
-              span =rules.updated_at.to_date.to_s
+              span style="display: none;" = sort_date(rules.updated_at)
+              span = rules.updated_at.to_date.to_s
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center
       li.nav-item

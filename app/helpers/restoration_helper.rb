@@ -1,15 +1,15 @@
 module RestorationHelper
   def restoration_link(restoration, title = nil)
-    case restoration.status
-    when Restoration::STATUSES[:received]
+    case restoration.status.to_sym
+    when :received
       path = :process_restoration_path
-    when Restoration::STATUSES[:processed]
+    when :processed
       if current_user.supervisor?
         path = :review_restoration_path
       else
         path = :restoration_path
       end
-    when Restoration::STATUSES[:reviewed], Restoration::STATUSES[:approved]
+    when :reviewed, :approved
       path = :restoration_path
     end
 

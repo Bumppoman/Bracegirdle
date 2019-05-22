@@ -1,0 +1,13 @@
+= content_for :title, @user.name
+section
+  h1.headline = @subject
+  .note
+    .user-image-container
+      img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+    .note-body
+      h5
+        strong = @notification.sender.name
+        span.text-muted = " on #{@notification.created_at}"
+      p = @notification.object.body
+  .object-link
+    = link_to "View #{@notification.object.notable.class.name.downcase}", @notification.object.notable

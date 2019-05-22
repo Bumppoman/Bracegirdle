@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :complaints,
     -> (user) {
-      where('status < ?', Complaint::STATUSES[:pending_closure])
+      where.not(status: [:pending_closure, :closed])
     },
     foreign_key: :investigator_id,
     inverse_of: :investigator
@@ -15,9 +15,9 @@ class User < ApplicationRecord
     -> (user) {
       where(
         status: [
-          Restoration::STATUSES[:received]
+          :received
         ],
-        application_type: Restoration::TYPES[:hazardous])
+        application_type: :hazardous)
     },
     class_name: 'Restoration',
     foreign_key: :investigator_id,
@@ -42,7 +42,7 @@ class User < ApplicationRecord
 
   has_many :notices,
     -> (user) {
-      where('status < ?', Notice::STATUSES[:resolved])
+      where.not(status: :resolved)
     },
     foreign_key: :investigator_id,
     inverse_of: :investigator
@@ -56,7 +56,7 @@ class User < ApplicationRecord
   has_many :restoration,
     -> (user) {
       where(status: [
-        Restoration::STATUSES[:received]
+        :received
       ])
     },
     foreign_key: :investigator_id,
@@ -65,9 +65,9 @@ class User < ApplicationRecord
   has_many :rules,
     -> (user) {
       if user.supervisor?
-        unscope(:where).where(investigator: user, status: [2, 3]).or(where(status: 1))
+        unscope(:where).where(investigator: user, status: [:pending_review, :revision_requested]).or(where(status: :received))
       else
-        where('status < ?', Rules::STATUSES[:approved]).order(:submission_date)
+        where.not(status: :approved).order(:submission_date)
       end
     },
     foreign_key: :investigator_id,

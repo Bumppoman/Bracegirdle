@@ -12,9 +12,9 @@
       tbody
         - @notices.each do |notice|
           tr
-            td =link_to "#{ notice.notice_number }", notice
-            td =notice.cemetery
-            td =notice.created_at
-            td =notice.response_required_date
-            td =notice.response_received_date || "None received"
-            td =notice.formatted_status
+            td = link_to "#{ notice.notice_number }", notice
+            td = notice.cemetery
+            td = notice.created_at
+            td = notice.response_required_date
+            td = notice.response_received_date || "None received"
+            td = notice.formatted_status

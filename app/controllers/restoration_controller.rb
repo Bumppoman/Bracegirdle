@@ -102,7 +102,7 @@ class RestorationController < ApplicationController
   def show
     @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
 
-    redirect_to :process_restoration if @restoration.unprocessed? && @restoration.investigator == current_user
+    redirect_to :process_restoration if !@restoration.reviewed? && @restoration.investigator == current_user
   end
 
   def upload_application
@@ -221,7 +221,7 @@ class RestorationController < ApplicationController
   end
 
   def generate_report
-    @report_class = PAGE_INFO[@restoration.application_type][:report][:class]
+    @report_class = PAGE_INFO[@restoration.application_type.to_sym][:report][:class]
 
     @report_class.new({
       writer: @restoration.investigator,

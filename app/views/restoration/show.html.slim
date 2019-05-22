@@ -1,5 +1,5 @@
 - content_for :title, "View #{@restoration.formatted_application_type} Application"
 - content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'View application'])
 = render 'restoration/summary'
-- unless @restoration.unprocessed?
+- unless @restoration.received?
   = render 'restoration/exhibits'

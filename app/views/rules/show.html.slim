@@ -11,8 +11,8 @@
           i.fa.fa-angle-down.tx-18
     .embed-responsive id="revision-#{@revisions}-content" style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
       iframe.embed-responsive-item src="#{attachment_display_link(@current_revision, request)}"
-  -if @documents.any?
-    -@documents.to_enum.with_index.reverse_each do |document, index|
+  - if @documents.any?
+    - @documents.to_enum.with_index.reverse_each do |document, index|
       .rules-revision.mg-t-10
         .row
           .col-lg-11
@@ -22,15 +22,15 @@
               i.fa.fa-angle-down.tx-18
         .embed-responsive id="revision-#{index + 1}-content" style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll; display: none;"
           iframe.embed-responsive-item src="#{attachment_display_link(document, request)}"
-  =form_for @rules, url: review_rules_path, method: :patch do |f|
+  = form_for @rules, url: review_rules_path, method: :patch do |f|
     .form-layout-footer.mg-t-20
-      -if (@rules.assigned_to?(current_user) || (@rules.unassigned? && current_user.supervisor?)) && @rules.revision_received?
-        =f.button 'Approve Rules', name: 'approve_rules', class: 'btn btn-primary mr-1'
-        =f.button 'Request Revision', name: 'request_revision', class: 'btn btn-primary'
--if @rules.assigned_to?(current_user) || (@rules.unassigned? && current_user.supervisor?)
+      - if (@rules.assigned_to?(current_user) || (@rules.received? && current_user.supervisor?)) && @rules.revision_received?
+        = f.button 'Approve Rules', name: 'approve_rules', class: 'btn btn-primary mr-1'
+        = f.button 'Request Revision', name: 'request_revision', class: 'btn btn-primary'
+- if @rules.assigned_to?(current_user) || (@rules.received? && current_user.supervisor?)
   .section-wrapper.mg-t-5.pd-30
     label.section-title Upload Another Revision
-    =form_for @rules, url: upload_revision_rules_path, method: :patch do |f|
+    = form_for @rules, url: upload_revision_rules_path, method: :patch do |f|
       .row
         .col-lg-8
           .form-group.required
@@ -48,17 +48,17 @@
                   i.icon.ion-ios-calendar.tx-16.lh-0.op-6
               = f.text_field :submission_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
       .form-layout-footer
-        =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
-        =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
-  =render 'notes/show_notes', object: @rules
--if @rules.unassigned? && current_user.supervisor?
+        = f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
+        = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
+  = render 'notes/show_notes', object: @rules
+- if @rules.received? && current_user.supervisor?
   .section-wrapper.mg-t-5.pd-30
     label.section-title Assign Rules
-    =form_for @rules, url: review_rules_path, method: :patch do |f|
+    = form_for @rules, url: review_rules_path, method: :patch do |f|
       .row
         .col-lg-12
           .form-group.required
             = f.label :investigator, 'Investigator'
             = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unassigned' }, class: 'form-control select2-basic'
       .form-layout-footer
-        =f.button 'Assign Rules', name: 'assign_rules', class: 'btn btn-primary'
+        = f.button 'Assign Rules', name: 'assign_rules', class: 'btn btn-primary'

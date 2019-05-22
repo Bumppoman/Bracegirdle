@@ -164,7 +164,7 @@ class ComplaintsController < ApplicationController
 
   def complete_investigation
     @complaint.update(
-      status: :investigation_complete,
+      status: :investigation_completed,
       investigation_completion_date: Date.current)
     @response = 'complaints/update/complete_investigation'
   end

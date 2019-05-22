@@ -86,7 +86,7 @@ class NoticesController < ApplicationController
 
   def follow_up_completed
     @notice.update(notice_date_params)
-    @notice.status = 3
+    @notice.status = :follow_up_completed
     @response = 'notices/update/follow_up_complete'
   end
 
@@ -104,13 +104,13 @@ class NoticesController < ApplicationController
 
   def resolve_notice
     @notice.notice_resolved_date = Date.current
-    @notice.status = 4
+    @notice.status = :resolved
     @response = 'notices/update/resolve_notice'
   end
 
   def response_received
     @notice.response_received_date = Date.current
-    @notice.status = 2
+    @notice.status = :response_received
     @response = 'notices/update/response_received'
     Notices::NoticeResponseEvent.new(@notice, current_user).trigger
   end

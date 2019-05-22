@@ -63,11 +63,11 @@
       .row
         .col-lg-12
           .form-group
-            =f.label :ownership_type, 'Means By Which You Acquired Ownership', class: 'form-control-label'
-            -OWNERSHIP_TYPES.each do |id, type|
+            = f.label :ownership_type, 'Means By Which You Acquired Ownership', class: 'form-control-label'
+            - Complaint.ownership_types.each do |type, id|
               label.rdiobox
-                =f.radio_button :ownership_type, id
-                span =type
+                = f.radio_button :ownership_type, id
+                span = type.capitalize
       label.section-title Complaint Information
       .row
         .col-lg-12
@@ -101,28 +101,28 @@
               .input-group-prepend
                 .input-group-text
                   i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-              =f.text_field :date_complained_to_cemetery, class: 'form-control fc-datepicker'
+              = f.text_field :date_complained_to_cemetery, class: 'form-control fc-datepicker'
       .row
         .col-lg-6
           .form-group
-            =f.label :person_contacted, 'Person Contacted', class: 'form-control-label'
-            =f.text_field :person_contacted, class: 'form-control'
+            = f.label :person_contacted, 'Person Contacted', class: 'form-control-label'
+            = f.text_field :person_contacted, class: 'form-control'
         .col-lg-6
           .form-group
-            =f.label :manner_of_contact, 'Manner of Contact', class: 'form-control-label'
-            -MANNERS_OF_CONTACT.each do |id, type|
+            = f.label :manner_of_contact, 'Manner of Contact', class: 'form-control-label'
+            - Complaint::NAMED_MANNERS_OF_CONTACT.each do |id, type|
               label.ckbox
-                =f.check_box :manner_of_contact, { multiple: true }, id, nil
-                span =type
+                = f.check_box :manner_of_contact, { multiple: true }, id, nil
+                span = type
       .row
         .col-lg-6
           .form-group
-            =f.label :attorney_contacted, 'Has the Matter Been Submitted to an Attorney?', class: 'form-control-label'
+            = f.label :attorney_contacted, 'Has the Matter Been Submitted to an Attorney?', class: 'form-control-label'
             label.rdiobox
-              =f.radio_button :attorney_contacted, true
+              = f.radio_button :attorney_contacted, true
               span Yes
             label.rdiobox
-              =f.radio_button :attorney_contacted, false
+              = f.radio_button :attorney_contacted, false
               span No
         .col-lg-6
           .form-group

@@ -85,20 +85,6 @@ describe Notice, type: :model do
         expect(subject.response_required_status).to eq '3 days overdue'
       end
     end
-
-    describe Notice, '#status=' do
-      it 'accepts a valid symbol for status' do
-        subject.status = :resolved
-
-        expect(subject.status).to eq 4
-      end
-
-      it 'accepts a number for status' do
-        subject.status = 2
-
-        expect(subject.status).to eq 2
-      end
-    end
   end
 
   describe 'Scopes' do

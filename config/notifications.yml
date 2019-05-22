@@ -4,6 +4,7 @@ notifications:
       text: 'assigned a complaint to you against <%= notification.object.cemetery.name %>'
   note:
     comment:
+      mailer: 'note_comment_email'
       text: 'added a comment to <%= note_text(notification.object) %>'
   restoration:
     received:

@@ -12,14 +12,14 @@
         - @applications.each do |application|
           tr
             td = restoration_link application
-            td ="#{application.cemetery} (##{application.cemetery.cemetery_id})"
+            td = "#{application.cemetery} (##{application.cemetery.cemetery_id})"
             td
-              span style="display: none;" =sort_date(application.submission_date)
-              span =application.submission_date
-            td =application.named_status
+              span style="display: none;" = sort_date(application.submission_date)
+              span = application.submission_date
+            td = application.named_status
             td
-              span style="display: none;" =sort_date(application.updated_at)
-              span =application.updated_at.to_date.to_s
+              span style="display: none;" = sort_date(application.updated_at)
+              span = application.updated_at.to_date.to_s
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center
       li.nav-item

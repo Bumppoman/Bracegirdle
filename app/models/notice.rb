@@ -12,7 +12,14 @@ class Notice < ApplicationRecord
                             foreign_key: :investigator_id,
                             inverse_of: :notices
 
-  scope :active, -> { where('status < ?', STATUSES[:resolved])}
+  enum status: {
+      issued: 1,
+      response_received: 2,
+      follow_up_completed: 3,
+      resolved: 4
+  }
+
+  scope :active, -> { where.not(status: :resolved)}
   scope :active_for, -> (user) { active.where(investigator: user) }
 
   validates :served_on_name, presence: true
@@ -26,15 +33,15 @@ class Notice < ApplicationRecord
   validates :violation_date, presence: true
   validates :response_required_date, presence: true
 
-  STATUSES = {
-      issued: 1,
-      response_received: 2,
-      follow_up_completed: 3,
-      resolved: 4
+  NAMED_STATUSES = {
+      issued: 'Notice Issued',
+      response_received: 'Response Received',
+      follow_up_completed: 'Follow-Up Completed',
+      resolved: 'Notice Resolved'
   }.freeze
 
   def active?
-    status < STATUSES[:resolved]
+    !resolved?
   end
 
   def belongs_to?(user)
@@ -42,7 +49,7 @@ class Notice < ApplicationRecord
   end
 
   def formatted_status
-    NOTICE_STATUSES[status]
+    NAMED_STATUSES[status.to_sym]
   end
 
   def response_required_status
@@ -54,11 +61,6 @@ class Notice < ApplicationRecord
     else
       "#{(date - response_required_date).to_i} days overdue"
     end
-  end
-
-  def status=(update)
-    update = STATUSES[update] if update.is_a?(Symbol)
-    self.write_attribute(:status, update)
   end
 
   private

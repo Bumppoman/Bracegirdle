@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-COMPLAINT_STATUSES = {
-    1 => 'Complaint Received',
-    2 => 'Investigation Begun',
-    3 => 'Investigation Closed',
-    4 => 'Closure Recommended',
-    5 => 'Complaint Closed'
-}.freeze
-
 COUNTIES = {
     1 => 'Albany',
     2 => 'Allegany',
@@ -135,13 +127,6 @@ GROUPED_COMPLAINT_TYPES = [
     ]]
 ].freeze
 
-MANNERS_OF_CONTACT = {
-    1 => "Phone",
-    2 => "Letter",
-    3 => "Email",
-    4 => "In Person"
-}.freeze
-
 NAMED_REGIONS = {
     1 => 'NYC',
     2 => 'Albany',
@@ -152,20 +137,6 @@ NAMED_REGIONS = {
 
 NAMED_ROLES = {
     supervisor: 4
-}.freeze
-
-NOTICE_STATUSES = {
-    1 => 'Notice Issued',
-    2 => 'Response Received',
-    3 => 'Follow-Up Completed',
-    4 => 'Notice Resolved'
-}.freeze
-
-OWNERSHIP_TYPES = {
-    1 => "Purchase",
-    2 => "Inheritance",
-    3 => "Gift",
-    4 => "Other"
 }.freeze
 
 POSITIONS = {

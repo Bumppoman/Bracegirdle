@@ -3,6 +3,7 @@
 class Complaint < ApplicationRecord
   include Attachable
   include Notable
+  include Statable
 
   after_commit :set_complaint_number, on: :create
 
@@ -13,9 +14,23 @@ class Complaint < ApplicationRecord
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
 
-  scope :active, -> { where('status < ?', 4) }
+  enum ownership_type: {
+    purchase: 1,
+    inheritance: 2,
+    gift: 3,
+    other: 4
+  }
+
+  enum status: {
+    received: 1,
+    investigation_begun: 2,
+    investigation_completed: 3,
+    pending_closure: 4,
+    closed: 5
+  }
+
+  scope :active, -> { where.not(status: [:pending_closure, :closed]) }
   scope :active_for, -> (user) { active.where(investigator: user) }
-  scope :pending_closure, -> { where(status: 4) }
   scope :unassigned, -> { where(investigator: nil) }
 
   validates :complainant_name, presence: true
@@ -26,6 +41,21 @@ class Complaint < ApplicationRecord
   validate :cemetery_is_completed
   validate :disposition_not_empty_if_closed
 
+  NAMED_MANNERS_OF_CONTACT = {
+      1 => 'Phone',
+      2 => 'Letter',
+      3 => 'Email',
+      4 => 'In Person'
+  }.freeze
+
+  NAMED_STATUSES = {
+      received: 'Complaint Received',
+      investigation_begun: 'Investigation Begun',
+      investigation_completed: 'Investigation Closed',
+      pending_closure: 'Closure Recommended',
+      closed: 'Complaint Closed'
+  }.freeze
+
   def self.grouped_complaint_types
     GROUPED_COMPLAINT_TYPES
   end
@@ -34,15 +64,8 @@ class Complaint < ApplicationRecord
     RAW_COMPLAINT_TYPES
   end
 
-  STATUSES = {
-    new: 1,
-    investigation_begun: 2,
-    investigation_complete: 3,
-    pending_closure: 4,
-    closed: 5 }.freeze
-
   def active?
-    status < STATUSES[:closed]
+    !closed?
   end
 
   def belongs_to?(user)
@@ -52,15 +75,11 @@ class Complaint < ApplicationRecord
   def cemetery_contact
     if person_contacted
       string = person_contacted
-      (string << ' (by ' << manner_of_contact.split(', ').map { |manner| MANNERS_OF_CONTACT[manner.to_i].downcase }.join(', ') << ')') if manner_of_contact
+      (string << ' (by ' << manner_of_contact.split(', ').map { |manner| NAMED_MANNERS_OF_CONTACT[manner.to_i].downcase }.join(', ') << ')') if manner_of_contact
       string
     else
       'No cemetery contact information provided'
     end
-  end
-
-  def closed?
-    status == STATUSES[:closed]
   end
 
   def complaint_type
@@ -88,25 +107,12 @@ class Complaint < ApplicationRecord
     return_string
   end
 
-  def last_action
-    COMPLAINT_STATUSES[status]
+  def formatted_ownership_type
+    ownership_type&.capitalize
   end
 
   def link_text
     "Complaint ##{complaint_number}"
-  end
-
-  def ownership_type_string
-    OWNERSHIP_TYPES[ownership_type]
-  end
-
-  def pending_closure?
-    status == STATUSES[:pending_closure]
-  end
-
-  def status=(update)
-    update = STATUSES[update] if update.is_a?(Symbol)
-    self.write_attribute(:status, update)
   end
 
   def to_s

@@ -81,17 +81,6 @@ describe Complaint, type: :model do
       end
     end
 
-    describe Complaint, '#closed?' do
-      it 'is true when the complaint is closed' do
-        subject.status = :closed
-
-        expect(subject.closed?).to eq true
-      end
-
-      it 'is false when the complaint is not closed' do
-        expect(subject.closed?).to eq false
-      end
-    end
 
     describe Complaint, '#complaint_type' do
       it 'splits the string properly' do
@@ -144,11 +133,19 @@ describe Complaint, type: :model do
       end
     end
 
+    describe Complaint, '#formatted_ownership_type' do
+      it 'returns the ownership type based on the code' do
+        subject.ownership_type = :inheritance
+
+        expect(subject.formatted_ownership_type).to eq 'Inheritance'
+      end
+    end
+
     describe Complaint, '#last_action' do
       it "returns 'Investigation Begun' when status is :investigation_begun" do
         subject.status = :investigation_begun
 
-        expect(subject.last_action).to eq 'Investigation Begun'
+        expect(subject.formatted_status).to eq 'Investigation Begun'
       end
     end
 
@@ -157,40 +154,6 @@ describe Complaint, type: :model do
         subject.save
 
         expect(subject.link_text).to eq "Complaint ##{subject.complaint_number}"
-      end
-    end
-
-    describe Complaint, '#ownership_type_string' do
-      it 'returns the ownership type based on the code' do
-        subject.ownership_type = 2
-
-        expect(subject.ownership_type_string).to eq 'Inheritance'
-      end
-    end
-
-    describe Complaint, '#pending_closure?' do
-      it 'is true when the complaint is pending closure' do
-        subject.status = :pending_closure
-
-        expect(subject.pending_closure?).to eq true
-      end
-
-      it 'is false when the complaint is pending closure' do
-        expect(subject.pending_closure?).to eq false
-      end
-    end
-
-    describe Complaint, '#status=' do
-      it 'accepts a valid symbol for status' do
-        subject.status = :closed
-
-        expect(subject.status).to eq 5
-      end
-
-      it 'accepts a number for status' do
-        subject.status = 2
-
-        expect(subject.status).to eq 2
       end
     end
 
@@ -268,24 +231,6 @@ describe Complaint, type: :model do
         result = Complaint.active_for(me)
 
         expect(result).to eq [my_active]
-      end
-    end
-
-    describe Complaint, '.pending_closure' do
-      it 'returns only complaints pending closure' do
-        pending_closure = create_complaint
-        pending_closure.update(
-            disposition: 'Testing',
-            investigation_begin_date: Date.current,
-            investigation_completion_date: Date.current,
-            disposition_date: Date.current,
-            status: :pending_closure,
-            investigator_id: 2)
-        pending_closure.save
-
-        result = Complaint.pending_closure
-
-        expect(result).to eq [pending_closure]
       end
     end
 

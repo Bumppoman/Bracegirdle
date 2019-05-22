@@ -28,32 +28,32 @@
             br
             =@complaint.formatted_ownership || 'No owner information provided'
             br
-            =@complaint.ownership_type_string || 'No ownership information provided'
+            =@complaint.formatted_ownership_type || 'No ownership information provided'
   .section-wrapper.pd-20-force.pd-t-0-force.mg-t-5-force
     label.section-title Complaint Information
     table.table.table-striped
       tbody
         tr
           th.wd-25p scope="row" Complaint Type
-          td colspan="3" =formatted_complaint_types(@complaint)
+          td colspan="3" = formatted_complaint_types(@complaint)
         tr
           th scope="row" Complaint Summary
-          td colspan="3" =@complaint.summary
+          td colspan="3" = @complaint.summary
         tr
           th scope="row" Form of Relief Complainant is Seeking
-          td colspan="3" =@complaint.form_of_relief
+          td colspan="3" = @complaint.form_of_relief
         tr
           th scope="row" Person Contacted
-          td colspan="3" =@complaint.cemetery_contact.presence || 'Nobody contacted'
+          td colspan="3" = @complaint.cemetery_contact.presence || 'Nobody contacted'
         tr
           th scope="row" Has the Matter Been Submitted To An Attorney?
-          td colspan="3" =@complaint.attorney_contacted? ? 'Yes' : 'No'
+          td colspan="3" = @complaint.attorney_contacted? ? 'Yes' : 'No'
         tr
           th scope="row" Is Court Action Pending?
-          td colspan="2" =@complaint.court_action_pending? ? 'Yes' : 'No'
+          td colspan="2" = @complaint.court_action_pending? ? 'Yes' : 'No'
         tr
           th.text-center.wd-50p scope="col" colspan="2" Date of Event From Which Complaint Arose
           th.text-center scope="col" colspan="2" Date of Complaint to Cemetery
         tr
-          td.text-center colspan="2" =@complaint.date_of_event
-          td.text-center colspan="2" =@complaint.date_complained_to_cemetery || 'Not provided'
+          td.text-center colspan="2" = @complaint.date_of_event
+          td.text-center colspan="2" = @complaint.date_complained_to_cemetery || 'Not provided'

@@ -16,7 +16,7 @@ FactoryBot.define do
     factory :complaint_completed_investigation, class: 'Complaint' do
       investigation_begin_date { Date.current }
       investigation_completion_date { Date.current }
-      status { 3 }
+      status { :investigation_completed }
     end
 
     factory :complaint_pending_closure, class: 'Complaint' do
@@ -24,17 +24,17 @@ FactoryBot.define do
       investigation_completion_date { Date.current }
       disposition { 'Testing' }
       disposition_date { Date.current }
-      status { 4 }
+      status { :pending_closure }
 
       factory :closed_complaint, class: 'Complaint' do
         closed_by_id { 1 }
-        status { 5 }
+        status { :closed }
       end
     end
 
     factory :no_investigation_complaint, class: 'Complaint' do
       investigation_required { false }
-      status { 4 }
+      status { :pending_closure }
       disposition { 'Testing' }
       disposition_date { Date.current }
     end
