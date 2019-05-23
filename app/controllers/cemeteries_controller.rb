@@ -13,7 +13,7 @@ class CemeteriesController < ApplicationController
       .order(:investigator_region)
       .count(:id)
 
-    counts = overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count, percentage: (total[region] / count) * 100 } }
+    counts = overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count, percentage: (count * 100) / total[region] } }
 
     respond_to do |format|
       format.json { render json: counts.to_json }
