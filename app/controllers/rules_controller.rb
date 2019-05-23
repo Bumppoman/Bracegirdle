@@ -67,7 +67,7 @@ class RulesController < ApplicationController
       address_line_two = "#{@rules.sender_city}, #{@rules.sender_state} #{@rules.sender_zip}"
     end
 
-    pdf = Letters::RulesApprovalPDF.new({
+    pdf = Letters::RulesApprovalPdf.new({
         approval_date: @rules.approval_date.to_s,
         cemetery_name: @rules.cemetery.name,
         address_line_one: address_line_one,
