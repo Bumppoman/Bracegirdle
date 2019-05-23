@@ -35,6 +35,8 @@ $(document).on('turbolinks:load', function () {
                 // chart.
                 labels: ['Inspections'],
 
+                ymax: 100,
+
                 hoverCallback: function(index, options, content, row) {
                     return 'Inspections: ' + row.inspections;
                 }
