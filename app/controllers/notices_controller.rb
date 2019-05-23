@@ -32,7 +32,7 @@ class NoticesController < ApplicationController
 
   def download
     @notice = Notice.find(params[:id])
-    pdf = NoticePDF.new(
+    pdf = NoticePdf.new(
         @notice.attributes.merge(
             'cemetery_name' => @notice.cemetery.name,
             'cemetery_number' => @notice.cemetery.cemetery_id,

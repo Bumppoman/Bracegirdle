@@ -30,10 +30,14 @@ $(document).on('turbolinks:load', function () {
                 // The name of the data record attribute that contains x-values.
                 xkey: 'region',
                 // A list of names of data record attributes that contain y-values.
-                ykeys: ['inspections'],
+                ykeys: ['percentage'],
                 // Labels for the ykeys -- will be displayed when you hover over the
                 // chart.
-                labels: ['Inspections']
+                labels: ['Inspections'],
+
+                hoverCallback: function(index, options, content, row) {
+                    return 'Inspections: ' + row.inspections;
+                }
             });
         });
     }

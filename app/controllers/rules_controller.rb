@@ -45,7 +45,7 @@ class RulesController < ApplicationController
     @rules.assign_attributes(
       cemetery_county: params[:rules][:cemetery_county],
       investigator: investigator,
-      status: Rules::STATUSES[:approved]
+      status: :approved
     )
 
     if @rules.valid? && verify_upload(params[:rules][:rules_documents])
