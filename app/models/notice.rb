@@ -2,6 +2,7 @@
 
 class Notice < ApplicationRecord
   include Notable
+  include Statable
 
   after_commit :set_notice_number, on: :create
 
@@ -32,6 +33,10 @@ class Notice < ApplicationRecord
   validates :specific_information, presence: true
   validates :violation_date, presence: true
   validates :response_required_date, presence: true
+
+  FINAL_STATUSES = [:resolved]
+
+  INITIAL_STATUSES = [:issued]
 
   NAMED_STATUSES = {
       issued: 'Notice Issued',

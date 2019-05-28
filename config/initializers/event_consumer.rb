@@ -1,18 +1,18 @@
 EVENT_CONSUMER_MAPPING = {
   CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_COMPLETED => [ActivityConsumer],
-  ComplaintEvent::Type::COMPLAINT_ADDED => [ActivityConsumer, AssignmentConsumer],
+  ComplaintEvent::Type::COMPLAINT_ADDED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
   NoteEvent::Type::COMMENT => [ActivityConsumer, NotificationConsumer],
-  NoticeEvent::Type::NOTICE_ISSUED => [ActivityConsumer],
-  NoticeEvent::Type::NOTICE_RESPONSE => [ActivityConsumer],
-  RestorationEvent::Type::RESTORATION_PROCESSED => [ActivityConsumer, SupervisorConsumer],
-  RestorationEvent::Type::RESTORATION_RECEIVED => [ActivityConsumer, AssignmentConsumer],
+  NoticeEvent::Type::NOTICE_ISSUED => [ActivityConsumer, StatusChangeConsumer],
+  NoticeEvent::Type::NOTICE_RESPONSE => [ActivityConsumer, StatusChangeConsumer],
+  RestorationEvent::Type::RESTORATION_PROCESSED => [ActivityConsumer, SupervisorConsumer, StatusChangeConsumer],
+  RestorationEvent::Type::RESTORATION_RECEIVED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
   RestorationEvent::Type::RESTORATION_REJECTED => [ActivityConsumer, AssignmentConsumer],
-  RestorationEvent::Type::RESTORATION_REVIEWED => [ActivityConsumer, NotificationConsumer],
-  RulesEvent::Type::RULES_APPROVED => [ActivityConsumer],
-  RulesEvent::Type::RULES_ASSIGNED => [ActivityConsumer, AssignmentConsumer],
-  RulesEvent::Type::RULES_REVISION_REQUESTED => [ActivityConsumer],
-  RulesEvent::Type::RULES_REVISION_RECEIVED => [ActivityConsumer],
-  RulesEvent::Type::RULES_UPLOADED => [ActivityConsumer, AssignmentConsumer]
+  RestorationEvent::Type::RESTORATION_REVIEWED => [ActivityConsumer, NotificationConsumer, StatusChangeConsumer],
+  RulesEvent::Type::RULES_APPROVED => [ActivityConsumer, StatusChangeConsumer],
+  RulesEvent::Type::RULES_ASSIGNED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
+  RulesEvent::Type::RULES_REVISION_REQUESTED => [ActivityConsumer, StatusChangeConsumer],
+  RulesEvent::Type::RULES_REVISION_RECEIVED => [ActivityConsumer, StatusChangeConsumer],
+  RulesEvent::Type::RULES_UPLOADED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer]
 }.freeze
 
 EVENT_CONSUMER_MAPPING.each do |event_name, consumer_list|

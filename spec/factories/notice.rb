@@ -1,4 +1,4 @@
-FactoryBot.define do
+ FactoryBot.define do
   factory :notice do
     cemetery_county { 4 }
     cemetery_id { 1 }

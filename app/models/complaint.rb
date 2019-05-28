@@ -41,6 +41,10 @@ class Complaint < ApplicationRecord
   validate :cemetery_is_completed
   validate :disposition_not_empty_if_closed
 
+  FINAL_STATUSES = [:closed]
+
+  INITIAL_STATUSES = [:received, :investigation_begun]
+
   NAMED_MANNERS_OF_CONTACT = {
       1 => 'Phone',
       2 => 'Letter',

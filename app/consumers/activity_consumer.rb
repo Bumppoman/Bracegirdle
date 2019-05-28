@@ -6,7 +6,6 @@ class ActivityConsumer < Consumer
       activity_performed: payload[:event_type]
     )
 
-
     activity.save
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_132851) do
+ActiveRecord::Schema.define(version: 2019_05_25_153536) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -263,6 +263,15 @@ ActiveRecord::Schema.define(version: 2019_05_23_132851) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone_number"
+    t.string "email"
+    t.float "latitude"
+    t.float "longitude"
+  end
+
   create_table "restoration", force: :cascade do |t|
     t.integer "application_type"
     t.integer "cemetery_id"
@@ -321,13 +330,9 @@ ActiveRecord::Schema.define(version: 2019_05_23_132851) do
     t.string "statable_type"
     t.integer "status", null: false
     t.datetime "created_at", precision: 6, null: false
-  end
-
-  create_table "statuses", force: :cascade do |t|
-    t.string "name"
-    t.string "symbol"
+    t.datetime "left_at"
+    t.boolean "initial"
     t.boolean "final"
-    t.string "object_type"
   end
 
   create_table "towns", force: :cascade do |t|
@@ -363,5 +368,4 @@ ActiveRecord::Schema.define(version: 2019_05_23_132851) do
     t.integer "region"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end

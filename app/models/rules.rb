@@ -1,5 +1,6 @@
 class Rules < ApplicationRecord
   include Notable
+  include Statable
 
   after_commit :set_identifier, on: :create
 
@@ -10,14 +11,14 @@ class Rules < ApplicationRecord
   belongs_to :cemetery
   belongs_to :investigator, class_name: 'User', optional: true
 
-  has_many_attached :rules_documents
-
   enum status: {
       received: 1,
       pending_review: 2,
       revision_requested: 3,
       approved: 4
   }
+
+  has_many_attached :rules_documents
 
   scope :active, -> { where(status: [:pending_review, :revision_requested]) }
   scope :active_for, -> (user) {
@@ -35,6 +36,10 @@ class Rules < ApplicationRecord
   validates :sender, presence: true, unless: :approved?
   validates :approval_date, presence: true, if: :approved?
   validate :address_or_email_must_be_present, unless: :approved?
+
+  FINAL_STATUSES = [:approved]
+
+  INITIAL_STATUSES = [:received, :pending_review]
 
   NAMED_STATUSES = {
     received: 'Received',

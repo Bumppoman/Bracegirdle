@@ -44,6 +44,10 @@ class Restoration < ApplicationRecord
     application.validates :submission_date, presence: true
   end
 
+  FINAL_STATUSES = [:closed]
+
+  INITIAL_STATUSES = [:received]
+
   NAMED_STATUSES = {
     received: 'Received',
     processed: 'Sent to supervisor',
