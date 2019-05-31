@@ -1,5 +1,7 @@
 language: ruby
-cache: bundler
+cache:
+  directories:
+    - /home/travis/.rvm/
 addons:
   chrome: stable
 before_install:
