@@ -86,10 +86,6 @@ class Restoration < ApplicationRecord
     0
   end
 
-  def current_status
-    status_changes.first.status
-  end
-
   def formatted_application_type
     formatted_type(application_type)
   end

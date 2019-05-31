@@ -5,6 +5,10 @@ module Statable
     has_many :status_changes, -> { order created_at: :desc }, as: :statable
   end
 
+  def current_status
+    status_changes.first
+  end
+
   def current_status_is_final?
     self.class::FINAL_STATUSES.include? status.to_sym
   end

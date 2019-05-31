@@ -19,7 +19,7 @@
             td = application.named_status
             td
               span style="display: none;" = sort_date(application.updated_at)
-              span = application.updated_at.to_date.to_s
+              span = application.current_status.created_at
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center
       li.nav-item
