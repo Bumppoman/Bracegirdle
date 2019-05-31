@@ -12,7 +12,7 @@ script:
   - bundle exec rake db:migrate
   - bundle exec rspec
 after_success:
-  - "openssl aes-256-cbc -k $DEPLOY_KEY -in config/deploy_id_rsa_enc_travis -d -a -out config/deploy_id_rsa"
+  - "openssl aes-256-cbc -k $DEPLOY_KEY -in config/deploy_id_rsa_enc_travis -d -a -out config/deploy_id_rsa -md sha256"
   - "bundle exec cap production deploy"
 env:
   global:
