@@ -25,7 +25,7 @@ class InvestigatorStatisticsReportPdf
     @rules = {}
     @rules[:approved] = Rules.where(investigator: @params[:investigator], approval_date: month_range)
     @rules[:unreviewed] = Rules.where(investigator: @params[:investigator], status: :pending_review)
-    @rules[:total_approved] = Rules.where(investigator: @params[:investigator], status: :approved)
+    @rules[:total_approved] = Rules.where(investigator: @params[:investigator], status: :approved).where.not(submission_date: nil)
     @rules[:total_time] = @rules[:total_approved].map { |r| (r.approval_date - r.submission_date).to_i }.inject(0, :+)
     begin
       @rules[:average_time] = @rules[:total_time] / @rules[:total_approved].count
