@@ -265,6 +265,15 @@ ActiveRecord::Schema.define(version: 2019_05_30_122345) do
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "phone_number"
+    t.string "email"
+    t.float "latitude"
+    t.float "longitude"
+  end
+
   create_table "restoration", force: :cascade do |t|
     t.integer "application_type"
     t.integer "cemetery_id"
@@ -328,13 +337,6 @@ ActiveRecord::Schema.define(version: 2019_05_30_122345) do
     t.boolean "final"
   end
 
-  create_table "statuses", force: :cascade do |t|
-    t.string "name"
-    t.string "symbol"
-    t.boolean "final"
-    t.string "object_type"
-  end
-
   create_table "towns", force: :cascade do |t|
     t.integer "county"
     t.string "name"
@@ -368,5 +370,4 @@ ActiveRecord::Schema.define(version: 2019_05_30_122345) do
     t.integer "region"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end
