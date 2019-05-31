@@ -130,6 +130,7 @@ feature 'Activities' do
     visit notices_path
     click_on @notice.notice_number
     click_on 'Response Received'
+    sleep(0.5)
 
     visit root_path
 
