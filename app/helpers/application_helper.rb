@@ -25,7 +25,7 @@ module ApplicationHelper
   end
 
   def investigator_inbox_items
-    @pending_items[:rules]
+    current_user.rules.where.not(status: :revision_requested).count
   end
 
   def named_region(region)
