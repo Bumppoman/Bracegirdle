@@ -96,6 +96,7 @@ gem 'remotipart'
 gem 'prawn'
 gem 'prawn-table'
 gem 'combine_pdf'
+gem 'squid'
 
 # For using PDF.js with Rails
 gem 'pdfjs_viewer-rails'

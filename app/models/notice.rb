@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Notice < ApplicationRecord
+  include Attachable
   include Notable
   include Statable
 

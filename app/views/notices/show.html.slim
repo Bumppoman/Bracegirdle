@@ -58,7 +58,8 @@
         fieldset#notice-resolved
           label.section-label Notice Resolved
           p.mb-0 == "Notice resolved on #{tag.span(@notice.notice_resolved_date, id: 'notice-resolved-date')}."
-=render 'notes/show_notes', object: @notice
+= render 'notes/show_notes', object: @notice
+= render 'attachments/attachments', object: @notice, form: @notice.active?
 #non-compliance-download-notice.modal
   .modal-dialog.wd-30p role="document"
     .modal-content

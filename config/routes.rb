@@ -63,6 +63,7 @@ Rails.application.routes.draw do
 
   # Notices
   resources :notices do
+    resources :attachments, module: :notices
     resources :notes, module: :notices
     member do
       get '*filename.pdf', to: 'notices#download', as: :download
@@ -77,7 +78,7 @@ Rails.application.routes.draw do
   mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
 
   # Restoration
-  restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join("|"))
+  restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join('|'))
   resources :restoration, path: ':type', constraints: { type: restoration_type } do
     resources :estimates
     resources :notes, module: :restoration
@@ -113,6 +114,9 @@ Rails.application.routes.draw do
       patch 'upload-revision', to: 'rules#upload_revision'
     end
   end
+
+  # Statistics
+  get 'statistics/investigator', to: 'statistics#investigator_report'
 
   # Towns
   get 'towns/county/:county/options', to: 'towns#options_for_county'

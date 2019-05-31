@@ -1,7 +1,7 @@
 .section-wrapper.pd-30-force.mg-t-5-force
   label.section-title.mg-b-15 Attachments
   #attachments-list.file-group
-    ==render(partial: 'attachments/attachment', collection: object.attachments, locals: { object: object }) || content_tag(:div, 'There are currently no attachments.', id: 'no-attachments-message')
+    == render(partial: 'attachments/attachment', collection: object.attachments, locals: { object: object }) || content_tag(:div, 'There are currently no attachments.', id: 'no-attachments-message')
 - if object.active?
   .section-wrapper.pd-30-force.mg-t-5-force
     label.section-title Upload Attachment
@@ -12,20 +12,20 @@
         .sk-rect.sk-rect3.bg-gray-800.mg-r-2
         .sk-rect.sk-rect4.bg-gray-800.mg-r-2
         .sk-rect.sk-rect5.bg-gray-800
-    =form_with model: [object, Attachment.new], id: 'attachment-form' do |f|
+    = form_with model: [object, Attachment.new], id: 'attachment-form' do |f|
       .row
         .col-lg-5
           .form-group.required
-            =f.label :file, 'File', class: 'form-control-label'
+            = f.label :file, 'File', class: 'form-control-label'
             .custom-file
-              =f.file_field :file, direct_upload: true, class: 'custom-file-input'
-              =f.label :file, 'Choose file', class: 'custom-file-label'
+              = f.file_field :file, direct_upload: true, class: 'custom-file-input'
+              = f.label :file, 'Choose file', class: 'custom-file-label'
         .col-lg-7
           .form-group.required
-            =f.label :description, 'Description', class: 'form-control-label'
-            =f.text_field :description, class: 'form-control'
+            = f.label :description, 'Description', class: 'form-control-label'
+            = f.text_field :description, class: 'form-control'
       .row.pd-l-15
-        =f.submit 'Upload', id: 'attachment-upload', class: 'btn btn-primary'
+        = f.submit 'Upload', id: 'attachment-upload', class: 'btn btn-primary'
 #delete-attachment-confirm.modal.fade
   .modal-dialog.modal-sm role="document"
     .modal-content.bd-0.tx-14
@@ -36,5 +36,5 @@
       .modal-body.pd-20
         p.mg-b-10 Are you sure you want to delete this attachment?
         .modal-footer.justify-content-center
-          =link_to 'Delete', complaint_attachments_path(@complaint), method: 'delete', remote: 'true', id: 'delete-attachment-button', class: 'btn btn-primary'
+          = link_to 'Delete', send("#{object.class.name.downcase}_attachments_path", object), method: 'delete', remote: 'true', id: 'delete-attachment-button', class: 'btn btn-primary'
           button.btn.btn-secondary data-dismiss="modal" Close

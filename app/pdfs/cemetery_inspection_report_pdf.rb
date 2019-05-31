@@ -193,16 +193,17 @@ class CemeteryInspectionReportPdf
     table(
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
-        ['27. Annual meetings held and advertised', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
-        ['28. Election held', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Number of Trustees')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].number_of_trustees}"],
+        ['27. Annual meetings held and advertised', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
+        ['28. Election held', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Number of Trustees')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].number_of_trustees}"],
         ['29. Burial permits filed within 7 days', smallcaps('yes'), smallcaps('no'), @params[:inspection].burial_permits_comments],
-        ['30. Body delivery receipt issued', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].body_delivery_receipt_comments],
-        ['31. Deeds signed by president and treasurer', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].deeds_signed_comments],
-        ['32. Burial book and map kept up-to-date', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Location')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].burial_records_comments}"],
-        ['33. Rules and regulations provided with deed', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].rules_provided_comments],
-        ['34. Rules and regulations approved by Division', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Last Updated')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].rules_approved_comments}"],
-        ['35. Maintenance performed by employee', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].employees_comments],
-        ['36. Trustees compensated', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Positions and Amount')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].trustees_compensated_comments}"]
+        ['30. Body delivery receipt issued', smallcaps('yes'), smallcaps('no'), @params[:inspection].body_delivery_receipt_comments],
+        ['31. Deeds signed by president and treasurer', smallcaps('yes'), smallcaps('no'), @params[:inspection].deeds_signed_comments],
+        ['32. Burial book and map kept up-to-date', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Location')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].burial_records_comments}"],
+        ['33. Rules and regulations provided with deed', smallcaps('yes'), smallcaps('no'), @params[:inspection].rules_provided_comments],
+        ['34. Rules and regulations approved by Division', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Last Updated')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].rules_approved_comments}"],
+        ['35. Maintenance performed by employee', smallcaps('yes'), smallcaps('no'), @params[:inspection].employees_comments],
+        ['36. Trustees compensated', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Positions and Amount')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].trustees_compensated_comments}"],
+        ['37. Pet burials allowed', smallcaps('yes'), smallcaps('no'), @params[:inspection].pet_burials_comments]
       ],
       cell_style: { border_lines: [:solid, :solid, :solid, :dotted], inline_format: true },
       column_widths: [bounds.width * 0.43, bounds.width * 0.06, bounds.width * 0.06, bounds.width * 0.45]
@@ -227,10 +228,10 @@ class CemeteryInspectionReportPdf
 
     values = %i(
       annual_meetings election burial_permits
-      body_delivery_receipt deeds_signed burial_records
-      rules_provided rules_approved employees trustees_compensated
+      body_delivery_receipt deeds_signed burial_records rules_provided
+      rules_approved employees trustees_compensated pet_burials
     )
-    [468.5, 443.5, 418.5, 393.5, 368.5, 343.5, 318.5, 293.5, 268.5, 243.5].each_with_index do |y, i|
+    [468.5, 443.5, 418.5, 393.5, 368.5, 343.5, 318.5, 293.5, 268.5, 243.5, 218.5].each_with_index do |y, i|
       checkbox(245, y, @params[:inspection].send(values[i]))
       checkbox(282, y, !@params[:inspection].send(values[i]))
     end
@@ -239,9 +240,9 @@ class CemeteryInspectionReportPdf
     move_down 20.5
     table(
         [
-            [smallcaps('37. Items for Consideration of the Cemetery')],
+            [smallcaps('38. Items for Consideration of the Cemetery')],
             [items_for_consideration.join(' ')],
-            [smallcaps('38. Date Letter Sent')],
+            [smallcaps('39. Date Letter Sent')],
             [@params[:inspection].date_mailed || 'Not yet sent']
         ],
         cell_style: { inline_format: true },
@@ -256,7 +257,7 @@ class CemeteryInspectionReportPdf
 
       row(1).column(1).padding = [0, 40, 0, 0]
 
-      row(1).height = 100
+      row(1).height = 90
     end
     stroke_horizontal_rule
     move_down 75
@@ -272,7 +273,7 @@ class CemeteryInspectionReportPdf
       end
     end
 
-    bounding_box([bounds.left, 20], width: 60, height: 40) do
+    bounding_box([bounds.left, 5], width: 60, height: 40) do
       text smallcaps('Investigator'), size: 8
     end
 
@@ -281,7 +282,7 @@ class CemeteryInspectionReportPdf
       text "#{@params[:inspection].date_performed}"
     end
 
-    bounding_box([bounds.width - 225, 20], width: 40, height: 40) do
+    bounding_box([bounds.width - 225, 5], width: 40, height: 40) do
       text smallcaps('Date'), size: 8
     end
   end

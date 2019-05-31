@@ -132,7 +132,7 @@ class Restoration < ApplicationRecord
   end
 
   def set_identifier
-    self.identifier = "#{TYPE_CODES[application_type]}-#{created_at.year}-#{'%04d' % id}"
+    self.identifier = "#{TYPE_CODES[application_type.to_sym]}-#{created_at.year}-#{'%04d' % id}"
     save
   end
 end
