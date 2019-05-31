@@ -1,6 +1,5 @@
 language: ruby
 cache: bundler
-cache: yarn
 addons:
   chrome: stable
 before_install:
