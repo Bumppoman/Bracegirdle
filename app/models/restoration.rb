@@ -87,11 +87,11 @@ class Restoration < ApplicationRecord
   end
 
   def formatted_application_type
-    formatted_type(application_type)
+    formatted_type(application_type.to_sym)
   end
 
   def formatted_previous_type
-    formatted_type(previous_type).downcase
+    formatted_type(previous_type.to_sym)
   end
 
   def named_status

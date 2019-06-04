@@ -102,7 +102,7 @@ class RestorationController < ApplicationController
   def show
     @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
 
-    redirect_to :process_restoration if !@restoration.reviewed? && @restoration.investigator == current_user
+    redirect_to :process_restoration if @restoration.received? && @restoration.investigator == current_user
   end
 
   def upload_application
@@ -193,6 +193,13 @@ class RestorationController < ApplicationController
     render 'view_portion'
   end
 
+  def view_previous_report
+    @restoration = Restoration.find(params[:id])
+    @portion = 'Previous Restoration Report'
+    @file = @restoration.previous_report
+    render 'view_portion'
+  end
+
   def view_raw_application
     @restoration = Restoration.find(params[:id])
     @portion = 'Raw Application'
@@ -232,7 +239,7 @@ class RestorationController < ApplicationController
   end
 
   def hazardous
-    @applications = Restoration.includes(:cemetery).hazardous.where(investigator: current_user)
+    @applications = Restoration.includes(:cemetery, :status_changes).hazardous.where(investigator: current_user)
   end
 
   def vandalism

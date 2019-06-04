@@ -196,7 +196,8 @@ class CemeteryInspectionsController < ApplicationController
       :burial_permits, :burial_permits_comments, :body_delivery_receipt, :body_delivery_receipt_comments,
       :deeds_signed, :deeds_signed_comments, :burial_records, :burial_records_comments,
       :rules_provided, :rules_provided_comments, :rules_approved, :rules_approved_comments,
-      :employees, :employees_comments, :trustees_compensated, :trustees_compensated_comments
+      :employees, :employees_comments, :trustees_compensated, :trustees_compensated_comments,
+      :pet_burials, :pet_burials_comments
     )
   end
 
