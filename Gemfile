@@ -104,3 +104,7 @@ gem 'pdfjs_viewer-rails'
 # Language processing
 gem 'numbers_and_words'
 gem 'indefinite_article'
+
+# For Auth0
+gem 'omniauth'
+gem 'omniauth-auth0'

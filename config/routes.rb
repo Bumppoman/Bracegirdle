@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   get 'estimates/new'
   get 'dashboard/index'
 
+  # Auth0
+  get 'auth/auth0/callback', to: 'auth0#callback'
+  get 'auth/failure', to: 'auth0#failure'
+
   # Cemeteries
   resources :cemeteries do
     resources :trustees, except: :index do

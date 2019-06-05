@@ -24,19 +24,19 @@
                     td#cemetery-name =@cemetery.name
                   tr
                     th scope="row" Cemetery ID
-                    td ="##{@cemetery.cemetery_id}"
+                    td = "##{@cemetery.cemetery_id}"
                   tr
                     th scope="row" Location
-                    td ="#{@cemetery.towns.to_sentence}, #{@cemetery.county_name} County"
+                    td = "#{@cemetery.towns.to_sentence}, #{@cemetery.county_name} County"
                   tr
                     th scope="row" Last Inspection
                     td == formatted_last_inspection @cemetery
                   tr
                     th scope="row" Last Audit
-                    td =@cemetery.last_audit
+                    td = @cemetery.last_audit
                   tr
                     th scope="row" Rules and Regulations
-                    td ==@cemetery.rules ? "Approved #{@cemetery.rules.approval_date} (#{link_to 'view', cemetery_rules_path(@cemetery)})" : 'None added.'
+                    td == @cemetery.rules ? "Approved #{@cemetery.rules.approval_date} (#{link_to 'view', cemetery_rules_path(@cemetery)})" : 'None added.'
                   tr
                     th scope="row" Service Charges
                     td None added.
