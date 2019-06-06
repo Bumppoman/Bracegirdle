@@ -64,10 +64,11 @@ $(document).on('turbolinks:load', function () {
                     url: record_keeping_form_object.attr('action'),
                     data: record_keeping_form,
                     processData: false,
-                    contentType: false
+                    contentType: false,
+                    success: function () {
+                        window.location.href = record_keeping_form_object.data('success-url');
+                    }
                 });
-
-                window.location.href = record_keeping_form_object.data('success-url');
             }
         }
     });
