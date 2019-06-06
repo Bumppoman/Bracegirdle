@@ -13,12 +13,22 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
-    redirect_to root_url, notice: 'Signed out!'
+    reset_session
+
+    domain = Rails.application.credentials.auth0[:domain]
+    client_id = Rails.application.credentials.auth0[:client_id]
+    request_params = {
+        returnTo: root_url,
+        client_id: client_id
+    }
+
+    redirect_to URI::HTTPS.build(host: domain, path: '/v2/logout', query: request_params.to_query).to_s
+    #redirect_to root_url, notice: 'Signed out!'
   end
 
   def new
-    @title = 'Sign In'
-    @breadcrumbs = false
+    redirect_to '/auth/auth0'
+    #@title = 'Sign In'
+    #@breadcrumbs = false
   end
 end
