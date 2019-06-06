@@ -4,12 +4,11 @@ module Authenticator
   end
 
   def login(user = nil)
+    u = user
     user ||= create_default_user
 
+    page.set_rack_session(user_id: user.id)
     visit root_path
-    fill_in 'email[]', with: user.email
-    fill_in 'password[]', with: 'pa$$word'
-    click_button 'Sign In'
   end
 
   def login_supervisor
@@ -17,7 +16,7 @@ module Authenticator
   end
 
   def logout
-    visit logout_path
+    page.set_rack_session(user_id: nil)
   end
 end
 

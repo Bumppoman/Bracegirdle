@@ -24,7 +24,7 @@ feature 'Notifications' do
     select2 'Chester Butkiewicz', from: 'Investigator'
     click_on 'Submit'
     logout
-    login
+    login(@employee)
 
     visit root_path
     click_on class: 'header-notification'
@@ -48,7 +48,7 @@ feature 'Notifications' do
     select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
     logout
-    login
+    login(@employee)
 
     visit root_path
     click_on class: 'header-notification'
