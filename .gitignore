@@ -44,3 +44,4 @@ yarn-debug.log*
 /app/pdfs/signatures
 
 .env
+coverage
