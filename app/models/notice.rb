@@ -7,6 +7,8 @@ class Notice < ApplicationRecord
 
   after_commit :set_notice_number, on: :create
 
+  alias_attribute :user, :investigator
+
   attribute :cemetery_county, :string
 
   belongs_to :cemetery

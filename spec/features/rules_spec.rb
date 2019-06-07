@@ -165,4 +165,17 @@ feature 'Rules' do
 
     expect(page).to have_content 'REVISION 2'
   end
+
+  scenario 'Investigator can add note to rules', js: true do
+    @rules = FactoryBot.create(:rules)
+    @rules.update(investigator_id: 1)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
+    login
+
+    visit rules_path(@rules)
+    fill_in 'note[body]', with: 'Adding a note to these rules'
+    all(:button, 'Submit').last.click
+
+    expect(page).to have_content 'Adding a note to these rules'
+  end
 end

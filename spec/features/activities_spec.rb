@@ -130,7 +130,8 @@ feature 'Activities' do
     visit notices_path
     click_on @notice.notice_number
     click_on 'Response Received'
-    sleep(0.5)
+    #sleep(0.5)
+    wait_for_ajax
 
     visit root_path
 
@@ -153,7 +154,7 @@ feature 'Activities' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
-    sleep(0.5)
+    wait_for_ajax
 
     visit root_path
 

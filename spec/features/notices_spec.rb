@@ -98,4 +98,15 @@ feature 'Notices' do
 
     expect(page).to_not have_button('Response Received')
   end
+
+  scenario 'Investigator can add note to notice', js: true do
+    login
+    @notice = FactoryBot.create(:notice)
+
+    visit notice_path(@notice)
+    fill_in 'note[body]', with: 'Adding a note to this notice'
+    click_on 'Submit'
+
+    expect(page).to have_content 'Adding a note to this notice'
+  end
 end
