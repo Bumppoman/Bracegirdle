@@ -130,7 +130,6 @@ feature 'Activities' do
     visit notices_path
     click_on @notice.notice_number
     click_on 'Response Received'
-    #sleep(0.5)
     wait_for_ajax
 
     visit root_path
