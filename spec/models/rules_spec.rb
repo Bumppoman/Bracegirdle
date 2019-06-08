@@ -45,6 +45,32 @@ describe Rules, type: :model do
       end
     end
 
+    describe Rules, '#active_for' do
+      before :each do
+        @me = User.new(password: 'Test', role: 2)
+        @me.save
+        @my_rules = create_rules
+        @my_rules.investigator = @me
+        @my_rules.save
+        @him = User.new(password: 'Test', role: 4)
+        @him.save
+        @his_rules = create_rules
+        @his_rules.investigator = @him
+        @his_rules.save
+        @unassigned = create_rules
+        @unassigned.status = :received
+        @unassigned.save
+      end
+
+      it 'returns only the rules assigned to a regular investigator' do
+        expect(Rules.active_for(@me)).to eq [@my_rules]
+      end
+
+      it 'returns rules assigned and unassigned rules for a supervisor' do
+        expect(Rules.active_for(@him)).to eq [@his_rules, @unassigned]
+      end
+    end
+
     describe Rules, '#approved?' do
       it 'returns true if the rules are approved' do
         subject.status = :approved

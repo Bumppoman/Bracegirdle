@@ -19,7 +19,7 @@
       .col-lg-4
         .form-group.required
           = f.label :previous_type, 'Type of Project', class: 'form-control-label'
-          = f.select :previous_type, Restoration.application_types.invert.inject(Restoration.application_types.invert){ |h, (k,str)| h[k] = str.capitalize; h }.invert, { prompt: 'Choose project type' }, class: 'form-control'
+          = f.select :previous_type,  Restoration.application_types.keys.map { |k| [k.capitalize, k] }.to_h, { prompt: 'Choose project type' }, class: 'form-control'
     .row
       .col-lg-12
         .form-group.required

@@ -13,6 +13,14 @@ class Restoration < ApplicationRecord
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
   belongs_to :reviewer, class_name: 'User', foreign_key: :reviewer_id, optional: true
 
+  types = {
+      vandalism: 1,
+      hazardous: 2,
+      abandonment: 3
+  }
+
+  enum application_type: types
+  enum previous_type: types, _prefix: true
   enum status: {
       received: 1,
       processed: 2,
@@ -22,12 +30,6 @@ class Restoration < ApplicationRecord
       repaired: 6,
       verified: 7,
       closed: 8
-  }
-
-  enum application_type: {
-      vandalism: 1,
-      hazardous: 2,
-      abandonment: 3
   }
 
   has_many :estimates, -> { order(:amount) }
@@ -102,16 +104,8 @@ class Restoration < ApplicationRecord
     id.nil?
   end
 
-  def previous_type
-    self.class.application_types.key(self.read_attribute(:previous_type))
-  end
-
   def to_s
     identifier
-  end
-
-  def total
-    estimates.order(:amount).first.amount + legal_notice_cost
   end
 
   private

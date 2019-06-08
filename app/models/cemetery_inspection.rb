@@ -9,20 +9,16 @@ class CemeteryInspection < ApplicationRecord
   has_one_attached :inspection_report
 
   NAMED_STATUSES = {
-      1 => 'In progress',
-      2 => 'Performed',
-      4 => 'Complete'
+      begun: 'In progress',
+      performed: 'Performed',
+      complete: 'Complete'
   }.freeze
 
-  STATUSES = {
-    begun: 1,
-    performed: 2,
-    complete: 4
-  }.freeze
-
-  def complete?
-    status == STATUSES[:complete]
-  end
+  enum status: {
+      begun: 1,
+      performed: 2,
+      complete: 4
+  }
 
   def current_inspection_step
     return 2 if renovations.present?
@@ -31,11 +27,7 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def named_status
-    NAMED_STATUSES[status]
-  end
-
-  def performed?
-    status == STATUSES[:performed]
+    NAMED_STATUSES[status.to_sym]
   end
 
   def score

@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   has_many :incomplete_inspections,
     -> (user) {
-      where('status < ?', CemeteryInspection::STATUSES[:complete])
+      where.not(status: :complete)
     },
     class_name: 'CemeteryInspection',
     foreign_key: :investigator_id,

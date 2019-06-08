@@ -26,10 +26,6 @@ class Cemetery < ApplicationRecord
     self[:active] == false
   end
 
-  def active?
-    self[:active] != false
-  end
-
   def cemetery_id
     '%02d-%03d' % [county, order_id]
   end

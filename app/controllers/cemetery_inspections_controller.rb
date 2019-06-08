@@ -64,7 +64,7 @@ class CemeteryInspectionsController < ApplicationController
 
   def perform
     @cemetery = Cemetery.find(params[:id])
-    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: CemeteryInspection::STATUSES[:begun]).first ||
+    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
         CemeteryInspection.new(
           cemetery: @cemetery,
           investigator: current_user,
@@ -83,12 +83,12 @@ class CemeteryInspectionsController < ApplicationController
     @inspection.update(record_keeping_params)
 
     # Finalize inspection
-    @inspection.update(status: CemeteryInspection::STATUSES[:performed])
+    @inspection.update(status: :performed)
   end
 
   def revise
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
-    @inspection.update(status: CemeteryInspection::STATUSES[:begun])
+    @inspection.update(status: :begun)
   end
 
   def show

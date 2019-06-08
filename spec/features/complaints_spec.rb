@@ -100,6 +100,7 @@ feature 'Complaints' do
     click_on @complaint.complaint_number
     click_on 'Investigation Details'
     click_button 'Reopen Investigation'
+    wait_for_ajax
     visit complaints_path
 
     expect(page).to have_content('Herman Munster')

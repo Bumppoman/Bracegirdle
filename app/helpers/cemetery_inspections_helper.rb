@@ -22,9 +22,9 @@ module CemeteryInspectionsHelper
 
   def verbose_cemetery_inspection_status(inspection)
     case inspection.status
-    when CemeteryInspection::STATUSES[:performed]
+    when :performed
       'Performed; not yet mailed'
-    when CemeteryInspection::STATUSES[:complete]
+    when :complete
       "Complete (mailed #{@inspection.date_mailed})"
     end
   end
