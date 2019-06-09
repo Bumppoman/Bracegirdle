@@ -1,65 +1,65 @@
 - content_for :title, 'Add New Complaint'
 - content_for :breadcrumbs, breadcrumbs_helper(['Add new complaint'])
 .section-wrapper
-  =form_for @complaint do |f|
+  = form_for @complaint do |f|
     .form-layout
       == content_tag(:div, 'There was a problem saving this complaint!', class: 'alert alert-danger', role: 'alert') if @complaint.errors.any?
       label.section-title Complainant
       .row
         .col-lg-12
           .form-group.required
-            =f.label :complainant_name, 'Name', class: 'form-control-label'
-            =f.text_field :complainant_name, class: 'form-control'
+            = f.label :complainant_name, 'Name', class: 'form-control-label'
+            = f.text_field :complainant_name, class: 'form-control'
       .row
         .col-lg-12
           .form-group
-            =f.label :complainant_address, 'Address', class: 'form-control-label'
-            =f.text_field :complainant_address, class: 'form-control'
+            = f.label :complainant_address, 'Address', class: 'form-control-label'
+            = f.text_field :complainant_address, class: 'form-control'
       .row
         .col-lg-6
           .form-group
-            =f.label :complainant_phone, 'Phone Number', class: 'form-control-label'
-            =f.phone_field :complainant_phone, class: 'form-control'
+            = f.label :complainant_phone, 'Phone Number', class: 'form-control-label'
+            = f.phone_field :complainant_phone, class: 'form-control'
         .col-lg-6
           .form-group
-            =f.label :complainant_email, 'Email', class: 'form-control-label'
-            =f.email_field :complainant_email, class: 'form-control'
+            = f.label :complainant_email, 'Email', class: 'form-control-label'
+            = f.email_field :complainant_email, class: 'form-control'
       label.section-title Cemetery Information
       .row
         .col-lg-3
           .form-group
             p DOS Jurisdiction?
             label.rdiobox
-              =f.radio_button :cemetery_regulated, true
+              = f.radio_button :cemetery_regulated, true
               span Yes
             label.rdiobox
-              =f.radio_button :cemetery_regulated, false
+              = f.radio_button :cemetery_regulated, false
               span No
         .col-lg-4
           .form-group.required
-            =f.label :cemetery_county, 'County', class: 'form-control-label'
-            =f.select :cemetery_county, options_for_select(COUNTIES.invert, @complaint.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search county'
+            = f.label :cemetery_county, 'County', class: 'form-control-label'
+            = f.select :cemetery_county, options_for_select(COUNTIES.invert, @complaint.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search county'
         .col-lg-5
           .form-group.required
-            =f.label :cemetery, 'Cemetery', class: 'form-control-label'
+            = f.label :cemetery, 'Cemetery', class: 'form-control-label'
             #complaint-cemetery-select-area
-              =hidden_field_tag :selected_id, @complaint.cemetery&.id, class: 'cemetery-selected-id'
-              =f.select :cemetery, [], { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
-            =f.text_field :cemetery_alternate_name, class: 'form-control', style: 'display: none;'
+              = hidden_field_tag :selected_id, @complaint.cemetery&.id, class: 'cemetery-selected-id'
+              = f.select :cemetery, [], { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
+            = f.text_field :cemetery_alternate_name, class: 'form-control', style: 'display: none;'
       .row
         .col-lg-12
           .form-group
-            =f.label :lot_location, 'Location of Lot/Grave', class: 'form-control-label'
-            =f.text_field :lot_location, class: 'form-control'
+            = f.label :lot_location, 'Location of Lot/Grave', class: 'form-control-label'
+            = f.text_field :lot_location, class: 'form-control'
       .row
         .col-lg-6
           .form-group
-            =f.label :name_on_deed, 'Name on Deed', class: 'form-control-label'
-            =f.text_field :name_on_deed, class: 'form-control'
+            = f.label :name_on_deed, 'Name on Deed', class: 'form-control-label'
+            = f.text_field :name_on_deed, class: 'form-control'
         .col-lg-6
           .form-group
-            =f.label :relationship, class: 'form-control-label'
-            =f.text_field :relationship, class: 'form-control'
+            = f.label :relationship, class: 'form-control-label'
+            = f.text_field :relationship, class: 'form-control'
       .row
         .col-lg-12
           .form-group
@@ -72,8 +72,8 @@
       .row
         .col-lg-12
           .form-group.required
-            =f.label :complaint_type, 'Complaint Type', class: 'form-control-label'
-            =f.select :complaint_type, grouped_options_for_select(Complaint.grouped_complaint_types, @complaint.complaint_type), {}, multiple: true, class: 'form-control select2-basic'
+            = f.label :complaint_type, 'Complaint Type', class: 'form-control-label'
+            = f.select :complaint_type, grouped_options_for_select(Complaint.grouped_complaint_types, @complaint.complaint_type), {}, multiple: true, class: 'form-control select2-basic'
             small.form-text.text-muted Select all that apply
       .row
         .col-lg-12

@@ -27,15 +27,29 @@ $(document).on('turbolinks:load', function () {
 
     $("input[name=complaint\\[investigation_required\\]]").change(investigator_select);
 
-    $('#complaints-data-table, #cemetery-complaints-data-table').DataTable({
-        responsive: true,
-        language: {
-            emptyTable: "There are no complaints to display.",
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page'
-        }
-    });
+    if(document.getElementById('complaints-data-table')) {
+        $('#complaints-data-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "There are no complaints to display.",
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page'
+            }
+        });
+    }
+
+    if(document.getElementById('cemetery-complaints-data-table')) {
+        $('#cemetery-complaints-data-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "There are no complaints to display.",
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page'
+            }
+        });
+    }
 
     $('#edit-investigator').click(function () {
         $('#current-investigator-name').hide();

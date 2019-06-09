@@ -58,8 +58,9 @@ feature 'Complaints' do
     click_on @complaint.complaint_number
     click_on 'Investigation Details'
     click_button 'Begin Investigation'
-    sleep(1)
+    wait_for_multistep
     click_button 'Complete Investigation'
+    wait_for_multistep
     fill_in 'complaint[disposition]', with: 'Testing.'
     click_button 'Recommend Complaint for Closure'
     visit complaints_path

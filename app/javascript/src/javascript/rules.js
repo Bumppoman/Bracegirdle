@@ -1,14 +1,16 @@
 $(document).on('turbolinks:load', function () {
-    $('#rules-data-table').DataTable({
-        responsive: true,
-        language: {
-            emptyTable: "There are no rules to display.",
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-        },
-        order: [[2, 'asc']]
-    });
+    if(document.getElementById('rules-data-table')) {
+        $('#rules-data-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "There are no rules to display.",
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+            },
+            order: [[2, 'asc']]
+        });
+    }
 
     function method_select() {
         if ($("#rules_request_by_email_true").is(":checked")) {

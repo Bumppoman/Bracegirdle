@@ -34,33 +34,37 @@ function edit_trustee(event) {
 window.edit_trustee = edit_trustee;
 
 $(document).on('turbolinks:load', function () {
-    $('#trustees-data-table').DataTable({
-        responsive: true,
-        language: {
-            emptyTable: "There are no trustees to display.",
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-        }
-    });
+    if(document.getElementById('trustees-data-table')) {
+        $('#trustees-data-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "There are no trustees to display.",
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+            }
+        });
+    }
 
     const originalAction = $('#trustee-form-object').attr('action');
-    $('#add-new-trustee').click(function (event) {
-        event.preventDefault();
-        $('#trustee-form-title').text('Add New Trustee');
-        $('#trustee-form-submit').text('Add New Trustee');
-        $('#trustee-form-object').attr('action', originalAction);
-        $('#trustee-form-object').trigger('reset');
-        $('#hidden-edit-trustee').remove();
+    if(document.getElementById('add-new-trustee')) {
+        $('#add-new-trustee').click(function (event) {
+            event.preventDefault();
+            $('#trustee-form-title').text('Add New Trustee');
+            $('#trustee-form-submit').text('Add New Trustee');
+            $('#trustee-form-object').attr('action', originalAction);
+            $('#trustee-form-object').trigger('reset');
+            $('#hidden-edit-trustee').remove();
 
-        $('#trustee-form').modal();
-        $("[name=trustee\\[position\\]], [name=trustee\\[state\\]]").select2({
-            dropdownParent: $("#trustee-form"),
-            minimumResultsForSearch: '',
-            selectOnClose: true,
-            width: '100%'
+            $('#trustee-form').modal();
+            $("[name=trustee\\[position\\]], [name=trustee\\[state\\]]").select2({
+                dropdownParent: $("#trustee-form"),
+                minimumResultsForSearch: '',
+                selectOnClose: true,
+                width: '100%'
+            });
         });
-    });
+    }
 
     $('.edit-trustee').click(edit_trustee);
 });

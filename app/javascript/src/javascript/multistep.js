@@ -1,10 +1,10 @@
-let animating = false;
+window.animating = false;
 window.nextItem = function (fieldset, animate = true) {
     if (animate == true) {
-        if (animating) {
+        if (window.animating) {
             return false;
         }
-        animating = true;
+        window.animating = true;
     }
 
     let current_fs = fieldset;
@@ -35,7 +35,7 @@ window.nextItem = function (fieldset, animate = true) {
             easing: 'easeInOutBack',
             complete: function () {
                 current_fs.hide();
-                animating = false;
+                window.animating = false;
             }
         });
     } else {

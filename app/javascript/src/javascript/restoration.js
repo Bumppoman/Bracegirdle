@@ -1,21 +1,23 @@
 $(document).on('turbolinks:load', function () {
 
-    $('#restoration_trustee_name').select2({
-        selectOnClose: true,
-        tags: true,
-        createTag: function (params) {
-            return {
-                id: params.term,
-                text: params.term
+    if(document.getElementById('restoration_trustee_name')) {
+        $('#restoration_trustee_name').select2({
+            selectOnClose: true,
+            tags: true,
+            createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term
+                }
             }
-        }
-    });
+        });
 
-    $('#restoration_trustee_name').on('change', function () {
-        const position = $("option:selected", this).data('position');
-        $('#restoration_trustee_position').prop('disabled', false);
-        $('#restoration_trustee_position').val(position).trigger('change');
-    });
+        $('#restoration_trustee_name').on('change', function () {
+            const position = $("option:selected", this).data('position');
+            $('#restoration_trustee_position').prop('disabled', false);
+            $('#restoration_trustee_position').val(position).trigger('change');
+        });
+    }
 
     $('#restoration_cemetery').change(function () {
         const selected_cemetery = $("#restoration_cemetery").find(":selected").val();
@@ -40,15 +42,17 @@ $(document).on('turbolinks:load', function () {
         });
     });
 
-    $('#restoration-data-table').DataTable({
-        responsive: true,
-        language: {
-            emptyTable: "There are no applications to display.",
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-            lengthMenu: '_MENU_ items/page',
-        },
-    }).columns(-3).order('asc').draw();
+    if(document.getElementById('restoration-data-table')) {
+        $('#restoration-data-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "There are no applications to display.",
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+            },
+        }).columns(-3).order('asc').draw();
+    }
 
     $('#process-restoration').steps({
         headerTag: 'h3',
@@ -132,27 +136,29 @@ $(document).on('turbolinks:load', function () {
         $("input[name=restoration\\[previous_exists\\]]").change(previous_exists_select);
     }
 
-    $('#add-new-estimate').click(function () {
-        $('#estimate').modal();
-        $("[name=estimate\\[warranty\\]]").select2({
-            dropdownParent: $("#estimate"),
-            minimumResultsForSearch: '',
-            selectOnClose: true,
-            width: '100%'
-        });
+    if(document.getElementById('add-new-estimate')) {
+        $('#add-new-estimate').click(function () {
+            $('#estimate').modal();
+            $("[name=estimate\\[warranty\\]]").select2({
+                dropdownParent: $("#estimate"),
+                minimumResultsForSearch: '',
+                selectOnClose: true,
+                width: '100%'
+            });
 
-        $("[name=estimate\\[contractor\\]]").select2({
-            dropdownParent: $("#estimate"),
-            minimumResultsForSearch: '',
-            selectOnClose: true,
-            width: '100%',
-            tags: true,
-            createTag: function (params) {
-                return {
-                    id: params.term,
-                    text: params.term
+            $("[name=estimate\\[contractor\\]]").select2({
+                dropdownParent: $("#estimate"),
+                minimumResultsForSearch: '',
+                selectOnClose: true,
+                width: '100%',
+                tags: true,
+                createTag: function (params) {
+                    return {
+                        id: params.term,
+                        text: params.term
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
+    }
 });
