@@ -35,12 +35,6 @@ describe User, type: :model do
     end
 
     describe User, '#signature' do
-      it 'returns the signature if it is available' do
-        subject.name = 'Brendon Stanton'
-
-        expect(subject.signature).to eq ''
-      end
-
       it 'returns nothing if there is no signature' do
         expect(subject.signature).to be nil
       end
