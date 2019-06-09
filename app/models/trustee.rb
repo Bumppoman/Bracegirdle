@@ -4,6 +4,17 @@ class Trustee < ApplicationRecord
 
   belongs_to :cemetery
 
+  POSITIONS = {
+      1 => 'President',
+      2 => 'Vice President',
+      3 => 'Secretary',
+      4 => 'Treasurer',
+      5 => 'Superintendent',
+      6 => 'Trustee',
+      7 => 'Operator',
+      8 => 'Employee'
+  }.freeze
+
   def formatted_email
     email || 'None'
   end

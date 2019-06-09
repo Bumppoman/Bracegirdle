@@ -43,7 +43,7 @@ class NoticesController < ApplicationController
             'response_zip' => @notice.investigator.zip,
             'notice_date' => @notice.created_at,
             'secondary_law_sections' => @notice.law_sections,
-            'served_on_title' => POSITIONS[@notice.served_on_title.to_i]
+            'served_on_title' => Trustee::POSITIONS[@notice.served_on_title.to_i]
         )
     )
     send_data pdf.render,

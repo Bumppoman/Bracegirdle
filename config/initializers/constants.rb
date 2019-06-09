@@ -136,18 +136,8 @@ NAMED_REGIONS = {
 }.freeze
 
 NAMED_ROLES = {
+    staff: 2,
     supervisor: 4
-}.freeze
-
-POSITIONS = {
-    1 => "President",
-    2 => "Vice President",
-    3 => "Secretary",
-    4 => "Treasurer",
-    5 => "Superintendent",
-    6 => "Trustee",
-    7 => "Operator",
-    8 => "Employee"
 }.freeze
 
 RAW_COMPLAINT_TYPES = {

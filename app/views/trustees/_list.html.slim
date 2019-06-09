@@ -10,13 +10,13 @@
           th scope="col" Email Address
           th scope="col" Actions
       tbody
-        -@cemetery.trustees.each do |trustee|
+        - @cemetery.trustees.each do |trustee|
           tr id="trustee-#{trustee.id}"
-            td =trustee.name
-            td =trustee.position_name
-            td =trustee.full_address.presence || '---'
-            td =trustee.phone.presence || '---'
-            td =trustee.email.presence || '---'
+            td = trustee.name
+            td = trustee.position_name
+            td = trustee.full_address.presence || '---'
+            td = trustee.phone.presence || '---'
+            td = trustee.email.presence || '---'
             td.text-center
               = link_to '#', class: 'edit-trustee', data: { cemetery: trustee.cemetery.id, trustee: trustee.id } do
                 i.fa.fa-edit
@@ -42,7 +42,7 @@
               .col-lg-4
                 .form-group.required
                   = f.label :position
-                  = f.select :position, options_for_select(POSITIONS.invert), class: 'form-control'
+                  = f.select :position, options_for_select(Trustee::POSITIONS.invert), class: 'form-control'
             .row
               .col-lg-12
                 .form-group
@@ -69,5 +69,5 @@
                 = f.label :email, 'Email address', class: 'form-control-label'
                 = f.text_field :email, class: 'form-control'
           .modal-footer.mg-t-20
-            =f.button 'Add New Trustee', class: 'btn btn-primary', id: 'trustee-form-submit'
+            = f.button 'Add New Trustee', class: 'btn btn-primary', id: 'trustee-form-submit'
             button.btn.btn-secondary type="button" data-dismiss="modal" Close

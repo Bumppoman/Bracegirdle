@@ -27,7 +27,7 @@ feature 'Restoration' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
-    sleep(0.5) # Fails without it
+    wait_for_ajax
     visit restoration_index_path(type: :hazardous)
 
     expect(page).to have_content 'Anthony Cemetery'

@@ -28,7 +28,7 @@ class CemeteryInspectionReportPdf
         [smallcaps('1. Cemetery'), smallcaps('County'), smallcaps('Number')],
         [@params[:inspection].cemetery.name, @params[:inspection].cemetery.county_name, @params[:inspection].cemetery.cemetery_id],
         [smallcaps('2. Interviewee'), smallcaps('Title'), smallcaps('Date')],
-        [@params[:inspection].trustee_name, POSITIONS[@params[:inspection].trustee_position], @params[:inspection].date_performed],
+        [@params[:inspection].trustee_name, Trustee::POSITIONS[@params[:inspection].trustee_position], @params[:inspection].date_performed],
         [{ content: smallcaps('3. Interviewee Address'), colspan: 2 }, smallcaps('Telephone Number')],
         [{ content: "#{@params[:inspection].trustee_street_address}, #{@params[:inspection].trustee_city}, #{@params[:inspection].trustee_state} #{@params[:inspection].trustee_zip}", colspan: 2 }, @params[:inspection].trustee_phone.presence || '---'],
         [{ content: smallcaps('4. Location of Cemetery'), colspan: 2 }, smallcaps('Email Address')],

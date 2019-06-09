@@ -3,8 +3,8 @@
 class Cemetery < ApplicationRecord
   include Locatable
 
-  has_many :complaints
   has_many :cemetery_inspections
+  has_many :complaints
   has_one :last_inspection,
     -> (cemetery) {
       where(date_performed: cemetery.last_inspection_date)
@@ -19,7 +19,7 @@ class Cemetery < ApplicationRecord
   has_many :trustees, dependent: :destroy
 
   scope :active, -> {
-    where(active: true).order(:order_id)
+    where(active: true).order(:county, :order_id)
   }
 
   def abandoned?

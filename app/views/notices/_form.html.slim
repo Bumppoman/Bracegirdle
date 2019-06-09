@@ -1,57 +1,57 @@
 label.section-title Cemetery Information
-=render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @notice }
+= render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @notice }
 .row
   .col-lg-6
     .form-group.required
-      =f.label :served_on_name, 'Served On', class: 'form-control-label'
-      =f.text_field :served_on_name, class: 'form-control'
+      = f.label :served_on_name, 'Served On', class: 'form-control-label'
+      = f.text_field :served_on_name, class: 'form-control'
   .col-lg-6
     .form-group.required
-      =f.label :served_on_title, 'Title', class: 'form-control-label'
-      =f.select :served_on_title, options_for_select(POSITIONS.invert, @notice.served_on_title), { prompt: 'Select position' }, class: 'form-control select2-basic'
+      = f.label :served_on_title, 'Title', class: 'form-control-label'
+      = f.select :served_on_title, options_for_select(Trustee::POSITIONS.invert, @notice.served_on_title), { prompt: 'Select position' }, class: 'form-control select2-basic'
 .row
   .col-lg-12
     .form-group.required
-      =f.label :served_on_street_address, 'Address', class: 'form-control-label'
-      =f.text_field :served_on_street_address, class: 'form-control'
+      = f.label :served_on_street_address, 'Address', class: 'form-control-label'
+      = f.text_field :served_on_street_address, class: 'form-control'
 .row
   .col-lg-6
     .form-group.required
-      =f.label :served_on_city, 'City', class: 'form-control-label'
-      =f.text_field :served_on_city, class: 'form-control'
+      = f.label :served_on_city, 'City', class: 'form-control-label'
+      = f.text_field :served_on_city, class: 'form-control'
   .col-lg-2
     .form-group.required
-      =f.label :served_on_state, 'State', class: 'form-control-label'
-      =f.select :served_on_state, options_for_select(STATES, @notice.served_on_state), {}, class: 'form-control select2-basic'
+      = f.label :served_on_state, 'State', class: 'form-control-label'
+      = f.select :served_on_state, options_for_select(STATES, @notice.served_on_state), {}, class: 'form-control select2-basic'
   .col-lg-4
     .form-group.required
-      =f.label :served_on_zip, 'ZIP Code', class: 'form-control-label'
-      =f.text_field :served_on_zip, class: 'form-control'
+      = f.label :served_on_zip, 'ZIP Code', class: 'form-control-label'
+      = f.text_field :served_on_zip, class: 'form-control'
 label.section-title Violation Information
 .row
   .col-lg-12
     .form-group.required
-      =f.label :law_sections, 'Law Sections', class: 'form-control-label'
-      =f.text_area :law_sections, size: '20x10', class: 'form-control'
+      = f.label :law_sections, 'Law Sections', class: 'form-control-label'
+      = f.text_area :law_sections, size: '20x10', class: 'form-control'
 .row
   .col-lg-12
     .form-group.required
-      =f.label :specific_information, 'Specific Information', class: 'form-control-label'
-      =f.text_area :specific_information, size: '20x10', class: 'form-control'
+      = f.label :specific_information, 'Specific Information', class: 'form-control-label'
+      = f.text_area :specific_information, size: '20x10', class: 'form-control'
 .row
   .col-lg-6
     .form-group.required
-      =f.label :violation_date, 'Violation Date', class: 'form-control-label'
+      = f.label :violation_date, 'Violation Date', class: 'form-control-label'
       .input-group
         .input-group-prepend
           .input-group-text
             i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-        =f.text_field :violation_date, class: 'form-control fc-datepicker'
+        = f.text_field :violation_date, class: 'form-control fc-datepicker'
   .col-lg-6
     .form-group.required
-      =f.label :response_required_date, 'Response Required', class: 'form-control-label'
+      = f.label :response_required_date, 'Response Required', class: 'form-control-label'
       .input-group
         .input-group-prepend
           .input-group-text
             i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-        =f.text_field :response_required_date, class: 'form-control fc-datepicker'
+        = f.text_field :response_required_date, class: 'form-control fc-datepicker'

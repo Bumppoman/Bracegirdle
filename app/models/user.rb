@@ -36,7 +36,7 @@ class User < ApplicationRecord
       unscope(:where)
       .where(investigator_region: user.region, active: true)
       .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
-      .order('last_inspection_date ASC')
+      .order(:last_inspection_date)
     },
     class_name: 'Cemetery'
 

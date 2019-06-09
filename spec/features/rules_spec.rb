@@ -178,4 +178,24 @@ feature 'Rules' do
 
     expect(page).to have_content 'Adding a note to these rules'
   end
+
+  scenario 'Investigator can upload old rules', js: true do
+    @location = Location.new(latitude: 41.3144, longitude: -73.8964)
+    @cemetery.locations << @location
+    login
+    visit root_path
+
+    click_on 'Inbox'
+    click_on 'Rules and Regulations'
+    click_on 'Upload previously approved rules'
+    select2 'Broome', from: 'County'
+    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    select2 'Chester Butkiewicz', from: 'Approved By'
+    fill_in 'rules[approval_date]', with: '1/1/2019'
+    click_on 'Submit'
+    visit cemetery_path(@cemetery)
+
+    expect(page).to have_content 'Approved January 1, 2019'
+  end
 end
