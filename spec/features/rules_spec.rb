@@ -78,6 +78,19 @@ feature 'Rules' do
     expect(page).to_not have_content 'Approve Rules'
   end
 
+  scenario 'Can request revision' do
+    @rules = FactoryBot.create(:rules)
+    @rules.update(investigator_id: 1)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
+    login
+
+    visit rules_path(@rules)
+    click_button 'Request Revision'
+    visit rules_index_path
+
+    expect(page).to have_content 'Waiting for revisions'
+  end
+
   scenario 'Can approve rules once revision was received' do
     @rules = FactoryBot.create(:revision_requested_last_week)
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))

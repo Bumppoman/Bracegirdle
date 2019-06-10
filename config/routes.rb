@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   end
   get 'cemeteries/county/:county', to: 'cemeteries#list_by_county', as: :cemeteries_by_county
   get 'cemeteries/county/:county/options', to: 'cemeteries#options_for_county'
-  get 'cemeteries/region/:region' => 'cemeteries#list_by_region'
+  get 'cemeteries/region/:region' => 'cemeteries#list_by_region', as: :cemeteries_by_region
   get 'cemeteries/:id/rules', to: 'rules#show_approved', as: :cemetery_rules
   get 'cemeteries/:id/details.json', to: 'cemeteries#as_json', as: :cemetery_json
   get 'cemeteries/:id/trustees/api/list', to: 'trustees#api_list', as: :trustees_api_list

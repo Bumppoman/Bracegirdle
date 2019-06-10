@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
       /(?<county>\d{2})-?(?<id>\d+)/ =~ params[:search]
       @cemeteries = Cemetery.where(county: county.to_i, order_id: id.to_i)
     else
-      @cemeteries = Cemetery.where('name ILIKE :name', name: "%#{params[:search]}%").order(:county, :order_id)
+      @cemeteries = Cemetery.where(Cemetery.arel_table[:name].matches("%#{params[:search]}%")).order(:county, :order_id)
     end
   end
 end

@@ -9,6 +9,17 @@ describe User, type: :model do
 
   context User, 'Associations' do
     it { should have_many :notifications }
+
+    describe User, 'User.cemeteries' do
+      it 'lists the cemeteries for the user' do
+        @cemetery = Cemetery.new(name: 'Anthony Cemetery', county: 4, order_id: 1, investigator_region: 5)
+        @cemetery.save
+        @other_cemetery = Cemetery.new(name: 'Albany Rural Cemetery', county: 1, order_id: 1, investigator_region: 2)
+        @other_cemetery.save
+
+        expect(subject.cemeteries).to eq [@cemetery]
+      end
+    end
   end
 
   context User, 'Instance Methods' do

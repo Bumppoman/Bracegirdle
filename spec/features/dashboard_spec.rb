@@ -10,11 +10,21 @@ feature 'Dashboard' do
     @cemetery.save
   end
 
-  scenario 'Performing a search' do
+  scenario 'Performing a search with the cemetery ID' do
     login
 
     visit root_path
     fill_in 'search', with: '04001'
+    click_on 'search-button'
+
+    expect(page).to have_content 'Anthony Cemetery'
+  end
+
+  scenario 'Performing a search by name' do
+    login
+
+    visit root_path
+    fill_in 'search', with: 'anthony'
     click_on 'search-button'
 
     expect(page).to have_content 'Anthony Cemetery'

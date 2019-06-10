@@ -43,8 +43,8 @@ class Rules < ApplicationRecord
 
   NAMED_STATUSES = {
     received: 'Received',
-    pending_review: 'Pending Review',
-    revision_requested: 'Waiting for Revisions',
+    pending_review: 'Pending review',
+    revision_requested: 'Waiting for revisions',
     approved: 'Approved'
   }.freeze
 

@@ -47,7 +47,7 @@ class CemeteriesController < ApplicationController
   end
 
   def list_by_region
-    @cemeteries = Cemetery.where(county: REGIONS[params[:region]]).includes(:towns)
+    @cemeteries = Cemetery.where(county: REGIONS[REGIONS_BY_KEY[params[:region].to_sym]]).includes(:towns)
   end
 
   def new

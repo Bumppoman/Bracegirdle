@@ -1,8 +1,11 @@
 class User < ApplicationRecord
   has_many :cemeteries,
     -> (user) {
-      unscope(:where).where(
-        county: REGIONS[user.region])}
+      if user.investigator?
+        unscope(:where).where(
+          investigator_region: user.region)
+      end
+    }
 
   has_many :complaints,
     -> (user) {

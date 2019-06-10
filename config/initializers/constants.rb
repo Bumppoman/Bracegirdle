@@ -173,6 +173,14 @@ REGIONS = {
     5 => [4, 8, 9, 12, 13, 36, 39, 49, 51, 53, 54, 55]
 }.freeze
 
+REGIONS_BY_KEY = {
+    nyc: 1,
+    albany: 2,
+    buffalo: 3,
+    syracuse: 4,
+    binghamton: 5
+}.freeze
+
 ROLES = {
     1 => "Cemeterian",
     2 => "Investigator",

@@ -116,7 +116,7 @@ describe Rules, type: :model do
 
     describe Rules, '#named_status' do
       it 'returns the correct status' do
-        expect(subject.named_status).to eq 'Pending Review'
+        expect(subject.named_status).to eq 'Pending review'
       end
     end
 

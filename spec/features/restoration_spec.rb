@@ -28,7 +28,8 @@ feature 'Restoration' do
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
     wait_for_ajax
-    visit restoration_index_path(type: :hazardous)
+    click_on 'Applications'
+    click_on 'Hazardous Monuments'
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -47,8 +48,7 @@ feature 'Restoration' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
-    sleep(0.5) # Fails without it
-    visit restoration_path(Restoration.first, type: :hazardous)
+    wait_for_ajax
     attach_file 'restoration_application_form', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
@@ -73,7 +73,8 @@ feature 'Restoration' do
     fill_in 'Date Previous Work Approved', with: 'September 2017'
     click_on 'Next'
     click_on 'Submit for Consideration'
-    sleep(0.5)
+    wait_for_ajax
+    click_on 'Dashboard', match: :first
     visit restoration_index_path(type: :hazardous)
 
     expect(page).to have_content 'Sent to supervisor'
@@ -93,8 +94,7 @@ feature 'Restoration' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
-    sleep(0.5) # Fails without it
-    visit restoration_path(Restoration.first, type: :hazardous)
+    wait_for_ajax
     attach_file 'restoration_application_form', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
@@ -119,7 +119,8 @@ feature 'Restoration' do
     fill_in 'Date Previous Work Approved', with: 'September 2017'
     click_on 'Next'
     click_on 'Submit for Consideration'
-    sleep(0.5)
+    wait_for_ajax
+    click_on 'Dashboard', match: :first
     visit restoration_index_path(type: :hazardous)
 
     expect(page).to have_content 'Sent to Cemetery Board'
