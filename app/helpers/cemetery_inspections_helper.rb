@@ -21,7 +21,7 @@ module CemeteryInspectionsHelper
   end
 
   def verbose_cemetery_inspection_status(inspection)
-    case inspection.status
+    case inspection.status.to_sym
     when :performed
       'Performed; not yet mailed'
     when :complete

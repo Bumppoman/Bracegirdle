@@ -51,7 +51,7 @@ class CemeteryInspectionsController < ApplicationController
   def finalize
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
     @inspection.update(
-      status: CemeteryInspection::STATUSES[:complete],
+      status: :complete,
       date_mailed: Date.current
     )
     @inspection.cemetery.update(last_inspection_date: @inspection.date_performed)
