@@ -94,8 +94,8 @@ class CemeteryInspectionReportPdf
       scattering_gardens community_mausoleum private_mausoleum
       lawn_crypts grave_liners sale_of_monuments fencing winter_burials)
     [494.5, 470.5, 446.5, 422.5, 398.5, 374.5, 350.5, 326.5, 302.5, 278.5, 254.5, 230.5].each_with_index do |y, i|
-      checkbox(245, y, @params[:inspection].send(values[i]))
-      checkbox(282, y, !@params[:inspection].send(values[i]))
+      checkbox(235, y, @params[:inspection].send(values[i]))
+      checkbox(271, y, !@params[:inspection].send(values[i]))
     end
 
     move_down 20
@@ -173,11 +173,11 @@ class CemeteryInspectionReportPdf
 
     checkbox(15, 715.5, @params[:inspection].receiving_vault_exists)
     checkbox(15, 694.5, !@params[:inspection].receiving_vault_exists)
-    checkbox(140, 715.5, @params[:inspection].receiving_vault_inspected)
-    checkbox(140, 694.5, @params[:inspection].receiving_vault_clean)
-    checkbox(362, 694.5, @params[:inspection].receiving_vault_exclusive)
-    checkbox(140, 673.5, @params[:inspection].receiving_vault_obscured)
-    checkbox(362, 673.5, @params[:inspection].receiving_vault_secured)
+    checkbox(130, 715.5, @params[:inspection].receiving_vault_inspected)
+    checkbox(130, 694.5, @params[:inspection].receiving_vault_clean)
+    checkbox(350, 694.5, @params[:inspection].receiving_vault_exclusive)
+    checkbox(130, 673.5, @params[:inspection].receiving_vault_obscured)
+    checkbox(350, 673.5, @params[:inspection].receiving_vault_secured)
 
     stroke_horizontal_line 475, 515, at: 706
     bounding_box([475, 718], width: 40, height: 10) do
@@ -232,8 +232,8 @@ class CemeteryInspectionReportPdf
       rules_approved employees trustees_compensated pet_burials
     )
     [468.5, 443.5, 418.5, 393.5, 368.5, 343.5, 318.5, 293.5, 268.5, 243.5, 218.5].each_with_index do |y, i|
-      checkbox(245, y, @params[:inspection].send(values[i]))
-      checkbox(282, y, !@params[:inspection].send(values[i]))
+      checkbox(235, y, @params[:inspection].send(values[i]))
+      checkbox(271, y, !@params[:inspection].send(values[i]))
     end
 
     # Summary and date
@@ -289,7 +289,7 @@ class CemeteryInspectionReportPdf
 
   def document
     font_directory = Rails.root.join('app', 'pdfs', 'fonts')
-    @document ||= Prawn::Document.new(margin: [20, 28])
+    @document ||= Prawn::Document.new(margin: [20, 38])
     @document.font_families.update("Arial" => {
         normal: font_directory.join('Arial.ttf'),
         italic: font_directory.join('Arial Italic.ttf'),
