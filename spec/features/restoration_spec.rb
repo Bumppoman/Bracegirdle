@@ -33,6 +33,7 @@ feature 'Restoration' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
+    assert_selector '#restoration-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -53,6 +54,7 @@ feature 'Restoration' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
+    assert_selector '#restoration-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -67,10 +69,10 @@ feature 'Restoration' do
 
   scenario 'Hazardous monument application can be processed', js: true do
     login
-    visit root_path
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
+    assert_selector '#restoration-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -113,10 +115,10 @@ feature 'Restoration' do
 
   scenario 'Supervisor can send application directly to cemetery board', js: true do
     login_supervisor
-    visit root_path
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
+    assert_selector '#restoration-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'

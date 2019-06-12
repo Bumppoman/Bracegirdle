@@ -96,6 +96,7 @@ feature 'Complaints' do
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_on 'Close Complaint'
+      assert_selector '#closure-date'
       visit complaints_pending_closure_path
 
       expect(page).to have_content('There are no complaints')

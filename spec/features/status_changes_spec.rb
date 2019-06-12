@@ -33,9 +33,9 @@ feature 'Status Changes' do
     @contractor = FactoryBot.create(:contractor)
     @contractor.save
     login
-    visit root_path
     click_on 'Applications'
     click_on 'Hazardous Monuments'
+    assert_selector '#restoration-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'

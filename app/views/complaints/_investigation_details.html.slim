@@ -41,7 +41,7 @@
           - if @complaint.closed?
             tr
               th scope="row" Closure Date
-              td colspan="3" = @complaint.closure_date
+              td#closure-date colspan="3" = @complaint.closure_date
             tr
               th scope="row" Disposition
               td colspan="3" = @complaint.disposition

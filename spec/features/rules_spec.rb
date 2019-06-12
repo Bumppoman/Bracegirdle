@@ -41,10 +41,10 @@ feature 'Rules' do
 
   scenario 'Investigator adds new rules selecting the cemetery', js: true do
     login
-    visit root_path
 
     click_on 'Inbox'
     click_on 'Rules and Regulations'
+    assert_selector '#rules-data-table'
     click_on 'Upload new rules'
     select2 'Broome', from: 'County'
     fill_in 'Sender', with: 'Mark Smith'

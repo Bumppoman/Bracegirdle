@@ -130,7 +130,8 @@ class ComplaintsController < ApplicationController
     @complaint.update(
       status: :closed,
       closed_by: current_user,
-      closure_date: Date.current)
+      closure_date: Date.current,
+      closure_review_comments: params[:complaint][:closure_review_comments])
 
     redirect_to complaint_investigation_path(@complaint)
   end
