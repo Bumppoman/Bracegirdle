@@ -55,7 +55,13 @@ class CemeteriesController < ApplicationController
   end
 
   def overdue_inspections
-    @cemeteries = current_user.overdue_inspections
+    if params.has_key? :region
+      @cemeteries = Cemetery.where(investigator_region: REGIONS_BY_KEY[params[:region].to_sym], active: true)
+        .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
+        .order(:last_inspection_date)
+    else
+      @cemeteries = current_user.overdue_inspections
+    end
   end
 
   def options_for_county

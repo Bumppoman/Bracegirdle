@@ -145,7 +145,7 @@ describe Complaint, type: :model do
       it "returns 'Investigation Begun' when status is :investigation_begun" do
         subject.status = :investigation_begun
 
-        expect(subject.formatted_status).to eq 'Investigation Begun'
+        expect(subject.formatted_status).to eq 'Investigation begun'
       end
     end
 

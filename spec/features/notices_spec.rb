@@ -30,18 +30,18 @@ feature 'Notices' do
     expect(page).to have_content'Anthony Cemetery'
   end
 
-  scenario 'Investigator issues notice without specific information', js: true do
+  scenario 'Investigator issues notice without cemetery', js: true do
     login
     visit new_notice_path
 
     select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Served On', with: 'Herman Munster'
     select2 'Treasurer', from: 'Title'
     fill_in 'Address', with: '1313 Mockingbird Ln.'
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
     fill_in 'Law Sections', with: 'Testing.'
+    fill_in 'Specific Information', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
     click_on 'Submit'
@@ -86,10 +86,7 @@ feature 'Notices' do
 
   scenario "Cannot advance another investigator's notice", js: true do
     login
-    @notice = FactoryBot.create(:notice)
-    @other_investigator = User.new(password: 'test')
-    @notice.investigator = @other_investigator
-    @notice.save
+    @notice = FactoryBot.create(:notice, investigator: User.new(password: 'test'))
 
     visit notice_path(@notice)
 
@@ -117,8 +114,17 @@ feature 'Notices' do
 
     expect {
       click_on 'Upload'
-      wait_for_ajax
+      assert_selector '#attachment-1'
     }.to change(ActiveStorage::Attachment, :count).by(1)
     expect(page).to have_content 'Adding an attachment to this notice'
+  end
+
+  scenario 'Investigator can download PDF notice' do
+    login
+    @notice = FactoryBot.create(:notice)
+
+    visit download_notice_path(@notice, filename: @notice.notice_number)
+
+    expect(page.status_code).to be 200
   end
 end

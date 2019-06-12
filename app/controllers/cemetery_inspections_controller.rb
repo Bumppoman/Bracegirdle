@@ -32,7 +32,7 @@ class CemeteryInspectionsController < ApplicationController
     @inspection.assign_attributes(
       cemetery: @cemetery,
       investigator: investigator,
-      status: CemeteryInspection::STATUSES[:complete]
+      status: :complete
     )
 
     if @inspection.valid? && verify_upload(params[:cemetery_inspection][:inspection_report])
@@ -40,7 +40,8 @@ class CemeteryInspectionsController < ApplicationController
       @inspection.inspection_report.attach(params[:cemetery_inspection][:inspection_report])
 
       # Only update the inspection date if it's newer than the last
-      @cemetery.update(last_inspection_date: @inspection.date_performed) if @inspection.date_performed > @cemetery.last_inspection_date
+      @cemetery.update(last_inspection_date: @inspection.date_performed) if
+          @cemetery.last_inspection_date && @inspection.date_performed > @cemetery.last_inspection_date
 
       redirect_to show_inspection_cemetery_path(identifier: @inspection)
     else

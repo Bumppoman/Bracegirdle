@@ -8,6 +8,8 @@ class CemeteryInspection < ApplicationRecord
 
   has_one_attached :inspection_report
 
+  validates :date_performed, presence: true
+
   NAMED_STATUSES = {
       begun: 'In progress',
       performed: 'Performed',

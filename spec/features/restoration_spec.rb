@@ -2,15 +2,29 @@ require 'rails_helper'
 
 feature 'Restoration' do
   before :each do
-    @cemetery = FactoryBot.create(:cemetery,
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1)
+    @cemetery = FactoryBot.create(:cemetery)
     @trustee = FactoryBot.create(:trustee)
-    @cemetery.trustees << @trustee
-    @cemetery.save
     @contractor = FactoryBot.create(:contractor)
-    @contractor.save
+  end
+
+  context Restoration, 'Viewing lists of applications' do
+    scenario 'Abandonment applications can be viewed' do
+      @abandonment = FactoryBot.create(:abandonment)
+      login
+
+      visit restoration_index_path(:abandonment)
+
+      expect(page).to have_content('Anthony Cemetery')
+    end
+
+    scenario 'Vandalism applications can be viewed' do
+      @vandalism = FactoryBot.create(:vandalism)
+      login
+
+      visit restoration_index_path(:vandalism)
+
+      expect(page).to have_content('Anthony Cemetery')
+    end
   end
 
   scenario 'Hazardous monument application can be uploaded', js: true do
@@ -36,7 +50,6 @@ feature 'Restoration' do
 
   scenario 'Hazardous monument application without necessary information cannot be saved', js: true do
     login
-    visit root_path
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
@@ -47,8 +60,8 @@ feature 'Restoration' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
-    wait_for_ajax
 
+    assert_selector '#new-restoration-error'
     expect(page).to have_content 'There was a problem'
   end
 
@@ -144,7 +157,7 @@ feature 'Restoration' do
     expect(page).to have_content 'Sent to Cemetery Board'
   end
 
-  describe 'Viewing portions of the application' do
+  context 'Viewing portions of the application' do
     before :each do
       @restoration = FactoryBot.create(:processed_hazardous)
     end
@@ -171,6 +184,38 @@ feature 'Restoration' do
       visit view_legal_notice_restoration_path(@restoration, type: :hazardous)
 
       expect(page).to have_content 'View Legal Notice'
+    end
+
+    scenario 'View estimate' do
+      login
+
+      visit view_estimate_restoration_path(@restoration, @restoration.estimates.first, type: :hazardous)
+
+      expect(page).to have_content 'View Rocky Stone Monuments estimate'
+    end
+
+    scenario 'View previous report' do
+      login
+
+      visit view_previous_report_restoration_path(@restoration, type: :hazardous)
+
+      expect(page).to have_content 'View Previous Restoration Report'
+    end
+
+    scenario 'View generated report' do
+      login
+
+      visit view_report_restoration_path(@restoration, type: :hazardous)
+
+      expect(page.status_code).to be 200
+    end
+
+    scenario 'View combined report' do
+      login
+
+      visit view_combined_restoration_path(@restoration, type: :hazardous)
+
+      expect(page.status_code).to be 200
     end
   end
 end

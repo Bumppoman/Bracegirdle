@@ -2,22 +2,17 @@ require 'rails_helper'
 
 feature 'Status Changes' do
   before :each do
-    @cemetery = FactoryBot.create(:cemetery,
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1
-    )
+    @cemetery = FactoryBot.create(:cemetery)
   end
 
   scenario 'Uploading a hazardous monument application tracks status', js: true do
     @trustee = FactoryBot.create(:trustee)
     @cemetery.trustees << @trustee
-    @cemetery.save
     login
     visit root_path
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    click_on 'Upload new application'
+    click_on 'Upload new application', wait: 10
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     select2 'Mark Clark', from: 'Submitted By'
@@ -27,7 +22,7 @@ feature 'Status Changes' do
 
     expect {
       click_on 'Upload Application'
-      sleep(0.5)
+      assert_selector '#process-restoration'
     }.to change { StatusChange.count }
   end
 
@@ -49,8 +44,7 @@ feature 'Status Changes' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     click_on 'Upload Application'
-    sleep(0.5) # Fails without it
-    visit restoration_path(Restoration.first, type: :hazardous)
+    assert_selector '#process-restoration'
     attach_file 'restoration_application_form', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
@@ -77,7 +71,7 @@ feature 'Status Changes' do
 
     expect {
       click_on 'Submit for Consideration'
-      sleep(0.5)
+      assert_selector '#restoration-summary'
     }.to change { StatusChange.count }
   end
 end

@@ -23,6 +23,7 @@ feature 'Rules' do
 
     click_on 'Inbox'
     click_on 'Rules and Regulations'
+    assert_selector '#rules-data-table'
     click_on 'Upload new rules'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -38,7 +39,7 @@ feature 'Rules' do
     expect(page).to have_content 'Anthony Cemetery'
   end
 
-  scenario 'Investigator adds new rules without the sender name', js: true do
+  scenario 'Investigator adds new rules selecting the cemetery', js: true do
     login
     visit root_path
 
@@ -46,7 +47,7 @@ feature 'Rules' do
     click_on 'Rules and Regulations'
     click_on 'Upload new rules'
     select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    fill_in 'Sender', with: 'Mark Smith'
     fill_in 'Address', with: '223 Fake St.'
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
@@ -210,5 +211,41 @@ feature 'Rules' do
     visit cemetery_path(@cemetery)
 
     expect(page).to have_content 'Approved January 1, 2019'
+  end
+
+  scenario 'Investigator cannot upload old rules without selecting the cemetery', js: true do
+    @location = Location.new(latitude: 41.3144, longitude: -73.8964)
+    @cemetery.locations << @location
+    login
+    visit root_path
+
+    click_on 'Inbox'
+    click_on 'Rules and Regulations'
+    click_on 'Upload previously approved rules'
+    select2 'Broome', from: 'County'
+    attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    select2 'Chester Butkiewicz', from: 'Approved By'
+    fill_in 'rules[approval_date]', with: '1/1/2019'
+    click_on 'Submit'
+
+    expect(page).to have_content 'There was a problem'
+  end
+
+  scenario 'Investigator can view approved rules' do
+    @rules = FactoryBot.create(:approved_rules)
+    login
+
+    visit rules_path(@rules)
+
+    expect(page).to have_content "approved #{Date.current}"
+  end
+
+  scenario 'Investigator can download letter for approved rules' do
+    @rules = FactoryBot.create(:approved_rules)
+    login
+
+    visit download_approval_rules_path(@rules, filename: 'test')
+
+    expect(page.status_code).to be 200
   end
 end

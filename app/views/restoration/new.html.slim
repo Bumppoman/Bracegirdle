@@ -1,11 +1,11 @@
 - content_for :title, @page_info[:title]
 - content_for :breadcrumbs, breadcrumbs_helper([[@page_info[:breadcrumbs], restoration_index_path(type: @type)], 'Upload new application'])
 .section-wrapper
-  =form_for @restoration do |f|
+  = form_for @restoration do |f|
     .form-layout
-      ==content_tag(:div, 'There was a problem uploading this application!', class: 'alert alert-danger', role: 'alert') if @restoration.errors.any?
+      == content_tag(:div, 'There was a problem uploading this application!', id: 'new-restoration-error', class: 'alert alert-danger', role: 'alert') if @restoration.errors.any?
       label.section-title Cemetery Information
-      =render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @restoration }
+      = render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @restoration }
       .row
         #restoration-submitted-by.col-lg-8
           .form-group.required

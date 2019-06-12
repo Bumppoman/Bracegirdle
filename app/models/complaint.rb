@@ -53,11 +53,11 @@ class Complaint < ApplicationRecord
   }.freeze
 
   NAMED_STATUSES = {
-      received: 'Complaint Received',
-      investigation_begun: 'Investigation Begun',
-      investigation_completed: 'Investigation Closed',
-      pending_closure: 'Closure Recommended',
-      closed: 'Complaint Closed'
+      received: 'Complaint received',
+      investigation_begun: 'Investigation begun',
+      investigation_completed: 'Investigation completed',
+      pending_closure: 'Closure recommended',
+      closed: 'Complaint closed'
   }.freeze
 
   def self.grouped_complaint_types

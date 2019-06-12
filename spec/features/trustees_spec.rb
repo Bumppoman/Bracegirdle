@@ -20,7 +20,7 @@ feature 'Trustees' do
 
     expect {
       click_on 'Add New Trustee'
-      wait_for_ajax
+      assert_selector '#trustee-1'
     }.to change(@cemetery.trustees, :count).by(1)
     expect(page).to have_content('Mark Smith')
   end

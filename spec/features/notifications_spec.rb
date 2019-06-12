@@ -59,14 +59,14 @@ feature 'Notifications' do
     login(FactoryBot.create(:mean_supervisor))
     click_on 'Inbox'
     click_on 'Rules and Regulations'
-    click_on 'Upload new rules'
+    click_on 'Upload new rules', wait: 10
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Sender', with: 'Mark Smith'
     fill_in 'Address', with: '223 Fake St.'
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
-    attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
     logout
