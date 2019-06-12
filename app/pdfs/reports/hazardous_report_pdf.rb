@@ -9,7 +9,7 @@ class Reports::HazardousReportPdf < Reports::ReportPdf
     intro = "\nI received an application (Exhibit A) for the repair of #{@params[:restoration].monuments} hazardous monuments \
 located in the #{@params[:cemetery].name} of the #{'town'.pluralize(@params[:cemetery].towns.count)} of \
 #{@params[:cemetery].towns.to_sentence}, #{@params[:cemetery].county_name} County.  The application was submitted by \
-#{@params[:restoration].trustee_name}, #{POSITIONS[@params[:restoration].trustee_position].downcase} of the #{@params[:cemetery].name}.  \
+#{@params[:restoration].trustee_name}, #{Trustee::POSITIONS[@params[:restoration].trustee_position].downcase} of the #{@params[:cemetery].name}.  \
 Included with this application were #{@params[:restoration].estimates.length.to_words} \
 #{'estimate'.pluralize(@params[:restoration].estimates.length)}:  "
     letters = ('B'..'Z').to_a
@@ -43,7 +43,7 @@ foundation made of solid concrete poured to a depth of 42 inches; and replace th
 #{@params[:restoration].previous_date}, and the funds were spent appropriately (Exhibit #{letters.shift}).  "
     end
     recommendation << "All documents appear to be in order, and this appears to be a legitimate claim for \
-#{ActionController::Base.helpers.number_to_currency(@params[:restoration].total)}.  I recommend that this application be approved."
+#{ActionController::Base.helpers.number_to_currency(@params[:restoration].calculated_amount)}.  I recommend that this application be approved."
     text recommendation, indent_paragraphs: 38
   end
 

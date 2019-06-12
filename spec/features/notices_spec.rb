@@ -2,10 +2,7 @@ require 'rails_helper'
 
 feature 'Notices' do
   before :each do
-    @cemetery = FactoryBot.create(:cemetery,
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1)
+    @cemetery = FactoryBot.create(:cemetery)
   end
 
   scenario 'Unauthorized user tries to add notice' do
@@ -108,5 +105,20 @@ feature 'Notices' do
     click_on 'Submit'
 
     expect(page).to have_content 'Adding a note to this notice'
+  end
+
+  scenario 'Investigator can add attachment to notice', js: true do
+    login
+    @notice = FactoryBot.create(:notice)
+
+    visit notice_path(@notice)
+    attach_file 'attachment_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    fill_in 'attachment[description]', with: 'Adding an attachment to this notice'
+
+    expect {
+      click_on 'Upload'
+      wait_for_ajax
+    }.to change(ActiveStorage::Attachment, :count).by(1)
+    expect(page).to have_content 'Adding an attachment to this notice'
   end
 end

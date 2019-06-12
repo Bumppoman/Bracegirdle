@@ -60,6 +60,10 @@ class Notice < ApplicationRecord
     NAMED_STATUSES[status.to_sym]
   end
 
+  def link_text
+    "Notice of Non-Compliance ##{notice_number}"
+  end
+
   def response_required_status
     date = Time.zone.today
     if date < response_required_date

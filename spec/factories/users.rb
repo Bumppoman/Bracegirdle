@@ -5,6 +5,7 @@ FactoryBot.define do
     password { 'pa$$word' }
     role { 2 }
     region { 5 }
+    office_code { 'BNG' }
 
     factory :supervisor do
       role { 4 }

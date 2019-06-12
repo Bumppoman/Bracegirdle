@@ -2,10 +2,7 @@ require 'rails_helper'
 
 feature 'Notifications' do
   before :each do
-    @cemetery = FactoryBot.create(:cemetery,
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1)
+    @cemetery = FactoryBot.create(:cemetery)
   end
 
   scenario 'Assigning a complaint sends a notification', js: true do
@@ -44,9 +41,10 @@ feature 'Notifications' do
     fill_in 'Address', with: '223 Fake St.'
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
-    attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
+    wait_for_ajax
     logout
     login(@employee)
 

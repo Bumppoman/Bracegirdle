@@ -7,5 +7,5 @@
     .col-6.col-sm-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
       = link_to attachment.file do
         i.icon.ion-md-download.mg-r-15
-      = link_to '#', data: { id: attachment.id, object_name: object.class.name.downcase.pluralize, object_id: object.id }, class: 'delete-attachment' do
+      = link_to '#', data: { id: attachment.id, object_name: object.class.name.downcase.pluralize, object_id: object.id }, id: "delete-attachment-#{object.id}", class: 'delete-attachment' do
         i.icon.ion-ios-trash

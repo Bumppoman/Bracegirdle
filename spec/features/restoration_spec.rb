@@ -34,6 +34,24 @@ feature 'Restoration' do
     expect(page).to have_content 'Anthony Cemetery'
   end
 
+  scenario 'Hazardous monument application without necessary information cannot be saved', js: true do
+    login
+    visit root_path
+
+    click_on 'Applications'
+    click_on 'Hazardous Monuments'
+    click_on 'Upload new application'
+    select2 'Broome', from: 'County'
+    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    select2 'Mark Clark', from: 'Submitted By'
+    fill_in 'Amount', with: '12345.67'
+    attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    click_on 'Upload Application'
+    wait_for_ajax
+
+    expect(page).to have_content 'There was a problem'
+  end
+
   scenario 'Hazardous monument application can be processed', js: true do
     login
     visit root_path
@@ -124,5 +142,35 @@ feature 'Restoration' do
     visit restoration_index_path(type: :hazardous)
 
     expect(page).to have_content 'Sent to Cemetery Board'
+  end
+
+  describe 'Viewing portions of the application' do
+    before :each do
+      @restoration = FactoryBot.create(:processed_hazardous)
+    end
+
+    scenario 'View raw application' do
+      login
+
+      visit view_raw_application_restoration_path(@restoration, type: :hazardous)
+
+      expect(page).to have_content 'View Raw Application'
+    end
+
+    scenario 'View application form' do
+      login
+
+      visit view_application_form_restoration_path(@restoration, type: :hazardous)
+
+      expect(page).to have_content 'View Application Form'
+    end
+
+    scenario 'View legal notice' do
+      login
+
+      visit view_legal_notice_restoration_path(@restoration, type: :hazardous)
+
+      expect(page).to have_content 'View Legal Notice'
+    end
   end
 end

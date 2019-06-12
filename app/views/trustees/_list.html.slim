@@ -18,7 +18,7 @@
             td = trustee.phone.presence || '---'
             td = trustee.email.presence || '---'
             td.text-center
-              = link_to '#', class: 'edit-trustee', data: { cemetery: trustee.cemetery.id, trustee: trustee.id } do
+              = link_to '#', id: "edit-trustee-#{trustee.id}", class: 'edit-trustee', data: { cemetery: trustee.cemetery.id, trustee: trustee.id } do
                 i.fa.fa-edit
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center

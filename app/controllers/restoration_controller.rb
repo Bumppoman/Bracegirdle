@@ -52,6 +52,8 @@ class RestorationController < ApplicationController
       Restoration::RestorationReceivedEvent.new(@restoration, current_user).trigger
       redirect_to restoration_path(@restoration, type: params[:type])
     else
+      @type = params[:type].to_sym
+      @page_info = PAGE_INFO[@type][:new]
       render :new
     end
   end

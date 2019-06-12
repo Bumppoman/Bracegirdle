@@ -1,9 +1,11 @@
+- content_for :title, 'View Attachment'
+- content_for :breadcrumbs, breadcrumbs_helper([[@attachment.attachable.link_text, @attachment.attachable], 'View attachment'])
 .section-wrapper
   .row.mg-b-10
     .col-lg-11.col-sm-3
-      label.section-title =@attachment.file.filename
+      label.section-title = @attachment.file.filename
     .col-lg-1.text-right
-      =link_to @attachment.file, disposition: 'attachment' do
+      = link_to @attachment.file, disposition: 'attachment' do
         i.icon.ion-md-download.tx-18.tx-black
   .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
     iframe.embed-responsive-item src="#{attachment_display_link(@attachment.file, request)}"
@@ -13,7 +15,7 @@
     tbody
       tr
         th.wd-30p Uploaded By
-        td =@attachment.user.name
+        td = @attachment.user.name
       tr
         th Description
-        td =@attachment.description
+        td = @attachment.description

@@ -20,9 +20,6 @@ class AttachmentsController < ApplicationController
 
   def show
     @attachment = Attachment.find(params[:id])
-
-    @title = 'View Attachment'
-    @breadcrumbs = { @attachment.attachable.link_text => @attachment.attachable, 'View attachment' => nil }
   end
 
   private
