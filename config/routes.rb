@@ -86,12 +86,11 @@ Rails.application.routes.draw do
   resources :restoration, path: ':type', constraints: { type: restoration_type } do
     resources :estimates
     resources :notes, module: :restoration
-    collection do
-      get 'unreviewed', to: 'restoration#unreviewed', as: :unreviewed
-    end
 
     member do
       patch 'finish-processing', to: 'restoration#finish_processing', as: :finish_processing
+      patch 'return-to-investigator', to: 'restoration#return_to_investigator', as: :return_to_investigator
+      patch 'send-to-board', to: 'restoration#send_to_board', as: :send_to_board
       patch 'upload-application', to: 'restoration#upload_application', as: :upload_application
       patch 'upload-legal-notice', to: 'restoration#upload_legal_notice', as: :upload_legal_notice
       patch 'upload-previous', to: 'restoration#upload_previous', as: :upload_previous

@@ -1,5 +1,10 @@
 - content_for :title, "Review #{@restoration.formatted_application_type} Application"
-- content_for :breadcrumbs, breadcrumbs_helper([["#{@restoration.application_type.capitalize} applications for review", unreviewed_restoration_index_path(type: @restoration.application_type)], 'Review application'])
+- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'Review application'])
 = render 'restoration/summary'
 = render 'restoration/exhibits'
 = render 'notes/show_notes', object: @restoration, url: restoration_notes_path(@restoration, type: @restoration.application_type)
+.section-wrapper.mg-t-5
+  label.section-title.mg-b-20 Actions
+  .form-layout-footer.mg-t-20
+    button#send-to-board.bracegirdle-redirect-action-button.btn.btn-primary.mr-1 data-path="#{send_to_board_restoration_path(@restoration, type: @restoration.application_type)}" data-success="#{restoration_index_path(type: @restoration.application_type)}" Send to cemetery board
+    button#return_to_investigator.bracegirdle-redirect-action-button.btn.btn-primary data-path="#{return_to_investigator_restoration_path(@restoration, type: @restoration.application_type)}" data-success="#{restoration_index_path(type: @restoration.application_type)}" Return to investigator

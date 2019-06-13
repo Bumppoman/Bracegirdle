@@ -23,6 +23,17 @@ $(document).on('turbolinks:load', function () {
         $($.fn.dataTable.tables(true)).css('width', '100%');
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
     });
+
+    $('.bracegirdle-redirect-action-button').click(function (event) {
+        const success = $(this).data('success');
+        $.ajax({
+            url: $(this).data('path'),
+            type: 'PATCH',
+            success: function () {
+                window.location.href = success;
+            }
+        });
+    });
 });
 
 $(document).on('focus', '.select2-selection--single', function (e) {

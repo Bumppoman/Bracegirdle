@@ -26,7 +26,7 @@
   label.section-title.mg-b-20 Actions
   div
     button#finalize-cemetery-inspection.btn.btn-primary.mg-r-5 style="#{@inspection.complete? ? 'display: none;' : ''}" data-path="#{finalize_inspection_cemetery_path(@inspection.cemetery, @inspection)}" Mail inspection
-    button#revise-cemetery-inspection.btn.btn-secondary style="#{@inspection.complete? ? 'display: none;' : ''}" data-path="#{revise_inspection_cemetery_path(@inspection.cemetery, @inspection)}" data-success="#{inspect_cemetery_path(@cemetery)}" Revise inspection
+    button#revise-cemetery-inspection.bracegirdle-redirect-action-button.btn.btn-secondary style="#{@inspection.complete? ? 'display: none;' : ''}" data-path="#{revise_inspection_cemetery_path(@inspection.cemetery, @inspection)}" data-success="#{inspect_cemetery_path(@cemetery)}" Revise inspection
     button#print-cemetery-inspection-package.btn.btn-secondary style="#{@inspection.complete? ? '' : 'display: none;'}" Reprint inspection package
 #cemetery-inspection-download-package.modal
   .modal-dialog.wd-30p role="document"

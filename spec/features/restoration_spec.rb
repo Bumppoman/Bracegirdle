@@ -220,4 +220,30 @@ feature 'Restoration' do
       expect(page.status_code).to be 200
     end
   end
+
+  context Restoration, 'Reviewing application' do
+    before :each do
+      @restoration = FactoryBot.create(:processed_hazardous)
+    end
+
+    scenario 'Supervisor can send application to board', js: true do
+      login_supervisor
+      visit review_restoration_path(@restoration, type: :hazardous)
+
+      click_on 'Send to cemetery board'
+      assert_selector '#restoration-data-table'
+
+      expect(@restoration.reload.status).to eq 'reviewed'
+    end
+
+    scenario 'Supervisor can return application to investigator', js: true do
+      login_supervisor
+      visit review_restoration_path(@restoration, type: :hazardous)
+
+      click_on 'Return to investigator'
+      assert_selector '#restoration-data-table'
+
+      expect(@restoration.reload.status).to eq 'received'
+    end
+  end
 end

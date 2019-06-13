@@ -92,18 +92,6 @@ $(document).on('turbolinks:load', function () {
         });
     });
 
-    // Revise inspection
-    $('#revise-cemetery-inspection').click(function (event) {
-        const success = $(this).data('success');
-        $.ajax({
-            url: $(this).data('path'),
-            type: 'PATCH',
-            success: function () {
-                window.location.href = success;
-            }
-        });
-    });
-
     // Reprint cemetery inspection package
     $('#print-cemetery-inspection-package').click(function (event) {
         $('#cemetery-inspection-download-package').modal();

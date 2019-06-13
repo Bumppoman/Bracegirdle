@@ -78,7 +78,12 @@ class RestorationController < ApplicationController
   end
 
   def index
-    self.send(params[:type])
+    if current_user.supervisor?
+      @applications = Restoration.includes(:cemetery, :status_changes).send(params[:type]).where(investigator: current_user).or(
+          Restoration.includes(:cemetery, :status_changes).send(params[:type]).processed)
+    else
+      @applications = Restoration.includes(:cemetery, :status_changes).send(params[:type]).where(investigator: current_user)
+    end
     render params[:type]
   end
 
@@ -97,8 +102,18 @@ class RestorationController < ApplicationController
     @contractors = Contractor.all.order(:name)
   end
 
+  def return_to_investigator
+    @restoration = Restoration.find(params[:id])
+    @restoration.update(status: :received)
+  end
+
   def review
     @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
+  end
+
+  def send_to_board
+    @restoration = Restoration.find(params[:id])
+    @restoration.update(status: :reviewed)
   end
 
   def show
@@ -221,10 +236,6 @@ class RestorationController < ApplicationController
 
   private
 
-  def abandonment
-    @applications = Restoration.includes(:cemetery, :status_changes).abandonment.where(investigator: current_user)
-  end
-
   def application_create_params
     params.require(:restoration).permit(:amount, :cemetery_county, :raw_application_file)
   end
@@ -238,13 +249,5 @@ class RestorationController < ApplicationController
       restoration: @restoration,
       report_date: @restoration.recommendation_date || Date.current
     })
-  end
-
-  def hazardous
-    @applications = Restoration.includes(:cemetery, :status_changes).hazardous.where(investigator: current_user)
-  end
-
-  def vandalism
-    @applications = Restoration.includes(:cemetery, :status_changes).vandalism.where(investigator: current_user)
   end
 end
