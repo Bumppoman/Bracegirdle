@@ -1,5 +1,6 @@
-class CemeteryInspectionItemsPdf
-  include Prawn::View
+class CemeteryInspectionItemsPdf < BasicPdf
+  MARGIN_Y = 41
+  MARGIN_X = 56
 
   def initialize(params, **options)
     @params = params
@@ -38,17 +39,5 @@ class CemeteryInspectionItemsPdf
       start_new_page
       item_number += 1
     end
-  end
-
-  def document
-    font_directory = Rails.root.join('app', 'pdfs', 'fonts')
-    @document ||= Prawn::Document.new(margin: [41, 56])
-    @document.font_families.update("Arial" => {
-        normal: font_directory.join('Arial.ttf'),
-        italic: font_directory.join('Arial Italic.ttf'),
-        bold: font_directory.join('Arial Bold.ttf'),
-        bold_italic: font_directory.join('Arial Bold Italic.ttf')
-    })
-    @document
   end
 end

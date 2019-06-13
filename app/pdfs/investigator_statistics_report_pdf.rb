@@ -1,5 +1,6 @@
-class InvestigatorStatisticsReportPdf
-  include Prawn::View
+class InvestigatorStatisticsReportPdf < BasicPdf
+  MARGIN_Y = 30
+  MARGIN_X = 38
 
   def initialize(params, **options)
     @params = params
@@ -120,18 +121,6 @@ class InvestigatorStatisticsReportPdf
       }
       chart data, height: 175
     end
-  end
-
-  def document
-    font_directory = Rails.root.join('app', 'pdfs', 'fonts')
-    @document ||= Prawn::Document.new(margin: [30, 38])
-    @document.font_families.update("Arial" => {
-        normal: font_directory.join('Arial.ttf'),
-        italic: font_directory.join('Arial Italic.ttf'),
-        bold: font_directory.join('Arial Bold.ttf'),
-        bold_italic: font_directory.join('Arial Bold Italic.ttf')
-    })
-    @document
   end
 
   private
