@@ -2,7 +2,7 @@ class RestorationEvent < Event
   class Type
     RESTORATION_PROCESSED = 'processed'
     RESTORATION_RECEIVED = 'received'
-    RESTORATION_REJECTED = 'rejected'
+    RESTORATION_RETURNED = 'returned'
     RESTORATION_REVIEWED = 'reviewed'
   end
 

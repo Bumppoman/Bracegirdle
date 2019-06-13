@@ -105,6 +105,7 @@ class RestorationController < ApplicationController
   def return_to_investigator
     @restoration = Restoration.find(params[:id])
     @restoration.update(status: :received)
+    Restoration::RestorationReturnedEvent.new(@restoration, current_user).trigger
   end
 
   def review
@@ -114,6 +115,7 @@ class RestorationController < ApplicationController
   def send_to_board
     @restoration = Restoration.find(params[:id])
     @restoration.update(status: :reviewed)
+    Restoration::RestorationReviewedEvent.new(@restoration, current_user).trigger
   end
 
   def show

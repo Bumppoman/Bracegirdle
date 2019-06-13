@@ -109,7 +109,7 @@ feature 'Notices' do
     @notice = FactoryBot.create(:notice)
 
     visit notice_path(@notice)
-    attach_file 'attachment_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    attach_file 'attachment_file', Rails.root.join('spec', 'support', 'test.txt'), visible: false
     fill_in 'attachment[description]', with: 'Adding an attachment to this notice'
 
     expect {

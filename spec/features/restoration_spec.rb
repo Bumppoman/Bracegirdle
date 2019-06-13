@@ -94,6 +94,13 @@ feature 'Restoration' do
     select2 'Lifetime', from: 'Warranty'
     choose 'estimate_proper_format_true'
     click_on 'Upload Estimate'
+    click_on 'Add New Estimate'
+    attach_file 'estimate_document', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    fill_in 'Amount', with: '12845.67'
+    select2 'Stony Rocks Monuments', from: 'Contractor', tag: true
+    select2 'Lifetime', from: 'Warranty'
+    choose 'estimate_proper_format_true'
+    click_on 'Upload Estimate'
     click_on 'Next'
     attach_file 'restoration_legal_notice', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     fill_in 'Cost', with: '123.45'
