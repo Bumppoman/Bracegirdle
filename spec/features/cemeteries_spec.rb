@@ -12,14 +12,7 @@ feature 'Cemeteries' do
       longitude: -73.8964
     )
 
-    @cemetery = Cemetery.new(
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1,
-      investigator_region: 5,
-      last_inspection_date: Date.current - 6.years
-    )
-    @cemetery.save
+    @cemetery = FactoryBot.create(:cemetery, last_inspection_date: Date.current - 6.years)
     @cemetery.locations << @location
     @cemetery.towns << @town
   end
@@ -63,5 +56,20 @@ feature 'Cemeteries' do
     visit overdue_inspections_cemeteries_path
 
     expect(page).to have_content 'Anthony Cemetery'
+  end
+
+  scenario 'View overdue inspections for region' do
+    @syracuse_cemetery = Cemetery.new(
+      name: 'Bird Cemetery',
+      county: 6,
+      order_id: 1,
+      investigator_region: 4,
+      last_inspection_date: Date.current - 6.years)
+    @syracuse_cemetery.save
+    login
+
+    visit overdue_inspections_cemeteries_path(region: :syracuse)
+
+    expect(page).to have_content 'Bird Cemetery'
   end
 end

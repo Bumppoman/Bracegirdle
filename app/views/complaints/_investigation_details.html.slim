@@ -8,7 +8,7 @@
         = render partial: 'complaints/update/action_form'
   .section-wrapper.pd-20-force.mg-t-5-force
     label.section-title.mg-b-15 Investigation Details
-    = form_with model: @complaint, method: :patch do |f|
+    = form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
       table.table.table-striped
         tbody
           tr
@@ -19,13 +19,13 @@
             td colspan="3"
               span#current-investigator-name = "#{@complaint.investigator&.name || 'Unassigned'} "
               - unless @complaint.closed?
-                a#edit-investigator.pl-2 href="" style=[@complaint.unassigned? ? 'display: none;' : nil]
+                a#edit-investigator.pl-2 href="" style=(@complaint.unassigned? ? 'display: none;' : nil)
                   i.fa.fa-pencil
                 #edit-investigator-area.form-layout.wd-50p style="display: none;"
                   .pb-1
-                    = f.select :investigator, grouped_options_for_select(employee_options), {prompt: 'Select employee'}, class: 'form-control select2 wd-250'
+                    = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2-basic wd-250'
                   .form-layout-footer
-                    = f.submit 'Update', class: 'btn btn-primary bd-0 mr-1'
+                    = f.submit 'Update', name: 'change_investigator', class: 'btn btn-primary bd-0 mr-1'
                     a#cancel-edit-investigator.btn.btn-secondary.bd-0 href="#" Cancel
           tr
             th scope="row" Complaint Received

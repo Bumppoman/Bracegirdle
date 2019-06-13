@@ -6,7 +6,7 @@ class NotificationConsumer < Consumer
   protected
 
   def notify(sender, receiver)
-    if sender != receiver
+    if sender && receiver && sender != receiver
       notification = Notification.new(
           sender_id: sender,
           receiver_id: receiver,

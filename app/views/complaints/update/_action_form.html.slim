@@ -10,7 +10,7 @@
       fieldset#complaint-received
         label.section-label Complaint Received
         p.mb-10 ="Complaint received by #{@complaint.receiver.name} on #{@complaint.created_at}."
-        - if @complaint.belongs_to? current_user || current_user.supervisor?
+        - if @complaint.belongs_to?(current_user) || current_user.supervisor?
           = f.button 'Begin Investigation', name: 'begin_investigation', class: 'next action-button'
           = f.button 'Assign to Investigator', name: 'assign_complaint', class: 'next action-button'
       fieldset#investigation-begun
@@ -55,7 +55,7 @@
             | Assign this complaint to an investigator:
             br<>
             br<>
-            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2'
+            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2-basic'
         .modal-footer
           = f.button 'Assign', name: 'assign_investigator', class: 'btn btn-primary'
           button.btn.btn-secondary type="button" data-dismiss="modal" Close

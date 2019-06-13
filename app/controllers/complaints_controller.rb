@@ -83,10 +83,11 @@ class ComplaintsController < ApplicationController
     @complaint = Complaint.find(params[:id])
 
     # Determine what to update
-    begin_investigation if params.key?(:begin_investigation)
-    assign_complaint if params.key?(:assign_complaint)
-    assign_investigator if params.key?(:assign_investigator)
-    complete_investigation if params.key?(:complete_investigation)
+    begin_investigation if params.key? :begin_investigation
+    assign_complaint if params.key? :assign_complaint
+    assign_investigator if params.key? :assign_investigator
+    change_investigator if params.key? :change_investigator
+    complete_investigation if params.key? :complete_investigation
     recommend_closure if params.key? :recommend_closure
     reopen_investigation and return if params.key? :reopen_investigation
     close_complaint and return if params.key? :close_complaint
@@ -120,6 +121,11 @@ class ComplaintsController < ApplicationController
     @response = 'complaints/update/begin_investigation'
   end
 
+  def change_investigator
+    @complaint.update(investigator: User.find(params[:complaint][:investigator]))
+    @response = 'complaints/update/change_investigator'
+  end
+
   def close_complaint
     if @complaint.status == 3
       @complaint.update(
@@ -138,24 +144,12 @@ class ComplaintsController < ApplicationController
 
   def complaint_params
     params.require(:complaint).permit(
-      :complainant_name,
-      :complainant_address,
-      :complainant_address,
-      :complainant_email,
-      :complainant_phone,
-      :cemetery_regulated,
-      :cemetery_county,
-      :cemetery_alternate_name,
-      :lot_location,
-      :name_on_deed,
-      :relationship,
-      :ownership_type,
-      :summary,
-      :form_of_relief,
-      :person_contacted,
-      :attorney_contacted,
-      :court_action_pending,
-      :investigation_required
+      :complainant_name, :complainant_address, :complainant_address,
+      :complainant_email, :complainant_phone, :cemetery_regulated,
+      :cemetery_county, :cemetery_alternate_name, :lot_location,
+      :name_on_deed, :relationship, :ownership_type,
+      :summary, :form_of_relief, :person_contacted,
+      :attorney_contacted, :court_action_pending, :investigation_required
     )
   end
 

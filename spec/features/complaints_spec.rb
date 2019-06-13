@@ -138,6 +138,42 @@ feature 'Complaints' do
 
       expect(page).to_not have_button 'Begin Investigation'
     end
+
+    scenario 'Supervisor can assign complaint', js: true do
+      @employee = FactoryBot.create(:user)
+      @complaint = FactoryBot.create(:unassigned)
+      login_supervisor
+
+      visit unassigned_complaints_path
+      click_on @complaint.complaint_number
+      click_on 'Investigation Details'
+      click_on 'Assign to Investigator'
+      select2 'Chester Butkiewicz', xpath: '//*[@id="assign-investigator"]', match: :first
+      click_on 'Assign'
+      logout
+      login(@employee)
+      visit complaints_path
+
+      expect(page).to have_content 'Herman Munster'
+    end
+
+    scenario 'Supervisor can reassign complaint', js: true do
+      @other_guy = FactoryBot.create(:user, name: 'Mark Smith')
+      @employee = FactoryBot.create(:user)
+      @complaint = FactoryBot.create(:brand_new_complaint)
+      login_supervisor
+
+      visit complaint_path(@complaint)
+      click_on 'Investigation Details'
+      click_on 'edit-investigator'
+      select2 'Chester Butkiewicz', xpath: '//*[@id="edit-investigator-area"]', match: :first
+      click_on 'Update'
+      logout
+      login(@employee)
+      visit complaints_path
+
+      expect(page).to have_content 'Herman Munster'
+    end
   end
 
   context Complaint, 'Complaint has no investigation' do

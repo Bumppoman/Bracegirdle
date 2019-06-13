@@ -135,10 +135,7 @@ feature 'Activities' do
 
   scenario 'Uploading a hazardous monument application logs activity', js: true do
     @trustee = FactoryBot.create(:trustee)
-    @cemetery.trustees << @trustee
-    @cemetery.save
     login
-    visit root_path
     click_on 'Applications'
     click_on 'Hazardous Monuments'
     assert_selector '#restoration-data-table'

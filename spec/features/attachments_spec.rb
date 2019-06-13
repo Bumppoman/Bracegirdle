@@ -25,6 +25,6 @@ feature 'Attachments' do
     click_on 'Delete'
     wait_for_ajax
 
-    expect(page).not_to have_content('Testing attachment')
+    expect(page).not_to have_content'Testing attachment', wait: 2
   end
 end

@@ -38,5 +38,9 @@ FactoryBot.define do
       disposition { 'Testing' }
       disposition_date { Date.current }
     end
+
+    factory :unassigned do
+      investigator { nil }
+    end
   end
 end
