@@ -14,7 +14,7 @@
           tr
             td
               span.d-none = inspection.date_performed.strftime('%Y-%m-%d')
-              = cemetery_inspection_link inspection, true
+              = cemetery_inspection_link inspection, :identifier
             td = link_to inspection.cemetery.name, inspection.cemetery
             td = inspection.date_performed
             td = inspection.named_status

@@ -1,5 +1,5 @@
 module TrusteesHelper
-  def trustees_for_select(cemetery, value = 'id', selected = nil)
+  def trustees_for_select(cemetery, value = :id, selected = nil)
     options_for_select(
       cemetery.trustees.order(:position, :name).map { |t| [t.name, t.send(value), { 'data-position' => t.position }] }, selected)
   end

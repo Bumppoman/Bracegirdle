@@ -164,8 +164,6 @@ feature 'Rules' do
     expect(page).to have_content 'Approved'
   end
 
-  scenario 'User can request a revision to rules', js: true do
-  end
 
   scenario 'User can upload a revision to rules', js: true do
     @rules = FactoryBot.create(:revision_requested)
@@ -178,6 +176,19 @@ feature 'Rules' do
     visit rules_path(@rules)
 
     expect(page).to have_content 'REVISION 2'
+  end
+
+  scenario 'User cannot upload an invalid revision to rules', js: true do
+    @rules = FactoryBot.create(:revision_requested)
+    @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
+    login
+
+    visit rules_path(@rules)
+    attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.txt'), visible: false
+    first(:button, 'Submit').click
+    visit rules_path(@rules)
+
+    expect(page).not_to have_content('REVISION 2', wait: 2)
   end
 
   scenario 'Investigator can add note to rules', js: true do
@@ -233,6 +244,7 @@ feature 'Rules' do
 
   scenario 'Investigator can view approved rules' do
     @rules = FactoryBot.create(:approved_rules)
+    @other_rules = FactoryBot.create(:approved_rules, approval_date: Date.current - 8.years)
     login
 
     visit rules_path(@rules)
@@ -240,8 +252,17 @@ feature 'Rules' do
     expect(page).to have_content "approved #{Date.current}"
   end
 
-  scenario 'Investigator can download letter for approved rules' do
+  scenario 'Investigator can download letter for approved rules that were emailed' do
     @rules = FactoryBot.create(:approved_rules)
+    login
+
+    visit download_approval_rules_path(@rules, filename: 'test')
+
+    expect(page.status_code).to be 200
+  end
+
+  scenario 'Investigator can download letter for approved rules that were mailed' do
+    @rules = FactoryBot.create(:approved_rules_mailed)
     login
 
     visit download_approval_rules_path(@rules, filename: 'test')

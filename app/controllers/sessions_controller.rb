@@ -1,14 +1,12 @@
+require 'uri'
+require 'net/http'
+
 class SessionsController < ApplicationController
-  def create
-    user = User.find_by_email(params[:email])
-    if user && user.authenticate(params[:password][0])
+  def callback
+    session[:userinfo] = request.env['omniauth.auth']
+    if user = User.find_by_email(session[:userinfo].info['name'])
       session[:user_id] = user.id
-      redirect_to root_url, notice: 'Signed in!'
-    else
-      flash.now[:alert] = 'Your email or password is invalid.'
-      @title = 'Sign In'
-      @breadcrumbs = false
-      render :new
+      redirect_to root_path
     end
   end
 
@@ -23,12 +21,9 @@ class SessionsController < ApplicationController
     }
 
     redirect_to URI::HTTPS.build(host: domain, path: '/v2/logout', query: request_params.to_query).to_s
-    #redirect_to root_url, notice: 'Signed out!'
   end
 
-  def new
-    redirect_to '/auth/auth0'
-    #@title = 'Sign In'
-    #@breadcrumbs = false
+  def failure
+    @error_msg = request.params['message']
   end
 end

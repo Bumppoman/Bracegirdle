@@ -51,6 +51,7 @@ feature 'Cemetery Inspections' do
 
   scenario 'Investigator performs inspection', js: true do
     login
+    @trustee = FactoryBot.create(:trustee)
     @inspection = FactoryBot.create(:cemetery_inspection)
 
     visit inspect_cemetery_path(@cemetery)

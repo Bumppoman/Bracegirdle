@@ -109,8 +109,11 @@ feature 'Complaints' do
       visit complaints_path
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
+      fill_in 'complaint[disposition]', with: 'Testing.'
+      click_on 'Close Complaint'
+      assert_selector '#closure-date'
 
-      expect(page).to have_content 'Close Complaint'
+      expect(page).to have_content 'closed by'
     end
 
     scenario 'Supervisor can reopen complaint', js: true do

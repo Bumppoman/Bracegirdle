@@ -15,11 +15,7 @@ class ComplaintsController < ApplicationController
     @complaint = Complaint.new(complaint_params)
 
     # Link to cemetery if cemetery is regulated
-    begin
-      @complaint.cemetery = Cemetery.find(params.dig(:complaint, :cemetery)) if @complaint.cemetery_regulated?
-    rescue ActiveRecord::RecordNotFound
-      @complaint.cemetery = nil
-    end
+    @complaint.cemetery = Cemetery.find_by(id: params.dig(:complaint, :cemetery))
 
     # Update dates
     @complaint.assign_attributes(complaint_date_params)
@@ -71,8 +67,6 @@ class ComplaintsController < ApplicationController
 
   def show
     @complaint = Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
-
-    @breadcrumbs = { 'My active complaints' => complaints_path, @title => nil }
   end
 
   def unassigned
@@ -127,7 +121,7 @@ class ComplaintsController < ApplicationController
   end
 
   def close_complaint
-    if @complaint.status == 3
+    if @complaint.investigation_completed?
       @complaint.update(
         disposition_date: Date.current,
         disposition: params[:complaint][:disposition])

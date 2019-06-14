@@ -26,6 +26,14 @@ FactoryBot.define do
       status { :approved }
       approval_date { Date.current }
       rules_documents { [fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf')] }
+
+      factory :approved_rules_mailed do
+        request_by_email { false }
+        sender_street_address { '123 Main St.' }
+        sender_city { 'Deposit' }
+        sender_state { 'NY' }
+        sender_zip { '13345' }
+      end
     end
   end
 end

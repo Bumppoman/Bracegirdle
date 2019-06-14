@@ -26,7 +26,7 @@ FactoryBot.define do
       legal_notice_format { true }
       previous_exists { true }
       previous_report { fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf') }
-      previous_type { :hazardous }
+      previous_type { :abandonment }
       previous_date { Date.current - 5.years }
       status { :processed }
 

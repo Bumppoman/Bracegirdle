@@ -27,7 +27,6 @@
               .form-group.required
                 = f.label :disposition, class: 'form-control-label'
                 = f.text_area :disposition, size: '20x10', class: 'form-control'
-        - if @complaint.belongs_to? current_user
           - if current_user.supervisor?
             = f.button 'Close Complaint', name: 'close_complaint', class: 'next action-button'
           - else

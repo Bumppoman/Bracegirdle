@@ -235,7 +235,9 @@ feature 'Restoration' do
 
     scenario 'Supervisor can send application to board', js: true do
       login_supervisor
-      visit review_restoration_path(@restoration, type: :hazardous)
+      click_on 'Applications'
+      click_on 'Hazardous Monuments'
+      click_on @restoration.identifier
 
       click_on 'Send to cemetery board'
       assert_selector '#restoration-data-table'

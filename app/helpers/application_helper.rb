@@ -28,10 +28,6 @@ module ApplicationHelper
     current_user.rules.where.not(status: :revision_requested).count
   end
 
-  def named_region(region)
-    NAMED_REGIONS[region]
-  end
-
   def sort_date(date)
     date&.strftime('%Y%m%d')
   end

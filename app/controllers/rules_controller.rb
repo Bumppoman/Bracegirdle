@@ -137,10 +137,6 @@ class RulesController < ApplicationController
     end
   end
 
-  def show_approved
-    @rules = Rules.approved.order(approval_date: :desc).joins(:cemetery).where(cemeteries: { id: params[:id] }).first
-  end
-
   def upload_old_rules
     @rules = Rules.new
   end

@@ -4,8 +4,6 @@ module AttachmentsHelper
       "https://view.officeapps.live.com/op/embed.aspx?src=#{request.protocol}#{request.host}#{url_for attachment}"
     elsif attachment.content_type == 'application/pdf'
       pdfjs.full_path(file: url_for(attachment))
-    else
-      rails_blob_path(attachment)
     end
   end
 

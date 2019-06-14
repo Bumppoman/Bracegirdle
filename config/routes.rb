@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   get 'dashboard/index'
 
   # Auth0
-  get 'auth/auth0/callback', to: 'auth0#callback'
-  get 'auth/failure', to: 'auth0#failure'
+  get 'auth/auth0/callback', to: 'sessions#callback'
+  get 'auth/failure', to: 'sessions#failure'
 
   # Cemeteries
   resources :cemeteries do
@@ -125,8 +125,7 @@ Rails.application.routes.draw do
   get 'towns/county/:county/options', to: 'towns#options_for_county'
 
   # Users
-  resources :sessions, only: [:new, :create, :destroy]
-  get 'login' => 'sessions#new', as: :login
+  get 'login', to: redirect('/auth/auth0')
   get 'logout', to: 'sessions#destroy', as: :logout
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

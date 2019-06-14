@@ -3,9 +3,9 @@
 .section-wrapper
   .row.mg-b-10
     .col-lg-11.col-sm-3
-      label.section-title ="Rules (approved #{@rules.approval_date})"
+      label.section-title = "Rules (approved #{@rules.approval_date})"
     .col-lg-1.text-right
-      =link_to rails_blob_path(@rules.rules_documents.first, disposition: 'attachment') do
+      = link_to rails_blob_path(@rules.rules_documents.first, disposition: 'attachment') do
         i.icon.ion-md-download.tx-18.tx-black
   .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
     iframe.embed-responsive-item src="#{attachment_display_link(@rules.rules_documents.first, request)}"
@@ -16,14 +16,14 @@
       tr
         th.wd-30p Approved By
         td
-          -if @rules.investigator
-            =@rules.investigator.name
-            ==" (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" if !@rules.previously_approved?
-          -else
+          - if @rules.investigator
+            = @rules.investigator.name
+            == " (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" if !@rules.previously_approved?
+          - else
             | Unknown
       tr
         th Other Rules
-        td ==other_rules(@rules.cemetery, @rules.id)
+        td == other_rules(@rules.cemetery, @rules.id)
 #rules-approval-download.modal
   .modal-dialog.wd-40p role="document"
     .modal-content
@@ -36,6 +36,6 @@
           | Click below to download the approval letter for these rules.
           br<>
           br<>
-          ==link_to content_tag(:i, '', class: 'fa fa-file-pdf-o mg-r-15 tx-danger tx-24') + "Download Rules-Approval-#{@rules.identifier}.pdf", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-rules-approval-link', onclick: "javascript:window.location=\"#{download_approval_rules_path(@rules, "Download-Approval-Rules-#{@rules.identifier}")}\""
+          == link_to content_tag(:i, '', class: 'fa fa-file-pdf-o mg-r-15 tx-danger tx-24') + "Download Rules-Approval-#{@rules.identifier}.pdf", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-rules-approval-link', onclick: "javascript:window.location=\"#{download_approval_rules_path(@rules, "Download-Approval-Rules-#{@rules.identifier}")}\""
       .modal-footer
         button.btn.btn-secondary type="button" data-dismiss="modal" Close

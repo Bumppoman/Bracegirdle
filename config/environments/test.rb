@@ -46,4 +46,21 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.middleware.use RackSessionAccess::Middleware
+
+  # Testing for OmniAuth
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.add_mock(:auth0, OmniAuth::AuthHash.new({
+    provider: 'auth0',
+    uid: 1,
+    info: {
+        name: 'tester@testdomain.test',
+        first_name: 'Chester',
+    },
+    credentials: {
+        token: 'XKLjnkKJj7hkHKJkk',
+        expires: true,
+        id_token: 'eyJ0eXAiOiJK1VveHkwaTFBNXdTek41dXAiL.Wz8bwniRJLQ4Fqx_omnGDCX1vrhHjzw',
+        token_type: 'Bearer'
+    }
+  }))
 end
