@@ -1,14 +1,13 @@
 class CemeteriesController < ApplicationController
   def api_overdue_inspections_by_region
-    overdue = Cemetery
-      .where(active: true)
+    active_cemeteries = Cemetery.where(active: true)
+    overdue = active_cemeteries
       .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
       .group(:investigator_region)
       .order(:investigator_region)
       .count(:id)
 
-    total = Cemetery
-      .where(active: true)
+    total = active_cemeteries
       .group(:investigator_region)
       .order(:investigator_region)
       .count(:id)

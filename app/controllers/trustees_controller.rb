@@ -1,6 +1,6 @@
 class TrusteesController < ApplicationController
   def api_list
-    render html: helpers.trustees_for_select(Cemetery.includes(:trustees).find(params[:id]), params.key?(:name_only))
+    render html: helpers.trustees_for_select(Cemetery.includes(:trustees).find(params[:id]), params.key?(:name_only) ? 'name' : 'id')
   end
 
   def api_show
