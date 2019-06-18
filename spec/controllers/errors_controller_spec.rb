@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ErrorsController, type: :controller do
+describe ErrorsController, type: :controller do
   describe 'GET forbidden' do
     it 'has the status 403' do
       get :forbidden

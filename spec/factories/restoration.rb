@@ -34,6 +34,12 @@ FactoryBot.define do
         hazardous.estimates << create(:estimate, restoration: hazardous)
         hazardous.estimates << create(:higher_estimate, restoration: hazardous)
       end
+
+      factory :hazardous_three_estimates do
+        after(:create) do |hazardous|
+          hazardous.estimates << create(:highest_estimate, restoration: hazardous)
+        end
+      end
     end
 
     factory :vandalism do

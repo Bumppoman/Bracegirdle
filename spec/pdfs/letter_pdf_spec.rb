@@ -10,7 +10,7 @@ feature 'Letter PDF' do
       cemetery: FactoryBot.create(:cemetery),
       name: 'Chester Butkiewicz',
       title: 'Assistant Director',
-      signature: nil
+      signature: 'test.jpg'
     })
   end
 

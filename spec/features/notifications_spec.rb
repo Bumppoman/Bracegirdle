@@ -54,6 +54,23 @@ feature 'Notifications' do
     expect(page).to have_content 'John Smith uploaded new rules'
   end
 
+  scenario "Commenting on someone's item sends a notification", js: true do
+    @employee = FactoryBot.create(:user)
+    @complaint = FactoryBot.create(:brand_new_complaint)
+    login(FactoryBot.create(:mean_supervisor))
+
+    visit complaint_path(@complaint)
+    click_on 'Investigation Details'
+    fill_in 'note[body]', with: 'Testing'
+    click_on 'submit-note-button'
+    assert_selector '#note-1'
+    logout
+    login(@employee)
+    click_on class: 'header-notification'
+
+    expect(page).to have_content 'John Smith added a comment'
+  end
+
   scenario 'Notifications can be marked read', js: true do
     @employee = FactoryBot.create(:user)
     @supervisor = FactoryBot.create(:mean_supervisor)

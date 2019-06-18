@@ -9,5 +9,9 @@ FactoryBot.define do
     factory :higher_estimate do
       amount { '23456.78' }
     end
+
+    factory :highest_estimate do
+      amount { '34567.89' }
+    end
   end
 end

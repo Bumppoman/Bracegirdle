@@ -9,4 +9,4 @@
       = form_with model: [object, Note.new], url: (defined?(url) ? url : nil) do |f|
         = f.text_area :body, rows: 8, class: 'form-control'
         .form-layout-footer.mg-t-10
-          = f.button 'Submit', class: 'btn btn-primary mt-1 mg-r-10'
+          = f.button 'Submit', id: 'submit-note-button', class: 'btn btn-primary mt-1 mg-r-10'
