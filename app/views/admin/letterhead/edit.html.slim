@@ -1,0 +1,34 @@
+- content_for :title, 'Edit Letterhead'
+- content_for :breadcrumbs, breadcrumbs_helper([['Administration', '#'], 'Edit letterhead'])
+.section-wrapper
+  = form_tag admin_update_letterhead_path, method: :patch do
+    .form-layout
+      label.section-title Officials
+      .row
+        .col-lg-12
+          .form-group.required
+            label.form-control-label for="governor" Governor
+            input#governor.form-control type="text" name="letterhead[governor]" value="#{@letterhead.governor}"
+      .row
+        .col-lg-12
+          .form-group.required
+            label.form-control-label for="secretary_of_state" Secretary of State
+            input#secretary_of_state.form-control type="text" name="letterhead[secretary_of_state]" value="#{@letterhead.secretary_of_state}"
+      .row
+        .col-lg-12
+          .form-group.required
+            label.form-control-label for="attorney_general" Attorney General
+            input#attorney_general.form-control type="text" name="letterhead[attorney_general]" value="#{@letterhead.attorney_general}"
+      .row
+        .col-lg-12
+          .form-group.required
+            label.form-control-label for="commissioner_of_health" Commissioner of Health
+            input#commissioner_of_health.form-control type="text" name="letterhead[commissioner_of_health]" value="#{@letterhead.commissioner_of_health}"
+      .row
+        .col-lg-12
+          .form-group.required
+            label.form-control-label for="director" Director
+            input#director.form-control type="text" name="letterhead[director]" value="#{@letterhead.director}"
+    .form-layout-footer.mg-t-20.pd-l-20
+      button.btn.btn-primary.bd-0.mr-1 Update
+      = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'

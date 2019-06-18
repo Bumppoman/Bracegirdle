@@ -2,6 +2,12 @@ Rails.application.routes.draw do
   get 'estimates/new'
   get 'dashboard/index'
 
+  # Admin
+  namespace :admin do
+    get 'letterhead/edit', to: 'letterhead#edit', as: :edit_letterhead
+    patch 'letterhead/update', to: 'letterhead#update', as: :update_letterhead
+  end
+
   # Auth0
   get 'auth/auth0/callback', to: 'sessions#callback'
   get 'auth/failure', to: 'sessions#failure'
