@@ -2,6 +2,7 @@ require 'rails_helper'
 
 feature 'Letter PDF' do
   before :each do
+    FileUtils.cp(Rails.root.join('spec', 'support', 'test.jpg'), Rails.root.join('app', 'pdfs', 'signatures', 'test.jpg'))
     @letter = Letters::LetterPdf.new({
       date: Date.current,
       recipient: 'Andrew Hickey',
@@ -20,5 +21,9 @@ feature 'Letter PDF' do
     expect(analysis.strings).to include('Andrew Hickey')
     expect(analysis.strings).to include('Chester Butkiewicz')
     expect(analysis.strings).to include('Division of Cemeteries')
+  end
+
+  after :each do
+    FileUtils.rm(Rails.root.join('app', 'pdfs', 'signatures', 'test.jpg'))
   end
 end
