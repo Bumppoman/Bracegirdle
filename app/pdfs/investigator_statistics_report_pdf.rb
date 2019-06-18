@@ -7,7 +7,7 @@ class InvestigatorStatisticsReportPdf < BasicPdf
     @options = options
 
     # Get statistics
-    month_range = Date.civil(2019, 5, 1)..Date.civil(2019, 5, -1)
+    month_range = Date.civil(@params[:year], @params[:month], 1)..Date.civil(@params[:year], @params[:month], -1)
     @complaints = {}
     @complaints[:closed] = Complaint.where(investigator: @params[:investigator], closure_date: month_range)
     @complaints[:active] = @params[:investigator].complaints
@@ -52,8 +52,8 @@ class InvestigatorStatisticsReportPdf < BasicPdf
 
     move_down 40
 
-    text 'Investigator:  Brendon Stanton', indent_paragraphs: 20, leading: 3
-    text 'Period:  May 2019', indent_paragraphs: 20
+    text "Investigator:  #{@params[:investigator].name}", indent_paragraphs: 20, leading: 3
+    text "Period:  #{@params[:month_name]} #{@params[:year]}", indent_paragraphs: 20
 
     move_down 25
 
@@ -111,7 +111,7 @@ class InvestigatorStatisticsReportPdf < BasicPdf
 
 
     bounding_box [bounds.width / 2 + 20, y + 166.75], width: bounds.width / 2 - 30 do
-      text "Total Completed in May\n\n", align: :center
+      text "Total Completed in #{@params[:month_name]}\n\n", align: :center
       data = {
           'Total' => {
               'Complaints' => @complaints[:closed].count,
@@ -183,7 +183,7 @@ class InvestigatorStatisticsReportPdf < BasicPdf
   end
 
   def rules_table_data
-    table = [
+    [
       ["Approved: #{@rules[:approved].count}"],
       [bulleted_list(@rules[:approved].map {|r| "##{r.cemetery.cemetery_id}: #{r.cemetery.name} (received on #{r.created_at}; approved on #{r.approval_date})"})],
       ["Awaiting Review: #{@rules[:unreviewed].count}"]
