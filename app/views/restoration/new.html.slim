@@ -1,5 +1,5 @@
 - content_for :title, @page_info[:title]
-- content_for :breadcrumbs, breadcrumbs_helper([[@page_info[:breadcrumbs], restoration_index_path(type: @type)], 'Upload new application'])
+- content_for :breadcrumbs, breadcrumbs_helper([[@page_info[:breadcrumbs], self.send("#{@restoration.type.downcase}_index_path")], 'Upload new application'])
 .section-wrapper
   = form_for @restoration do |f|
     .form-layout

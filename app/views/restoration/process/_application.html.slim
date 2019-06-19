@@ -3,7 +3,7 @@
     .row.no-gutters.wd-100p
       .col-lg-9.d-flex.align-items-center
         i.fa.fa-file-pdf-o
-        = link_to 'Exhibit A (application).pdf', view_application_form_restoration_path(@restoration.id, type: @restoration.application_type)
+        = link_to 'Exhibit A (application).pdf', self.send("view_application_form_#{@restoration.type.downcase}_path", @restoration.id)
       .col-lg-3.tx-right.mg-t-5.mg-sm-t-0.tx-18
         - if display_links
           = link_to @restoration.application_form do

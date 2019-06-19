@@ -1,4 +1,4 @@
-= form_with model: [@restoration, Estimate.new], url: restoration_estimates_path(@restoration, type: @restoration.application_type), html: { id: 'new-estimate-form' } do |f|
+= form_with model: [@restoration, Estimate.new], url: send("#{@restoration.type.downcase}_estimates_path", @restoration), html: { id: 'new-estimate-form' } do |f|
   #estimate.modal.fade
     .modal-dialog.modal-lg role="document"
       .modal-content
@@ -11,6 +11,7 @@
             .row
               .col-lg-8
                 .form-group.required
+                  = f.hidden_field :restoration_type, value: @restoration.type.downcase
                   = f.label :document, 'Estimate', class: 'form-control-label'
                   .custom-file
                     = f.file_field :document, direct_upload: true, class: 'custom-file-input'
@@ -42,5 +43,5 @@
                 = f.radio_button :proper_format, false
                 span.pd-l-10 No
           .modal-footer
-            =f.button 'Upload Estimate', class: 'btn btn-primary'
+            = f.button 'Upload Estimate', class: 'btn btn-primary'
             button.btn.btn-secondary type="button" data-dismiss="modal" Close

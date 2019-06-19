@@ -1,5 +1,5 @@
 - content_for :title, "Process #{@restoration.formatted_application_type} Application"
-- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'Process application'])
+- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.type.downcase} applications", send("#{@restoration.type.downcase}_index_path")], 'Process application'])
 = render partial: 'restoration/summary'
 .section-wrapper.mg-t-5
   label.section-title Actions
@@ -16,7 +16,7 @@
     section.pd-t-10-force
       label.section-title style="margin-left: -15px;" Estimates
       #estimates-list.file-group
-        ==render(partial: 'restoration/process/estimate', collection: @restoration.estimates, locals: { display_links: true }) || content_tag(:div, 'There are currently no estimates.', id: 'no-estimates-message')
+        == render(partial: 'restoration/process/estimate', collection: @restoration.estimates, locals: { display_links: true }) || content_tag(:div, 'There are currently no estimates.', id: 'no-estimates-message')
       button#add-new-estimate.btn.btn-primary.mg-t-25 Add New Estimate
     h3 Legal Notice
     section.pd-t-10-force
@@ -33,6 +33,6 @@
       - else
         = render partial: 'restoration/process/previous_form'
     h3 Summary
-    section.pd-t-10-force data-finish-processing="#{finish_processing_restoration_path(@restoration, type: @restoration.application_type)}" data-path="#{restoration_path(@restoration, type: @restoration.application_type)}"
+    section.pd-t-10-force data-finish-processing="#{send("finish_processing_#{@restoration.type.downcase}_path", @restoration)}" data-path="#{send("#{@restoration.type.downcase}_path", @restoration)}"
       = render partial: 'restoration/exhibits'
-= render partial: 'restoration/process/exhibit'
+= render partial: 'restoration/process/estimate_form'

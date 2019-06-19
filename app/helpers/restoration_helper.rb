@@ -2,17 +2,17 @@ module RestorationHelper
   def restoration_link(restoration, title = nil)
     case restoration.status.to_sym
     when :received
-      path = :process_restoration_path
+      path = "process_#{restoration.type.downcase}_path"
     when :processed
       if current_user.supervisor?
-        path = :review_restoration_path
+        path = "review_#{restoration.type.downcase}_path"
       else
-        path = :restoration_path
+        path = "#{restoration.type.downcase}_path"
       end
     when :reviewed, :approved
-      path = :restoration_path
+      path = "#{restoration.type.downcase}_path"
     end
 
-    link_to (title.nil? ? restoration : title), self.send(path, restoration, type: restoration.application_type)
+    link_to (title.nil? ? restoration : title), self.send(path, restoration)
   end
 end

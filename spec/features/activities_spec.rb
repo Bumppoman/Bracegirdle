@@ -145,9 +145,9 @@ feature 'Activities' do
     select2 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
-    attach_file 'restoration_raw_application_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     click_on 'Upload Application'
-    wait_for_ajax
+    assert_selector '#process-restoration'
 
     click_on 'Dashboard', match: :first
 

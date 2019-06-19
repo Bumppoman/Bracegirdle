@@ -1,0 +1,2 @@
+class Abandonment < Restoration
+end

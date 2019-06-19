@@ -53,13 +53,13 @@ activities:
     color: 'indigo'
     processed:
       icon: 'icon ion-ios-clipboard'
-      text: 'processed a <%= link_to("restoration application", restoration_path(activity.object.id, type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
+      text: 'processed a <%= link_to("restoration application", send("#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Processed restoration application'
     received:
       icon: 'fas fa-satellite-dish'
-      text: 'received a <%= link_to("restoration application", restoration_path(activity.object.id, type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
+      text: 'received a <%= link_to("restoration application", send("#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Received restoration application'
     reviewed:
       icon: 'fas fa-glasses'
-      text: 'reviewed a <%= link_to("restoration application", restoration_path(activity.object.id, type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
+      text: 'reviewed a <%= link_to("restoration application", send("#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Reviewed restoration application'

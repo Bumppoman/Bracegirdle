@@ -2,7 +2,7 @@ $('#estimate').modal('hide');
 $('#no-estimates-message').hide();
 <% @restoration = @estimate.restoration %>
 <% @remaining_letters = ('B'..'Z').to_a[@restoration.estimates.length - 1, 1] %>
-$('#estimates-list').append('<%= j render partial: "restoration/process/estimate", locals: { estimate: @estimate, display_links: true } %>')
+$('#estimates-list').append('<%= j render partial: 'restoration/process/estimate', locals: { estimate: @estimate, display_links: true } %>')
 
 
 $('#new-estimate-form').trigger('reset');

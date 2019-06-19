@@ -16,13 +16,9 @@ class User < ApplicationRecord
 
   has_many :hazardous,
     -> (user) {
-      where(
-        status: [
-          :received
-        ],
-        application_type: :hazardous)
+      where(status: [:received])
     },
-    class_name: 'Restoration',
+    class_name: 'Hazardous',
     foreign_key: :investigator_id,
     inverse_of: :investigator
 

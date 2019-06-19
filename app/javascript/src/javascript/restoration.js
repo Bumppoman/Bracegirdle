@@ -1,44 +1,42 @@
 $(document).on('turbolinks:load', function () {
 
-    if(document.getElementById('restoration_trustee_name')) {
-        $('#restoration_trustee_name').select2({
-            selectOnClose: true,
-            tags: true,
-            createTag: function (params) {
-                return {
-                    id: params.term,
-                    text: params.term
-                }
+    $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').select2({
+        selectOnClose: true,
+        tags: true,
+        createTag: function (params) {
+            return {
+                id: params.term,
+                text: params.term
             }
-        });
+        }
+    });
 
-        $('#restoration_trustee_name').on('change', function () {
-            const position = $("option:selected", this).data('position');
-            $('#restoration_trustee_position').prop('disabled', false);
-            $('#restoration_trustee_position').val(position).trigger('change');
-        });
-    }
+    $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').on('change', function () {
+        const position = $("option:selected", this).data('position');
+        $('#abandonment_trustee_position, #hazardous_trustee_position, #vandalism_trustee_position').prop('disabled', false);
+        $('#abandonment_trustee_position, #hazardous_trustee_position, #vandalism_trustee_position').val(position).trigger('change');
+    });
 
-    $('#restoration_cemetery').change(function () {
-        const selected_cemetery = $("#restoration_cemetery").find(":selected").val();
+    $('#abandonment_cemetery, #hazardous_cemetery, #vandalism_cemetery').change(function () {
+        const selected_cemetery = $("#abandonment_cemetery, #hazardous_cemetery, #vandalism_cemetery").find(":selected").val();
 
         if (selected_cemetery == '') {
             return false;
         }
 
-        $('#restoration_trustee_name').prop('disabled', false);
+        $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').prop('disabled', false);
         $.ajax({
             url: '/cemeteries/' + selected_cemetery + '/trustees/api/list?name_only',
             success: function (data) {
-                $('#restoration_trustee_name').html(data);
-                $('#restoration_trustee_name').trigger('change');
+                $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').html(data);
+                $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').trigger('change');
             }
         });
 
         // Update the investigator to select the one assigned to the region
         $.getJSON('/cemeteries/' + selected_cemetery, function (data) {
-            $('#restoration_investigator').val(data.investigator.id);
-            $('#restoration_investigator').trigger('change');
+            $('#abandonment_investigator, #hazardous_investigator, #vandalism_investigator').val(data.investigator.id);
+            $('#abandonment_investigator, #hazardous_investigator, #vandalism_investigator').trigger('change');
         });
     });
 
@@ -105,24 +103,22 @@ $(document).on('turbolinks:load', function () {
         $('#process-restoration').steps('setStep', lastCompletedStep);
     }
 
-    if ($("input[name=restoration\\[previous_exists\\]]").length > 0) {
-        function previous_exists_select() {
-            if ($("#restoration_previous_exists_true").is(":checked")) {
-                $("#upload-previous-report").show();
-                $("#restoration_previous_type").select2({
-                    selectOnClose: true,
-                    width: '100%'
-                });
-            } else {
-                $("#upload-previous-report").hide();
-            }
+    function previous_exists_select() {
+        if ($("#abandonment_previous_exists_true, #hazardous_previous_exists_true, #vandalism_previous_exists_true").is(":checked")) {
+            $("#upload-previous-report").show();
+            $("#abandonment_previous_type, #hazardous_previous_type, #vandalism_previous_type").select2({
+                selectOnClose: true,
+                width: '100%'
+            });
+        } else {
+            $("#upload-previous-report").hide();
         }
-
-
-        previous_exists_select();
-
-        $("input[name=restoration\\[previous_exists\\]]").change(previous_exists_select);
     }
+
+
+    previous_exists_select();
+
+    $("input[name=abandonment\\[previous_exists\\]], input[name=hazardous\\[previous_exists\\]], input[name=vandalism\\[previous_exists\\]]").change(previous_exists_select);
 
     if(document.getElementById('add-new-estimate')) {
         $('#add-new-estimate').click(function () {

@@ -23,4 +23,4 @@
   .mg-t-20
     ul.nav.nav-gray-600.nav-underline.justify-content-center
       li.nav-item
-        = link_to 'Upload new application', new_restoration_path(type: params[:type]), class: 'nav-link'
+        = link_to 'Upload new application', yield(:new_application_path), class: 'nav-link'

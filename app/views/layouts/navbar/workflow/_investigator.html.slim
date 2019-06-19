@@ -24,9 +24,9 @@ li.nav-item.with-sub.mega-dropdown
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Restoration
         ul
-          li = active_circle_link 'Hazardous Monuments', restoration_index_path(type: :hazardous), @current_user.hazardous.any?
-          li =link_to 'Vandalism', restoration_index_path(type: :vandalism)
-          li =link_to 'Abandonment', restoration_index_path(type: :abandonment)
+          li = active_circle_link 'Hazardous Monuments', hazardous_index_path, current_user.hazardous.any?
+          li = link_to 'Vandalism', vandalism_index_path
+          li = link_to 'Abandonment', abandonment_index_path
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Land
         ul
@@ -57,5 +57,5 @@ li.nav-item.with-sub
       li.sub-with-sub
         a href="#" Non-Compliance
         ul
-          li = active_circle_link 'Active notices', notices_path, @current_user.notices.any?
+          li = active_circle_link 'Active notices', notices_path, current_user.notices.any?
           li = link_to 'Issue new notice', new_notice_path

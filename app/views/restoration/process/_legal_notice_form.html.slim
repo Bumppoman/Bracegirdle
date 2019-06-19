@@ -1,4 +1,4 @@
-= form_with model: @restoration, url: upload_legal_notice_restoration_path(@restoration, type: @restoration.application_type), html: { id: 'restoration-legal-notice-form' } do |f|
+= form_with model: @restoration, url: send("upload_legal_notice_#{@restoration.type.downcase}_path", @restoration), html: { id: 'restoration-legal-notice-form' } do |f|
   .row
     .col-lg-8
       .form-group.required

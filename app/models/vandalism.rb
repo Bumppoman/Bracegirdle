@@ -1,0 +1,2 @@
+class Vandalism < Restoration
+end

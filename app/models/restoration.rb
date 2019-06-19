@@ -13,14 +13,13 @@ class Restoration < ApplicationRecord
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
   belongs_to :reviewer, class_name: 'User', foreign_key: :reviewer_id, optional: true
 
-  types = {
+  TYPES = {
       vandalism: 1,
       hazardous: 2,
       abandonment: 3
-  }
+  }.freeze
 
-  enum application_type: types
-  enum previous_type: types, _prefix: true
+  enum previous_type: TYPES, _prefix: true
   enum status: {
       received: 1,
       processed: 2,
@@ -89,7 +88,7 @@ class Restoration < ApplicationRecord
   end
 
   def formatted_application_type
-    formatted_type(application_type.to_sym)
+    formatted_type(type.downcase.to_sym)
   end
 
   def formatted_previous_type
@@ -122,7 +121,7 @@ class Restoration < ApplicationRecord
   end
 
   def set_identifier
-    self.identifier = "#{TYPE_CODES[application_type.to_sym]}-#{created_at.year}-#{'%04d' % id}"
+    self.identifier = "#{TYPE_CODES[type.downcase.to_sym]}-#{created_at.year}-#{'%04d' % id}"
     save
   end
 end

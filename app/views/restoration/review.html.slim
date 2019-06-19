@@ -1,10 +1,10 @@
 - content_for :title, "Review #{@restoration.formatted_application_type} Application"
-- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.application_type} applications", restoration_index_path(type: @restoration.application_type)], 'Review application'])
+- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.type.downcase} applications", self.send("#{@restoration.type.downcase}_index_path")], 'Review application'])
 = render 'restoration/summary'
 = render 'restoration/exhibits'
-= render 'notes/show_notes', object: @restoration, url: restoration_notes_path(@restoration, type: @restoration.application_type)
+= render 'notes/show_notes', object: @restoration, url: self.send("#{@restoration.type.downcase}_notes_path", @restoration)
 .section-wrapper.mg-t-5
   label.section-title.mg-b-20 Actions
   .form-layout-footer.mg-t-20
-    button#send-to-board.bracegirdle-action-button.btn.btn-primary.mr-1 data-path="#{send_to_board_restoration_path(@restoration, type: @restoration.application_type)}" data-success="#{restoration_index_path(type: @restoration.application_type)}" Send to cemetery board
-    button#return_to_investigator.bracegirdle-action-button.btn.btn-primary data-path="#{return_to_investigator_restoration_path(@restoration, type: @restoration.application_type)}" data-success="#{restoration_index_path(type: @restoration.application_type)}" Return to investigator
+    button#send-to-board.bracegirdle-action-button.btn.btn-primary.mr-1 data-path="#{self.send("send_to_board_#{@restoration.type.downcase}_path", @restoration)}" data-success="#{self.send("#{@restoration.type.downcase}_index_path")}" Send to cemetery board
+    button#return_to_investigator.bracegirdle-action-button.btn.btn-primary data-path="#{self.send("return_to_investigator_#{@restoration.type.downcase}_path", @restoration)}" data-success="#{self.send("#{@restoration.type.downcase}_index_path")}" Return to investigator

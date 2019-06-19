@@ -1,4 +1,4 @@
-= form_with model: @restoration, url: upload_previous_restoration_path(@restoration, type: @restoration.application_type), html: { id: 'restoration-previous-form' } do |f|
+= form_with model: @restoration, url: send("upload_previous_#{@restoration.type.downcase}_path", @restoration), html: { id: 'restoration-previous-form' } do |f|
   .row
     .col-lg-8
       .form-group.required
@@ -19,7 +19,7 @@
       .col-lg-4
         .form-group.required
           = f.label :previous_type, 'Type of Project', class: 'form-control-label'
-          = f.select :previous_type,  Restoration.application_types.keys.map { |k| [k.capitalize, k] }.to_h, { prompt: 'Choose project type' }, class: 'form-control'
+          = f.select :previous_type,  Restoration::TYPES.keys.map { |k| [k.capitalize, k] }.to_h, { prompt: 'Choose project type' }, class: 'form-control'
     .row
       .col-lg-12
         .form-group.required

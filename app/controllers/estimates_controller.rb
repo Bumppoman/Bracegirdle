@@ -1,7 +1,7 @@
 class EstimatesController < ApplicationController
   def create
     @estimate = Estimate.new(estimate_params)
-    @estimate.restoration_id = params[:restoration_id]
+    @estimate.restoration_id = params["#{params[:estimate][:restoration_type]}_id"]
 
     if params[:estimate][:contractor].to_i != 0
       @estimate.contractor = Contractor.find(params[:estimate][:contractor])

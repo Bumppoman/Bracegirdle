@@ -1,4 +1,4 @@
-.section-wrapper
+#restoration-summary.section-wrapper
   table.table.table-striped.mg-t-10
     thead
       tr
@@ -18,7 +18,7 @@
         td = @restoration.processed? ? number_to_currency(@restoration.calculated_amount) : number_to_currency(@restoration.amount)
       tr
         th scope="row" Application
-        td = link_to 'View application', view_raw_application_restoration_path(@restoration.id, type: @restoration.application_type)
+        td = link_to 'View application', self.send("view_raw_application_#{@restoration.type.downcase}_path", @restoration.id)
       - unless @restoration.received?
         tr
           th scope="row" Processed By

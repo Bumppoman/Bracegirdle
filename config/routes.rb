@@ -98,29 +98,34 @@ Rails.application.routes.draw do
   mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
 
   # Restoration
-  restoration_type = Regexp.new([:abandonment, :hazardous, :vandalism].join('|'))
-  resources :restoration, path: ':type', constraints: { type: restoration_type } do
-    resources :estimates
-    resources :notes, module: :restoration
+  def standard_actions_for(*resources)
+    Array(resources).each do |resource|
+      self.resources resource do
+        self.resources :estimates
+        self.resources :notes, module: resource
 
-    member do
-      patch 'finish-processing', to: 'restoration#finish_processing', as: :finish_processing
-      patch 'return-to-investigator', to: 'restoration#return_to_investigator', as: :return_to_investigator
-      patch 'send-to-board', to: 'restoration#send_to_board', as: :send_to_board
-      patch 'upload-application', to: 'restoration#upload_application', as: :upload_application
-      patch 'upload-legal-notice', to: 'restoration#upload_legal_notice', as: :upload_legal_notice
-      patch 'upload-previous', to: 'restoration#upload_previous', as: :upload_previous
-      get 'process', to: 'restoration#process_restoration', as: :process
-      get 'review', to: 'restoration#review', as: :review
-      get 'view-application-form', to: 'restoration#view_application_form', as: :view_application_form
-      get 'view-combined', to: 'restoration#view_combined', as: :view_combined
-      get 'view-estimate/:estimate', to: 'restoration#view_estimate', as: :view_estimate
-      get 'view-legal-notice', to: 'restoration#view_legal_notice', as: :view_legal_notice
-      get 'view-previous-report', to: 'restoration#view_previous_report', as: :view_previous_report
-      get 'view-raw-application', to: 'restoration#view_raw_application', as: :view_raw_application
-      get 'view-report', to: 'restoration#view_report', as: :view_report
+        member do
+          patch 'finish-processing', to: "#{resource}#finish_processing", as: :finish_processing
+          patch 'return-to-investigator', to: "#{resource}#return_to_investigator", as: :return_to_investigator
+          patch 'send-to-board', to: "#{resource}#send_to_board", as: :send_to_board
+          patch 'upload-application', to: "#{resource}#upload_application", as: :upload_application
+          patch 'upload-legal-notice', to: "#{resource}#upload_legal_notice", as: :upload_legal_notice
+          patch 'upload-previous', to: "#{resource}#upload_previous", as: :upload_previous
+          get 'process', to: "#{resource}#process_restoration", as: :process
+          get 'review', to: "#{resource}#review", as: :review
+          get 'view-application-form', to: "#{resource}#view_application_form", as: :view_application_form
+          get 'view-combined', to: "#{resource}#view_combined", as: :view_combined
+          get 'view-estimate/:estimate', to: "#{resource}#view_estimate", as: :view_estimate
+          get 'view-legal-notice', to: "#{resource}#view_legal_notice", as: :view_legal_notice
+          get 'view-previous-report', to: "#{resource}#view_previous_report", as: :view_previous_report
+          get 'view-raw-application', to: "#{resource}#view_raw_application", as: :view_raw_application
+          get 'view-report', to: "#{resource}#view_report", as: :view_report
+        end
+      end
     end
   end
+
+  standard_actions_for :abandonment, :hazardous, :vandalism
 
   # Rules
   get 'rules/upload-old-rules', to: 'rules#upload_old_rules', as: :upload_old_rules

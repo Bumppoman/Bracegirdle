@@ -7,59 +7,34 @@ class RestorationController < ApplicationController
     stipulate :must_be_investigator
   end
 
-  PAGE_INFO = {
-    abandonment: {
-      new: {
-        title: 'Upload New Abandonment Application',
-        breadcrumbs: 'Abandonment applications'
-      }
-    },
-    hazardous: {
-      new: {
-        title: 'Upload New Hazardous Monuments Application',
-        breadcrumbs: 'Hazardous monuments applications'
-      },
-      report: {
-        class: Reports::HazardousReportPdf,
-      }
-    },
-    vandalism: {
-      new: {
-        title: 'Upload New Vandalism Application',
-        breadcrumbs: 'Vandalism applications'
-      }
-    }
-  }.freeze
-
   def create
+    @restoration = model.new(application_create_params)
+
     # Add new trustee if necessary
     trustee = Trustee.find_or_create_by(
-        name: params[:restoration][:trustee_name],
-        cemetery_id: params[:restoration][:cemetery])
-    trustee.update(position: params[:restoration][:trustee_position])
+      name: params[@restoration.to_sym][:trustee_name],
+      cemetery_id: params[@restoration.to_sym][:cemetery])
+    trustee.update(position: params[@restoration.to_sym][:trustee_position])
 
-    @restoration = Restoration.new(application_create_params)
     @restoration.assign_attributes(
-      cemetery_id: params[:restoration][:cemetery],
-      investigator_id: params[:restoration][:investigator],
+      cemetery_id: params[@restoration.to_sym][:cemetery],
+      investigator_id: params[@restoration.to_sym][:investigator],
       trustee_name: trustee.name,
       trustee_position: trustee.position,
-      application_type: params[:type],
-      submission_date: date_params([:submission_date], params[:restoration])[:submission_date]
+      submission_date: date_params([:submission_date], params[@restoration.to_sym])[:submission_date]
     )
 
     if @restoration.save
       Restoration::RestorationReceivedEvent.new(@restoration, current_user).trigger
-      redirect_to restoration_path(@restoration, type: params[:type])
+      redirect_to @restoration
     else
-      @type = params[:type].to_sym
-      @page_info = PAGE_INFO[@type][:new]
+      @page_info = self.class::PAGE_INFO[:new]
       render :new
     end
   end
 
   def finish_processing
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
 
     if current_user.supervisor?
       @restoration.update(
@@ -79,22 +54,20 @@ class RestorationController < ApplicationController
 
   def index
     if current_user.supervisor?
-      @applications = Restoration.includes(:cemetery, :status_changes).send(params[:type]).where(investigator: current_user).or(
-          Restoration.includes(:cemetery, :status_changes).send(params[:type]).processed)
+      @applications = model.includes(:cemetery, :status_changes).where(investigator: current_user).or(
+          model.includes(:cemetery, :status_changes).processed)
     else
-      @applications = Restoration.includes(:cemetery, :status_changes).send(params[:type]).where(investigator: current_user)
+      @applications = model.includes(:cemetery, :status_changes).where(investigator: current_user)
     end
-    render params[:type]
   end
 
   def new
-    @type = params[:type].to_sym
-    @restoration = Restoration.new(application_type: @type)
-    @page_info = PAGE_INFO[@type][:new]
+    @restoration = model.new
+    @page_info = self.class::PAGE_INFO[:new]
   end
 
   def process_restoration
-    @restoration = Restoration.includes(
+    @restoration = model.includes(
         application_form_attachment: :blob,
         estimates: [:contractor, document_attachment: :blob],
         legal_notice_attachment: :blob)
@@ -103,66 +76,66 @@ class RestorationController < ApplicationController
   end
 
   def return_to_investigator
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @restoration.update(status: :received)
     Restoration::RestorationReturnedEvent.new(@restoration, current_user).trigger
   end
 
   def review
-    @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
+    @restoration = model.includes(estimates: :contractor).find(params[:id])
   end
 
   def send_to_board
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @restoration.update(status: :reviewed)
     Restoration::RestorationReviewedEvent.new(@restoration, current_user).trigger
   end
 
   def show
-    @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
+    @restoration = model.includes(estimates: :contractor).find(params[:id])
 
-    redirect_to :process_restoration if @restoration.received? && @restoration.investigator == current_user
+    redirect_to self.send("process_#{@restoration.type.downcase}_path") if @restoration.received? && @restoration.investigator == current_user
   end
 
   def upload_application
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @restoration.update(
-      application_form: params[:restoration][:application_form],
-      monuments: params[:restoration][:monuments],
-      application_form_complete: params[:restoration][:application_form_complete],
-      field_visit_date: date_params([:field_visit_date], params[:restoration])[:field_visit_date]
+      application_form: params[@restoration.to_sym][:application_form],
+      monuments: params[@restoration.to_sym][:monuments],
+      application_form_complete: params[@restoration.to_sym][:application_form_complete],
+      field_visit_date: date_params([:field_visit_date], params[@restoration.to_sym])[:field_visit_date]
     )
   end
 
   def upload_legal_notice
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @restoration.update(
-      legal_notice: params[:restoration][:legal_notice],
-      legal_notice_newspaper: params[:restoration][:legal_notice_newspaper],
-      legal_notice_cost: params[:restoration][:legal_notice_cost],
-      legal_notice_format: params[:restoration][:legal_notice_format]
+      legal_notice: params[@restoration.to_sym][:legal_notice],
+      legal_notice_newspaper: params[@restoration.to_sym][:legal_notice_newspaper],
+      legal_notice_cost: params[@restoration.to_sym][:legal_notice_cost],
+      legal_notice_format: params[@restoration.to_sym][:legal_notice_format]
     )
   end
 
   def upload_previous
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @restoration.update(
-      previous_report: params[:restoration][:previous_report],
-      previous_exists: params[:restoration][:previous_exists],
-      previous_type: params[:restoration][:previous_type],
-      previous_date: params[:restoration][:previous_date]
+      previous_report: params[@restoration.to_sym][:previous_report],
+      previous_exists: params[@restoration.to_sym][:previous_exists],
+      previous_type: params[@restoration.to_sym][:previous_type],
+      previous_date: params[@restoration.to_sym][:previous_date]
     )
   end
 
   def view_application_form
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @portion = 'Application Form'
     @file = @restoration.application_form
     render 'view_portion'
   end
 
   def view_combined
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     output = CombinePDF.new
     output << CombinePDF.parse(generate_report.render)
 
@@ -198,7 +171,7 @@ class RestorationController < ApplicationController
   end
 
   def view_estimate
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     estimate = @restoration.estimates.find(params[:estimate])
     @portion = "#{estimate.contractor.name} estimate"
     @file = estimate.document
@@ -206,28 +179,28 @@ class RestorationController < ApplicationController
   end
 
   def view_legal_notice
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @portion = 'Legal Notice'
     @file = @restoration.legal_notice
     render 'view_portion'
   end
 
   def view_previous_report
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @portion = 'Previous Restoration Report'
     @file = @restoration.previous_report
     render 'view_portion'
   end
 
   def view_raw_application
-    @restoration = Restoration.find(params[:id])
+    @restoration = model.find(params[:id])
     @portion = 'Raw Application'
     @file = @restoration.raw_application_file
     render 'view_portion'
   end
 
   def view_report
-    @restoration = Restoration.includes(estimates: :contractor).find(params[:id])
+    @restoration = model.includes(estimates: :contractor).find(params[:id])
 
     pdf = generate_report
     send_data pdf.render,
@@ -239,11 +212,11 @@ class RestorationController < ApplicationController
   private
 
   def application_create_params
-    params.require(:restoration).permit(:amount, :cemetery_county, :raw_application_file)
+    params.require(self.class::MODEL.name.downcase).permit(:amount, :cemetery_county, :raw_application_file)
   end
 
   def generate_report
-    @report_class = PAGE_INFO[@restoration.application_type.to_sym][:report][:class]
+    @report_class = self.class::PAGE_INFO[:report][:class]
 
     @report_class.new({
       writer: @restoration.investigator,
@@ -251,5 +224,9 @@ class RestorationController < ApplicationController
       restoration: @restoration,
       report_date: @restoration.recommendation_date || Date.current
     })
+  end
+
+  def model
+    self.class::MODEL
   end
 end
