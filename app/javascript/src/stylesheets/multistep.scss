@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 
-.multi_step_form #msform {
+.multi_step_form .msform {
   position: relative;
   padding-top: 4px;
   margin: 0 auto;
@@ -12,7 +12,7 @@
   z-index: 1;
 }
 
-.multi_step_form #msform fieldset {
+.multi_step_form .msform fieldset {
   border: 0;
   padding-top: 20px;
   position: relative;
@@ -21,28 +21,28 @@
   right: 0;
 }
 
-.multi_step_form #msform fieldset:not(:first-of-type) {
+.multi_step_form .msform fieldset:not(:first-of-type) {
   display: none;
 }
 
-.multi_step_form #msform fieldset h3 {
+.multi_step_form .msform fieldset h3 {
   font: 500 18px/35px "Roboto", sans-serif;
   color: #3f4553;
 }
 
-.multi_step_form #msform fieldset h6 {
+.multi_step_form .msform fieldset h6 {
   font: 400 15px/28px "Roboto", sans-serif;
   color: #5f6771;
   padding-bottom: 30px;
 }
 
-.multi_step_form #msform #progressbar {
+.multi_step_form .msform .progressbar {
   margin-bottom: 30px;
   overflow: hidden;
   text-align: center;
 }
 
-.multi_step_form #msform #progressbar li {
+.multi_step_form .msform .progressbar li {
   list-style-type: none;
   color: #99a2a8;
   font-size: 9px;
@@ -52,7 +52,7 @@
   font: 500 13px/1 "Roboto", sans-serif;
 }
 
-.multi_step_form #msform #progressbar li:before {
+.multi_step_form .msform .progressbar li:before {
   content: "";
   font: normal normal normal 30px/50px Ionicons;
   width: 50px;
@@ -64,7 +64,7 @@
   margin: 0 auto 10px auto;
 }
 
-.multi_step_form #msform #progressbar li:after {
+.multi_step_form .msform .progressbar li:after {
   content: '';
   width: 100%;
   height: 10px;
@@ -75,20 +75,20 @@
   z-index: -1;
 }
 
-.multi_step_form #msform #progressbar li:last-child:after {
+.multi_step_form .msform .progressbar li:last-child:after {
   width: 150%;
 }
 
-.multi_step_form #msform #progressbar li.active {
+.multi_step_form .msform .progressbar li.active {
   color: #146abb;
 }
 
-.multi_step_form #msform #progressbar li.active:before, .multi_step_form #msform #progressbar li.active:after {
+.multi_step_form .msform .progressbar li.active:before, .multi_step_form .msform .progressbar li.active:after {
   background: #146abb;
   color: white;
 }
 
-.multi_step_form #msform .action-button {
+.multi_step_form .msform .action-button {
   background: #146abb;
   color: white;
   border: 0 none;

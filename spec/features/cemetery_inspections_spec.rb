@@ -108,8 +108,8 @@ feature 'Cemetery Inspections' do
     click_on 'Next'
     click_on 'Next'
     click_on 'Complete Inspection'
-    click_on 'Revise inspection', wait: 5
-    wait_for_ajax
+    click_on 'Revise inspection'
+    assert_selector '#perform-inspection'
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'In progress'

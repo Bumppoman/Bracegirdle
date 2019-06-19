@@ -1,6 +1,6 @@
 #complaints-multi-step-form.multi_step_form [data-display-section=Complaint.statuses[@complaint.status]]
-  = form_with model: @complaint, url: complaint_update_investigation_path, method: :patch, id: 'msform' do |f|
-    ul#progressbar
+  = form_with model: @complaint, url: close_complaint_path, method: :patch, class: 'msform' do |f|
+    ul.progressbar
       li class=[active_item(true)] Complaint Received
       li class=[active_item(!@complaint.received?)] Investigation Begun
       li class=[active_item(!@complaint.received? && !@complaint.investigation_begun?)] Investigation Completed
@@ -11,13 +11,13 @@
         label.section-label Complaint Received
         p.mb-10 ="Complaint received by #{@complaint.receiver.name} on #{@complaint.created_at}."
         - if @complaint.belongs_to?(current_user) || current_user.supervisor?
-          = f.button 'Begin Investigation', name: 'begin_investigation', class: 'next action-button'
-          = f.button 'Assign to Investigator', name: 'assign_complaint', class: 'next action-button'
+          = f.button 'Begin Investigation', name: 'begin_investigation', class: 'next action-button bracegirdle-action-button', data: { path: begin_investigation_complaint_path(@complaint) }
+          = f.button('Assign to Investigator', id: 'open-assign-complaint-modal', class: 'next action-button') if current_user.supervisor?
       fieldset#investigation-begun
         label.section-label Investigation Begun
         p.mb-10 == "Investigation begun on #{tag.span(@complaint.investigation_begin_date, id: 'investigation-begin-date')}."
         - if @complaint.belongs_to? current_user
-          = f.button 'Complete Investigation', name: 'complete_investigation', class: 'next action-button'
+          = f.button 'Complete Investigation', name: 'complete_investigation', class: 'next action-button bracegirdle-action-button', data: { path: complete_investigation_complaint_path(@complaint) }
       fieldset#investigation-completed
         label.section-label Investigation Completed
         p.mb-10 == "Investigation completed on #{tag.span(@complaint.investigation_completion_date, id: 'investigation-completion-date')}."
@@ -41,7 +41,7 @@
             tr
               th Disposition
               td#investigation-disposition = @complaint.disposition
-= form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
+= form_with model: @complaint, url: assign_complaint_path, method: :patch do |f|
   #assign-investigator.modal.fade
     .modal-dialog.wd-30p role="document"
       .modal-content

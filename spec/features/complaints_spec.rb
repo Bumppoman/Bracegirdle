@@ -153,6 +153,7 @@ feature 'Complaints' do
       click_on 'Assign to Investigator'
       select2 'Chester Butkiewicz', xpath: '//*[@id="assign-investigator"]', match: :first
       click_on 'Assign'
+      assert_selector '#investigation-begin-date'
       logout
       login(@employee)
       visit complaints_path

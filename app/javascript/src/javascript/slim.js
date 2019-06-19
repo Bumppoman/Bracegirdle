@@ -22,13 +22,16 @@ $(document).on('turbolinks:load', function () {
         $($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
     });
 
-    $('.bracegirdle-redirect-action-button').click(function (event) {
+    $('.bracegirdle-action-button').click(function (e) {
+        e.preventDefault();
         const success = $(this).data('success');
         $.ajax({
             url: $(this).data('path'),
             type: 'PATCH',
             success: function () {
-                window.location.href = success;
+                if (success) {
+                    window.location.href = success;
+                }
             }
         });
     });

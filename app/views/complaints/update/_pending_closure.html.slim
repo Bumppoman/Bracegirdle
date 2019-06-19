@@ -1,4 +1,4 @@
-= form_with model: @complaint, url: complaint_update_investigation_path, method: :patch do |f|
+= form_with model: @complaint, url: close_complaint_path, method: :patch do |f|
   table.table.table-striped
     thead
       tr
@@ -17,4 +17,4 @@
           = f.text_area :closure_review_comments, size: '20x10', class: 'form-control'
   .pd-l-20
     = f.button 'Close Complaint', name: 'close_complaint', class: 'btn btn-primary mg-r-5'
-    = f.button 'Reopen Investigation', name: 'reopen_investigation', class: 'btn btn-secondary'
+    = f.button 'Reopen Investigation', name: 'reopen_investigation', class: 'btn btn-secondary bracegirdle-action-button', data: { path: reopen_investigation_complaint_path(@complaint) }

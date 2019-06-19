@@ -56,6 +56,16 @@ Rails.application.routes.draw do
   resources :complaints do
     resources :attachments, module: :complaints
     resources :notes, module: :complaints
+
+    member do
+      patch 'assign', to: 'complaints#assign_complaint'
+      patch 'begin-investigation', to: 'complaints#begin_investigation'
+      patch 'change-investigator', to: 'complaints#change_investigator'
+      patch 'close', to: 'complaints#close_complaint'
+      patch 'complete-investigation', to: 'complaints#complete_investigation'
+      patch 'recommend-closure', to: 'complaints#recommend_closure'
+      patch 'reopen-investigation', to: 'complaints#reopen_investigation'
+    end
   end
   get 'complaints/:id/investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :complaint_investigation
   patch 'complaints/:id/update-investigation', to: 'complaints#update_investigation', as: :complaint_update_investigation

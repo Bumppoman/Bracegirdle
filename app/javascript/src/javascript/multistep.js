@@ -10,7 +10,7 @@ window.nextItem = function (fieldset, animate = true) {
     let current_fs = fieldset;
     let next_fs = fieldset.next();
 
-    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    $(".progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
     next_fs.show();
 

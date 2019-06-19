@@ -31,8 +31,8 @@
 .section-wrapper.pd-20.mg-t-5
   label.section-title Actions
   #non-compliance-notice-multi-step-form.multi_step_form [data-display-section=Notice.statuses[@notice.status]]
-    =form_with model: @notice, url: update_status_notice_path, method: :patch, id: 'msform' do |f|
-      ul#progressbar
+    = form_with model: @notice, url: update_status_notice_path, method: :patch, class: 'msform' do |f|
+      ul.progressbar
         li class=[active_item(true)] Notice Issued
         li class=[active_item(!@notice.issued?)] Response Received
         li class=[active_item(@notice.follow_up_completed? || @notice.resolved?)] Follow-Up Completed
@@ -41,15 +41,15 @@
         label.section-title Status
         fieldset#notice-issued
           label.section-label Notice Issued
-          p.mb-0 ="Notice issued on #{@notice.created_at}."
-          p.mg-b-20 =="Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
+          p.mb-0 = "Notice issued on #{@notice.created_at}."
+          p.mg-b-20 == "Response required on or before #{tag.strong(@notice.response_required_date)} (#{@notice.response_required_status})."
           - if @notice.belongs_to? current_user
             = f.button 'Response Received', name: 'response_received', class: 'next action-button'
         fieldset#response-received
           label.section-label Response Received
           p.mb-0 == "Response received on #{tag.span(@notice.response_received_date, id: 'response-received-date')}."
           - if @notice.belongs_to? current_user
-            =f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
+            = f.button 'Follow-Up Completed', name: 'follow_up_date', class: 'next action-button'
         fieldset#follow-up-completed
           label.section-label Follow-Up Completed
           p.mb-10 == "Follow-up inspection completed on #{tag.span(@notice.follow_up_inspection_date, id: 'follow-up-inspection-date')}."

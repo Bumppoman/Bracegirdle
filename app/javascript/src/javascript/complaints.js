@@ -55,4 +55,16 @@ $(document).on('turbolinks:load', function () {
         window.nextItem($(complaints_sections[hide]), false);
         hide++;
     }
+
+    $('#open-assign-complaint-modal').click(function (e) {
+        e.preventDefault();
+        $('#assign-investigator').modal();
+        $('#complaint_investigator').prop('disabled', false);
+        $('#complaint_investigator').select2({
+            dropdownParent: $('#assign-investigator'),
+            minimumResultsForSearch: Infinity,
+            selectOnClose: true,
+            width: '100%'
+        });
+    });
 });
