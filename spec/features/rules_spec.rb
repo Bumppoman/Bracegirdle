@@ -2,11 +2,7 @@ require 'rails_helper'
 
 feature 'Rules' do
   before :each do
-    @cemetery = FactoryBot.create(:cemetery,
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1)
-
+    @cemetery = FactoryBot.create(:cemetery)
     @other_region_cemetery = FactoryBot.create(:cemetery,
       name: 'Cayuga Cemetery',
       county: 6,
@@ -248,6 +244,16 @@ feature 'Rules' do
     login
 
     visit rules_path(@rules)
+
+    expect(page).to have_content "approved #{Date.current}"
+  end
+
+  scenario 'Investigator can view approved rules through cemetery' do
+    @rules = FactoryBot.create(:approved_rules)
+    @other_rules = FactoryBot.create(:approved_rules, approval_date: Date.current - 8.years)
+    login
+
+    visit cemetery_rules_path(@cemetery)
 
     expect(page).to have_content "approved #{Date.current}"
   end
