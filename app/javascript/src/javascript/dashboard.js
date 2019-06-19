@@ -1,17 +1,14 @@
 $(document).on('turbolinks:load', function () {
-    if(document.getElementById('search-results-data-table')) {
-        $('#search-results-data-table').DataTable({
-            responsive: true,
-            language: {
-                emptyTable: "There are no results to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-        });
-    }
+    $('#mark-all-notifications-read-link').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).data('path'),
+            method: 'PATCH'
+        })
+    });
 
-    $('.notification-link').click(function () {
+    $('.notification-link').click(function (e) {
+        e.preventDefault();
         if (!$(this).hasClass('read')) {
             $.ajax({
                 url: $(this).data('read-link'),

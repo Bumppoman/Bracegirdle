@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   end
 
   # Notifications
+  patch 'notifications/mark-all-read', to: 'notifications#mark_all_read', as: :mark_read_all_notifications
   patch 'notifications/:id/mark-read', to: 'notifications#mark_read', as: :read_notification
 
   # PDFs

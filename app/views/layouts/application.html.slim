@@ -45,8 +45,8 @@ html lang="en"
                 .dropdown-menu-header
                   h6.dropdown-menu-title Notifications
                   div
-                    a href="" Mark All as Read
-                    a href="" Settings
+                    a#mark-all-notifications-read-link href="#" data-path="#{mark_read_all_notifications_path}" Mark All as Read
+                    a href="#" Settings
                 .dropdown-list
                   = render(partial: 'notifications/notification', collection: Notification.includes(:sender, :object).for_user(current_user).order(created_at: :desc).limit(5)) || render(partial: 'notifications/none')
                   .dropdown-list-footer

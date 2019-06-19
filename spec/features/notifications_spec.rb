@@ -71,7 +71,7 @@ feature 'Notifications' do
     expect(page).to have_content 'John Smith added a comment'
   end
 
-  scenario 'Notifications can be marked read', js: true do
+  scenario 'Individual notifications can be marked read', js: true do
     @employee = FactoryBot.create(:user)
     @supervisor = FactoryBot.create(:mean_supervisor)
     @complaint = FactoryBot.create(:brand_new_complaint, receiver_id: 2)
@@ -84,6 +84,24 @@ feature 'Notifications' do
       click_on 'notification-1'
       wait_for_ajax # The page is changing so this is good here
     }.to change { Notification.first.read }
+  end
 
+  scenario 'All notifications can be marked read', js: true do
+    @employee = FactoryBot.create(:user)
+    @supervisor = FactoryBot.create(:mean_supervisor)
+    @complaint = FactoryBot.create(:brand_new_complaint, receiver_id: 2)
+    @notification = FactoryBot.create(:notification, object: @complaint, message: 'added')
+    @second_notification = FactoryBot.create(:notification, object: @complaint, message: 'added')
+
+    login(@employee)
+    click_on class: 'header-notification'
+
+    expect {
+      click_on 'mark-all-notifications-read-link'
+      wait_for_ajax # The page is changing so this is good here
+    }.to change {
+      Notification.first.read
+      Notification.last.read
+    }
   end
 end
