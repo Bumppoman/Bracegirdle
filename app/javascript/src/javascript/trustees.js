@@ -34,18 +34,6 @@ function edit_trustee(event) {
 window.edit_trustee = edit_trustee;
 
 $(document).on('turbolinks:load', function () {
-    if(document.getElementById('trustees-data-table')) {
-        $('#trustees-data-table').DataTable({
-            responsive: true,
-            language: {
-                emptyTable: "There are no trustees to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-        });
-    }
-
     const originalAction = $('#trustee-form-object').attr('action');
     if(document.getElementById('add-new-trustee')) {
         $('#add-new-trustee').click(function (event) {

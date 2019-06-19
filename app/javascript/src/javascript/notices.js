@@ -1,17 +1,5 @@
 $(document).on('turbolinks:load', function () {
 
-    if(document.getElementById('non-compliance-notices-data-table')) {
-        $('#non-compliance-notices-data-table').DataTable({
-            responsive: true,
-            language: {
-                emptyTable: "There are no Notices of Non-Compliance to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-        });
-    }
-
     function download(event = false) {
         $('#non-compliance-download-notice').modal();
         if (event) {

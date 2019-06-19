@@ -1,30 +1,4 @@
 $(document).on('turbolinks:load', function () {
-    if(document.getElementById('cemetery-inspections-data-table')) {
-        $('#cemetery-inspections-data-table').DataTable({
-            order: [[0, 'desc']],
-            responsive: true,
-            language: {
-                emptyTable: "There are no inspections to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-        });
-    }
-
-    if(document.getElementById('incomplete-cemetery-inspections-data-table')) {
-        $('#incomplete-cemetery-inspections-data-table').DataTable({
-            order: [[0, 'asc']],
-            responsive: true,
-            language: {
-                emptyTable: "There are no inspections to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-        });
-    }
-
     if(document.getElementById('perform-inspection')) {
         $('#perform-inspection').steps({
             headerTag: 'h3',

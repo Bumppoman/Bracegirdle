@@ -42,18 +42,6 @@ $(document).on('turbolinks:load', function () {
         });
     });
 
-    if(document.getElementById('restoration-data-table')) {
-        $('#restoration-data-table').DataTable({
-            responsive: true,
-            language: {
-                emptyTable: "There are no applications to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            },
-        }).columns(-3).order('asc').draw();
-    }
-
     $('#process-restoration').steps({
         headerTag: 'h3',
         bodyTag: 'section',

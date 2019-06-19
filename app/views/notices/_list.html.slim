@@ -1,6 +1,6 @@
 .section-wrapper
   .table-wrapper
-    table#non-compliance-notices-data-table.table.display.responsive.no-wrap
+    table#notices-data-table.table.display.responsive.no-wrap.data-table-basic data-empty-message="There are no notices to display."
       thead
         tr
           th
@@ -16,5 +16,5 @@
             td = notice.cemetery
             td = notice.created_at
             td = notice.response_required_date
-            td = notice.response_received_date || "None received"
+            td = notice.response_received_date || 'None received'
             td = notice.formatted_status

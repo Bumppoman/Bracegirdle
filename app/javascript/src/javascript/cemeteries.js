@@ -1,17 +1,4 @@
 $(document).on('turbolinks:load', function () {
-
-    if(document.getElementById('cemeteries-data-table')) {
-        $('#cemeteries-data-table').DataTable({
-            responsive: true,
-            language: {
-                emptyTable: "There are no cemeteries to display.",
-                searchPlaceholder: 'Search...',
-                sSearch: '',
-                lengthMenu: '_MENU_ items/page',
-            }
-        });
-    }
-
     if(document.getElementById('new-cemetery-county')) {
         $('#new-cemetery-county').change(function () {
             $('#new-cemetery-towns').prop('disabled', false)

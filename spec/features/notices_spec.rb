@@ -64,7 +64,7 @@ feature 'Notices' do
     click_on 'Resolve Notice'
     visit notices_path
 
-    expect(page).to have_content('There are no Notices')
+    expect(page).to have_content('There are no notices')
   end
 
   scenario 'Can specify date of follow-up inspection', js: true do
