@@ -1,13 +1,10 @@
 function edit_trustee(event) {
     const dataset =  event.target.parentElement.dataset;
-    const cemetery = dataset.cemetery;
-    const trustee = dataset.trustee;
 
     event.preventDefault();
     $('#trustee-form').modal();
-    $('#trustee-form-title').text('Edit Trustee');
-    $('#trustee-form-submit').text('Edit Trustee');
-    $('#trustee-form-object').attr('action', '/cemeteries/' + cemetery + '/trustees/' + trustee);
+    $('#trustee-form-title, #trustee-form-submit').text('Edit Trustee');
+    $('#trustee-form-object').attr('action', '/cemeteries/' + dataset.cemetery + '/trustees/' + dataset.trustee);
     $('<input>').attr({
         id: 'hidden-edit-trustee',
         type: 'hidden',
@@ -15,12 +12,9 @@ function edit_trustee(event) {
         value: 'patch'
     }).appendTo($('#trustee-form-object'));
 
-    $.getJSON('/cemeteries/' + cemetery + '/trustees/' + trustee + '/api/show', function (data) {
+    $.getJSON('/cemeteries/' + dataset.cemetery + '/trustees/' + dataset.trustee + '/api/show', function (data) {
         Object.keys(data).forEach(function(key) {
-            if ($('#trustee_' + key).length) {
-                $('#trustee_' + key).val(data[key]);
-                $('#trustee_' + key).trigger('change');
-            }
+            if ($('#trustee_' + key).length) $('#trustee_' + key).val(data[key]).trigger('change');
         });
     });
 
@@ -38,10 +32,8 @@ $(document).on('turbolinks:load', function () {
     if(document.getElementById('add-new-trustee')) {
         $('#add-new-trustee').click(function (event) {
             event.preventDefault();
-            $('#trustee-form-title').text('Add New Trustee');
-            $('#trustee-form-submit').text('Add New Trustee');
-            $('#trustee-form-object').attr('action', originalAction);
-            $('#trustee-form-object').trigger('reset');
+            $('#trustee-form-title, #trustee-form-submit').text('Add New Trustee');
+            $('#trustee-form-object').attr('action', originalAction).trigger('reset');
             $('#hidden-edit-trustee').remove();
 
             $('#trustee-form').modal();

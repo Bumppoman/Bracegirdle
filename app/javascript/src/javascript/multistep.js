@@ -1,14 +1,11 @@
 window.animating = false;
 window.nextItem = function (fieldset, animate = true) {
     if (animate == true) {
-        if (window.animating) {
-            return false;
-        }
+        if (window.animating) return false;
         window.animating = true;
     }
 
-    let current_fs = fieldset;
-    let next_fs = fieldset.next();
+    let current_fs = fieldset, next_fs = fieldset.next();
 
     $(".progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
@@ -19,12 +16,8 @@ window.nextItem = function (fieldset, animate = true) {
             opacity: 0
         }, {
             step: function (now, mx) {
-                let scale = 1 - (1 - now) * 0.2;
-                let left = (now * 50) + "%";
-                let opacity = 1 - now;
-                current_fs.css({
-                    'transform': 'scale(' + scale + ')'
-                });
+                let scale = 1 - (1 - now) * 0.2, left = (now * 50) + "%", opacity = 1 - now;
+                current_fs.css({ 'transform': 'scale(' + scale + ')' });
 
                 next_fs.css({
                     'left': left,
