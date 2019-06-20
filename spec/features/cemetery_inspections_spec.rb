@@ -124,6 +124,15 @@ feature 'Cemetery Inspections' do
     expect(page.status_code).to be 200
   end
 
+  scenario 'Investigator can view inspection package with no violations' do
+    @inspection = FactoryBot.create(:no_violation_inspection)
+    login
+
+    visit view_full_inspection_package_cemetery_path(@cemetery, @inspection)
+
+    expect(page.status_code).to be 200
+  end
+
   scenario 'Investigator can view incomplete inspections' do
     @inspection = FactoryBot.create(:cemetery_inspection)
     login

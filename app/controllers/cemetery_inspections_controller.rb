@@ -107,24 +107,25 @@ class CemeteryInspectionsController < ApplicationController
     output = CombinePDF.new
 
     # Add appropriate letter
+    letter_params = {
+      date: Date.current,
+      recipient: @inspection.cemetery.name,
+      address_line_one: @inspection.trustee_street_address,
+      address_line_two: "#{@inspection.trustee_city}, #{@inspection.trustee_state} #{@inspection.trustee_zip}",
+      cemetery: @inspection.cemetery,
+      name: @inspection.investigator.name,
+      title: @inspection.investigator.title,
+      signature: @inspection.investigator.signature
+    }
+
     if @inspection.violations?
-      output << CombinePDF.parse(Letters::CemeteryInspectionViolationsPdf.new(
-        {
-          date: Date.current,
-          recipient: @inspection.cemetery.name,
-          address_line_one: @inspection.trustee_street_address,
-          address_line_two: "#{@inspection.trustee_city}, #{@inspection.trustee_state} #{@inspection.trustee_zip}",
-          cemetery: @inspection.cemetery,
-          name: @inspection.investigator.name,
-          title: @inspection.investigator.title,
-          signature: @inspection.investigator.signature
-        },
-      ).render)
-      output << CombinePDF.parse(BlankPdf.new({}).render)
+      output << CombinePDF.parse(Letters::CemeteryInspectionViolationsPdf.new(letter_params).render)
     else
+      output << CombinePDF.parse(Letters::CemeteryInspectionNoViolationsPdf.new(letter_params).render)
     end
 
     # Add inspection report
+    output << CombinePDF.parse(BlankPdf.new({}).render)
     output << CombinePDF.parse(generate_report.render)
 
     # Output violation items

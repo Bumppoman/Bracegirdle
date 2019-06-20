@@ -41,7 +41,12 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def violations?
-    true
+    violations = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections'].keys
+    violations.each do |violation|
+      return true if send(violation) == false
+    end
+
+    return false
   end
 
   private
