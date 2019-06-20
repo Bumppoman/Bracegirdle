@@ -12,7 +12,7 @@ feature 'Cemeteries' do
       longitude: -73.8964
     )
 
-    @cemetery = FactoryBot.create(:cemetery, last_inspection_date: Date.current - 6.years)
+    @cemetery = FactoryBot.create(:cemetery, last_inspection_date: Date.current - 6.years, last_audit_date: Date.current - 4.years)
     @cemetery.locations << @location
     @cemetery.towns << @town
   end
@@ -32,6 +32,12 @@ feature 'Cemeteries' do
     expect {
       click_on 'Submit'
     }.to change { Cemetery.count }
+  end
+
+  scenario 'View cemetery' do
+    login
+
+    visit cemetery_path(@cemetery)
   end
 
   scenario 'Display cemeteries by county' do

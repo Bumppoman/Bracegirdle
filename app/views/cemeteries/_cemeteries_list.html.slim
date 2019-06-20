@@ -20,5 +20,5 @@
               span.d-none = cemetery.last_inspection_date.try(:strftime, '%Y-%m-%d')
               = cemetery.last_inspection_date || 'No inspection recorded'
             td
-              span.d-none = cemetery.last_audit.try(:strftime, '%Y-%m-%d')
+              span.d-none = cemetery.last_audit_date.try(:strftime, '%Y-%m-%d')
               = cemetery.last_audit_date || 'No audit recorded'

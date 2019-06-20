@@ -33,7 +33,7 @@
                     td == formatted_last_inspection @cemetery
                   tr
                     th scope="row" Last Audit
-                    td = @cemetery.last_audit
+                    td == formatted_last_audit @cemetery
                   tr
                     th scope="row" Rules and Regulations
                     td == @cemetery.rules ? "Approved #{@cemetery.rules.approval_date} (#{link_to 'view', cemetery_rules_path(@cemetery)})" : 'None added.'
