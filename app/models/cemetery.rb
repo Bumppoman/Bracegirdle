@@ -38,10 +38,6 @@ class Cemetery < ApplicationRecord
     User.find_by_region(region :investigator)
   end
 
-  def last_audit
-    self[:last_audit] || 'No audit recorded'
-  end
-
   def latitude
     locations.first.latitude
   end

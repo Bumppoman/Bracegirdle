@@ -55,18 +55,6 @@ describe Cemetery, type: :model do
       end
     end
 
-    describe Cemetery, '#last_audit' do
-      it 'returns the correct date of the last audit when it is set' do
-        subject.last_audit = Date.today
-
-        expect(subject.last_audit).to eq Date.today
-      end
-
-      it 'returns "No audit recorded" when there is no audit set' do
-        expect(subject.last_audit).to eq 'No audit recorded'
-      end
-    end
-
     describe Cemetery, '#latitude' do
       it 'returns the correct latitude' do
         @location = Location.new(latitude: 41.3144, longitude: -73.8964)

@@ -1,3 +1,15 @@
+function postForm (form_object) {
+    if (form_object.length > 0) {
+        let form = new FormData(form_object[0]);
+        $.post({
+            url: form_object.attr('action'),
+            data: form,
+            processData: false,
+            contentType: false
+        });
+    }
+}
+
 $(document).on('turbolinks:load', function () {
 
     $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').select2({
@@ -51,38 +63,11 @@ $(document).on('turbolinks:load', function () {
         },
         onStepChanging: function (event, currentIndex, newIndex) {
             if (currentIndex == 0) {
-                const appform_object = $('#restoration-application-form');
-                if (appform_object.length > 0) {
-                    let appform = new FormData(appform_object[0]);
-                    $.post({
-                        url: appform_object.attr('action'),
-                        data: appform,
-                        processData: false,
-                        contentType: false
-                    });
-                }
+                postForm($('#restoration-application-form'));
             } else if (currentIndex == 2) {
-                const legal_notice_form_object = $('#restoration-legal-notice-form');
-                if (legal_notice_form_object.length > 0) {
-                    let legal_notice_form = new FormData(legal_notice_form_object[0]);
-                    $.post({
-                        url: legal_notice_form_object.attr('action'),
-                        data: legal_notice_form,
-                        processData: false,
-                        contentType: false
-                    });
-                }
+                postForm($('#restoration-legal-notice-form'));
             } else if (currentIndex == 3) {
-                const previous_form_object = $('#restoration-previous-form');
-                if (previous_form_object.length > 0) {
-                    let previous_form = new FormData(previous_form_object[0]);
-                    $.post({
-                        url: previous_form_object.attr('action'),
-                        data: previous_form,
-                        processData: false,
-                        contentType: false
-                    });
-                }
+                postForm($('#restoration-previous-form'));
             }
             return true;
         },

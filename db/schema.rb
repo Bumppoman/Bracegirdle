@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_172356) do
+ActiveRecord::Schema.define(version: 2019_06_20_151716) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2019_06_19_172356) do
     t.integer "order_id"
     t.boolean "active", default: true
     t.date "last_inspection_date"
-    t.date "last_audit"
+    t.date "last_audit_date"
     t.integer "investigator_region"
   end
 
