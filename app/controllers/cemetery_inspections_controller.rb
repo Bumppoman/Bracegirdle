@@ -72,13 +72,13 @@ class CemeteryInspectionsController < ApplicationController
 
   def perform
     @cemetery = Cemetery.find(params[:id])
-    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
+    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: [:scheduled, :begun]).first ||
       CemeteryInspection.new(
         cemetery: @cemetery,
         investigator: current_user,
         date_performed: Date.current,
-        trustee_state: 'NY',
-        status: :begun)
+        trustee_state: 'NY')
+    @inspection.status = :begun
     @inspection.save
   end
 
@@ -95,6 +95,17 @@ class CemeteryInspectionsController < ApplicationController
   def revise
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
     @inspection.update(status: :begun)
+  end
+
+  def schedule
+    @cemetery = Cemetery.find(params[:id])
+    @inspection = CemeteryInspection.create(
+        cemetery: @cemetery,
+        investigator: current_user,
+        date_performed: cemetery_inspection_date_params['date_performed'],
+        status: :scheduled)
+
+    redirect_to inspections_cemetery_path(@cemetery)
   end
 
   def show

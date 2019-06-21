@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class Notice < ApplicationRecord
-  include Attachable
-  include Notable
-  include Statable
+  include Attachable, Notable, Statable
 
   after_commit :set_notice_number, on: :create
 
@@ -17,10 +15,10 @@ class Notice < ApplicationRecord
                             inverse_of: :notices
 
   enum status: {
-      issued: 1,
-      response_received: 2,
-      follow_up_completed: 3,
-      resolved: 4
+    issued: 1,
+    response_received: 2,
+    follow_up_completed: 3,
+    resolved: 4
   }
 
   scope :active, -> { where.not(status: :resolved)}
@@ -54,6 +52,10 @@ class Notice < ApplicationRecord
 
   def belongs_to?(user)
     investigator == user
+  end
+
+  def concern_text
+    ['Notice of Non-Compliance', "##{notice_number}", "against #{cemetery.name}"]
   end
 
   def formatted_status

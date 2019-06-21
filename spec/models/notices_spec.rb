@@ -4,7 +4,7 @@ def create_notice
   @investigator = User.new(office_code: 'XXX')
 
   Notice.new(
-    cemetery: Cemetery.new,
+    cemetery: FactoryBot.build(:cemetery),
     investigator: @investigator,
     served_on_name: 'John Doe',
     served_on_title: 'President',
@@ -57,6 +57,13 @@ describe Notice, type: :model do
 
       it 'returns false when the notice does not belong to the user' do
         expect(subject.belongs_to?(User.new)).to be false
+      end
+    end
+
+    describe Notice, '#concern_text' do
+      it 'provides the correct text' do
+        subject.save
+        expect(subject.concern_text).to eq ['Notice of Non-Compliance', "#XXX-#{Date.current.year}-0001", 'against Anthony Cemetery']
       end
     end
 

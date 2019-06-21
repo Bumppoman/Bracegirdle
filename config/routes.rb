@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       get 'inspection/:identifier/view-full-package', to: 'cemetery_inspections#view_full_package', as: :view_full_inspection_package
       get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_inspection_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
+      post 'inspections/schedule', to: 'cemetery_inspections#schedule', as: :schedule_inspection
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
       get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
       post 'upload-inspection', to: 'cemetery_inspections#create_old_inspection', as: :create_old_inspection

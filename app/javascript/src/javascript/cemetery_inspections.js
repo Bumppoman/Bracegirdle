@@ -81,7 +81,19 @@ $(document).on('turbolinks:load', function () {
     vault2_disable();
     $("input[name=cemetery_inspection\\[receiving_vault_inspected\\]]").on('change', vault2_disable);
 
-    if(document.getElementById('cemetery_inspection_trustee_name')) {
+    if(document.getElementById('cemetery_inspection_cemetery_county')) {
+        $('#cemetery_inspection_cemetery_county, #cemetery_inspection_cemetery').select2({
+            minimumResultsForSearch: '',
+            selectOnClose: true,
+            width: '100%',
+        });
+
+        $('#cemetery_inspection_trustee_state, #cemetery_inspection_trustee_position').select2({
+            minimumResultsForSearch: Infinity,
+            selectOnClose: true,
+            width: '100%',
+        });
+
         $('#cemetery_inspection_trustee_name').select2({
             selectOnClose: true,
             tags: true,
