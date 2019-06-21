@@ -36,5 +36,5 @@
       .modal-body.pd-20
         p.mg-b-10 Are you sure you want to delete this attachment?
         .modal-footer.justify-content-center
-          = link_to 'Delete', send("#{object.class.name.downcase}_attachments_path", object), method: 'delete', remote: 'true', id: 'delete-attachment-button', class: 'btn btn-primary'
+          = link_to 'Delete', send("#{object.class.name.underscore}_attachments_path", object), method: 'delete', remote: 'true', id: 'delete-attachment-button', class: 'btn btn-primary'
           button.btn.btn-secondary data-dismiss="modal" Close

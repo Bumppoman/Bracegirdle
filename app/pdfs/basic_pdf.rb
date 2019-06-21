@@ -22,6 +22,12 @@ class BasicPdf
     end
   end
 
+  def signature(signature, x, y)
+    bounding_box [x, y], width: 300 do
+      image Rails.root.join('app', 'pdfs', 'signatures', signature), height: 38, width: 140
+    end
+  end
+
   def smallcaps(string)
     string = string.tr('a-z', 'ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ')
     string.gsub(/ғ/, '<font size="5.9125">F</font>')

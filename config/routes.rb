@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       patch 'inspect/cemetery-information', to: 'cemetery_inspections#cemetery_information', as: :cemetery_information_inspect
       patch 'inspect/physical-characteristics', to: 'cemetery_inspections#physical_characteristics', as: :physical_characteristics_inspect
       patch 'inspect/record-keeping', to: 'cemetery_inspections#record_keeping', as: :record_keeping_inspect
+      patch 'inspect/additional-information', to: 'cemetery_inspections#additional_information', as: :additional_information_inspect
       get 'inspection/:identifier', to: 'cemetery_inspections#show', as: :show_inspection
       patch 'inspection/:identifier/finalize', to: 'cemetery_inspections#finalize', as: :finalize_inspection
       patch 'inspection/:identifier/revise', to: 'cemetery_inspections#revise', as: :revise_inspection
@@ -79,6 +80,10 @@ Rails.application.routes.draw do
   get '/500', to: 'errors#internal_server_error'
 
   # Inspections
+  resources :cemetery_inspections, only: [] do
+    resources :attachments, module: :cemetery_inspections
+  end
+
   get 'inspections/incomplete', to: 'cemetery_inspections#incomplete', as: :incomplete_inspections
 
   # Notices

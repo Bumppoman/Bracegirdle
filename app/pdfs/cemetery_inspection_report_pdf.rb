@@ -268,12 +268,7 @@ class CemeteryInspectionReportPdf < BasicPdf
     stroke_horizontal_line(bounds.width - 225, bounds.width, at: y)
 
     # Signature
-    if @params[:signature]
-      bounding_box [bounds.left, y + 39], width: 300 do
-        image Rails.root.join('app', 'pdfs', 'signatures', @params[:signature]), height: 38, width: 140
-      end
-    end
-
+    signature(@params[:signature], bounds.left, y + 39) if @params[:signature]
     bounding_box([bounds.left, 5], width: 60, height: 40) do
       text smallcaps('Investigator'), size: 8
     end

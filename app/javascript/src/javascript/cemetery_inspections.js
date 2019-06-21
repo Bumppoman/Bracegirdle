@@ -1,3 +1,16 @@
+function postForm (form_object, success = false) {
+    if (form_object.length > 0) {
+        let form = new FormData(form_object[0]);
+        $.post({
+            url: form_object.attr('action'),
+            data: form,
+            processData: false,
+            contentType: false,
+            success: success
+        });
+    }
+}
+
 $(document).on('turbolinks:load', function () {
     if(document.getElementById('perform-inspection')) {
         $('#perform-inspection').steps({
@@ -11,44 +24,19 @@ $(document).on('turbolinks:load', function () {
             },
             onStepChanging: function (event, currentIndex, newIndex) {
                 if (currentIndex == 0) {
-                    const infoform_object = $('#inspection-cemetery-information-form');
-                    if (infoform_object.length > 0) {
-                        let infoform = new FormData(infoform_object[0]);
-                        $.post({
-                            url: infoform_object.attr('action'),
-                            data: infoform,
-                            processData: false,
-                            contentType: false
-                        });
-                    }
+                    postForm($('#inspection-cemetery-information-form'));
                 } else if (currentIndex == 1) {
-                    const physical_characteristics_form_object = $('#inspection-physical-characteristics-form');
-                    if (physical_characteristics_form_object.length > 0) {
-                        let physical_characteristics_form = new FormData(physical_characteristics_form_object[0]);
-                        $.post({
-                            url: physical_characteristics_form_object.attr('action'),
-                            data: physical_characteristics_form,
-                            processData: false,
-                            contentType: false
-                        });
-                    }
+                    postForm($('#inspection-physical-characteristics-form'));
+                } else if (currentIndex == 2) {
+                    postForm($('#inspection-record-keeping-form'));
                 }
                 return true;
             },
             onFinishing: function () {
-                const record_keeping_form_object = $('#inspection-record-keeping-form');
-                if (record_keeping_form_object.length > 0) {
-                    let record_keeping_form = new FormData(record_keeping_form_object[0]);
-                    $.post({
-                        url: record_keeping_form_object.attr('action'),
-                        data: record_keeping_form,
-                        processData: false,
-                        contentType: false,
-                        success: function () {
-                            window.location.href = record_keeping_form_object.data('success-url');
-                        }
-                    });
-                }
+                const info_form = $('#inspection-additional-information-form');
+                postForm(info_form, function () {
+                    window.location.href = info_form.data('success-url');
+                });
             }
         });
 

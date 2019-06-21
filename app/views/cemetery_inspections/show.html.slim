@@ -1,6 +1,6 @@
 - content_for :title, 'View Inspection'
 - content_for :breadcrumbs, breadcrumbs_helper([["#{@inspection.cemetery.name} (##{@inspection.cemetery.cemetery_id})", cemetery_path(@inspection.cemetery)], ['Inspections', inspections_cemetery_path(@inspection.cemetery)], "View inspection of #{@inspection.date_performed}"])
-.section-wrapper
+#show-inspection.section-wrapper
   .row.mg-b-10
     .col-lg-11.col-sm-3
       label.section-title ="Inspection (performed #{@inspection.date_performed})"
@@ -20,6 +20,9 @@
         th Date
         td = "#{@inspection.date_performed} (#{time_ago_in_words(@inspection.date_performed)} ago)"
       tr
+        th Additional Comments
+        td = @inspection.additional_comments.present? ? simple_format(@inspection.additional_comments) : 'None'
+      tr
         th Status
         td#cemetery-inspection-status = verbose_cemetery_inspection_status(@inspection)
 .section-wrapper.mg-t-5.pd-t-30
@@ -28,6 +31,7 @@
     button#finalize-cemetery-inspection.btn.btn-primary.mg-r-5 style="#{@inspection.complete? ? 'display: none;' : ''}" data-path="#{finalize_inspection_cemetery_path(@inspection.cemetery, @inspection)}" Mail inspection
     button#revise-cemetery-inspection.bracegirdle-action-button.btn.btn-secondary style="#{@inspection.complete? ? 'display: none;' : ''}" data-path="#{revise_inspection_cemetery_path(@inspection.cemetery, @inspection)}" data-success="#{inspect_cemetery_path(@cemetery)}" Revise inspection
     button#print-cemetery-inspection-package.btn.btn-secondary style="#{@inspection.complete? ? '' : 'display: none;'}" Reprint inspection package
+= render 'attachments/attachments', object: @inspection, form: @inspection.performed?
 #cemetery-inspection-download-package.modal
   .modal-dialog.wd-30p role="document"
     .modal-content

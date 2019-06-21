@@ -57,11 +57,31 @@ feature 'Cemetery Inspections' do
     visit inspect_cemetery_path(@cemetery)
     click_on 'Next'
     click_on 'Next'
+    click_on 'Next'
     click_on 'Complete Inspection'
-    wait_for_ajax
+    assert_selector '#show-inspection'
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'Performed'
+  end
+
+  scenario 'Investigator can add attachment to inspection', js: true do
+    login
+    @trustee = FactoryBot.create(:trustee)
+    @inspection = FactoryBot.create(:cemetery_inspection)
+
+    visit inspect_cemetery_path(@cemetery)
+    click_on 'Next'
+    click_on 'Next'
+    click_on 'Next'
+    attach_file 'attachment_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    fill_in 'attachment[description]', with: 'Adding an attachment to this inspection'
+    click_on 'Upload'
+    assert_selector '#attachment-1'
+    click_on 'Complete Inspection'
+    assert_selector '#show-inspection'
+
+    expect(page).to have_content 'Adding an attachment to this inspection'
   end
 
   scenario 'Investigator creates new trustee during inspection', js: true do
@@ -77,9 +97,9 @@ feature 'Cemetery Inspections' do
     fill_in 'ZIP Code', with: '12345'
     click_on 'Next'
     click_on 'Next'
+    click_on 'Next'
     click_on 'Complete Inspection'
-    #click_on 'Dashboard', match: :first
-    wait_for_ajax
+    assert_selector '#show-inspection'
     visit trustees_cemetery_path(@cemetery)
 
     expect(page).to have_content 'Mark Smith'
@@ -92,9 +112,11 @@ feature 'Cemetery Inspections' do
     visit inspect_cemetery_path(@cemetery)
     click_on 'Next'
     click_on 'Next'
+    click_on 'Next'
     click_on 'Complete Inspection'
-    click_on 'Mail inspection', wait: 5
-    wait_for_ajax
+    assert_selector '#show-inspection'
+    click_on 'Mail inspection'
+    assert_selector '#cemetery-inspection-download-package'
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'Complete'
@@ -107,7 +129,9 @@ feature 'Cemetery Inspections' do
     visit inspect_cemetery_path(@cemetery)
     click_on 'Next'
     click_on 'Next'
+    click_on 'Next'
     click_on 'Complete Inspection'
+    assert_selector '#show-inspection'
     click_on 'Revise inspection'
     assert_selector '#perform-inspection'
     visit inspections_cemetery_path(@cemetery)

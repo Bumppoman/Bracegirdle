@@ -1,0 +1,10 @@
+= form_with model: @inspection, url: additional_information_inspect_cemetery_path(@cemetery), html: { id: 'inspection-additional-information-form', data: { success_url: show_inspection_cemetery_path(@cemetery, @inspection) } } do |f|
+  .form-layout
+    .row
+      .col-lg-12
+        .form-group
+          = f.hidden_field :identifier
+          = f.label :additional_comments, 'Additional comments', class: 'form-control-label'
+          = f.text_area :additional_comments, size: '20x10', class: 'form-control'
+          small.form-text.text-muted Information entered here will not be shared with the cemetery
+= render 'attachments/attachments', object: @inspection, form: true

@@ -21,11 +21,7 @@ class Letters::LetterPdf < DefaultPdf
   def signature
     text "\n\n\nSincerely,\n"
 
-    if @params[:signature]
-      bounding_box [bounds.left, cursor-10], width: 300 do
-        image Rails.root.join('app', 'pdfs', 'signatures', @params[:signature]), height: 38, width: 140
-      end
-    end
+    super(@params[:signature], bounds.left, cursor - 10) if @params[:signature]
 
     text "\n#{@params[:name]}"
     text "#{@params[:title]}, NYS Department of State\nDivision of Cemeteries"

@@ -19,7 +19,7 @@ describe CemeteryInspection, type: :model do
 
     describe CemeteryInspection, '#named_status' do
       it 'returns the correct named status' do
-        expect(subject.named_status).to eq 'In progress'
+        expect(subject.named_status).to eq 'Scheduled'
       end
     end
 

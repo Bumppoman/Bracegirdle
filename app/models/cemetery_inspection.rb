@@ -1,4 +1,6 @@
 class CemeteryInspection < ApplicationRecord
+  include Attachable
+
   after_commit :set_identifier, on: :create
 
   attribute :cemetery_county, :integer
@@ -11,20 +13,27 @@ class CemeteryInspection < ApplicationRecord
   validates :date_performed, presence: true
 
   NAMED_STATUSES = {
+      scheduled: 'Scheduled',
       begun: 'In progress',
       performed: 'Performed',
       complete: 'Complete'
   }.freeze
 
   enum status: {
-      begun: 1,
-      performed: 2,
+      scheduled: 1,
+      begun: 2,
+      performed: 3,
       complete: 4
   }
 
+  def active?
+    begun? || performed?
+  end
+
   def current_inspection_step
-    return 2 if renovations.present?
-    return 1 if cemetery_sign_text.present?
+    return 3 unless pet_burials.nil?
+    return 2 unless renovations.nil?
+    return 1 unless cemetery_sign_text.nil?
     0
   end
 

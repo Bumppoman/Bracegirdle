@@ -5,6 +5,13 @@ class CemeteryInspectionsController < ApplicationController
     stipulate :must_be_investigator
   end
 
+  def additional_information
+    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection.update(
+      additional_comments: params[:cemetery_inspection][:additional_comments],
+      status: :performed)
+  end
+
   def cemetery_information
     @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.date_performed = cemetery_inspection_date_params['date_performed']
@@ -66,11 +73,12 @@ class CemeteryInspectionsController < ApplicationController
   def perform
     @cemetery = Cemetery.find(params[:id])
     @inspection = CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
-        CemeteryInspection.new(
-          cemetery: @cemetery,
-          investigator: current_user,
-          date_performed: Date.current,
-          trustee_state: 'NY')
+      CemeteryInspection.new(
+        cemetery: @cemetery,
+        investigator: current_user,
+        date_performed: Date.current,
+        trustee_state: 'NY',
+        status: :begun)
     @inspection.save
   end
 
@@ -82,9 +90,6 @@ class CemeteryInspectionsController < ApplicationController
   def record_keeping
     @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(record_keeping_params)
-
-    # Finalize inspection
-    @inspection.update(status: :performed)
   end
 
   def revise

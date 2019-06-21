@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_151716) do
+ActiveRecord::Schema.define(version: 2019_06_20_224042) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 2019_06_20_151716) do
     t.date "date_mailed"
     t.boolean "pet_burials"
     t.string "pet_burials_comments"
+    t.text "additional_comments"
     t.index ["cemetery_id"], name: "index_cemetery_inspections_on_cemetery_id"
   end
 
