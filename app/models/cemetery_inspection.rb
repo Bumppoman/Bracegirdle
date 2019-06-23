@@ -13,14 +13,12 @@ class CemeteryInspection < ApplicationRecord
   validates :date_performed, presence: true
 
   NAMED_STATUSES = {
-      scheduled: 'Scheduled',
       begun: 'In progress',
       performed: 'Performed',
       complete: 'Complete'
   }.freeze
 
   enum status: {
-      scheduled: 1,
       begun: 2,
       performed: 3,
       complete: 4

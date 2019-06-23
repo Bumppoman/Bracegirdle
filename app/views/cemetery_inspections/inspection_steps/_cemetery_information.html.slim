@@ -1,12 +1,12 @@
 = form_with model: @inspection, url: cemetery_information_inspect_cemetery_path(@cemetery), html: { id: 'inspection-cemetery-information-form' } do |f|
   .form-layout
     .row
-      .col-lg-3
+      .col-lg-4
         .form-group.required
           = f.hidden_field :identifier
           = f.label :cemetery_county, 'County', class: 'form-control-label'
           = f.select :cemetery_county, options_for_select(COUNTIES.invert, @cemetery.county), { prompt: 'Select county' }, disabled: true, class: 'form-control'
-      .col-lg-6
+      .col-lg-5
         .form-group.required
           = f.label :cemetery, 'Cemetery', class: 'form-control-label'
           = f.select :cemetery, grouped_options_for_select(cemetery_options, @cemetery.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control'

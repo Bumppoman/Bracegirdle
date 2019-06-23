@@ -2,7 +2,7 @@ require 'rails_helper'
 
 def create_cemetery_inspection
   @cemetery = FactoryBot.create(:cemetery)
-  CemeteryInspection.new
+  CemeteryInspection.new(status: :begun)
 end
 
 describe CemeteryInspection, type: :model do
@@ -19,7 +19,7 @@ describe CemeteryInspection, type: :model do
 
     describe CemeteryInspection, '#named_status' do
       it 'returns the correct named status' do
-        expect(subject.named_status).to eq 'Scheduled'
+        expect(subject.named_status).to eq 'In progress'
       end
     end
 

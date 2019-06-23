@@ -20,16 +20,11 @@ $(document).on('turbolinks:load', function () {
 
     function download(event = false) {
         $('#rules-approval-download').modal();
-        if (event) {
-            event.preventDefault();
-        }
+        if (event) event.preventDefault();
     }
 
     const url_params = new URLSearchParams(window.location.search);
-
-    if (url_params.has('download_rules_approval')) {
-        download();
-    }
+    if (url_params.has('download_rules_approval')) download();
 
     $('#download-rules-approval').click(download);
 });

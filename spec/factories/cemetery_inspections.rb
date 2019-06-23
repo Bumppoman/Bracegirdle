@@ -3,6 +3,7 @@ FactoryBot.define do
     cemetery_id { 1 }
     investigator_id { 1 }
     date_performed { Date.current }
+    status { :begun }
 
     factory :completed_inspection do
       cemetery_sign_text { 'Anthony Cemetery -- painted wood' }

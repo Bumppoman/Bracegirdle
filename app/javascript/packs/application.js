@@ -21,17 +21,20 @@ window.jQuery = jQuery;
 
 import 'bootstrap/dist/js/bootstrap';
 import 'select2/dist/js/select2.min';
-import 'jquery-steps/build/jquery.steps.min'
+import 'jquery-steps/build/jquery.steps.min';
+import 'fullcalendar/dist/fullcalendar.min';
+import 'jquery-timepicker/jquery.timepicker'
 
 require('jquery-ui/ui/widgets/datepicker');
 require('jquery-ui/ui/effect');
-require('jquery-ui/ui/effects/effect-highlight')
+require('jquery-ui/ui/effects/effect-highlight');
 
 require('datatables.net')(window, $);
 require('datatables.net-responsive')(window, $);
 
 import '../src/javascript/multistep';
 
+import '../src/javascript/appointments';
 import '../src/javascript/attachments';
 import '../src/javascript/cemeteries';
 import '../src/javascript/cemetery_inspections';
@@ -43,6 +46,7 @@ import '../src/javascript/notices';
 import '../src/javascript/restoration';
 import '../src/javascript/rules';
 import '../src/javascript/trustees';
+import '../src/javascript/users';
 import '../src/javascript/slim';
 
-import './stylesheet.scss'
+import './stylesheet.scss';

@@ -117,7 +117,7 @@ feature 'Activities' do
 
     visit root_path # Visiting instead of clicking because of modal and no AJAX
 
-    expect(page).to have_content 'Chester Butkiewicz issued a Notice of Non-Compliance to Anthony Cemetery'
+    expect(page).to have_content 'Chester Butkiewicz issued Notice of Non-Compliance #BNG-2019-0001 to Anthony Cemetery'
   end
 
   scenario 'Receiving a response to a notice logs activity', js: true do
@@ -130,7 +130,7 @@ feature 'Activities' do
 
     click_on 'Dashboard', match: :first
 
-    expect(page).to have_content 'Chester Butkiewicz received a response to a Notice of Non-Compliance from Anthony Cemetery'
+    expect(page).to have_content 'Chester Butkiewicz received a response to Notice of Non-Compliance #BNG-2019-0001 from Anthony Cemetery'
   end
 
   scenario 'Uploading a hazardous monument application logs activity', js: true do

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :appointments
+
   has_many :cemeteries,
     -> (user) {
       if user.investigator?
@@ -71,7 +73,6 @@ class User < ApplicationRecord
     },
     foreign_key: :investigator_id,
     inverse_of: :investigator
-
 
   has_secure_password
 

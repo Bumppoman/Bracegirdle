@@ -1,3 +1,11 @@
+body.modal-open .ui-datepicker {
+  z-index: 1250 !important;
+}
+
+body.modal-open .ui-timepicker-container {
+  z-index: 3500 !important;
+}
+
 .form-group.required label:first-child {
   font-weight: bold;
 }

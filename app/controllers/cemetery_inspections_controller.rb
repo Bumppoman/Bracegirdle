@@ -48,7 +48,7 @@ class CemeteryInspectionsController < ApplicationController
 
       # Only update the inspection date if it's newer than the last
       @cemetery.update(last_inspection_date: @inspection.date_performed) if
-          @cemetery.last_inspection_date && @inspection.date_performed > @cemetery.last_inspection_date
+        @cemetery.last_inspection_date && @inspection.date_performed > @cemetery.last_inspection_date
 
       redirect_to show_inspection_cemetery_path(identifier: @inspection)
     else
@@ -72,13 +72,13 @@ class CemeteryInspectionsController < ApplicationController
 
   def perform
     @cemetery = Cemetery.find(params[:id])
-    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: [:scheduled, :begun]).first ||
+    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
       CemeteryInspection.new(
         cemetery: @cemetery,
         investigator: current_user,
         date_performed: Date.current,
-        trustee_state: 'NY')
-    @inspection.status = :begun
+        trustee_state: 'NY',
+        status: :begun)
     @inspection.save
   end
 
@@ -95,17 +95,6 @@ class CemeteryInspectionsController < ApplicationController
   def revise
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
     @inspection.update(status: :begun)
-  end
-
-  def schedule
-    @cemetery = Cemetery.find(params[:id])
-    @inspection = CemeteryInspection.create(
-        cemetery: @cemetery,
-        investigator: current_user,
-        date_performed: cemetery_inspection_date_params['date_performed'],
-        status: :scheduled)
-
-    redirect_to inspections_cemetery_path(@cemetery)
   end
 
   def show
@@ -168,9 +157,9 @@ class CemeteryInspectionsController < ApplicationController
 
     pdf = generate_report
     send_data pdf.render,
-              filename: "Inspection #{params[:identifier]}.pdf",
-              type: 'application/pdf',
-              disposition: 'inline'
+      filename: "Inspection #{params[:identifier]}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
   end
 
   private

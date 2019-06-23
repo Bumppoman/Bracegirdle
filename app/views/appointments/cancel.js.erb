@@ -1,0 +1,3 @@
+$('#confirm-cancel-appointment').modal('hide');
+$('#appointments-data-table').DataTable().row('#appointment-<%= @appointment.id %>').remove().draw(false);
+$('#cancel-success').show().delay(3000).fadeOut();

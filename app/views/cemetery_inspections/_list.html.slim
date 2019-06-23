@@ -25,7 +25,7 @@
           a.with-confirmation-modal.nav-link href="#" data-modal="#confirm-begin-inspection" Begin inspection
         li.nav-item
           = link_to 'Upload inspection', upload_inspection_cemetery_path(@cemetery), class: 'nav-link'
-= form_with model: CemeteryInspection, url: schedule_inspection_cemetery_path(@cemetery), method: :post do |f|
+= form_with model: Appointment, url: appointments_path, method: :post do |f|
   #schedule-inspection.modal.fade
     .modal-dialog.wd-30p role="document"
       .modal-content
@@ -38,11 +38,20 @@
             | Choose a date for this inspection
             br<>
             br<>
-            .input-group
-              .input-group-prepend
-                .input-group-text
-                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-              = f.text_field :date_performed, value: "#{Date.current.strftime '%m/%d/%Y'}", class: 'form-control fc-datepicker'
+            .row
+              .col-md-6
+                .input-group
+                  .input-group-prepend
+                    .input-group-text
+                      i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+                  = f.hidden_field :cemetery, value: @cemetery.id
+                  = f.text_field :date, value: "#{Date.current.strftime '%m/%d/%Y'}", class: 'form-control fc-datepicker'
+              .col-md-6
+                .input-group
+                  .input-group-prepend
+                    .input-group-text
+                      i.fa.fa-clock-o.tx-16.lh-0.op-6
+                  = f.text_field :time, class: 'form-control ui-timepicker-input'
         .modal-footer
           = f.button 'Schedule inspection', name: 'schedule_inspection', class: 'btn btn-primary'
           button.btn.btn-secondary type="button" data-dismiss="modal" Close

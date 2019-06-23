@@ -8,6 +8,19 @@ Rails.application.routes.draw do
     patch 'letterhead/update', to: 'letterhead#update', as: :update_letterhead
   end
 
+  # Appointments
+  resources :appointments do
+    collection do
+      get 'api/user-events', to: 'appointments#api_user_events', as: :api_user_events
+    end
+
+    member do
+      patch 'begin', to: 'appointments#begin', as: :begin
+      patch 'cancel', to: 'appointments#cancel', as: :cancel
+      patch 'reschedule', to: 'appointments#reschedule', as: :reschedule
+    end
+  end
+
   # Auth0
   get 'auth/auth0/callback', to: 'sessions#callback'
   get 'auth/failure', to: 'sessions#failure'
@@ -86,6 +99,7 @@ Rails.application.routes.draw do
   end
 
   get 'inspections/incomplete', to: 'cemetery_inspections#incomplete', as: :incomplete_inspections
+  get 'inspections/scheduled', to: 'appointments#index', as: :scheduled_inspections
 
   # Notices
   resources :notices do
@@ -153,6 +167,7 @@ Rails.application.routes.draw do
   get 'towns/county/:county/options', to: 'towns#options_for_county'
 
   # Users
+  get 'user/calendar', to: 'users#calendar'
   get 'login', to: redirect('/auth/auth0')
   get 'logout', to: 'sessions#destroy', as: :logout
 

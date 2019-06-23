@@ -21,11 +21,11 @@ activities:
     color: 'danger'
     issued:
       icon: 'icon ion-ios-mail'
-      text: 'issued a <%= link_to "Notice of Non-Compliance", activity.object %> to <%= activity.object.cemetery.name %>'
+      text: 'issued Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> to <%= activity.object.cemetery.name %>'
       title: 'Issued notice'
     response:
       icon: 'icon ion-ios-mail-open'
-      text: 'received a response to a <%= link_to "Notice of Non-Compliance", activity.object %> from <%= activity.object.cemetery.name %>'
+      text: 'received a response to Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> from <%= activity.object.cemetery.name %>'
       title: 'Received response to notice'
   rules:
     color: 'teal'

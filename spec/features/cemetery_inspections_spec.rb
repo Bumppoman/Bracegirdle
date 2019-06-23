@@ -10,21 +10,6 @@ feature 'Cemetery Inspections' do
     expect { visit inspect_cemetery_path(@cemetery) }.to raise_error(ApplicationController::Forbidden)
   end
 
-  scenario 'Investigator can schedule inspection', js: true do
-    login
-    visit inspections_cemetery_path(@cemetery)
-
-    click_on 'Schedule inspection'
-    within('#schedule-inspection') do
-      fill_in 'cemetery_inspection[date_performed]', with: '06/26/2028'
-      find('.ion-ios-calendar').click
-      click_on 'Schedule inspection'
-    end
-    visit inspections_cemetery_path(@cemetery)
-
-    expect(page).to have_content 'Scheduled'
-  end
-
   scenario 'Investigator begins inspection', js: true do
     login
     visit inspections_cemetery_path(@cemetery)

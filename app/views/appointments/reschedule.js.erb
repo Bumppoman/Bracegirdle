@@ -1,0 +1,4 @@
+$('#reschedule-appointment').modal('hide');
+$('#appointment-<%= @appointment.id %>-begin').find('.raw-date').html('<%= @appointment.begin.strftime("%Y-%m-%d %H:%M") %>');
+$('#appointment-<%= @appointment.id %>-begin').find('.formatted-date').html('<%= @appointment.begin.strftime("%B %-e, %Y %I:%M %p") %>');
+$('#reschedule-success').show().delay(3000).fadeOut();

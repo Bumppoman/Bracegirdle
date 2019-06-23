@@ -9,5 +9,5 @@
         p.text-center
           = modal_text
       .modal-footer.justify-content-center
-        button.confirmation-modal-success-button.btn.btn-primary type="button" data-location="#{modal_success_location}" = modal_title
+        button.confirmation-modal-success-button.btn.btn-primary type="button" data-ajax="#{defined? modal_ajax}" data-location="#{modal_success_location}" = modal_title
         button.btn.btn-secondary type="button" data-dismiss="modal" Close
