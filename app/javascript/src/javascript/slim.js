@@ -40,6 +40,7 @@ $(document).on('turbolinks:load', function () {
     if(tables.length > 0) {
         tables.each(function (index, table) {
             let empty_message = $(table).data('empty-message');
+            let order = $(table).data('order');
             $(table).DataTable({
                 responsive: true,
                 language: {
@@ -47,7 +48,8 @@ $(document).on('turbolinks:load', function () {
                     searchPlaceholder: 'Search...',
                     sSearch: '',
                     lengthMenu: '_MENU_ items/page',
-                }
+                },
+                order: order
             });
         });
     }

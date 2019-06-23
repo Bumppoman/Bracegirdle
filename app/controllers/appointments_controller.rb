@@ -6,7 +6,10 @@ class AppointmentsController < ApplicationController
   end
 
   def api_user_events
-    @events = current_user.appointments.where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
+    @events = current_user.appointments
+      .where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
+      .where.not(status: :cancelled)
+
     response = @events.map do |event|
       {
           title: event.cemetery.name,

@@ -4,7 +4,7 @@
   #reschedule-success.alert.alert-success style="display: none;" You have successfully rescheduled this appointment.
   #cancel-success.alert.alert-success style="display: none;" You have successfully cancelled this appointment.
   .table-wrapper
-    table#appointments-data-table.table.display.responsive.no-wrap.data-table-basic data-empty-message="There are no scheduled #{@appointment_name.pluralize} to display."
+    table#appointments-data-table.table.display.responsive.no-wrap.data-table-basic data-empty-message="There are no scheduled #{@appointment_name.pluralize} to display." data-order='[[1, "asc"]]'
       thead
         tr
           th scope="col" Cemetery
