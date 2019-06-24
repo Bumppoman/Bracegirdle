@@ -146,6 +146,7 @@ feature 'Activities' do
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
     assert_selector '#process-restoration'
 

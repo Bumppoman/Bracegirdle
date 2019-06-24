@@ -21,6 +21,16 @@ describe Cemetery, type: :model do
     it { should have_many :trustees }
   end
 
+  context Cemetery, 'Class Methods' do
+    describe Cemetery, 'find_by_cemetery_id' do
+      it 'returns the correct cemetery' do
+        subject.save
+
+        expect(Cemetery.find_by_cemetery_id('04-001')).to eq subject
+      end
+    end
+  end
+
   context Cemetery, 'Instance Methods' do
     describe Cemetery, '#abandoned?' do
       it 'returns false if the cemetery is active' do

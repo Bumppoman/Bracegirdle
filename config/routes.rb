@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: 'sessions#failure'
 
   # Cemeteries
-  resources :cemeteries do
+  resources :cemeteries, param: :cemetery_id do
     resources :trustees, except: :index do
       member do
         get 'api/show', to: 'trustees#api_show', as: :api_show
@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_inspection_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
       post 'inspections/schedule', to: 'cemetery_inspections#schedule', as: :schedule_inspection
+      get 'rules', to: 'rules#show_approved', as: :rules
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
       get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
       post 'upload-inspection', to: 'cemetery_inspections#create_old_inspection', as: :create_old_inspection
@@ -60,7 +61,6 @@ Rails.application.routes.draw do
   get 'cemeteries/county/:county', to: 'cemeteries#list_by_county', as: :cemeteries_by_county
   get 'cemeteries/county/:county/options', to: 'cemeteries#options_for_county'
   get 'cemeteries/region/:region' => 'cemeteries#list_by_region', as: :cemeteries_by_region
-  get 'cemeteries/:id/rules', to: 'rules#show_approved', as: :cemetery_rules
   get 'cemeteries/:id/details.json', to: 'cemeteries#as_json', as: :cemetery_json
   get 'cemeteries/:id/trustees/api/list', to: 'trustees#api_list', as: :trustees_api_list
 

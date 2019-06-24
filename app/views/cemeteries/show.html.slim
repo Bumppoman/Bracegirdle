@@ -21,7 +21,7 @@
                 tbody
                   tr
                     th scope="row" Name
-                    td#cemetery-name =@cemetery.name
+                    td#cemetery-name = @cemetery.name
                   tr
                     th scope="row" Cemetery ID
                     td = "##{@cemetery.cemetery_id}"
@@ -36,7 +36,7 @@
                     td == formatted_last_audit @cemetery
                   tr
                     th scope="row" Rules and Regulations
-                    td == @cemetery.rules ? "Approved #{@cemetery.rules.approval_date} (#{link_to 'view', cemetery_rules_path(@cemetery)})" : 'None added.'
+                    td == @cemetery.rules ? "Approved #{@cemetery.rules.approval_date} (#{link_to 'view', rules_cemetery_path(@cemetery)})" : 'None added.'
                   tr
                     th scope="row" Service Charges
                     td None added.

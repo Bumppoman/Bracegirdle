@@ -11,12 +11,8 @@ class TrusteesController < ApplicationController
   end
 
   def create
-    @cemetery = Cemetery.find(params[:cemetery_id])
-    @trustee = Trustee.new(trustee_params)
-    @trustee.cemetery = @cemetery
-    @trustee.save
-
-    redirect_to cemetery_trustees_path(@cemetery)
+    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_cemetery_id])
+    @trustee = @cemetery.trustees.create(trustee_params)
   end
 
   def update

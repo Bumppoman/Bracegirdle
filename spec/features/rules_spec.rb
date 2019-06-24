@@ -253,7 +253,7 @@ feature 'Rules' do
     @other_rules = FactoryBot.create(:approved_rules, approval_date: Date.current - 8.years)
     login
 
-    visit cemetery_rules_path(@cemetery)
+    visit rules_cemetery_path(@cemetery)
 
     expect(page).to have_content "approved #{Date.current}"
   end

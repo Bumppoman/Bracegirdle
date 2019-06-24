@@ -32,7 +32,7 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def create_old_inspection
-    @cemetery = Cemetery.find(params[:id])
+    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
     @inspection = CemeteryInspection.new(cemetery_inspection_date_params)
 
     investigator = params[:cemetery_inspection][:investigator].present? ? User.find(params[:cemetery_inspection][:investigator]) : nil
@@ -71,7 +71,7 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def perform
-    @cemetery = Cemetery.find(params[:id])
+    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
     @inspection = CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
       CemeteryInspection.new(
         cemetery: @cemetery,
@@ -98,12 +98,12 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def show
-    @cemetery = Cemetery.find(params[:id])
+    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
   end
 
   def upload_old_inspection
-    @cemetery = Cemetery.find(params[:id])
+    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
     @inspection = CemeteryInspection.new
   end
 
@@ -152,7 +152,7 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def view_report
-    @cemetery = Cemetery.find(params[:id])
+    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
     @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
 
     pdf = generate_report
@@ -177,10 +177,10 @@ class CemeteryInspectionsController < ApplicationController
 
   def generate_report
     CemeteryInspectionReportPdf.new(
-        {
-            inspection: @inspection,
-            signature: @inspection.investigator.signature
-        })
+      {
+          inspection: @inspection,
+          signature: @inspection.investigator.signature
+      })
   end
 
   def physical_characteristics_params

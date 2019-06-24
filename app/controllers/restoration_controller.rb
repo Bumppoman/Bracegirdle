@@ -62,7 +62,7 @@ class RestorationController < ApplicationController
   end
 
   def new
-    @restoration = model.new
+    @restoration = model.new(investigator: current_user)
     @page_info = self.class::PAGE_INFO[:new]
   end
 

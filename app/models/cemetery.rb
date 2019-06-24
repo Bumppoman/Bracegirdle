@@ -22,6 +22,11 @@ class Cemetery < ApplicationRecord
     where(active: true).order(:county, :order_id)
   }
 
+  def self.find_by_cemetery_id(cemetery_id)
+    _, county, order_id = */(\d{2})-(\d{3})/.match(cemetery_id)
+    self.where(county: county, order_id: order_id).first
+  end
+
   def abandoned?
     self[:active] == false
   end
@@ -50,6 +55,10 @@ class Cemetery < ApplicationRecord
     if type == :investigator
       INVESTIGATOR_COUNTIES_BY_REGION[county]
     end
+  end
+
+  def to_param
+    cemetery_id
   end
 
   def to_s

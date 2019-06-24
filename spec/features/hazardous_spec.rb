@@ -9,7 +9,6 @@ feature 'Hazardous' do
 
   scenario 'Hazardous monument application can be uploaded', js: true do
     login
-    visit root_path
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
@@ -21,6 +20,7 @@ feature 'Hazardous' do
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
     assert_selector '#process-restoration'
     click_on 'Applications'
@@ -41,6 +41,7 @@ feature 'Hazardous' do
     select2 'Mark Clark', from: 'Submitted By'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
 
     assert_selector '#new-restoration-error'
@@ -60,6 +61,7 @@ feature 'Hazardous' do
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
     assert_selector '#process-restoration'
     attach_file 'hazardous_application_form', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
@@ -117,6 +119,7 @@ feature 'Hazardous' do
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
     assert_selector '#process-restoration'
     attach_file 'hazardous_application_form', Rails.root.join('spec', 'support', 'test.pdf'), visible: false

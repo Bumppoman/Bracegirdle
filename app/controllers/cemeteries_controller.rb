@@ -73,7 +73,7 @@ class CemeteriesController < ApplicationController
   end
 
   def show
-    @cemetery = Cemetery.includes(:complaints, :notices, :trustees).find(params[:id])
+    @cemetery = Cemetery.includes(:complaints, :notices, :trustees).find_by_cemetery_id(params[:cemetery_id])
     respond_to do |format|
       format.html {
         @complaints = @cemetery.complaints
