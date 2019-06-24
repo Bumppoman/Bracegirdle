@@ -52,7 +52,7 @@ class CemeteryInspectionReportPdf < BasicPdf
     stroke_horizontal_rule
 
     # Physical attributes
-    table(
+    questions_table(
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
         ['6. Sign displayed (19 NYCRR §201.7)', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].sign_comments],
@@ -68,23 +68,8 @@ class CemeteryInspectionReportPdf < BasicPdf
         ['16. Fencing', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Describe')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].fencing_comments}"],
         ['17. Winter burials reasonable', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].winter_burials_comments],
       ],
-      cell_style: { border_lines: [:solid, :solid, :solid, :dotted], inline_format: true },
-      column_widths: [bounds.width * 0.43, bounds.width * 0.06, bounds.width * 0.06, bounds.width * 0.45]
-    ) do
-      cells.borders = [:top]
-      cells.height = 24
-      column(0).size = 8
-      columns([1, 2]).padding = [5, 5, 5, 0]
-      columns([1, 2]).align = :right
-      column(3).borders = [:top, :left]
-
-      # Header row
-      row(0).height = 20
-      row(0).column(3).size = 8
-      row(0).column(3).font_style = :bold
-
-      rows([6, 7, 8, 9, 11]).column(3).padding = [0, 0, 0, 5]
-    end
+      bounds.width,
+      [6, 7, 8, 9, 11])
     stroke_horizontal_rule
     move_down 10
     stroke_horizontal_rule
@@ -191,7 +176,7 @@ class CemeteryInspectionReportPdf < BasicPdf
     stroke_horizontal_rule
 
     # Record-keeping
-    table(
+    questions_table(
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
         ['27. Annual meetings held and advertised', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
@@ -206,39 +191,22 @@ class CemeteryInspectionReportPdf < BasicPdf
         ['36. Trustees compensated', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Positions and Amount')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].trustees_compensated_comments}"],
         ['37. Pet burials allowed', smallcaps('yes'), smallcaps('no'), @params[:inspection].pet_burials_comments]
       ],
-      cell_style: { border_lines: [:solid, :solid, :solid, :dotted], inline_format: true },
-      column_widths: [bounds.width * 0.43, bounds.width * 0.06, bounds.width * 0.06, bounds.width * 0.45]
-    ) do
-      cells.borders = [:top]
-      cells.height = 25
-      column(0).size = 8
-      columns([1, 2]).padding = [5, 5, 5, 0]
-      columns([1, 2]).align = :right
-      column(3).borders = [:top, :left]
-
-      # Header row
-      row(0).height = 20
-      row(0).column(3).size = 8
-      row(0).column(3).font_style = :bold
-
-      rows([1, 2, 6, 8, 10]).column(3).padding = [0, 0, 0, 5]
-    end
-    stroke_horizontal_rule
-    move_down 10
-    stroke_horizontal_rule
+      bounds.width,
+      [1, 2, 6, 8, 10]
+    )
 
     values = %i(
       annual_meetings election burial_permits
       body_delivery_receipt deeds_signed burial_records rules_provided
       rules_approved employees trustees_compensated pet_burials
     )
-    [468.5, 443.5, 418.5, 393.5, 368.5, 343.5, 318.5, 293.5, 268.5, 243.5, 218.5].each_with_index do |y, i|
+    [468.5, 444.5, 420.5, 396.5, 372.5, 348.5, 324.5, 300.5, 276.5, 252.5, 228.5].each_with_index do |y, i|
       checkbox(235, y, @params[:inspection].send(values[i]))
       checkbox(271, y, !@params[:inspection].send(values[i]))
     end
 
     # Summary and date
-    move_down 20.5
+    move_down 9.5
     table(
         [
             [smallcaps('38. Items for Consideration of the Cemetery')],
@@ -269,7 +237,7 @@ class CemeteryInspectionReportPdf < BasicPdf
 
     # Signature
     signature(@params[:signature], bounds.left, y + 39) if @params[:signature]
-    bounding_box([bounds.left, 5], width: 60, height: 40) do
+    bounding_box([bounds.left, 25], width: 60, height: 40) do
       text smallcaps('Investigator'), size: 8
     end
 
@@ -278,7 +246,7 @@ class CemeteryInspectionReportPdf < BasicPdf
       text "#{@params[:inspection].date_performed}"
     end
 
-    bounding_box([bounds.width - 225, 5], width: 40, height: 40) do
+    bounding_box([bounds.width - 225, 25], width: 40, height: 40) do
       text smallcaps('Date'), size: 8
     end
   end
@@ -293,5 +261,26 @@ class CemeteryInspectionReportPdf < BasicPdf
     end
 
     items_text
+  end
+
+  def questions_table(content, width, special_comments)
+    table(content,
+        cell_style: { border_lines: [:solid, :solid, :solid, :dotted], inline_format: true },
+        column_widths: [width * 0.43, width * 0.06, width * 0.06, width * 0.45]
+    ) do
+      cells.borders = [:top]
+      cells.height = 24
+      column(0).size = 8
+      columns([1, 2]).padding = [5, 5, 5, 0]
+      columns([1, 2]).align = :right
+      column(3).borders = [:top, :left]
+
+      # Header row
+      row(0).height = 20
+      row(0).column(3).size = 8
+      row(0).column(3).font_style = :bold
+
+      rows(special_comments).column(3).padding = [0, 0, 0, 5]
+    end
   end
 end
