@@ -15,7 +15,7 @@
       .col-lg-6
         .form-group
           = f.label :sign_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :sign_comments, class: 'form-control'
+          = f.text_field :sign_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -30,7 +30,7 @@
       .col-lg-6
         .form-group
           = f.label :offices_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :offices_comments, class: 'form-control'
+          = f.text_field :offices_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -45,7 +45,7 @@
       .col-lg-6
         .form-group
           = f.label :rules_displayed_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :rules_displayed_comments, class: 'form-control'
+          = f.text_field :rules_displayed_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -60,7 +60,7 @@
       .col-lg-6
         .form-group
           = f.label :prices_displayed_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :prices_displayed_comments, class: 'form-control'
+          = f.text_field :prices_displayed_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -75,7 +75,7 @@
       .col-lg-6
         .form-group
           = f.label :scattering_gardens_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :scattering_gardens_comments, class: 'form-control'
+          = f.text_field :scattering_gardens_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -90,7 +90,7 @@
       .col-lg-6
         .form-group
           = f.label :community_mausoleum_comments, 'Condition', class: 'form-control-label'
-          = f.text_field :community_mausoleum_comments, value: @inspection.community_mausoleum_comments || 'N/A', class: 'form-control'
+          = f.text_field :community_mausoleum_comments, maxlength: 50, value: @inspection.community_mausoleum_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -105,7 +105,7 @@
       .col-lg-6
         .form-group
           = f.label :private_mausoleum_comments, 'Condition', class: 'form-control-label'
-          = f.text_field :private_mausoleum_comments, value: @inspection.private_mausoleum_comments || 'N/A', class: 'form-control'
+          = f.text_field :private_mausoleum_comments, maxlength: 50, value: @inspection.private_mausoleum_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -120,7 +120,7 @@
       .col-lg-6
         .form-group
           = f.label :lawn_crypts_comments, 'Method of approval', class: 'form-control-label'
-          = f.text_field :lawn_crypts_comments, value: @inspection.lawn_crypts_comments || 'N/A', class: 'form-control'
+          = f.text_field :lawn_crypts_comments, maxlength: 50, value: @inspection.lawn_crypts_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -135,7 +135,7 @@
       .col-lg-6
         .form-group
           = f.label :grave_liners_comments, 'Number stored', class: 'form-control-label'
-          = f.text_field :grave_liners_comments, value: @inspection.grave_liners_comments || 'N/A', class: 'form-control'
+          = f.text_field :grave_liners_comments, maxlength: 50, value: @inspection.grave_liners_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -150,7 +150,7 @@
       .col-lg-6
         .form-group
           = f.label :sale_of_monuments_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :sale_of_monuments_comments, class: 'form-control'
+          = f.text_field :sale_of_monuments_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -165,7 +165,7 @@
       .col-lg-6
         .form-group
           = f.label :fencing_comments, 'Describe', class: 'form-control-label'
-          = f.text_field :fencing_comments, value: @inspection.fencing_comments || 'N/A', class: 'form-control'
+          = f.text_field :fencing_comments, maxlength: 50, value: @inspection.fencing_comments || 'N/A', class: 'form-control'
     .row
       .col-lg-6
         .form-group
@@ -180,37 +180,37 @@
       .col-lg-6
         .form-group
           = f.label :winter_burials_comments, 'Comments', class: 'form-control-label'
-          = f.text_field :winter_burials_comments, class: 'form-control'
+          = f.text_field :winter_burials_comments, maxlength: 50, class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :main_road, class: 'form-control-label'
-          = f.text_area :main_road, size: '20x3', class: 'form-control'
+          = f.text_area :main_road, size: '20x3', maxlength: 120, class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :side_roads, class: 'form-control-label'
-          = f.text_area :side_roads, size: '20x3', class: 'form-control'
+          = f.text_area :side_roads, size: '20x3', maxlength: 120, class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :new_memorials, 'Condition of new memorials', class: 'form-control-label'
-          = f.text_area :new_memorials, size: '20x3', class: 'form-control'
+          = f.text_area :new_memorials, size: '20x3', maxlength: 120, class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :old_memorials, 'Condition of old memorials', class: 'form-control-label'
-          = f.text_area :old_memorials, size: '20x3', class: 'form-control'
+          = f.text_area :old_memorials, size: '20x3', maxlength: 120, class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :vandalism, 'Evidence of vandalism', class: 'form-control-label'
-          = f.text_area :vandalism, value: @inspection.vandalism || 'None noted.', size: '20x3', class: 'form-control'
+          = f.text_area :vandalism, maxlength: 120, value: @inspection.vandalism || 'None noted.', size: '20x3', class: 'form-control'
     .row
       .col-lg-12
         .form-group
           = f.label :hazardous_materials, 'Evidence of hazardous materials', class: 'form-control-label'
-          = f.text_area :hazardous_materials, value: @inspection.hazardous_materials || 'None noted.', size: '20x3', class: 'form-control'
+          = f.text_area :hazardous_materials, maxlength: 120, value: @inspection.hazardous_materials || 'None noted.', size: '20x3', class: 'form-control'
     .row
       .col-lg-3
         .form-group

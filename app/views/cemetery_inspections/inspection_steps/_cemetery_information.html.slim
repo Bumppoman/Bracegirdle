@@ -63,4 +63,4 @@
       .col-lg-12
         .form-group.required
           = f.label :cemetery_sign_text, 'Cemetery Sign', class: 'form-control-label'
-          = f.text_area :cemetery_sign_text, size: '20x3', class: 'form-control', value: @inspection.cemetery_sign_text.presence || 'N/A'
+          = f.text_field :cemetery_sign_text, maxlength: 120, class: 'form-control', value: @inspection.cemetery_sign_text.presence || 'N/A'

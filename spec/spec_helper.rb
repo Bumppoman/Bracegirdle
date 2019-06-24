@@ -53,7 +53,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   # This includes the first try, i.e. tests will be run 4 times before failing.
-  config.default_retry_count = 4 #if ENV['CI']
+  config.default_retry_count = 4 if ENV['CI']
 
   # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
