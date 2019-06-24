@@ -1,25 +1,12 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
 # Bracegirdle
+
+A comprehensive software program to manage day-to-day operations for cemetery regulation.  Tailored to the operations of the New York State Division of Cemeteries.  This is likely of limited to no utility to others but please feel free to browse. 
+
+## Code analysis
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/eda8bf6fd4992369dd3a/maintainability)](https://codeclimate.com/github/Bumppoman/Bracegirdle/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/eda8bf6fd4992369dd3a/test_coverage)](https://codeclimate.com/github/Bumppoman/Bracegirdle/test_coverage)
+
+## Authors
+
+* **Brendon Stanton** - [Bumppoman](https://github.com/Bumppoman)
