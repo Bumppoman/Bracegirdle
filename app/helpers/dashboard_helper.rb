@@ -17,6 +17,7 @@ module DashboardHelper
 
     total = active_cemeteries
       .group(:investigator_region)
+      .reorder(:investigator_region)
       .count(:id)
 
     overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count, percentage: (count * 100) / total[region] } }.to_json
