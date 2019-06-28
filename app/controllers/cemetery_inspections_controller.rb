@@ -9,6 +9,7 @@ class CemeteryInspectionsController < ApplicationController
     @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(
       additional_comments: params[:cemetery_inspection][:additional_comments],
+      additional_documents: additional_documents_param,
       status: :performed)
   end
 
@@ -143,6 +144,13 @@ class CemeteryInspectionsController < ApplicationController
       output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Rules and Regulations.pdf')) unless @inspection.rules_approved?
     end
 
+    # Output additional items
+    CemeteryInspection::ADDITIONAL_DOCUMENTS.each_with_index do |(document, title), i|
+      if @inspection[:additional_documents][i]
+        output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', "Sample #{title}.pdf"))
+        output << CombinePDF.parse(BlankPdf.new({}).render) unless %i(by_laws rules).include? document
+      end
+    end
 
     # Output package
     send_data output.to_pdf,
@@ -163,6 +171,10 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   private
+
+  def additional_documents_param
+    CemeteryInspection::ADDITIONAL_DOCUMENTS.keys.map { |document| ActiveModel::Type::Boolean.new.cast(params[:cemetery_inspection]["additional_documents_#{document}"]) }
+  end
 
   def cemetery_information_params
     params.require(:cemetery_inspection).permit(

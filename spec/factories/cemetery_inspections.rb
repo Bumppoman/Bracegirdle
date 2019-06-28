@@ -8,6 +8,7 @@ FactoryBot.define do
     factory :completed_inspection do
       cemetery_sign_text { 'Anthony Cemetery -- painted wood' }
       sign { false }
+      additional_documents { [false, false, true, false] }
       status { :complete }
 
       factory :no_violation_inspection do

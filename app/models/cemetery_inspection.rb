@@ -12,10 +12,17 @@ class CemeteryInspection < ApplicationRecord
 
   validates :date_performed, presence: true
 
+  ADDITIONAL_DOCUMENTS = {
+    rules: 'Rules and Regulations',
+    by_laws: 'By-Laws',
+    conflict: 'Conflict of Interest Policy',
+    deed: 'Deed'
+  }.freeze
+
   NAMED_STATUSES = {
-      begun: 'In progress',
-      performed: 'Performed',
-      complete: 'Complete'
+    begun: 'In progress',
+    performed: 'Performed',
+    complete: 'Complete'
   }.freeze
 
   enum status: {

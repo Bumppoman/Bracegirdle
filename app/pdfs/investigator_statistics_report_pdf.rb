@@ -21,11 +21,11 @@ class InvestigatorStatisticsReportPdf < BasicPdf
 
     @inspections = {}
     @inspections[:completed] = CemeteryInspection.where(investigator: @params[:investigator], date_mailed: month_range)
-    @inspections[:incomplete] = CemeteryInspection.where(investigator: @params[:investigator], date_performed: month_range).where.not(status: :completed)
+    @inspections[:incomplete] = CemeteryInspection.where(investigator: @params[:investigator], date_performed: month_range).where.not(status: :complete)
 
     @rules = {}
     @rules[:approved] = Rules.where(investigator: @params[:investigator], approval_date: month_range)
-    @rules[:unreviewed] = Rules.where(investigator: @params[:investigator], status: :pending_review)
+    @rules[:unreviewed] = Rules.pending_review_for(@params[:investigator])
     @rules[:total_approved] = Rules.where(investigator: @params[:investigator], status: :approved).where.not(submission_date: nil)
     @rules[:total_time] = @rules[:total_approved].map { |r| (r.approval_date - r.submission_date).to_i }.inject(0, :+)
     begin

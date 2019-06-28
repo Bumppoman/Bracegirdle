@@ -40,7 +40,7 @@ gem 'capistrano-rvm', group: :development
 gem 'capistrano-puma', group: :development
 
 # Use PostgreSQL for production
-gem 'pg', group: :production
+gem 'pg'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

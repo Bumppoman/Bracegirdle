@@ -213,7 +213,7 @@
   color: #8a1f11;
 }
 
-.wizard > .content > .body label:not(.rdiobox)
+.wizard > .content > .body label:not(.rdiobox, .ckbox)
 {
   display: inline-block;
   margin-bottom: 0.5em;

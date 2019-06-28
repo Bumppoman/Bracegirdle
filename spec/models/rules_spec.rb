@@ -205,7 +205,7 @@ describe Rules, type: :model do
 
         result = Rules.active_for(@me)
 
-        expect(result).to eq [@active, awaiting_revisions]
+        expect(result).to eq [awaiting_revisions, @active]
       end
     end
 

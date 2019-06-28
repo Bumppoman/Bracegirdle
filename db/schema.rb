@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_22_011726) do
+ActiveRecord::Schema.define(version: 2019_06_28_154725) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -163,6 +166,7 @@ ActiveRecord::Schema.define(version: 2019_06_22_011726) do
     t.boolean "pet_burials"
     t.string "pet_burials_comments"
     t.text "additional_comments"
+    t.boolean "additional_documents", array: true
     t.index ["cemetery_id"], name: "index_cemetery_inspections_on_cemetery_id"
   end
 

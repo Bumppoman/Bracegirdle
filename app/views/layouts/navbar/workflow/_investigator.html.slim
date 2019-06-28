@@ -15,12 +15,12 @@ li.nav-item.with-sub.mega-dropdown
       .col-lg-4
         label.section-label Land
         ul
-          li =link_to 'Land Purchase', '#'
-          li =link_to 'Land Sale', '#'
+          li = link_to 'Land Purchase', '#'
+          li = link_to 'Land Sale', '#'
         label.section-label.mg-t-20 Major Renovations
         ul
-          li =link_to 'Mausoleum', '#'
-          li =link_to 'Columbarium', '#'
+          li = link_to 'Mausoleum', '#'
+          li = link_to 'Columbarium', '#'
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Restoration
         ul
@@ -54,7 +54,7 @@ li.nav-item.with-sub
           - if current_user.supervisor?
             li = active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.pending_closure.any?
             li = active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
-          li =link_to 'Add new complaint', new_complaint_path
+          li = link_to 'Add new complaint', new_complaint_path
       li.sub-with-sub
         a href="#" Non-Compliance
         ul
