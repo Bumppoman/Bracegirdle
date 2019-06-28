@@ -1,11 +1,12 @@
 class StatisticsController < ApplicationController
   def investigator_report
+    date = Date.current
     send_data InvestigatorStatisticsReportPdf.new(
       {
         investigator: current_user,
-        month: 5,
-        year: 2019,
-        month_name: 'May'
+        month: date.month,
+        year: date.year,
+        month_name: date.strftime('%B')
       }).render,
       filename: "Investigator Statistics.pdf",
       type: 'application/pdf',
