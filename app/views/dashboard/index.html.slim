@@ -20,8 +20,8 @@
       .media
         i.icon.ion-ios-search.tx-danger
         .media-body
-          h1 = @complaints + @pending_items[:notices]
-          p = 'Investigation'.pluralize(@complaints + @pending_items[:notices])
+          h1 = @complaints + @notices
+          p = 'Investigation'.pluralize(@complaints + @notices)
   .col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
     .card.card-status
       .media
@@ -34,7 +34,7 @@
   .col-md-8
     .section-wrapper.ht-100p.pd-20
       .section-title style="padding: 5px;" Overdue Inspections by Region (%)
-      #overdue-inspections-chart
+      #overdue-inspections-chart data-overdue-inspections-data=overdue_inspections_by_region
 /<div class="col-lg-4 col-xl-3 mg-t-10 mg-lg-t-0">
     <div class="card card-people-list pd-20">
       <div class="slim-card-title">People you may know</div>

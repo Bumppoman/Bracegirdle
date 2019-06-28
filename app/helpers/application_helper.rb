@@ -10,14 +10,13 @@ module ApplicationHelper
   end
 
   def breadcrumbs_helper(breadcrumbs)
-    html = ''
-    html << content_tag(:li, link_to('Dashboard', root_path), class: 'breadcrumb-item')
+    html = content_tag(:li, link_to('Dashboard', root_path), class: 'breadcrumb-item')
     breadcrumbs.each do |item|
-      case item.class.to_s
-      when 'Array'
+      case item
+      when Array
         string, link = item
         html << content_tag(:li, link_to(string, link), class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
-      when 'String', 'ActiveSupport::SafeBuffer'
+      when String, ActiveSupport::SafeBuffer
         html << content_tag(:li, item, class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
       end
     end
@@ -29,6 +28,6 @@ module ApplicationHelper
   end
 
   def sort_date(date)
-    date&.strftime('%Y%m%d')
+    date&.strftime('%Y-%m-%d')
   end
 end

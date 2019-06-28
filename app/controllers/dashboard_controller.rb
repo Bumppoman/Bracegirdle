@@ -2,13 +2,17 @@ class DashboardController < ApplicationController
   def index
     redirect_to login_path and return unless current_user
 
-    if current_user.supervisor?
-      @complaints = Complaint.pending_closure.or(Complaint.unassigned).count + @pending_items[:complaints]
-    else
-      @complaints = @pending_items[:complaints]
-    end
+    # Set complaints
+    @complaints = current_user.complaints.count
+    @complaints += Complaint.pending_closure.or(Complaint.unassigned).count if current_user.supervisor?
 
+    # Set notices
+    @notices = current_user.notices.count
+
+    # Set inspections
     @inspections = current_user.overdue_inspections.count
+
+    # Set recent activity
     @recent_activity = Activity.includes(:user, :object).where(user: current_user).order(created_at: :desc).limit(3)
   end
 

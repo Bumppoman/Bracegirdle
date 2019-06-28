@@ -1,24 +1,4 @@
 class CemeteriesController < ApplicationController
-  def api_overdue_inspections_by_region
-    active_cemeteries = Cemetery.where(active: true)
-    overdue = active_cemeteries
-      .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
-      .group(:investigator_region)
-      .order(:investigator_region)
-      .count(:id)
-
-    total = active_cemeteries
-      .group(:investigator_region)
-      .order(:investigator_region)
-      .count(:id)
-
-    counts = overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count, percentage: (count * 100) / total[region] } }
-
-    respond_to do |format|
-      format.json { render json: counts.to_json }
-    end
-  end
-
   def create
     @cemetery = Cemetery.new(cemetery_params)
 

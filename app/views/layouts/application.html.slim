@@ -39,7 +39,7 @@ html lang="en"
             .dropdown.dropdown-b.mg-r-10
               a.header-notification.tx-primary href="" data-toggle="dropdown"
                 i.icon.ion-ios-notifications
-                - if @pending_items[:notifications] > 0
+                - if current_user.notifications.count > 0
                   span#unread-notifications.indicator
               .dropdown-menu
                 .dropdown-menu-header

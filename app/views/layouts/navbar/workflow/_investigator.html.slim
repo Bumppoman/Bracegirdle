@@ -5,7 +5,7 @@ li.nav-item.with-sub
   .sub-item
     ul
       li
-        = active_circle_link 'Rules and Regulations', rules_index_path, !@pending_items[:rules].zero?
+        = active_circle_link 'Rules and Regulations', rules_index_path, current_user.rules.any?
 li.nav-item.with-sub.mega-dropdown
   a.nav-link href="#"
     i.icon.ion-ios-briefcase
@@ -30,15 +30,15 @@ li.nav-item.with-sub.mega-dropdown
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Land
         ul
-          li =link_to 'Land Purchase', '#'
-          li =link_to 'Land Sale', '#'
+          li = link_to 'Land Purchase', '#'
+          li = link_to 'Land Sale', '#'
 li.nav-item.with-sub
   a.nav-link href="#"
     i.icon.ion-ios-flashlight
     span Inspections
   .sub-item
     ul
-      li = active_circle_link 'Scheduled inspections', scheduled_inspections_path, current_user.appointments.any?
+      li = active_circle_link 'Scheduled inspections', scheduled_inspections_path, current_user.appointments.where(status: :active).any?
       li = active_circle_link 'Incomplete inspections', incomplete_inspections_path, current_user.incomplete_inspections.any?
       li = active_circle_link 'Overdue inspections', overdue_inspections_cemeteries_path, current_user.overdue_inspections.any?
 li.nav-item.with-sub
@@ -50,10 +50,10 @@ li.nav-item.with-sub
       li.sub-with-sub
         a href="#" Complaints
         ul
-          li = active_circle_link 'My complaints', complaints_path, !@pending_items[:complaints].zero?
+          li = active_circle_link 'My complaints', complaints_path, current_user.complaints.any?
           - if current_user.supervisor?
-            li =active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.where(status: 4).any?
-            li =active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
+            li = active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.pending_closure.any?
+            li = active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
           li =link_to 'Add new complaint', new_complaint_path
       li.sub-with-sub
         a href="#" Non-Compliance

@@ -137,7 +137,7 @@ class CemeteryInspectionsController < ApplicationController
     if @inspection.violations?
       output << CombinePDF.parse(CemeteryInspectionItemsPdf.new({ inspection: @inspection }).render)
       unless @inspection.sign?
-        output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Sign.pdf'))
+        output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', "Sample Sign#{@inspection.cemetery.investigator_region == 1 ? ' NYC' : ''}.pdf"))
         output << CombinePDF.parse(BlankPdf.new({}).render)
       end
       output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Rules and Regulations.pdf')) unless @inspection.rules_approved?

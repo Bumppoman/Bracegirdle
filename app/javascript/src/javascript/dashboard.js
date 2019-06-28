@@ -18,28 +18,26 @@ $(document).on('turbolinks:load', function () {
     });
 
     if(document.getElementById('overdue-inspections-chart')) {
-        $.getJSON('/cemeteries/api/overdue-inspections-by-region', function (data) {
-            new Morris.Bar({
-                // ID of the element in which to draw the chart.
-                element: 'overdue-inspections-chart',
-                // Chart data records -- each entry in this array corresponds to a point on
-                // the chart.
-                data: data,
+        new Morris.Bar({
+            // ID of the element in which to draw the chart.
+            element: 'overdue-inspections-chart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: $('#overdue-inspections-chart').data('overdue-inspections-data'),
 
-                // The name of the data record attribute that contains x-values.
-                xkey: 'region',
-                // A list of names of data record attributes that contain y-values.
-                ykeys: ['percentage'],
-                // Labels for the ykeys -- will be displayed when you hover over the
-                // chart.
-                labels: ['Inspections'],
+            // The name of the data record attribute that contains x-values.
+            xkey: 'region',
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['percentage'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Inspections'],
 
-                ymax: 100,
+            ymax: 100,
 
-                hoverCallback: function(index, options, content, row) {
-                    return 'Inspections: ' + row.inspections;
-                }
-            });
+            hoverCallback: function(index, options, content, row) {
+                return 'Inspections: ' + row.inspections;
+            }
         });
     }
 });

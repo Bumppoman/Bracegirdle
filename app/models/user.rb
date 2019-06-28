@@ -54,15 +54,6 @@ class User < ApplicationRecord
     },
     foreign_key: :receiver_id
 
-  has_many :restoration,
-    -> (user) {
-      where(status: [
-        :received
-      ])
-    },
-    foreign_key: :investigator_id,
-    inverse_of: :investigator
-
   has_many :rules,
     -> (user) {
       if user.supervisor?

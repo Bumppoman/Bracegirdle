@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
 
   Forbidden = Class.new(StandardError)
 
-  before_action :set_pending_items
-
   protected
 
   def date_params(accepted_params, provided_params)
@@ -19,19 +17,5 @@ class ApplicationController < ActionController::Base
     end
 
     date_params
-  end
-
-  private
-
-  def set_pending_items
-    @pending_items = {}
-
-    if current_user && current_user.investigator?
-      @pending_items[:complaints] = current_user.complaints.count
-      @pending_items[:notices] = current_user.notices.count
-      @pending_items[:notifications] = current_user.notifications.count
-      @pending_items[:rules] = current_user.rules.count
-      @pending_items[:restoration] = current_user.restoration.count
-    end
   end
 end
