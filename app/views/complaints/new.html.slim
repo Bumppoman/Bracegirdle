@@ -64,9 +64,9 @@
         .col-lg-12
           .form-group
             = f.label :ownership_type, 'Means By Which You Acquired Ownership', class: 'form-control-label'
-            - Complaint.ownership_types.each do |type, id|
+            - Complaint.ownership_types.keys.each do |type|
               label.rdiobox
-                = f.radio_button :ownership_type, id
+                = f.radio_button :ownership_type, type
                 span = type.capitalize
       label.section-title Complaint Information
       .row
