@@ -9,6 +9,27 @@ module ApplicationHelper
     "active" if expression
   end
 
+  def application_link(application, method = :to_sym, title = nil)
+    case application.status.to_sym
+    when :received
+      path = "process_applications_#{application.send(method).downcase}_path"
+    when :processed
+      if current_user.supervisor?
+        path = "review_applications_#{application.send(method).downcase}_path"
+      else
+        path = "applications_#{application.send(method).downcase}_path"
+      end
+    when :reviewed, :approved
+      path = "applications_#{application.send(method).downcase}_path"
+    end
+
+    if application.has_attribute? :application_type
+      link_to (title.nil? ? application : title), self.send(path, application, application_type: application.application_type)
+    else
+      link_to (title.nil? ? application : title), self.send(path, application)
+    end
+  end
+
   def breadcrumbs_helper(breadcrumbs)
     html = content_tag(:li, link_to('Dashboard', root_path), class: 'breadcrumb-item')
     breadcrumbs.each do |item|

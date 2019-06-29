@@ -9,10 +9,9 @@ feature 'Status Changes' do
     @trustee = FactoryBot.create(:trustee)
     @cemetery.trustees << @trustee
     login
-    visit root_path
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -31,11 +30,10 @@ feature 'Status Changes' do
     @trustee = FactoryBot.create(:trustee)
     @cemetery.trustees << @trustee
     @contractor = FactoryBot.create(:contractor)
-    @contractor.save
     login
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'

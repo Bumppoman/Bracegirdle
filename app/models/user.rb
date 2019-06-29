@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   has_many :hazardous,
     -> (user) {
-      where(status: [:received])
+      where(status: :received)
     },
     class_name: 'Hazardous',
     foreign_key: :investigator_id,
@@ -29,6 +29,22 @@ class User < ApplicationRecord
       where.not(status: :complete)
     },
     class_name: 'CemeteryInspection',
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
+  has_many :land_purchases,
+    -> (user) {
+      where(application_type: :purchase, status: :received)
+    },
+    class_name: 'Land',
+    foreign_key: :investigator_id,
+    inverse_of: :investigator
+
+  has_many :land_sales,
+    -> (user) {
+      where(application_type: :sale, status: :received)
+    },
+    class_name: 'Land',
     foreign_key: :investigator_id,
     inverse_of: :investigator
 

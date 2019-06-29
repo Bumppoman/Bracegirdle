@@ -15,8 +15,8 @@ li.nav-item.with-sub.mega-dropdown
       .col-lg-4
         label.section-label Land
         ul
-          li = link_to 'Land Purchase', '#'
-          li = link_to 'Land Sale', '#'
+          li = active_circle_link 'Land Purchase', applications_land_index_path(application_type: :purchase), current_user.land_purchases.any?
+          li = active_circle_link 'Land Sale', applications_land_index_path(application_type: :sale), current_user.land_sales.any?
         label.section-label.mg-t-20 Major Renovations
         ul
           li = link_to 'Mausoleum', '#'
@@ -24,14 +24,14 @@ li.nav-item.with-sub.mega-dropdown
       .col-lg.mg-t-30.mg-lg-t-0
         label.section-label Restoration
         ul
-          li = active_circle_link 'Hazardous Monuments', hazardous_index_path, current_user.hazardous.any?
-          li = link_to 'Vandalism', vandalism_index_path
-          li = link_to 'Abandonment', abandonment_index_path
+          li = active_circle_link 'Hazardous Monuments', applications_hazardous_index_path, current_user.hazardous.any?
+          li = link_to 'Vandalism', applications_vandalism_index_path
+          li = link_to 'Abandonment', applications_abandonment_index_path
       .col-lg.mg-t-30.mg-lg-t-0
-        label.section-label Land
+        label.section-label Other
         ul
-          li = link_to 'Land Purchase', '#'
-          li = link_to 'Land Sale', '#'
+          li = link_to 'Incorporation', '#'
+          li = link_to 'Merger', '#'
 li.nav-item.with-sub
   a.nav-link href="#"
     i.icon.ion-ios-flashlight

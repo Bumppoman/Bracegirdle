@@ -138,7 +138,7 @@ feature 'Activities' do
     login
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'

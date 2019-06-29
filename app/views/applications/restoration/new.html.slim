@@ -1,0 +1,3 @@
+- content_for :title, @page_info[:title]
+- content_for :breadcrumbs, breadcrumbs_helper([[@page_info[:breadcrumbs], self.send("applications_#{@application.type.downcase}_index_path")], 'Upload new application'])
+= render partial: 'applications/raw_application_form', locals: { object: @application }

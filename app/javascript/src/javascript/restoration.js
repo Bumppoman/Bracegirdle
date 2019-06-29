@@ -11,47 +11,6 @@ function postForm (form_object) {
 }
 
 $(document).on('turbolinks:load', function () {
-
-    $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').select2({
-        selectOnClose: true,
-        tags: true,
-        createTag: function (params) {
-            return {
-                id: params.term,
-                text: params.term
-            }
-        }
-    });
-
-    $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').on('change', function () {
-        const position = $("option:selected", this).data('position');
-        $('#abandonment_trustee_position, #hazardous_trustee_position, #vandalism_trustee_position').prop('disabled', false);
-        $('#abandonment_trustee_position, #hazardous_trustee_position, #vandalism_trustee_position').val(position).trigger('change');
-    });
-
-    $('#abandonment_cemetery, #hazardous_cemetery, #vandalism_cemetery').change(function () {
-        const selected_cemetery = $("#abandonment_cemetery, #hazardous_cemetery, #vandalism_cemetery").find(":selected").val();
-
-        if (selected_cemetery == '') {
-            return false;
-        }
-
-        $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').prop('disabled', false);
-        $.ajax({
-            url: '/cemeteries/' + selected_cemetery + '/trustees/api/list?name_only',
-            success: function (data) {
-                $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').html(data);
-                $('#abandonment_trustee_name, #hazardous_trustee_name, #vandalism_trustee_name').trigger('change');
-            }
-        });
-
-        // Update the investigator to select the one assigned to the region
-        $.getJSON('/cemeteries/' + selected_cemetery, function (data) {
-            $('#abandonment_investigator, #hazardous_investigator, #vandalism_investigator').val(data.investigator.id);
-            $('#abandonment_investigator, #hazardous_investigator, #vandalism_investigator').trigger('change');
-        });
-    });
-
     $('#process-restoration').steps({
         headerTag: 'h3',
         bodyTag: 'section',

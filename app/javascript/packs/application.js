@@ -34,6 +34,7 @@ require('datatables.net-responsive')(window, $);
 
 import '../src/javascript/multistep';
 
+import '../src/javascript/applications';
 import '../src/javascript/appointments';
 import '../src/javascript/attachments';
 import '../src/javascript/cemeteries';

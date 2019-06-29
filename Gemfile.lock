@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-expectations.git
-  revision: b1d15ac6d05532949b55ad02d360232e1432e91e
+  revision: 45e5070c797fb4cb6166c8daca2ea68e31aeca40
   branch: master
   specs:
     rspec-expectations (3.9.0.pre)
@@ -138,7 +138,7 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capybara (3.24.0)
+    capybara (3.25.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -384,7 +384,7 @@ GEM
     websocket-extensions (0.1.4)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.1.6)
+    zeitwerk (2.1.7)
 
 PLATFORMS
   ruby

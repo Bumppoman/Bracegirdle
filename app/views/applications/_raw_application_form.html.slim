@@ -1,0 +1,49 @@
+#raw-application-form.section-wrapper
+  = form_for [:applications, object] do |f|
+    .form-layout
+      == content_tag(:div, 'There was a problem uploading this application!', id: 'new-application-error', class: 'alert alert-danger', role: 'alert') if object.errors.any?
+      label.section-title Cemetery Information
+      = render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: object }
+      .row
+        .col-lg-8
+          .form-group.required
+            = f.label :trustee_name, 'Submitted By', class: 'form-control-label'
+            = f.select :trustee_name, [], { prompt: 'Select trustee' }, disabled: true, id: 'application-trustee-name', class: 'form-control'
+        .col-lg-4
+          .form-group.required
+            = f.label :trustee_position, 'Position', class: 'form-control-label'
+            = f.select :trustee_position, options_for_select(Trustee::POSITIONS.invert), { prompt: 'Select position' }, disabled: true, id: 'application-trustee-position', class: 'form-control select2-basic'
+      label.section-title Application
+      .row
+        .col-lg-6
+          .form-group.required
+            = f.label :submission_date, 'Submitted On', class: 'form-control-label'
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
+              = f.text_field :submission_date, class: 'form-control fc-datepicker'
+        .col-lg-6
+          .form-group.required
+            = f.label :amount
+            .input-group
+              .input-group-prepend
+                .input-group-text
+                  i.fa.fa-dollar-sign.tx-16.lh-0.op-6
+              = f.text_field :amount, class: 'form-control'
+      .row
+        .col-lg-12
+          .form-group.required
+            = f.label :file, 'File', class: 'form-control-label'
+            .custom-file
+              = f.file_field :raw_application_file, direct_upload: true, class: 'custom-file-input'
+              = f.label :file, 'Choose file', class: 'custom-file-label'
+              small.form-text.text-muted Raw applications (.pdf) only.  Individual parts will be processed later.
+      .row
+        .col-lg-12
+          .form-group
+            = f.label :investigator, 'Assign To', class: 'form-control-label'
+            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unassigned' }, id: 'application-investigator', class: 'form-control select2-basic'
+      .form-layout-footer.mg-t-20
+        = f.submit 'Upload Application', class: 'btn btn-primary mr-1'
+        = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary'

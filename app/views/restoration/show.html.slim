@@ -1,5 +1,0 @@
-- content_for :title, "View #{@restoration.formatted_application_type} Application"
-- content_for :breadcrumbs, breadcrumbs_helper([["Pending #{@restoration.type.downcase} applications", self.send("#{@restoration.type.downcase}_index_path")], 'View application'])
-= render 'restoration/summary'
-- unless @restoration.received?
-  = render 'restoration/exhibits'

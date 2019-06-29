@@ -11,6 +11,12 @@ activities:
       icon: 'icon ion-ios-flashlight'
       text: 'completed an <%= link_to "inspection", show_inspection_cemetery_path(activity.object.cemetery, activity.object) %> of <%= activity.object.cemetery.name %>'
       title: 'Completed an inspection'
+  land:
+    color: 'indigo'
+    received:
+      icon: 'fas fa-satellite-dish'
+      text: 'received a <%= link_to("land #{activity.object.application_type} application", applications_land_path(activity.object.id, application_type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
+      title: 'Received land application'
   note:
     color: 'orange'
     comment:
@@ -53,13 +59,13 @@ activities:
     color: 'indigo'
     processed:
       icon: 'icon ion-ios-clipboard'
-      text: 'processed a <%= link_to("restoration application", send("#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      text: 'processed a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Processed restoration application'
     received:
       icon: 'fas fa-satellite-dish'
-      text: 'received a <%= link_to("restoration application", send("#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      text: 'received a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Received restoration application'
     reviewed:
       icon: 'fas fa-glasses'
-      text: 'reviewed a <%= link_to("restoration application", send("#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      text: 'reviewed a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Reviewed restoration application'

@@ -1,0 +1,26 @@
+.section-wrapper
+  .table-wrapper
+    table#application-data-table.table.display.responsive.no-wrap.data-table-basic data-empty-message="There are no applications to display."
+      thead
+        tr
+          th
+          th Cemetery
+          th Submission Date
+          th Status
+          th Last Action
+      tbody
+        - @applications.each do |application|
+          tr
+            td = application_link application
+            td = "#{application.cemetery} (##{application.cemetery.cemetery_id})"
+            td
+              span style="display: none;" = sort_date(application.submission_date)
+              span = application.submission_date
+            td = application.formatted_status
+            td
+              span style="display: none;" = sort_date(application.current_status.created_at)
+              span = application.current_status.created_at
+  .mg-t-20
+    ul.nav.nav-gray-600.nav-underline.justify-content-center
+      li.nav-item
+        = link_to 'Upload new application', yield(:new_application_path), class: 'nav-link'

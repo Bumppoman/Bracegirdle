@@ -12,7 +12,7 @@ feature 'Hazardous' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -34,7 +34,7 @@ feature 'Hazardous' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -44,7 +44,7 @@ feature 'Hazardous' do
     select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
 
-    assert_selector '#new-restoration-error'
+    assert_selector '#new-application-error'
     expect(page).to have_content 'There was a problem'
   end
 
@@ -53,7 +53,7 @@ feature 'Hazardous' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -101,7 +101,7 @@ feature 'Hazardous' do
     click_on 'Submit for Consideration'
     assert_selector '#restoration-exhibits'
     click_on 'Dashboard', match: :first
-    visit hazardous_index_path
+    visit applications_hazardous_index_path
 
     expect(page).to have_content 'Sent to supervisor'
   end
@@ -111,7 +111,7 @@ feature 'Hazardous' do
 
     click_on 'Applications'
     click_on 'Hazardous Monuments'
-    assert_selector '#restoration-data-table'
+    assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -151,7 +151,7 @@ feature 'Hazardous' do
     click_on 'Submit for Consideration'
     assert_selector '#restoration-exhibits'
     click_on 'Dashboard', match: :first
-    visit hazardous_index_path
+    visit applications_hazardous_index_path
 
     expect(page).to have_content 'Sent to Cemetery Board'
   end
@@ -164,7 +164,7 @@ feature 'Hazardous' do
     scenario 'View raw application' do
       login
 
-      visit view_raw_application_hazardous_path(@restoration)
+      visit view_raw_application_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Raw Application'
     end
@@ -172,7 +172,7 @@ feature 'Hazardous' do
     scenario 'View application form' do
       login
 
-      visit view_application_form_hazardous_path(@restoration)
+      visit view_application_form_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Application Form'
     end
@@ -180,7 +180,7 @@ feature 'Hazardous' do
     scenario 'View legal notice' do
       login
 
-      visit view_legal_notice_hazardous_path(@restoration)
+      visit view_legal_notice_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Legal Notice'
     end
@@ -188,7 +188,7 @@ feature 'Hazardous' do
     scenario 'View estimate' do
       login
 
-      visit view_estimate_hazardous_path(@restoration, @restoration.estimates.first)
+      visit view_estimate_applications_hazardous_path(@restoration, @restoration.estimates.first)
 
       expect(page).to have_content 'View Rocky Stone Monuments estimate'
     end
@@ -196,7 +196,7 @@ feature 'Hazardous' do
     scenario 'View previous report' do
       login
 
-      visit view_previous_report_hazardous_path(@restoration)
+      visit view_previous_report_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Previous Restoration Report'
     end
@@ -204,7 +204,7 @@ feature 'Hazardous' do
     scenario 'View generated report' do
       login
 
-      visit view_report_hazardous_path(@restoration)
+      visit view_report_applications_hazardous_path(@restoration)
 
       expect(page.status_code).to be 200
     end
@@ -212,7 +212,7 @@ feature 'Hazardous' do
     scenario 'View combined report' do
       login
 
-      visit view_combined_hazardous_path(@restoration)
+      visit view_combined_applications_hazardous_path(@restoration)
 
       expect(page.status_code).to be 200
     end
@@ -230,17 +230,17 @@ feature 'Hazardous' do
       click_on @restoration.identifier
 
       click_on 'Send to cemetery board'
-      assert_selector '#restoration-data-table'
+      assert_selector '#application-data-table'
 
       expect(@restoration.reload.status).to eq 'reviewed'
     end
 
     scenario 'Supervisor can return application to investigator', js: true do
       login_supervisor
-      visit review_hazardous_path(@restoration)
+      visit review_applications_hazardous_path(@restoration)
 
       click_on 'Return to investigator'
-      assert_selector '#restoration-data-table'
+      assert_selector '#application-data-table'
 
       expect(@restoration.reload.status).to eq 'received'
     end

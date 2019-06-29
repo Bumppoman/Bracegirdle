@@ -1,10 +1,16 @@
 module DashboardHelper
   def investigator_board_applications
-    # Set restorations
-    restorations = Restoration.where(investigator: current_user).count
-    restorations += Restoration.pending_supervisor_review.count if current_user.supervisor?
+    applications = 0
 
-    restorations
+    # Set restorations
+    applications += Restoration.where(investigator: current_user).count
+    applications += Restoration.pending_supervisor_review.count if current_user.supervisor?
+
+    # Add land applications
+    applications += Land.active_for(current_user).count
+    applications += Land.pending_supervisor_review.count if current_user.supervisor?
+
+    applications
   end
 
   def overdue_inspections_by_region
