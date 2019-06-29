@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_29_162035) do
+ActiveRecord::Schema.define(version: 2019_06_28_232612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,16 +225,16 @@ ActiveRecord::Schema.define(version: 2019_06_29_162035) do
     t.index ["restoration_id"], name: "index_estimates_on_restoration_id"
   end
 
-  create_table "land", id: :bigint, default: -> { "nextval('land_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "land", force: :cascade do |t|
     t.integer "application_type"
     t.bigint "cemetery_id"
     t.integer "investigator_id"
+    t.string "identifier"
     t.integer "status", default: 1
     t.string "trustee_name"
     t.integer "trustee_position"
     t.date "submission_date"
     t.decimal "amount", precision: 9, scale: 2
-    t.string "identifier"
     t.index ["cemetery_id"], name: "index_land_on_cemetery_id"
   end
 

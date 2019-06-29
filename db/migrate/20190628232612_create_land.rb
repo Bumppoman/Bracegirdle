@@ -4,7 +4,8 @@ class CreateLand < ActiveRecord::Migration[6.0]
       t.integer :application_type
       t.references :cemetery
       t.integer :investigator_id
-      t.integer :status
+      t.string :identifier
+      t.integer :status, default: 1
       t.string :trustee_name
       t.integer :trustee_position
       t.date :submission_date
