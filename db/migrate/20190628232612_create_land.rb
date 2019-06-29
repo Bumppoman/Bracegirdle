@@ -1,6 +1,6 @@
-class CreateLandApplications < ActiveRecord::Migration[6.0]
+class CreateLand < ActiveRecord::Migration[6.0]
   def change
-    create_table :land_applications do |t|
+    create_table :land do |t|
       t.integer :application_type
       t.references :cemetery
       t.integer :investigator_id
