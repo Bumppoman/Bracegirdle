@@ -188,9 +188,6 @@ describe Complaint, type: :model do
         closed = create_complaint
         closed.update(
             disposition: 'Testing',
-            investigation_begin_date: Date.current,
-            investigation_completion_date: Date.current,
-            disposition_date: Date.current,
             status: 5)
         closed.save
 
@@ -205,9 +202,6 @@ describe Complaint, type: :model do
         closed = create_complaint
         closed.update(
             disposition: 'Testing',
-            investigation_begin_date: Date.current,
-            investigation_completion_date: Date.current,
-            disposition_date: Date.current,
             status: :closed,
             investigator_id: 1)
         closed.save
@@ -217,9 +211,6 @@ describe Complaint, type: :model do
         my_closed = create_complaint
         my_closed.update(
             disposition: 'Testing',
-            investigation_begin_date: Date.current,
-            investigation_completion_date: Date.current,
-            disposition_date: Date.current,
             status: :closed,
             investigator_id: 2)
         my_closed.save

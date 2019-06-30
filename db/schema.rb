@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_29_220652) do
+ActiveRecord::Schema.define(version: 2019_06_30_162801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,16 +194,12 @@ ActiveRecord::Schema.define(version: 2019_06_29_220652) do
     t.integer "receiver_id"
     t.boolean "investigation_required", default: false
     t.integer "investigator_id"
-    t.date "investigation_begin_date"
-    t.date "investigation_completion_date"
-    t.date "disposition_date"
     t.text "disposition"
     t.string "cemetery_alternate_name"
     t.boolean "cemetery_regulated", default: true
     t.integer "status", default: 1
     t.integer "cemetery_county"
     t.string "complaint_number"
-    t.date "closure_date"
     t.text "closure_review_comments"
     t.integer "closed_by_id"
     t.string "complainant_city"

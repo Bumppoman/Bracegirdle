@@ -90,10 +90,6 @@ class Complaint < ApplicationRecord
     status_changes.where(status: self.class.statuses[:closed]).last&.created_at&.to_date
   end
 
-  def complainant_address
-    "#{complainant_street_address}<br />#{complainant_city}, #{complainant_state} #{complainant_zip}"
-  end
-
   def complaint_type
     self[:complaint_type].split(', ') if self[:complaint_type].respond_to? :split
   end

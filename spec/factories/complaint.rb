@@ -17,21 +17,35 @@ FactoryBot.define do
     complaint_number { '2019-0001' }
 
     factory :complaint_completed_investigation, class: 'Complaint' do
-      investigation_begin_date { Date.current }
-      investigation_completion_date { Date.current }
       status { :investigation_completed }
+
+      after(:create) do |complaint|
+        complaint.status_changes << StatusChange.new(status: 2, created_at: complaint.created_at, left_at: Time.now, initial: true, final: false)
+        complaint.status_changes << StatusChange.new(status: 3, created_at: Time.now, initial: false, final: false)
+      end
     end
 
     factory :complaint_pending_closure, class: 'Complaint' do
-      investigation_begin_date { Date.current }
-      investigation_completion_date { Date.current }
       disposition { 'Testing' }
-      disposition_date { Date.current }
       status { :pending_closure }
 
-      factory :closed_complaint, class: 'Complaint' do
-        closed_by_id { 1 }
-        status { :closed }
+      after :create do |complaint|
+        complaint.status_changes << StatusChange.new(status: 2, created_at: complaint.created_at, left_at: Time.now, initial: true, final: false)
+        complaint.status_changes << StatusChange.new(status: 3, created_at: Time.now, left_at: Time.now, initial: false, final: false)
+        complaint.status_changes << StatusChange.new(status: 4, created_at: Time.now, initial: false, final: false)
+      end
+    end
+
+    factory :closed_complaint, class: 'Complaint' do
+      disposition { 'Testing' }
+      closed_by_id { 1 }
+      status { :closed }
+
+      after :create do |complaint|
+        complaint.status_changes << StatusChange.new(status: 2, created_at: complaint.created_at, left_at: Time.now, initial: true, final: false)
+        complaint.status_changes << StatusChange.new(status: 3, created_at: Time.now, left_at: Time.now, initial: false, final: false)
+        complaint.status_changes << StatusChange.new(status: 4, created_at: Time.now, left_at: Time.now, initial: false, final: false)
+        complaint.status_changes << StatusChange.new(status: 5, created_at: Time.now, initial: false, final: true)
       end
     end
 
@@ -39,7 +53,10 @@ FactoryBot.define do
       investigation_required { false }
       status { :pending_closure }
       disposition { 'Testing' }
-      disposition_date { Date.current }
+
+      after(:create) do |complaint|
+        complaint.status_changes << StatusChange.new(status: 5, created_at: Time.now, initial: true, final: true)
+      end
     end
 
     factory :unassigned do

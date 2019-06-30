@@ -7,9 +7,9 @@ class InvestigatorStatisticsReportPdf < BasicPdf
     @options = options
 
     # Get statistics
-    month_range = Date.civil(@params[:year], @params[:month], 1)..Date.civil(@params[:year], @params[:month], -1)
+    month_range = Date.civil(@params[:year], @params[:month], 1)...Date.civil(@params[:year], @params[:month] + 1, 1)
     @complaints = {}
-    @complaints[:closed] = Complaint.joins(:status_changes).where(status: :closed).where('status_changes.created_at': month_range)
+    @complaints[:closed] = Complaint.joins(:status_changes).where('status_changes.created_at': month_range, 'status_changes.status': Complaint.statuses[:closed])
     @complaints[:active] = @params[:investigator].complaints
     @complaints[:total_closed] = Complaint.where(investigator: @params[:investigator], status: [:pending_closure, :closed])
     @complaints[:total_time] = @complaints[:total_closed].map { |c| (c.disposition_date - c.created_at.to_date).to_i }.inject(0, :+)

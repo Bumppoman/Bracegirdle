@@ -23,6 +23,14 @@ module ComplaintsHelper
     grouped_employees
   end
 
+  def formatted_address(complaint)
+    address = ''
+    address << "#{complaint.complainant_street_address}<br />" if complaint.complainant_street_address
+    address << "#{complaint.complainant_city}, #{complaint.complainant_state}" if complaint.complainant_city
+    address << " #{complaint.complainant_zip}" if complaint.complainant_zip
+    address
+  end
+
   def formatted_complaint_types(complaint)
     complaint_types = []
     complaint.complaint_type.each do |type|

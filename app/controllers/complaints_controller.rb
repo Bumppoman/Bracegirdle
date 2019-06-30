@@ -109,8 +109,7 @@ class ComplaintsController < ApplicationController
         event = Complaints::ComplaintCloseEvent
         @complaint.assign_attributes(
           status: :closed,
-          closed_by: current_user,
-          closure_date: Date.current)
+          closed_by: current_user)
       else
         event = Complaints::ComplaintRecommendClosureEvent
         @complaint.status = :pending_closure
@@ -118,7 +117,6 @@ class ComplaintsController < ApplicationController
 
       @complaint.assign_attributes(
         investigator: current_user,
-        disposition_date: Date.current,
         disposition: params[:complaint][:disposition])
     end
 
