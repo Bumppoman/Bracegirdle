@@ -5,6 +5,29 @@ feature 'Status Changes' do
     @cemetery = FactoryBot.create(:cemetery)
   end
 
+  scenario 'Adding a complaint tracks status', js: true do
+    login
+    visit new_complaint_path
+
+    fill_in 'Name', with: 'Herman Munster'
+    fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+    fill_in 'City', with: 'Rotterdam'
+    select2 'NY', from: 'State'
+    fill_in 'ZIP Code', with: '13202'
+    select2 'Broome', from: 'County'
+    select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
+    select2 'Burial issues', from: 'Complaint Type'
+    fill_in 'complaint[summary]', with: 'Testing.'
+    fill_in 'complaint[form_of_relief]', with: 'Testing'
+    fill_in 'complaint[date_of_event]', with: '12/31/2018'
+    all('span', text: 'Yes').last.click
+    select2 'Chester Butkiewicz', from: 'Investigator'
+    expect {
+      click_on 'Submit'
+      assert_selector '#complaint-details'
+    }.to change { StatusChange.count }
+  end
+
   scenario 'Uploading a hazardous monument application tracks status', js: true do
     @trustee = FactoryBot.create(:trustee)
     @cemetery.trustees << @trustee

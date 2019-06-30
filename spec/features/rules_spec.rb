@@ -15,12 +15,8 @@ feature 'Rules' do
 
   scenario 'Investigator adds new rules', js: true do
     login
-    visit root_path
+    visit new_rules_path
 
-    click_on 'Inbox'
-    click_on 'Rules and Regulations'
-    assert_selector '#rules-data-table'
-    click_on 'Upload new rules'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Sender', with: 'Mark Smith'
@@ -37,11 +33,8 @@ feature 'Rules' do
 
   scenario 'Investigator adds new rules selecting the cemetery', js: true do
     login
+    visit new_rules_path
 
-    click_on 'Inbox'
-    click_on 'Rules and Regulations'
-    assert_selector '#rules-data-table'
-    click_on 'Upload new rules'
     select2 'Broome', from: 'County'
     fill_in 'Sender', with: 'Mark Smith'
     fill_in 'Address', with: '223 Fake St.'
@@ -204,11 +197,8 @@ feature 'Rules' do
     @location = Location.new(latitude: 41.3144, longitude: -73.8964)
     @cemetery.locations << @location
     login
-    visit root_path
+    visit upload_old_rules_path # Visit is ok because we are not waiting on anything
 
-    click_on 'Inbox'
-    click_on 'Rules and Regulations'
-    click_on 'Upload previously approved rules'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
@@ -224,11 +214,8 @@ feature 'Rules' do
     @location = Location.new(latitude: 41.3144, longitude: -73.8964)
     @cemetery.locations << @location
     login
-    visit root_path
+    visit upload_old_rules_path # Visit is ok because we are not waiting on anything
 
-    click_on 'Inbox'
-    click_on 'Rules and Regulations'
-    click_on 'Upload previously approved rules'
     select2 'Broome', from: 'County'
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     select2 'Chester Butkiewicz', from: 'Approved By'

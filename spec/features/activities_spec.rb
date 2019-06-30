@@ -8,8 +8,11 @@ feature 'Activities' do
   scenario 'Adding a complaint logs activity', js: true do
     login
     visit new_complaint_path
-    fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-    fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+    fill_in 'Name', with: 'Herman Munster'
+    fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+    fill_in 'City', with: 'Rotterdam'
+    select2 'NY', from: 'State'
+    fill_in 'ZIP Code', with: '13202'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
     select2 'Burial issues', from: 'Complaint Type'
@@ -22,7 +25,7 @@ feature 'Activities' do
 
     click_on 'Dashboard', match: :first
 
-    expect(page).to have_content 'Chester Butkiewicz received a complaint against Anthony Cemetery'
+    expect(page).to have_content 'Chester Butkiewicz began investigating a complaint against Anthony Cemetery'
   end
 
   scenario 'Adding note to complaint logs activity', js: true do
@@ -136,8 +139,7 @@ feature 'Activities' do
   scenario 'Uploading a hazardous monument application logs activity', js: true do
     @trustee = FactoryBot.create(:trustee)
     login
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
     assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'

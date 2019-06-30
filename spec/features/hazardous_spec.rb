@@ -10,8 +10,7 @@ feature 'Hazardous' do
   scenario 'Hazardous monument application can be uploaded', js: true do
     login
 
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
     assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
@@ -32,8 +31,7 @@ feature 'Hazardous' do
   scenario 'Hazardous monument application without necessary information cannot be saved', js: true do
     login
 
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
     assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
@@ -51,8 +49,7 @@ feature 'Hazardous' do
   scenario 'Hazardous monument application can be processed', js: true do
     login
 
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
     assert_selector '#application-data-table'
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
@@ -109,9 +106,7 @@ feature 'Hazardous' do
   scenario 'Supervisor can send application directly to cemetery board', js: true do
     login_supervisor
 
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
-    assert_selector '#application-data-table'
+    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
@@ -225,8 +220,7 @@ feature 'Hazardous' do
 
     scenario 'Supervisor can send application to board', js: true do
       login_supervisor
-      click_on 'Applications'
-      click_on 'Hazardous Monuments'
+      visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
       click_on @restoration.identifier
 
       click_on 'Send to cemetery board'

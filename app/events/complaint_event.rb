@@ -1,6 +1,13 @@
 class ComplaintEvent < Event
   class Type
     COMPLAINT_ADDED = 'added'
+    COMPLAINT_ASSIGNED = 'assigned'
+    COMPLAINT_CLOSED = 'closed'
+    COMPLAINT_CLOSURE_RECOMMENDED = 'closure_recommended'
+    COMPLAINT_INVESTIGATION_BEGUN = 'investigation_begun'
+    COMPLAINT_INVESTIGATION_COMPLETED = 'investigation_completed'
+    COMPLAINT_REASSIGNED = 'reassigned'
+    COMPLAINT_REOPENED = 'reopened'
   end
 
   attr_accessor :complaint, :user

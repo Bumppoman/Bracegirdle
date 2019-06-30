@@ -43,7 +43,7 @@ class Complaint < ApplicationRecord
 
   FINAL_STATUSES = [:closed]
 
-  INITIAL_STATUSES = [:received, :investigation_begun]
+  INITIAL_STATUSES = [:received, :investigation_begun, :pending_closure, :closed]
 
   NAMED_MANNERS_OF_CONTACT = {
       1 => 'Phone',
@@ -86,12 +86,28 @@ class Complaint < ApplicationRecord
     end
   end
 
+  def closure_date
+    status_changes.where(status: self.class.statuses[:closed]).last&.created_at&.to_date
+  end
+
+  def complainant_address
+    "#{complainant_street_address}<br />#{complainant_city}, #{complainant_state} #{complainant_zip}"
+  end
+
   def complaint_type
     self[:complaint_type].split(', ') if self[:complaint_type].respond_to? :split
   end
 
   def concern_text
     ['complaint',  "##{complaint_number}", "against #{cemetery&.name || cemetery_alternate_name}"]
+  end
+
+  def disposition_date
+    if closed_by != investigator
+      status_changes.where(status: self.class.statuses[:pending_closure]).last&.created_at&.to_date
+    else
+      status_changes.where(status: self.class.statuses[:closed]).last&.created_at&.to_date
+    end
   end
 
   def formatted_cemetery
@@ -113,6 +129,14 @@ class Complaint < ApplicationRecord
 
   def formatted_ownership_type
     ownership_type&.capitalize
+  end
+
+  def investigation_begin_date
+    status_changes.where(status: self.class.statuses[:investigation_begun]).last&.created_at&.to_date
+  end
+
+  def investigation_completion_date
+    status_changes.where(status: self.class.statuses[:investigation_completed]).last&.created_at&.to_date
   end
 
   def link_text

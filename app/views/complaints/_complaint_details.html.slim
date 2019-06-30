@@ -6,11 +6,11 @@
         tr
           th.wd-25p scope="row" Complainant
           td colspan="3"
-            =@complaint.complainant_name
+            = @complaint.complainant_name
             br
-            =@complaint.complainant_address.presence || 'No address'
+            == @complaint.complainant_address.presence || 'No address'
             br
-            =(@complaint.complainant_phone.presence || 'No phone number') + ' | ' + (@complaint.complainant_email.presence || 'No email address')
+            = (@complaint.complainant_phone.presence || 'No phone number') + ' | ' + (@complaint.complainant_email.presence || 'No email address')
   .section-wrapper.pd-20-force.mg-t-5-force
     label.section-title Cemetery Information
     table.table.table-striped
@@ -18,17 +18,17 @@
         tr
           th.wd-25p scope="row" Cemetery
           - if @complaint.cemetery_regulated?
-            td colspan="3" =link_to(@complaint.cemetery, @complaint.cemetery) + " (##{@complaint.cemetery.cemetery_id})"
+            td colspan="3" = link_to(@complaint.cemetery, @complaint.cemetery) + " (##{@complaint.cemetery.cemetery_id})"
           - else
-            td colspan="3" =@complaint.cemetery_alternate_name
+            td colspan="3" = @complaint.cemetery_alternate_name
         tr
           th scope="row" Grave/Ownership Information
           td colspan="3"
-            =@complaint.lot_location.presence || 'No lot location provided'
+            = @complaint.lot_location.presence || 'No lot location provided'
             br
-            =@complaint.formatted_ownership || 'No owner information provided'
+            = @complaint.formatted_ownership || 'No owner information provided'
             br
-            =@complaint.formatted_ownership_type || 'No ownership information provided'
+            = @complaint.formatted_ownership_type || 'No ownership information provided'
   .section-wrapper.pd-20-force.pd-t-0-force.mg-t-5-force
     label.section-title Complaint Information
     table.table.table-striped

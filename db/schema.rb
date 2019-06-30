@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_28_232612) do
+ActiveRecord::Schema.define(version: 2019_06_29_220652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,7 +176,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_232612) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "complainant_name"
-    t.string "complainant_address"
+    t.string "complainant_street_address"
     t.string "complainant_phone"
     t.string "complainant_email"
     t.string "complaint_type"
@@ -206,6 +206,9 @@ ActiveRecord::Schema.define(version: 2019_06_28_232612) do
     t.date "closure_date"
     t.text "closure_review_comments"
     t.integer "closed_by_id"
+    t.string "complainant_city"
+    t.string "complainant_state"
+    t.string "complainant_zip"
     t.index ["cemetery_id"], name: "index_complaints_on_cemetery_id"
     t.index ["closed_by_id"], name: "index_complaints_on_closed_by_id"
   end

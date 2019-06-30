@@ -1,7 +1,10 @@
 FactoryBot.define do
   factory :brand_new_complaint, class: 'Complaint' do
     complainant_name { 'Herman Munster' }
-    complainant_address { '1313 Mockingbird Ln., Rotterdam, NY 13202' }
+    complainant_street_address { '1313 Mockingbird Ln.' }
+    complainant_city { 'Rotterdam' }
+    complainant_state { 'NY' }
+    complainant_zip { '13202' }
     cemetery_county { 4 }
     cemetery_id { 1 }
     complaint_type { 1 }

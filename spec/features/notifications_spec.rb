@@ -9,8 +9,11 @@ feature 'Notifications' do
     @employee = FactoryBot.create(:user)
     login(FactoryBot.create(:mean_supervisor))
     visit new_complaint_path
-    fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-    fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+    fill_in 'Name', with: 'Herman Munster'
+    fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+    fill_in 'City', with: 'Rotterdam'
+    select2 'NY', from: 'State'
+    fill_in 'ZIP Code', with: '13202'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
     select2 'Burial issues', from: 'Complaint Type'
@@ -32,9 +35,7 @@ feature 'Notifications' do
   scenario 'Adding new rules for another user sends a notification', js: true do
     @employee = FactoryBot.create(:user)
     login(FactoryBot.create(:mean_supervisor))
-    click_on 'Inbox'
-    click_on 'Rules and Regulations'
-    click_on 'Upload new rules'
+    visit new_rules_path
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Sender', with: 'Mark Smith'
@@ -44,7 +45,7 @@ feature 'Notifications' do
     attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
-    wait_for_ajax
+    assert_selector '#review-rules'
     logout
     login(@employee)
 

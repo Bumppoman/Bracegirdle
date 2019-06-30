@@ -15,8 +15,8 @@ class ComplaintsController < ApplicationController
     @complaint = Complaint.find(params[:id])
     @complaint.update(
       status: :investigation_begun,
-      investigation_begin_date: Date.current,
       investigator: User.find(params[:complaint][:investigator]))
+    Complaints::ComplaintAssignEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
       f.js { render partial: 'complaints/update/assign_complaint' }
@@ -27,8 +27,8 @@ class ComplaintsController < ApplicationController
     @complaint = Complaint.find(params[:id])
     @complaint.update(
       status: :investigation_begun,
-      investigator: current_user,
-      investigation_begin_date: Date.current)
+      investigator: current_user)
+    Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
       f.js { render partial: 'complaints/update/begin_investigation' }
@@ -38,6 +38,7 @@ class ComplaintsController < ApplicationController
   def change_investigator
     @complaint = Complaint.find(params[:id])
     @complaint.update(investigator: User.find(params[:complaint][:investigator]))
+    Complaints::ComplaintReassignEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
       f.js { render partial: 'complaints/update/change_investigator' }
@@ -49,25 +50,21 @@ class ComplaintsController < ApplicationController
 
     if params.key? :recommend_closure
       @complaint.update(
-          status: :pending_closure,
-          disposition_date: Date.current,
-          disposition: params[:complaint][:disposition])
+        status: :pending_closure,
+        disposition: params[:complaint][:disposition])
+      Complaints::ComplaintRecommendClosureEvent.new(@complaint, current_user).trigger
 
       respond_to do |f|
         f.js { render partial: 'complaints/update/recommend_closure' }
       end
     elsif params.key? :close_complaint
-      if @complaint.investigation_completed?
-        @complaint.update(
-          disposition_date: Date.current,
-          disposition: params[:complaint][:disposition])
-      end
+      @complaint.disposition = params[:complaint][:disposition] if @complaint.investigation_completed?
 
       @complaint.update(
         status: :closed,
         closed_by: current_user,
-        closure_date: Date.current,
         closure_review_comments: params[:complaint][:closure_review_comments])
+      Complaints::ComplaintCloseEvent.new(@complaint, current_user).trigger
 
       redirect_to complaint_investigation_path(@complaint)
     end
@@ -75,9 +72,9 @@ class ComplaintsController < ApplicationController
 
   def complete_investigation
     @complaint = Complaint.find(params[:id])
-    @complaint.update(
-      status: :investigation_completed,
-      investigation_completion_date: Date.current)
+    @complaint.update(status: :investigation_completed)
+    Complaints::ComplaintCompleteInvestigationEvent.new(@complaint, current_user).trigger
+
     respond_to do |f|
       f.js { render partial: 'complaints/update/complete_investigation' }
     end
@@ -101,13 +98,21 @@ class ComplaintsController < ApplicationController
 
     if @complaint.investigation_required?
       @complaint.investigator = User.find(params[:complaint][:investigator]) unless params[:complaint][:investigator].blank?
+      if @complaint.investigator == current_user
+        event = Complaints::ComplaintBeginInvestigationEvent
+        @complaint.status = :investigation_begun
+      else
+        event = Complaints::ComplaintAddEvent
+      end
     else
       if current_user.supervisor?
+        event = Complaints::ComplaintCloseEvent
         @complaint.assign_attributes(
           status: :closed,
           closed_by: current_user,
           closure_date: Date.current)
       else
+        event = Complaints::ComplaintRecommendClosureEvent
         @complaint.status = :pending_closure
       end
 
@@ -118,7 +123,7 @@ class ComplaintsController < ApplicationController
     end
 
     if @complaint.save
-      Complaints::ComplaintAddEvent.new(@complaint, current_user).trigger
+      event.new(@complaint, current_user).trigger
       redirect_to @complaint
     else
       render action: :new
@@ -131,13 +136,10 @@ class ComplaintsController < ApplicationController
       status: :investigation_begun,
       investigation_required: true,
       investigator: current_user,
-      investigation_completion_date: nil,
-      disposition_date: nil,
       disposition: nil)
+    Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
 
-    @complaint.investigation_begin_date = Date.current if @complaint.investigation_begin_date.nil?
-
-    redirect_to complaint_investigation_path(@complaint) if @complaint.save
+    redirect_to complaint_investigation_path(@complaint)
   end
 
   def index
@@ -164,12 +166,11 @@ class ComplaintsController < ApplicationController
 
   def complaint_params
     params.require(:complaint).permit(
-      :complainant_name, :complainant_address, :complainant_address,
-      :complainant_email, :complainant_phone, :cemetery_regulated,
-      :cemetery_county, :cemetery_alternate_name, :lot_location,
-      :name_on_deed, :relationship, :ownership_type,
-      :summary, :form_of_relief, :person_contacted,
-      :attorney_contacted, :court_action_pending, :investigation_required
+      :complainant_name, :complainant_street_address, :complainant_city,
+      :complainant_state, :complainant_zip, :complainant_email, :complainant_phone,
+      :cemetery_regulated, :cemetery_county, :cemetery_alternate_name, :lot_location,
+      :name_on_deed, :relationship, :ownership_type, :summary, :form_of_relief,
+      :person_contacted, :attorney_contacted, :court_action_pending, :investigation_required
     )
   end
 

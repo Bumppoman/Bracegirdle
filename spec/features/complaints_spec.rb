@@ -15,17 +15,28 @@ feature 'Complaints' do
       login
       visit new_complaint_path
 
-      fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-      fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+      fill_in 'Name', with: 'Herman Munster'
+      fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+      fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
+      fill_in 'ZIP Code', with: '13202'
+      fill_in 'Phone Number', with: '518-555-3232'
+      fill_in 'Email', with: 'test@test.test'
       select2 'Broome', from: 'County'
       select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
+      fill_in 'Location of Lot/Grave', with: 'Section 12 Row 7'
+      fill_in 'Name on Deed', with: 'Mother Butkiewicz'
+      fill_in 'Relationship', with: 'Relationship'
       select2 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
+      fill_in 'Date Complained to Cemetery', with: '1/1/2019'
+      fill_in 'Person Contacted', with: 'Clive Bixby'
       all('span', text: 'Yes').last.click
       select2 'Chester Butkiewicz', from: 'Investigator'
       click_on 'Submit'
+      assert_selector '#complaint-details'
       visit complaints_path
 
       expect(page).to have_content('Herman Munster')
@@ -35,8 +46,11 @@ feature 'Complaints' do
       login
       visit new_complaint_path
 
-      fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-      fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+      fill_in 'Name', with: 'Herman Munster'
+      fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+      fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
+      fill_in 'ZIP Code', with: '13202'
       find('#complaint_cemetery_regulated_false', visible: false).sibling('span').click
       select2 'Broome', from: 'County'
       fill_in 'complaint[cemetery_alternate_name]', with: 'Calvary Cemetery'
@@ -56,8 +70,11 @@ feature 'Complaints' do
       login
       visit new_complaint_path
 
-      fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-      fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+      fill_in 'Name', with: 'Herman Munster'
+      fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+      fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
+      fill_in 'ZIP Code', with: '13202'
       select2 'Broome', from: 'County'
       select2 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
@@ -185,8 +202,11 @@ feature 'Complaints' do
       login
       visit new_complaint_path
 
-      fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-      fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+      fill_in 'Name', with: 'Herman Munster'
+      fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+      fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
+      fill_in 'ZIP Code', with: '13202'
       select2 'Broome', from: 'County'
       select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
       select2 'Burial issues', from: 'Complaint Type'
@@ -206,8 +226,11 @@ feature 'Complaints' do
       login_supervisor
       visit new_complaint_path
 
-      fill_in 'complaint[complainant_name]', with: 'Herman Munster'
-      fill_in 'complaint[complainant_address]', with: '1313 Mockingbird Ln., Rotterdam, NY 13202'
+      fill_in 'Name', with: 'Herman Munster'
+      fill_in 'Street Address', with: '1313 Mockingbird Ln.'
+      fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
+      fill_in 'ZIP Code', with: '13202'
       select2 'Broome', from: 'County'
       select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
       select2 'Burial issues', from: 'Complaint Type'
