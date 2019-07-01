@@ -15,6 +15,10 @@
             td = link_to complaint, complaint
             td = complaint.complainant_name
             td = complaint.formatted_cemetery + (complaint.cemetery_regulated? ? " (##{complaint.cemetery.cemetery_id})" : '')
-            td = complaint.created_at.to_date.to_s
+            td
+              span.d-none = sort_date(complaint.created_at)
+              = complaint.created_at.to_date.to_s
             td = complaint.formatted_status
-            td = complaint.updated_at.to_date.to_s
+            td
+              span.d-none = sort_date(complaint.updated_at)
+              = complaint.updated_at.to_date.to_s

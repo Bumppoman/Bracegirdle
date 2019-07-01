@@ -25,9 +25,9 @@ module ComplaintsHelper
 
   def formatted_address(complaint)
     address = ''
-    address << "#{complaint.complainant_street_address}<br />" if complaint.complainant_street_address
-    address << "#{complaint.complainant_city}, #{complaint.complainant_state}" if complaint.complainant_city
-    address << " #{complaint.complainant_zip}" if complaint.complainant_zip
+    address << "#{complaint.complainant_street_address}<br />" if complaint.complainant_street_address.present?
+    address << "#{complaint.complainant_city}, #{complaint.complainant_state}" if complaint.complainant_city.present?
+    address << " #{complaint.complainant_zip}" if complaint.complainant_zip.present?
     address
   end
 
@@ -38,5 +38,14 @@ module ComplaintsHelper
     end
 
     complaint_types.join("<br />").html_safe
+  end
+
+  def formatted_ownership(complaint)
+    # Return empty string if not provided
+    return nil if complaint.name_on_deed.blank?
+
+    return_string = "Owned by #{complaint.name_on_deed}"
+    return_string += " (#{complaint.relationship})" if complaint.relationship.present?
+    return_string
   end
 end

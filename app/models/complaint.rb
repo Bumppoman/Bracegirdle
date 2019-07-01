@@ -114,15 +114,6 @@ class Complaint < ApplicationRecord
     end
   end
 
-  def formatted_ownership
-    # Return empty string if not provided
-    return nil if name_on_deed.blank?
-
-    return_string = "Owned by #{name_on_deed}"
-    return_string += " (#{relationship})" if relationship
-    return_string
-  end
-
   def formatted_ownership_type
     ownership_type&.capitalize
   end

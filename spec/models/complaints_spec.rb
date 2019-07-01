@@ -108,31 +108,6 @@ describe Complaint, type: :model do
       end
     end
 
-    describe Complaint, '#formatted_ownership' do
-      it 'returns a blank string if there is no ownership information' do
-        expect(subject.formatted_ownership).to eq nil
-      end
-
-      it 'returns only the owner if there is no relationship information' do
-        subject.name_on_deed = 'Chester Butkiewicz'
-
-        expect(subject.formatted_ownership).to eq 'Owned by Chester Butkiewicz'
-      end
-
-      it 'returns the owner and the relationship if both are available' do
-        subject.name_on_deed = 'Chester Butkiewicz'
-        subject.relationship = 'Father'
-
-        expect(subject.formatted_ownership).to eq 'Owned by Chester Butkiewicz (Father)'
-      end
-
-      it 'returns a blank string if there is no owner but is a relationship' do
-        subject.relationship = 'Father'
-
-        expect(subject.formatted_ownership).to eq nil
-      end
-    end
-
     describe Complaint, '#formatted_ownership_type' do
       it 'returns the ownership type based on the code' do
         subject.ownership_type = :inheritance

@@ -98,7 +98,7 @@ class ComplaintsController < ApplicationController
 
     if @complaint.investigation_required?
       @complaint.investigator = User.find(params[:complaint][:investigator]) unless params[:complaint][:investigator].blank?
-      if @complaint.investigator == current_user
+      if @complaint.investigator == @complaint.receiver
         event = Complaints::ComplaintBeginInvestigationEvent
         @complaint.status = :investigation_begun
       else
@@ -145,7 +145,7 @@ class ComplaintsController < ApplicationController
   end
 
   def new
-    @complaint = Complaint.new(receiver: current_user)
+    @complaint = Complaint.new(receiver: current_user, complainant_state: 'NY')
   end
 
   def pending_closure
