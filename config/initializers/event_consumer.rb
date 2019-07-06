@@ -11,6 +11,7 @@ EVENT_CONSUMER_MAPPING = {
   ComplaintEvent::Type::COMPLAINT_INVESTIGATION_BEGUN => [ActivityConsumer, StatusChangeConsumer],
   ComplaintEvent::Type::COMPLAINT_INVESTIGATION_COMPLETED => [ActivityConsumer, StatusChangeConsumer],
   ComplaintEvent::Type::COMPLAINT_REASSIGNED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
+  ComplaintEvent::Type::COMPLAINT_UPDATE_REQUESTED => [ActivityConsumer, AssignmentConsumer],
   NoteEvent::Type::COMMENT => [ActivityConsumer, NotificationConsumer],
   NoticeEvent::Type::NOTICE_ISSUED => [ActivityConsumer, StatusChangeConsumer],
   NoticeEvent::Type::NOTICE_RESPONSE => [ActivityConsumer, StatusChangeConsumer],

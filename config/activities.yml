@@ -21,6 +21,10 @@ activities:
       icon: 'fas fa-exchange-alt'
       text: 'reassigned a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Reassigned complaint'
+    update_requested:
+      icon: 'fas fa-question'
+      text: 'requested an update on a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
+      title: 'Requested update on complaint'
   cemeteryinspection:
     color: 'primary'
     completed:

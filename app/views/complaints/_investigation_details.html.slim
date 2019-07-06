@@ -6,7 +6,7 @@
         = render partial: 'complaints/update/pending_closure'
       - else
         = render partial: 'complaints/update/action_form'
-  .section-wrapper.pd-20-force.mg-t-5-force
+  div class="section-wrapper pd-20-force mg-t-#{@complaint.closed? ? '0' : '5'}-force"
     label.section-title.mg-b-15 Investigation Details
     = form_with model: @complaint, url: change_investigator_complaint_path, method: :patch do |f|
       table.table.table-striped

@@ -6,6 +6,8 @@ notifications:
       text: *complaint_assignment
     reassigned:
       text: *complaint_assignment
+    update_requested:
+      text: 'requested an update on a complaint against <%= notification.object.cemetery.name %>'
   note:
     comment:
       mailer: 'note_comment_email'

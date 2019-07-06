@@ -116,8 +116,8 @@ Rails.application.routes.draw do
       patch 'change-investigator', to: 'complaints#change_investigator'
       patch 'close', to: 'complaints#close_complaint'
       patch 'complete-investigation', to: 'complaints#complete_investigation'
-      patch 'recommend-closure', to: 'complaints#recommend_closure'
       patch 'reopen-investigation', to: 'complaints#reopen_investigation'
+      patch 'request-update', to: 'complaints#request_update'
     end
   end
   get 'complaints/:id/investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :complaint_investigation

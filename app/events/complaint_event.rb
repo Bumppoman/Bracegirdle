@@ -8,6 +8,7 @@ class ComplaintEvent < Event
     COMPLAINT_INVESTIGATION_COMPLETED = 'investigation_completed'
     COMPLAINT_REASSIGNED = 'reassigned'
     COMPLAINT_REOPENED = 'reopened'
+    COMPLAINT_UPDATE_REQUESTED = 'update_requested'
   end
 
   attr_accessor :complaint, :user

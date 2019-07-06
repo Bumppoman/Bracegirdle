@@ -1,6 +1,6 @@
 $("#notes-list").prepend('<%= j render partial: "notes/note", locals: { note: @note } %>');
 
-$("#note-<%= @note.id %>").focus();
+$(window).scrollTop($("#note-<%= @note.id %>").position().top);
 $("#note-<%= @note.id %>").effect("highlight", {}, 3000);
 
 $("#note_body").val('');

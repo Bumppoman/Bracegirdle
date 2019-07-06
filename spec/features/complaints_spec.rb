@@ -260,6 +260,22 @@ feature 'Complaints' do
     end
   end
 
+  scenario 'Supervisor can request update on complaint', js: true do
+    @employee = FactoryBot.create(:user)
+    @complaint = FactoryBot.create(:complaint_under_investigation)
+    login_supervisor
+
+    visit all_complaints_path
+    click_on @complaint.complaint_number
+    click_on 'Investigation Details'
+    click_on 'Request Update'
+    within '#confirm-request-update' do
+      click_on 'Request update'
+    end
+
+    expect(page).to have_content 'Please provide an update on the status of this complaint.'
+  end
+
   scenario 'Investigator can add note to complaint', js: true do
     login
     @complaint = FactoryBot.create(:brand_new_complaint)

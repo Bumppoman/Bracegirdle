@@ -128,18 +128,6 @@ class ComplaintsController < ApplicationController
     end
   end
 
-  def reopen_investigation
-    @complaint = Complaint.find(params[:id])
-    @complaint.update(
-      status: :investigation_begun,
-      investigation_required: true,
-      investigator: current_user,
-      disposition: nil)
-    Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
-
-    redirect_to complaint_investigation_path(@complaint)
-  end
-
   def index
     @complaints = current_user.complaints.includes(:cemetery)
   end
@@ -150,6 +138,28 @@ class ComplaintsController < ApplicationController
 
   def pending_closure
     @complaints = Complaint.includes(:cemetery).pending_closure
+  end
+
+  def reopen_investigation
+    @complaint = Complaint.find(params[:id])
+    @complaint.update(
+        status: :investigation_begun,
+        investigation_required: true,
+        investigator: current_user,
+        disposition: nil)
+    Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
+
+    redirect_to complaint_investigation_path(@complaint)
+  end
+
+  def request_update
+    @complaint = Complaint.find(params[:id])
+    @note = @complaint.notes.create(user: current_user, body: 'Please provide an update on the status of this complaint.')
+    Complaints::ComplaintRequestUpdateEvent.new(@complaint, current_user).trigger
+
+    respond_to do |f|
+      f.js { render partial: 'complaints/update/request_update' }
+    end
   end
 
   def show

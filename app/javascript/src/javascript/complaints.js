@@ -50,7 +50,7 @@ $(document).on('turbolinks:load', function () {
     };
 
     const display_number = $('#complaints-multi-step-form').data('display-section');
-    let hide = 1
+    let hide = 1;
     while (hide < display_number) {
         window.nextItem($(complaints_sections[hide]), false);
         hide++;

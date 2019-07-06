@@ -18,6 +18,8 @@
         p.mb-10 == "Investigation begun on #{tag.span(@complaint.investigation_begin_date, id: 'investigation-begin-date')}."
         - if @complaint.belongs_to? current_user
           = f.button 'Complete Investigation', name: 'complete_investigation', class: 'next action-button bracegirdle-action-button', data: { path: complete_investigation_complaint_path(@complaint) }
+        - else
+          = f.button('Request Update', name: 'request_update', class: 'action-button with-confirmation-modal', data: { modal: '#confirm-request-update' }) if current_user.supervisor?
       fieldset#investigation-completed
         label.section-label Investigation Completed
         p.mb-10 == "Investigation completed on #{tag.span(@complaint.investigation_completion_date, id: 'investigation-completion-date')}."
@@ -41,6 +43,7 @@
             tr
               th Disposition
               td#investigation-disposition = @complaint.disposition
+= render 'application/confirmation_modal', modal_id: 'confirm-request-update', modal_title: 'Request update', modal_text: "Do you want to request an update regarding this complaint?", modal_ajax: true, modal_success_location: request_update_complaint_path(@complaint)
 = form_with model: @complaint, url: assign_complaint_path, method: :patch do |f|
   #assign-investigator.modal.fade
     .modal-dialog.wd-30p role="document"

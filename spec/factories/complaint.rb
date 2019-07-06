@@ -16,6 +16,14 @@ FactoryBot.define do
     receiver_id { 1 }
     complaint_number { '2019-0001' }
 
+    factory :complaint_under_investigation do
+      status { :investigation_begun }
+
+      after(:create) do |complaint|
+        complaint.status_changes << StatusChange.new(status: 2, created_at: complaint.created_at, initial: true, final: false)
+      end
+    end
+
     factory :complaint_completed_investigation, class: 'Complaint' do
       status { :investigation_completed }
 
