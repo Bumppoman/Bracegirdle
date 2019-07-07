@@ -13,6 +13,10 @@ module DashboardHelper
     applications
   end
 
+  def investigator_inbox_items
+    current_user.rules.where.not(status: :revision_requested).count
+  end
+
   def overdue_inspections_by_region
     active_cemeteries = Cemetery.active
     overdue = active_cemeteries

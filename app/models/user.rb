@@ -81,18 +81,16 @@ class User < ApplicationRecord
     foreign_key: :investigator_id,
     inverse_of: :investigator
 
-  has_secure_password
+  enum role: [
+    :unauthenticated,
+    :cemeterian,
+    :investigator,
+    :accountant,
+    :support
+  ]
 
   def first_name
     name.split(' ')[0]
-  end
-
-  def has_role?(test_role)
-    role >= NAMED_ROLES[test_role]
-  end
-
-  def investigator?
-    true
   end
 
   def region_name
@@ -102,9 +100,5 @@ class User < ApplicationRecord
   def signature
     filename = "#{name.to_s.downcase.split(' ').join}.tif"
     Pathname.new(Rails.root.join('app', 'pdfs', 'signatures', filename)).exist? ? filename : nil
-  end
-
-  def supervisor?
-    has_role?(:supervisor)
   end
 end

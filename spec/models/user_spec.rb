@@ -29,16 +29,6 @@ describe User, type: :model do
       end
     end
 
-    describe User, '#has_role?' do
-      it 'returns true if the user has the role' do
-        expect(subject.has_role?(:staff)).to be true
-      end
-
-      it 'returns false if the user does not have the role' do
-        expect(subject.has_role?(:supervisor)).to be false
-      end
-    end
-
     describe User, '#region_name' do
       it 'returns the correct region name' do
         expect(subject.region_name).to eq 'Binghamton'
@@ -48,18 +38,6 @@ describe User, type: :model do
     describe User, '#signature' do
       it 'returns nothing if there is no signature' do
         expect(subject.signature).to be nil
-      end
-    end
-
-    describe User, 'supervisor?' do
-      it 'returns true if the user has the role' do
-        subject.role = 4
-
-        expect(subject.supervisor?).to be true
-      end
-
-      it 'returns false if the user does not have the role' do
-        expect(subject.supervisor?).to be false
       end
     end
   end

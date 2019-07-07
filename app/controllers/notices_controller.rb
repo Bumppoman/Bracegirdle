@@ -2,7 +2,7 @@ class NoticesController < ApplicationController
   include Permissions
 
   before_action do
-    stipulate :must_be_investigator
+    stipulate :must_be_employee
   end
 
   def create

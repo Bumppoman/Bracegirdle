@@ -1,28 +1,4 @@
 module ComplaintsHelper
-  def cemetery_options
-    county_cemeteries = Cemetery.active.group_by(&:county)
-    grouped_cemeteries = []
-
-    county_cemeteries.each do |county, cemeteries|
-      grouped_cemeteries << ["#{COUNTIES[county]} County",
-                             cemeteries.map {|cemetery| ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]}]
-    end
-
-    grouped_cemeteries
-  end
-
-  def employee_options
-    role_employees = User.where("role > ?", 1).group_by(&:role)
-    grouped_employees = []
-
-    role_employees.each do |role, employees|
-      grouped_employees << ["#{ROLES[role]}",
-                            employees.map {|employee| [employee.name, employee.id]}]
-    end
-
-    grouped_employees
-  end
-
   def formatted_address(complaint)
     address = ''
     address << "#{complaint.complainant_street_address}<br />" if complaint.complainant_street_address.present?

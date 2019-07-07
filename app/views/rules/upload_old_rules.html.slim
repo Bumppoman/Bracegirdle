@@ -1,41 +1,33 @@
 - content_for :title, 'Upload Previously Approved Rules'
 - content_for :breadcrumbs, breadcrumbs_helper(['Upload previously approved rules'])
 .section-wrapper
-  =form_for @rules, url: create_old_rules_path, method: :post do |f|
+  = form_for @rules, url: create_old_rules_path, method: :post do |f|
     .form-layout
-      ==content_tag(:div, 'There was a problem saving these rules!', class: 'alert alert-danger', role: 'alert') if @rules.errors.any?
+      == content_tag(:div, 'There was a problem saving these rules!', class: 'alert alert-danger', role: 'alert') if @rules.errors.any?
       label.section-title Cemetery Information
-      .row
-        .col-lg-6
-          .form-group.required
-            =f.label :cemetery_county, 'County', class: 'form-control-label'
-            =f.select :cemetery_county, options_for_select(COUNTIES.invert, @rules.cemetery_county), { prompt: 'Select county' }, class: 'form-control select2-show-search county'
-        .col-lg-6
-          .form-group.required
-            =f.label :cemetery, 'Cemetery', class: 'form-control-label'
-            =f.select :cemetery, grouped_options_for_select(cemetery_options, @rules.cemetery&.id), { prompt: 'Select cemetery' }, disabled: true, class: 'form-control select2-show-search cemeteries-by-county'
+      = render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @rules }
       label.section-title Rules
       .row
         .col-lg-12
           .form-group.required
-            =f.label :rules_documents, 'File', class: 'form-control-label'
+            = f.label :rules_documents, 'File', class: 'form-control-label'
             .custom-file
-              =f.file_field :rules_documents, class: 'custom-file-input'
-              =f.label :rules_documents, 'Choose file', class: 'custom-file-label'
+              = f.file_field :rules_documents, class: 'custom-file-input'
+              = f.label :rules_documents, 'Choose file', class: 'custom-file-label'
             small.form-text.text-muted Acceptable file formats are .doc, .docx, and .pdf
       .row
         .col-lg-8
           .form-group.required
-            =f.label :investigator, 'Approved By', class: 'form-control-label'
-            =f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unknown' }, class: 'form-control select2-basic'
+            = f.label :investigator, 'Approved By', class: 'form-control-label'
+            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unknown' }, class: 'form-control select2-basic'
         .col-lg-4
           .form-group.required
-            =f.label :submission_date, 'Date Approved', class: 'form-control-label'
+            = f.label :submission_date, 'Date Approved', class: 'form-control-label'
             .input-group
               .input-group-prepend
                 .input-group-text
                   i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-              =f.text_field :approval_date, class: 'form-control fc-datepicker'
+              = f.text_field :approval_date, class: 'form-control fc-datepicker'
       .form-layout-footer.mg-t-20.pd-l-20
-        =f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
-        =link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
+        = f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
+        = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'

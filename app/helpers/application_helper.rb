@@ -44,8 +44,28 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def investigator_inbox_items
-    current_user.rules.where.not(status: :revision_requested).count
+  def cemetery_options
+    county_cemeteries = Cemetery.active.group_by(&:county)
+    grouped_cemeteries = []
+
+    county_cemeteries.each do |county, cemeteries|
+      grouped_cemeteries << ["#{COUNTIES[county]} County",
+                             cemeteries.map {|cemetery| ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]}]
+    end
+
+    grouped_cemeteries
+  end
+
+  def employee_options
+    role_employees = User.where(active: true, role: [:investigator, :accountant, :support]).order(:name).group_by(&:role)
+    grouped_employees = []
+
+    role_employees.each do |role, employees|
+      grouped_employees << [role.capitalize,
+                            employees.map {|employee| [employee.name, employee.id]}]
+    end
+
+    grouped_employees
   end
 
   def sort_date(date)

@@ -8,7 +8,7 @@ def create_complaint
       summary: 'Testing.',
       form_of_relief: 'Testing.',
       date_of_event: Date.current,
-      cemetery: Cemetery.new(name: 'Anthony Cemetery'))
+      cemetery: FactoryBot.build(:cemetery))
 end
 
 describe Complaint, type: :model do
@@ -45,7 +45,7 @@ describe Complaint, type: :model do
 
     describe Complaint, '#belongs_to?' do
       it 'returns true when the complaint belongs to the user' do
-        @investigator = User.new(password: 'test')
+        @investigator = FactoryBot.build(:user)
         subject.investigator = @investigator
 
         expect(subject.belongs_to?(@investigator)).to be true
@@ -146,7 +146,7 @@ describe Complaint, type: :model do
       end
 
       it 'is false when the complaint is assigned' do
-        subject.investigator = User.new(password: 'test')
+        subject.investigator = FactoryBot.build(:user)
         expect(subject.unassigned?).to eq false
       end
     end
@@ -174,25 +174,26 @@ describe Complaint, type: :model do
 
     describe Complaint, '.active_for' do
       it "returns only the user's active complaints" do
+        him = FactoryBot.create(:user)
+        me = FactoryBot.create(:user)
+        his_active = create_complaint
+        his_active.investigator_id = 2
+        his_active.save
         closed = create_complaint
         closed.update(
             disposition: 'Testing',
             status: :closed,
-            investigator_id: 1)
+            investigator_id: 2)
         closed.save
         my_active = create_complaint
-        my_active.investigator_id = 2
+        my_active.investigator_id = 3
         my_active.save
         my_closed = create_complaint
         my_closed.update(
             disposition: 'Testing',
             status: :closed,
-            investigator_id: 2)
+            investigator_id: 3)
         my_closed.save
-        him = User.new(password: 'test')
-        him.save
-        me = User.new(password: 'itsme')
-        me.save
 
         result = Complaint.active_for(me)
 
@@ -203,7 +204,7 @@ describe Complaint, type: :model do
     describe Complaint, '.unassigned' do
       it 'returns only unassigned complaints' do
         assigned = create_complaint
-        assigned.investigator = User.new(password: 'test')
+        assigned.investigator = FactoryBot.build(:user)
         assigned.save
 
         result = Complaint.unassigned

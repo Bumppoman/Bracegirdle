@@ -2,7 +2,7 @@ require 'rails_helper'
 
 def create_rules
   Rules.new(
-    cemetery: Cemetery.new(name: 'Anthony Cemetery', county: 4),
+    cemetery: FactoryBot.build(:cemetery),
     submission_date: Date.current,
     sender: 'Bill Cemeterian',
     sender_street_address: '123 Fake St.',
@@ -47,13 +47,11 @@ describe Rules, type: :model do
 
     describe Rules, '#active_for' do
       before :each do
-        @me = User.new(password: 'Test', role: 2)
-        @me.save
+        @me = FactoryBot.create(:user)
         @my_rules = create_rules
         @my_rules.investigator = @me
         @my_rules.save
-        @him = User.new(password: 'Test', role: 4)
-        @him.save
+        @him = FactoryBot.create(:mean_supervisor)
         @his_rules = create_rules
         @his_rules.investigator = @him
         @his_rules.save
@@ -85,10 +83,8 @@ describe Rules, type: :model do
 
     describe Rules, '#assigned_to?' do
       before :each do
-        @me = User.new(password: 'Test')
-        @me.save
-        @him = User.new(password: 'Test')
-        @him.save
+        @me = FactoryBot.create(:user)
+        @him = FactoryBot.create(:user)
       end
 
       it 'returns true if the rules are assigned to the user' do
@@ -165,8 +161,7 @@ describe Rules, type: :model do
 
   context 'Scopes' do
     before :each do
-      @me = User.new(password: 'test', role: 2)
-      @me.save
+      @me = FactoryBot.create(:user)
       @active = create_rules
       @active.update(investigator_id: 1)
     end
@@ -184,8 +179,7 @@ describe Rules, type: :model do
 
     describe Rules, '.active_for' do
       before :each do
-        @him = User.new(password: 'test', role: 2)
-        @him.save
+        @him = FactoryBot.create(:user)
       end
 
       it 'returns only active rules' do
@@ -226,8 +220,7 @@ describe Rules, type: :model do
 
     describe Rules, '.pending_review_for' do
       before :each do
-        @him = User.new(password: 'test')
-        @him.save
+        @him = FactoryBot.create(:user)
       end
 
       it 'returns only rules pending review' do

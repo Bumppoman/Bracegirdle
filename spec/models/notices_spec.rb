@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 def create_notice
-  @investigator = User.new(office_code: 'XXX')
+  @investigator = FactoryBot.build(:user, office_code: 'XXX')
 
   Notice.new(
     cemetery: FactoryBot.build(:cemetery),
@@ -118,27 +118,28 @@ describe Notice, type: :model do
 
     describe Notice, '.active_for' do
       it "returns only the user's active notices" do
-        him = User.new(password: 'test')
-        him.save
-        me = User.new(password: 'itsme')
-        me.save
+        him = FactoryBot.create(:user)
+        me = FactoryBot.create(:user)
+        his_active = create_notice
+        his_active.investigator_id = 2
+        his_active.save
         resolved = create_notice
         resolved.update(
             response_received_date: Date.current,
             follow_up_inspection_date: Date.current,
             status: :resolved,
-            investigator_id: 1
+            investigator_id: 2
         )
         resolved.save
         my_active = create_notice
-        my_active.investigator_id = 2
+        my_active.investigator_id = 3
         my_active.save
         my_resolved = create_notice
         my_resolved.update(
             response_received_date: Date.current,
             follow_up_inspection_date: Date.current,
             status: :resolved,
-            investigator_id: 2)
+            investigator_id: 3)
         my_resolved.save
 
         result = Notice.active_for(me)

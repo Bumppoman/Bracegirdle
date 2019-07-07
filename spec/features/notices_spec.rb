@@ -86,7 +86,7 @@ feature 'Notices' do
 
   scenario "Cannot advance another investigator's notice", js: true do
     login
-    @notice = FactoryBot.create(:notice, investigator: User.new(password: 'test'))
+    @notice = FactoryBot.create(:notice, investigator: FactoryBot.build(:user))
 
     visit notice_path(@notice)
 
