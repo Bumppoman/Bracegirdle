@@ -43,7 +43,7 @@
         .col-lg-12
           .form-group
             = f.label :investigator, 'Assign To', class: 'form-control-label'
-            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unassigned' }, id: 'application-investigator', class: 'form-control select2-basic'
+            = f.select :investigator, employee_options(@application.investigator&.id, [:investigator]), { include_blank: 'Unassigned' }, id: 'application-investigator', class: 'form-control select2-basic'
       .form-layout-footer.mg-t-20
         = f.submit 'Upload Application', class: 'btn btn-primary mr-1'
         = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary'

@@ -59,23 +59,26 @@ html lang="en"
                 i.fa.fa-angle-down
               .dropdown-menu.dropdown-menu-right
                 nav.nav
-                  a.nav-link href="#{user_calendar_path}"
+                  a.nav-link href=user_calendar_path
                     i.icon.ion-ios-calendar
                     | Calendar
+                  = link_to change_user_password_path, class: 'nav-link' do
+                    i.icon.ion-md-key
+                    | Change Password
                   a.nav-link href="#"
                     i.icon.ion-ios-settings
                     |  Settings
-                  =link_to logout_path, class: 'nav-link' do
+                  = link_to logout_path, class: 'nav-link' do
                     i.icon.ion-ios-arrow-forward
                     |  Sign Out
-          -else
-            =link_to 'Sign In', login_path
+          - else
+            = link_to 'Sign In', login_path
     == render 'layouts/navbar/main'
     .slim-mainpanel
       .container
         .slim-pageheader
           ol.breadcrumb.slim-breadcrumb
             = yield :breadcrumbs
-          h6.slim-pagetitle =yield :title
+          h6.slim-pagetitle = yield :title
         #page-content
           == yield

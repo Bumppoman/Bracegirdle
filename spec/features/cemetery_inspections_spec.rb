@@ -2,6 +2,15 @@ require 'rails_helper'
 
 feature 'Cemetery Inspections' do
   before :each do
+    stub_request(:get, /nominatim.openstreetmap.org/).
+        with(
+            headers: {
+                'Accept'=>'*/*',
+                'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                'User-Agent'=>'Ruby'
+            }).
+        to_return(status: 200, body: {}.to_json, headers: {})
+
     @cemetery = FactoryBot.create(:cemetery)
     @cemetery.locations << Location.new(latitude: 42.6547541, longitude: -73.7592342)
   end

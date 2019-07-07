@@ -1,4 +1,8 @@
 module ComplaintsHelper
+  def complaint_assignment_options
+
+  end
+
   def formatted_address(complaint)
     address = ''
     address << "#{complaint.complainant_street_address}<br />" if complaint.complainant_street_address.present?

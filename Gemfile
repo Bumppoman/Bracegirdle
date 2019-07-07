@@ -88,6 +88,9 @@ group :test do
 
   # To test PDFs
   gem 'pdf-inspector'
+
+  # To stub request
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

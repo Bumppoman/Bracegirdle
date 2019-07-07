@@ -18,7 +18,7 @@
         .col-lg-8
           .form-group.required
             = f.label :investigator, 'Performed By', class: 'form-control-label'
-            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Unknown' }, class: 'form-control select2-basic'
+            = f.select :investigator, employee_options(nil, [:investigator]), { prompt: 'Unknown' }, class: 'form-control select2-basic'
         .col-lg-4
           .form-group.required
             = f.label :date_performed, 'Date Performed', class: 'form-control-label'

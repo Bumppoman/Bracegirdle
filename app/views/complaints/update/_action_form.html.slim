@@ -57,7 +57,7 @@
             | Assign this complaint to an investigator:
             br<>
             br<>
-            = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2-basic'
+            = f.select :investigator, employee_options(nil, [:investigator]), { prompt: 'Select employee' }, class: 'form-control select2-basic'
         .modal-footer
           = f.button 'Assign', name: 'assign_investigator', class: 'btn btn-primary'
           button.btn.btn-secondary type="button" data-dismiss="modal" Close

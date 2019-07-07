@@ -23,7 +23,7 @@
                   i.fa.fa-pencil
                 #edit-investigator-area.form-layout.wd-50p style="display: none;"
                   .pb-1
-                    = f.select :investigator, grouped_options_for_select(employee_options), { prompt: 'Select employee' }, class: 'form-control select2-basic wd-250'
+                    = f.select :investigator, employee_options(@complaint.investigator&.id, [:investigator]), { prompt: 'Select employee' }, class: 'form-control select2-basic wd-250'
                   .form-layout-footer
                     = f.submit 'Update', name: 'change_investigator', class: 'btn btn-primary bd-0 mr-1'
                     a#cancel-edit-investigator.btn.btn-secondary.bd-0 href="#" Cancel

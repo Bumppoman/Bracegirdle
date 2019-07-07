@@ -65,7 +65,7 @@
         .col-lg-12
           .form-group.required
             = f.label :investigator, 'Investigator'
-            = f.select :investigator, grouped_options_for_select(employee_options, current_user.id), { include_blank: 'Unassigned' }, class: 'form-control select2-basic'
+            = f.select :investigator, employee_options(current_user.id), { include_blank: 'Unassigned' }, class: 'form-control select2-basic'
       .form-layout-footer.mg-t-20.pd-l-20
         = f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
         = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'

@@ -56,16 +56,10 @@ module ApplicationHelper
     grouped_cemeteries
   end
 
-  def employee_options
-    role_employees = User.where(active: true, role: [:investigator, :accountant, :support]).order(:name).group_by(&:role)
-    grouped_employees = []
-
-    role_employees.each do |role, employees|
-      grouped_employees << [role.capitalize,
-                            employees.map {|employee| [employee.name, employee.id]}]
-    end
-
-    grouped_employees
+  def employee_options(selected = nil, roles = [:investigator, :accountant, :support])
+    role_employees = User.where(active: true, role: roles).order(:name).group_by(&:role)
+    collection = roles.map { |role| OpenStruct.new(name: role.to_s.capitalize, employees: role_employees[role.to_s]) if role_employees[role.to_s] }.reject(&:nil?)
+    option_groups_from_collection_for_select(collection, :employees, :name, :id, :name, selected)
   end
 
   def sort_date(date)

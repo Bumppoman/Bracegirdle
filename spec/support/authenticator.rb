@@ -7,7 +7,7 @@ module Authenticator
     u = user
     user ||= create_default_user
 
-    page.set_rack_session(user_id: user.id)
+    page.set_rack_session(user_id: user.id, userinfo: { 'uid' => '1test1' })
     visit root_path
   end
 

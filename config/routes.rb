@@ -176,6 +176,8 @@ Rails.application.routes.draw do
 
   # Users
   get 'user/calendar', to: 'users#calendar'
+  get 'user/change-password', to: 'users#change_password', as: :change_user_password
+  post 'user/update-password', to: 'users#update_password', as: :update_user_password
   get 'login', to: redirect('/auth/auth0')
   get 'logout', to: 'sessions#destroy', as: :logout
 

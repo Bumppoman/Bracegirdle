@@ -75,33 +75,36 @@ module Applications
     end
 
     def upload_application
-      @restoration = model.find(params[:id])
-      @restoration.update(
-        application_form: params[@restoration.to_sym][:application_form],
-        monuments: params[@restoration.to_sym][:monuments],
-        application_form_complete: params[@restoration.to_sym][:application_form_complete],
-        field_visit_date: date_params([:field_visit_date], params[@restoration.to_sym])[:field_visit_date]
-      )
+      upload_portion %i(application_form monuments application_form_complete field_visit_date)
+      #@restoration = model.find(params[:id])
+      #@restoration.update(
+      #  application_form: params[@restoration.to_sym][:application_form],
+      #  monuments: params[@restoration.to_sym][:monuments],
+      #  application_form_complete: params[@restoration.to_sym][:application_form_complete],
+      #  field_visit_date: date_params([:field_visit_date], params[@restoration.to_sym])[:field_visit_date]
+      #)
     end
 
     def upload_legal_notice
-      @restoration = model.find(params[:id])
-      @restoration.update(
-        legal_notice: params[@restoration.to_sym][:legal_notice],
-        legal_notice_newspaper: params[@restoration.to_sym][:legal_notice_newspaper],
-        legal_notice_cost: params[@restoration.to_sym][:legal_notice_cost],
-        legal_notice_format: params[@restoration.to_sym][:legal_notice_format]
-      )
+      upload_portion %i(legal_notice legal_notice_newspaper legal_notice_cost legal_notice_format)
+      #@restoration = model.find(params[:id])
+      #@restoration.update(
+      #  legal_notice: params[@restoration.to_sym][:legal_notice],
+      #  legal_notice_newspaper: params[@restoration.to_sym][:legal_notice_newspaper],
+      #  legal_notice_cost: params[@restoration.to_sym][:legal_notice_cost],
+      #  legal_notice_format: params[@restoration.to_sym][:legal_notice_format]
+      #)
     end
 
     def upload_previous
-      @restoration = model.find(params[:id])
-      @restoration.update(
-        previous_report: params[@restoration.to_sym][:previous_report],
-        previous_exists: params[@restoration.to_sym][:previous_exists],
-        previous_type: params[@restoration.to_sym][:previous_type],
-        previous_date: params[@restoration.to_sym][:previous_date]
-      )
+      upload_portion %i(previous_report previous_exists previous_type previous_date)
+      #@restoration = model.find(params[:id])
+      #@restoration.update(
+      #  previous_report: params[@restoration.to_sym][:previous_report],
+      #  previous_exists: params[@restoration.to_sym][:previous_exists],
+      #  previous_type: params[@restoration.to_sym][:previous_type],
+      #  previous_date: params[@restoration.to_sym][:previous_date]
+      #)
     end
 
     def view_application_form
@@ -197,6 +200,11 @@ module Applications
         restoration: @restoration,
         report_date: @restoration.recommendation_date || Date.current
       })
+    end
+
+    def upload_portion(keys)
+      @restoration = model.find(params[:id])
+      @restoration.update(keys.map { |key| [key, params[@restoration.to_sym][key]] }.to_h)
     end
   end
 end
