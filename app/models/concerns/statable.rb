@@ -2,7 +2,7 @@ module Statable
   extend ActiveSupport::Concern
 
   included do
-    has_many :status_changes, -> { order created_at: :desc }, as: :statable
+    has_many :status_changes, -> { order created_at: :desc, status: :desc }, as: :statable
   end
 
   def current_status

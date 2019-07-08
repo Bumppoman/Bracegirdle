@@ -5,6 +5,14 @@ activities:
       icon: 'icon ion-ios-add-circle'
       text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Received new complaint'
+    closed:
+      icon: 'fas fa-door-closed'
+      text: 'closed a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
+      title: 'Closed complaint'
+    closure_recommended:
+      icon: 'fas fa-door-closed'
+      text: 'recommended closure of a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
+      title: 'Recommended complaint be closed'
     investigation_begun:
       icon: 'fas fa-hourglass-start'
       text: 'began investigating a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
@@ -13,10 +21,6 @@ activities:
       icon: 'fas fa-hourglass-end'
       text: 'finished investigating a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Finished investigating a complaint'
-    closed:
-      icon: 'fas fa-door-closed'
-      text: 'closed a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
-      title: 'Closed complaint'
     reassigned:
       icon: 'fas fa-exchange-alt'
       text: 'reassigned a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'

@@ -89,8 +89,26 @@ class User < ApplicationRecord
     :support
   ]
 
+  def board_applications_count
+    if investigator?
+      @board_applications_count ||= land_sales.count + land_purchases.count + hazardous.count
+    end
+  end
+
   def first_name
     name.split(' ')[0]
+  end
+
+  def inbox_items_count
+    if investigator?
+      @inbox_items_count ||= rules.count
+    end
+  end
+
+  def investigations_count
+    if investigator?
+      @investigations_count ||= complaints.count + notices.count
+    end
   end
 
   def region_name

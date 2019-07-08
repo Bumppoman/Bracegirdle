@@ -14,6 +14,14 @@ feature 'Users' do
     expect(page).to have_content 'Anthony Cemetery'
   end
 
+  scenario 'User can display the profile', js: true do
+    login
+
+    visit user_profile_path
+
+    expect(page).to have_content 'Chester Butkiewicz'
+  end
+
   scenario 'User can change password' do
     class DummyController < ApplicationController
       def dummy

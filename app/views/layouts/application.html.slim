@@ -59,7 +59,10 @@ html lang="en"
                 i.fa.fa-angle-down
               .dropdown-menu.dropdown-menu-right
                 nav.nav
-                  a.nav-link href=user_calendar_path
+                  = link_to user_profile_path, class: 'nav-link' do
+                    i.icon.ion-ios-person
+                    | Profile
+                  = link_to user_calendar_path, class: 'nav-link' do
                     i.icon.ion-ios-calendar
                     | Calendar
                   = link_to change_user_password_path, class: 'nav-link' do
@@ -67,10 +70,10 @@ html lang="en"
                     | Change Password
                   a.nav-link href="#"
                     i.icon.ion-ios-settings
-                    |  Settings
+                    | Settings
                   = link_to logout_path, class: 'nav-link' do
                     i.icon.ion-ios-arrow-forward
-                    |  Sign Out
+                    | Sign Out
           - else
             = link_to 'Sign In', login_path
     == render 'layouts/navbar/main'

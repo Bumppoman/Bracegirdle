@@ -15,7 +15,7 @@ module SessionsHelper
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
     request = Net::HTTP::Post.new(url)
-    request["content-type"] = 'application/x-www-form-urlencoded'
+    request['content-type'] = 'application/x-www-form-urlencoded'
     request.body = "grant_type=client_credentials&client_id=#{Rails.application.credentials.auth0[:client_id]}&client_secret=#{Rails.application.credentials.auth0[:client_secret]}&audience=https%3A%2F%2Fbracegirdle.auth0.com%2Fapi%2Fv2%2F"
 
     response = http.request(request)

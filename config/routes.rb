@@ -110,6 +110,10 @@ Rails.application.routes.draw do
     resources :attachments, module: :complaints
     resources :notes, module: :complaints
 
+    collection do
+      get 'user/:user', to: 'complaints#index', as: :user
+    end
+
     member do
       patch 'assign', to: 'complaints#assign_complaint'
       patch 'begin-investigation', to: 'complaints#begin_investigation'
@@ -177,6 +181,7 @@ Rails.application.routes.draw do
   # Users
   get 'user/calendar', to: 'users#calendar'
   get 'user/change-password', to: 'users#change_password', as: :change_user_password
+  get 'user/profile(/:id)', to: 'users#profile', as: :user_profile
   post 'user/update-password', to: 'users#update_password', as: :update_user_password
   get 'login', to: redirect('/auth/auth0')
   get 'logout', to: 'sessions#destroy', as: :logout

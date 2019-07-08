@@ -6,6 +6,11 @@ class UsersController < ApplicationController
   def change_password
   end
 
+  def profile
+    @user = User.find_by(id: params[:id]) || current_user
+    @recent_complaints = @user.complaints.order(created_at: :desc).limit(5)
+  end
+
   def update_password
     # Make sure the passwords match
     unless params[:user][:new_password] == params[:user][:confirm_new_password]
