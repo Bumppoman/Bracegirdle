@@ -9,7 +9,7 @@ feature 'Users' do
     login
     @appointment = FactoryBot.create(:appointment)
 
-    visit user_calendar_path
+    visit calendar_user_path
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -22,11 +22,31 @@ feature 'Users' do
     expect(page).to have_content 'Chester Butkiewicz'
   end
 
-  scenario 'Supervisor can view team', js: true do
+  scenario 'Investigator can view team' do
+    supervisor = FactoryBot.create(:mean_supervisor)
+    user = FactoryBot.create(:user, team: 1)
+    login(user)
+
+    visit team_users_path
+
+    expect(page).to have_content 'Chester Butkiewicz'
+  end
+
+  scenario 'Supervisor can view team' do
     user = FactoryBot.create(:user, team: 2)
     login_supervisor
 
-    visit users_team_path
+    visit team_users_path
+
+    expect(page).to have_content 'Chester Butkiewicz'
+  end
+
+  scenario "Supervisor can view another user's team" do
+    user = FactoryBot.create(:user, team: 3)
+    login_supervisor
+    other_user = FactoryBot.create(:mean_supervisor)
+
+    visit team_users_path(3)
 
     expect(page).to have_content 'Chester Butkiewicz'
   end

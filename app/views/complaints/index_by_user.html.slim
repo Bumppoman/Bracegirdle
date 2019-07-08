@@ -1,0 +1,3 @@
+- content_for :title, "Active Complaints For #{@user.name}"
+- content_for :breadcrumbs, breadcrumbs_helper([['Profile', user_profile_path(@user)], 'Active complaints'])
+= render partial: 'list'

@@ -6,7 +6,7 @@
           = link_to dashboard_index_path, class: 'nav-link' do
             i.icon.ion-ios-home
             span Dashboard
-        == render 'layouts/navbar/workflow/investigator'
+        == render "layouts/navbar/workflow/#{current_user.role}"
         li.nav-item.with-sub
           a.nav-link href="#"
             i.icon.ion-ios-information-circle-outline
@@ -14,5 +14,6 @@
           .sub-item
             ul
               li
+                = link_to 'My Team', team_users_path
                 a href="#" Cemetery Directory
                 a href="#" Investigator Manual

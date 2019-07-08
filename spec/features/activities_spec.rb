@@ -44,9 +44,7 @@ feature 'Activities' do
 
   scenario 'Adding new rules logs activity', js: true do
     login
-    click_on 'Inbox'
-    click_on 'Rules and Regulations'
-    click_on 'Upload new rules'
+    visit new_rules_path
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
     fill_in 'Sender', with: 'Mark Smith'

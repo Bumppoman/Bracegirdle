@@ -129,7 +129,11 @@ class ComplaintsController < ApplicationController
   end
 
   def index
-    @user = params.key?(:user) ? User.find(params[:user]) : current_user
+    @complaints = current_user.complaints.includes(:cemetery)
+  end
+
+  def index_by_user
+    @user = User.find(params[:user])
     @complaints = @user.complaints.includes(:cemetery)
   end
 

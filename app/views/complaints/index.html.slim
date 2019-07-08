@@ -1,7 +1,3 @@
-- if params.key? :user
-  - content_for :title, "Active Complaints For #{@user.name}"
-  - content_for :breadcrumbs, breadcrumbs_helper([['Profile', user_profile_path(@user)], 'Active complaints'])
-- else
-  - content_for :title, 'My Active Complaints'
-  - content_for :breadcrumbs, breadcrumbs_helper(['My active complaints'])
+- content_for :title, 'My Active Complaints'
+- content_for :breadcrumbs, breadcrumbs_helper(['My active complaints'])
 = render partial: 'list'

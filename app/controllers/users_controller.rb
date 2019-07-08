@@ -12,8 +12,16 @@ class UsersController < ApplicationController
   end
 
   def team
-    @team = params.key?(:team) ? params[:team] : current_user.id
+    @team = if params.key?(:team)
+      params[:team]
+    elsif current_user.team.nil?
+      current_user.id
+    else
+      current_user.team
+    end
+
     @members = User.team(@team)
+    @complaints = Complaint.team(params[:team]).includes(:cemetery)
   end
 
   def update_password

@@ -111,7 +111,7 @@ Rails.application.routes.draw do
     resources :notes, module: :complaints
 
     collection do
-      get 'user/:user', to: 'complaints#index', as: :user
+      get 'user/:user', to: 'complaints#index_by_user', as: :user
     end
 
     member do
@@ -136,7 +136,7 @@ Rails.application.routes.draw do
   get '/500', to: 'errors#internal_server_error'
 
   # Inspections
-  resources :cemetery_inspections, only: [] do
+  resources :cemetery_inspections, only: :none do
     resources :attachments, module: :cemetery_inspections
   end
 
@@ -179,8 +179,12 @@ Rails.application.routes.draw do
   get 'towns/county/:county/options', to: 'towns#options_for_county'
 
   # Users
-  get 'users/team', to: 'users#team', as: :users_team
-  get 'user/calendar', to: 'users#calendar'
+  resources :users, only: :none do
+    collection do
+      get 'team(/:team)', to: 'users#team', as: :team
+    end
+  end
+  get 'user/calendar', to: 'users#calendar', as: :calendar_user
   get 'user/change-password', to: 'users#change_password', as: :change_user_password
   get 'user(/:id)/profile', to: 'users#profile', as: :user_profile
   post 'user/update-password', to: 'users#update_password', as: :update_user_password

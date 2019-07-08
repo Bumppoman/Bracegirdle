@@ -115,6 +115,10 @@ class User < ApplicationRecord
     end
   end
 
+  def last_name
+    name.split(' ')[1]
+  end
+
   def region_name
     NAMED_REGIONS[region].capitalize
   end

@@ -340,5 +340,14 @@ feature 'Complaints' do
 
       expect(page).to have_content 'Anthony Cemetery'
     end
+
+    scenario 'View other user complaints' do
+      other_user = FactoryBot.create(:user)
+      @complaint.update(investigator: other_user)
+
+      visit user_complaints_path(other_user)
+
+      expect(page).to have_content 'Anthony Cemetery'
+    end
   end
 end

@@ -29,6 +29,12 @@ describe User, type: :model do
       end
     end
 
+    describe User, '#last_name' do
+      it 'should return the last name of the user' do
+        expect(subject.last_name).to eq 'Butkiewicz'
+      end
+    end
+
     describe User, '#region_name' do
       it 'returns the correct region name' do
         expect(subject.region_name).to eq 'Binghamton'

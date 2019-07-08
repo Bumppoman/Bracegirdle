@@ -1,10 +1,10 @@
 - content_for :title, 'My Team'
 - content_for :breadcrumbs, breadcrumbs_helper(['My team'])
-.manager-wrapper
+#team-manager.manager-wrapper
   .manager-right
-    .row.row-sm
+    #team-members.team-manager-tab.row.row-sm
       - @members.each do |user|
-        .col-sm-6.col-lg-4
+        .col-sm-6.col-lg-4.mg-b-20
           .card-contact
             .tx-center
               = link_to user_profile_path(user) do
@@ -20,13 +20,15 @@
               span = user.cell_phone
             p.contact-item
               span Email:
-              a href="" = user.email
+              a href="mailto:#{user.email}" = user.email
+    #team-complaints.team-manager-tab style="display: none;"
+      = render partial: 'complaints/list'
   .manager-left
     nav.nav
-      a.nav-link.active href=""
+      a.team-tab-link.nav-link.active href="#team-members"
         span All team members
         span = @members.count
-      a.nav-link href=""
+      a.team-tab-link.nav-link href="#team-complaints"
         span Open complaints
         span = Complaint.active.team(@team).count
       a.nav-link href=""
