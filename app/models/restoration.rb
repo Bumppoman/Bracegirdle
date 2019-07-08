@@ -39,6 +39,7 @@ class Restoration < ApplicationRecord
   has_one_attached :raw_application_file
 
   scope :pending_supervisor_review, -> { where(status: :processed) }
+  scope :team, -> (team) { joins(:investigator).where(users: { team: team }).or(joins(:investigator).where(investigator_id: team)) }
 
   with_options if: :newly_created? do |application|
     application.validates :amount, presence: true

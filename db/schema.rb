@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_07_010909) do
+ActiveRecord::Schema.define(version: 2019_07_08_175123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -398,6 +398,9 @@ ActiveRecord::Schema.define(version: 2019_07_07_010909) do
     t.integer "region"
     t.boolean "active", default: true
     t.boolean "supervisor", default: false
+    t.integer "team"
+    t.string "office_phone"
+    t.string "cell_phone"
   end
 
 end

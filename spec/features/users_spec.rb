@@ -22,6 +22,15 @@ feature 'Users' do
     expect(page).to have_content 'Chester Butkiewicz'
   end
 
+  scenario 'Supervisor can view team', js: true do
+    user = FactoryBot.create(:user, team: 2)
+    login_supervisor
+
+    visit users_team_path
+
+    expect(page).to have_content 'Chester Butkiewicz'
+  end
+
   scenario 'User can change password' do
     class DummyController < ApplicationController
       def dummy

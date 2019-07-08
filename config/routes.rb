@@ -179,9 +179,10 @@ Rails.application.routes.draw do
   get 'towns/county/:county/options', to: 'towns#options_for_county'
 
   # Users
+  get 'users/team', to: 'users#team', as: :users_team
   get 'user/calendar', to: 'users#calendar'
   get 'user/change-password', to: 'users#change_password', as: :change_user_password
-  get 'user/profile(/:id)', to: 'users#profile', as: :user_profile
+  get 'user(/:id)/profile', to: 'users#profile', as: :user_profile
   post 'user/update-password', to: 'users#update_password', as: :update_user_password
   get 'login', to: redirect('/auth/auth0')
   get 'logout', to: 'sessions#destroy', as: :logout

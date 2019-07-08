@@ -11,6 +11,11 @@ class UsersController < ApplicationController
     @recent_complaints = @user.complaints.order(created_at: :desc).limit(5)
   end
 
+  def team
+    @team = params.key?(:team) ? params[:team] : current_user.id
+    @members = User.team(@team)
+  end
+
   def update_password
     # Make sure the passwords match
     unless params[:user][:new_password] == params[:user][:confirm_new_password]

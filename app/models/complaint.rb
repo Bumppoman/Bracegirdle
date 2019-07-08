@@ -31,6 +31,7 @@ class Complaint < ApplicationRecord
 
   scope :active, -> { where.not(status: [:pending_closure, :closed]) }
   scope :active_for, -> (user) { active.where(investigator: user) }
+  scope :team, -> (team) { joins(:investigator).where(users: { team: team }).or(joins(:investigator).where(investigator_id: team)) }
   scope :unassigned, -> { where(investigator: nil) }
 
   validates :complainant_name, presence: true

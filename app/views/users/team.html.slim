@@ -1,0 +1,34 @@
+- content_for :title, 'My Team'
+- content_for :breadcrumbs, breadcrumbs_helper(['My team'])
+.manager-wrapper
+  .manager-right
+    .row.row-sm
+      - @members.each do |user|
+        .col-sm-6.col-lg-4
+          .card-contact
+            .tx-center
+              = link_to user_profile_path(user) do
+                img.card-img src="http://via.placeholder.com/500x500" alt=""
+              h5.mg-t-10.mg-b-5
+                a.contact-name href="" = user.name
+              p = user.title
+            p.contact-item
+              span Office Phone:
+              span = user.office_phone
+            p.contact-item
+              span Cell Phone:
+              span = user.cell_phone
+            p.contact-item
+              span Email:
+              a href="" = user.email
+  .manager-left
+    nav.nav
+      a.nav-link.active href=""
+        span All team members
+        span = @members.count
+      a.nav-link href=""
+        span Open complaints
+        span = Complaint.active.team(@team).count
+      a.nav-link href=""
+        span Pending board applications
+        span = team_board_applications(@team)

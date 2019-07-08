@@ -81,6 +81,10 @@ class User < ApplicationRecord
     foreign_key: :investigator_id,
     inverse_of: :investigator
 
+  scope :team, -> (team) {
+    where(team: team, active: true)
+  }
+
   enum role: [
     :unauthenticated,
     :cemeterian,
