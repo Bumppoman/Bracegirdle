@@ -37,7 +37,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'capistrano', group: :development
 gem 'capistrano-rails', group: :development
 gem 'capistrano-rvm', group: :development
-gem 'capistrano-puma', group: :development
+gem 'capistrano3-puma', group: :development
 
 # Use PostgreSQL for production
 gem 'pg'

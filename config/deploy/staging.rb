@@ -6,6 +6,7 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
+server 'brendonstanton.com', user: 'bracegirdle-test', roles: %w{web app db}, primary: true
 
 
 
@@ -30,7 +31,8 @@
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
+set :deploy_to, '/var/www/bracegirdle-test'
+set :rails_env, 'staging'
 
 
 # Custom SSH Options

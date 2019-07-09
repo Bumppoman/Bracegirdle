@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     end
 
     @members = User.team(@team)
-    @complaints = Complaint.team(params[:team]).includes(:cemetery)
+    @complaints = Complaint.active.team(@team).includes(:cemetery)
   end
 
   def update_password

@@ -32,5 +32,9 @@ production:
   username: cemeteries
   password: cemeteries123
 
-cucumber:
-  <<: *test
+staging:
+  adapter: postgresql
+  encoding: unicode
+  database: bracegirdle-test
+  username: bracegirdle-test
+  password: bgtest123
