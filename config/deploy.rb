@@ -11,6 +11,8 @@ set :deploy_to, "/var/www/bracegirdle"
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
+set :puma_bind,       "#{shared_path}/tmp/sockets/puma.sock"
+set :puma_conf,       "#{shared_path}/puma.rb"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{shared_path}/log/puma.error.log"

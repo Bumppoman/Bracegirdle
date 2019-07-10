@@ -82,7 +82,7 @@ class User < ApplicationRecord
     inverse_of: :investigator
 
   scope :team, -> (team) {
-    where(team: team, active: true)
+    where(team: team, active: true).or(where(id: team))
   }
 
   enum role: [
