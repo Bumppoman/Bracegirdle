@@ -17,6 +17,6 @@ describe NotificationMailer, type: :mailer do
 
     mail = ActionMailer::Base.deliveries.last
 
-    expect(mail.subject).to eq 'John Smith added a comment to complaint #2019-0001 against Anthony Cemetery'
+    expect(mail.subject).to eq "John Smith added a comment to complaint #CPLT-#{@complaint.created_at.year}-00001 against Anthony Cemetery"
   end
 end

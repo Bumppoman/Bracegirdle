@@ -19,7 +19,7 @@ describe Complaint, type: :model do
       it 'sets a complaint number after saving' do
         subject.save
 
-        expect(subject.complaint_number).to eq "#{subject.created_at.year}-#{'%04d' % subject.id}"
+        expect(subject.complaint_number).to eq "CPLT-#{subject.created_at.year}-#{'%05d' % subject.id}"
       end
     end
   end
@@ -91,7 +91,7 @@ describe Complaint, type: :model do
     describe Complaint, '#concern_text' do
       it 'provides the correct text' do
         subject.save
-        expect(subject.concern_text).to eq ['complaint', "##{Date.current.year}-0001", 'against Anthony Cemetery']
+        expect(subject.concern_text).to eq ['complaint', "#CPLT-#{Date.current.year}-00001", 'against Anthony Cemetery']
       end
     end
 
@@ -134,9 +134,9 @@ describe Complaint, type: :model do
 
     describe Complaint, '#to_s' do
       it 'returns the complaint number' do
-        subject.complaint_number = '2019-0001'
+        subject.complaint_number = 'CPLT-2019-00001'
 
-        expect(subject.to_s).to eq '2019-0001'
+        expect(subject.to_s).to eq 'CPLT-2019-00001'
       end
     end
 
