@@ -11,8 +11,8 @@ class Complaint < ApplicationRecord
 
   belongs_to :cemetery, optional: true
   belongs_to :closed_by, class_name: 'User', foreign_key: :closed_by_id, optional: true
-  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
+  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
 
   enum ownership_type: {
     purchase: 1,

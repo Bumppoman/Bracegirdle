@@ -29,11 +29,12 @@ feature 'Sessions' do
     Rails.application.reload_routes!
 
     visit login_path
-
-    expect { visit new_complaint_path }.not_to raise_error
+    visit new_complaint_path
+    expect(page).to have_content 'Add New Complaint'
 
     visit logout_path
+    visit new_complaint_path
 
-    expect { visit new_complaint_path }.to raise_error(ApplicationController::Forbidden)
+    #expect(current_path).to eq login_path
   end
 end

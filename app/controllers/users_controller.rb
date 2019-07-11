@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  include Permissions
+  
+  before_action do
+    stipulate :must_be_employee
+  end
+
   def calendar
   end
 

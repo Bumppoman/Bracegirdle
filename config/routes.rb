@@ -188,7 +188,7 @@ Rails.application.routes.draw do
   get 'user/change-password', to: 'users#change_password', as: :change_user_password
   get 'user(/:id)/profile', to: 'users#profile', as: :user_profile
   post 'user/update-password', to: 'users#update_password', as: :update_user_password
-  get 'login', to: redirect('/auth/auth0')
+  get 'login', to: 'sessions#create', as: :login
   get 'logout', to: 'sessions#destroy', as: :logout
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

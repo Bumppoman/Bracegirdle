@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
-  include SessionsHelper
+  include Permissions, SessionsHelper
 
   Forbidden = Class.new(StandardError)
+
+  before_action :ensure_authenticated
 
   protected
 

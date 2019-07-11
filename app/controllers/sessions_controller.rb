@@ -2,12 +2,18 @@ require 'uri'
 require 'net/http'
 
 class SessionsController < ApplicationController
+  skip_before_action :ensure_authenticated
+
   def callback
     session[:userinfo] = request.env['omniauth.auth']
     if user = User.find_by_email(session[:userinfo].info['name'])
       session[:user_id] = user.id
       redirect_to root_path
     end
+  end
+
+  def create
+    redirect_to '/auth/auth0'
   end
 
   def destroy

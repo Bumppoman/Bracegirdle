@@ -5,10 +5,6 @@ feature 'Complaints' do
     @cemetery = FactoryBot.create(:cemetery)
   end
 
-  scenario 'Unauthorized user tries to add complaint' do
-    expect { visit new_complaint_path }.to raise_error(ApplicationController::Forbidden)
-  end
-
   context Complaint, 'Complaint requires investigation' do
 
     scenario 'Investigator adds complaint', js: true do

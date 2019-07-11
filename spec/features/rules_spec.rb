@@ -9,10 +9,6 @@ feature 'Rules' do
       order_id: 1)
   end
 
-  scenario 'Unauthorized user tries to add rules' do
-    expect { visit new_rules_path }.to raise_error(ApplicationController::Forbidden)
-  end
-
   scenario 'Investigator adds new rules', js: true do
     login
     visit new_rules_path

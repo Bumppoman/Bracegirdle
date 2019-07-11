@@ -12,8 +12,14 @@ feature 'Admin' do
       end
     end
 
-    scenario 'Administrator can update letterhead' do
+    scenario 'Unauthorized user cannot update' do
       login
+
+      expect { visit admin_edit_letterhead_path }.to raise_error(ApplicationController::Forbidden)
+    end
+
+    scenario 'Administrator can update letterhead' do
+      login_supervisor
       visit admin_edit_letterhead_path
 
       fill_in 'Director', with: 'Richard Fishman'

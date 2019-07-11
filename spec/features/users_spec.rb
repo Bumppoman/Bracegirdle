@@ -53,6 +53,7 @@ feature 'Users' do
 
   scenario 'User can change password' do
     class DummyController < ApplicationController
+      skip_before_action :ensure_authenticated
       def dummy
         render inline: 'Hello world'
       end

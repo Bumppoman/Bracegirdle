@@ -1,4 +1,8 @@
 class Admin::LetterheadController < Admin::BaseController
+  before_action do
+    stipulate :must_be_supervisor
+  end
+  
   def edit
     @letterhead = letterhead
   end

@@ -15,10 +15,6 @@ feature 'Cemetery Inspections' do
     @cemetery.locations << Location.new(latitude: 42.6547541, longitude: -73.7592342)
   end
 
-  scenario 'Unauthorized user tries to begin inspection' do
-    expect { visit inspect_cemetery_path(@cemetery) }.to raise_error(ApplicationController::Forbidden)
-  end
-
   scenario 'Investigator begins inspection', js: true do
     login
     visit inspections_cemetery_path(@cemetery)

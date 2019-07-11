@@ -40,7 +40,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-support.git
-  revision: 667ad802a4fadd153044e6223a8561a1e143e202
+  revision: 6deb13fb055c2638e8dc8a7aaaa7e72b266edcd6
   branch: master
   specs:
     rspec-support (3.9.0.pre)
@@ -118,7 +118,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     backports (3.15.0)
     bcrypt (3.1.13)
-    bindex (0.7.0)
+    bindex (0.8.1)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
     builder (3.2.3)

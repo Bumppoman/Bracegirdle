@@ -5,10 +5,6 @@ feature 'Notices' do
     @cemetery = FactoryBot.create(:cemetery)
   end
 
-  scenario 'Unauthorized user tries to add notice' do
-    expect { visit new_notice_path }.to raise_error(ApplicationController::Forbidden)
-  end
-
   scenario 'Investigator issues notice', js: true do
     login
     visit new_notice_path

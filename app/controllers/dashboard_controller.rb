@@ -1,7 +1,5 @@
 class DashboardController < ApplicationController
   def index
-    redirect_to login_path and return unless current_user
-
     # Set complaints
     @complaints = current_user.complaints.count
     @complaints += Complaint.pending_closure.or(Complaint.unassigned).count if current_user.supervisor?
