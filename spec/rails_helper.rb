@@ -115,3 +115,4 @@ Capybara.register_driver :headless_chrome do |app|
 end
 
 Capybara.javascript_driver = :headless_chrome
+#Capybara.raise_server_errors = false

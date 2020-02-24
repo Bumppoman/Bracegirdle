@@ -12,7 +12,7 @@ production_local:
 
 bracegirdle_test:
   service: Disk
-  root: /data/bracegirdle-test
+  root: /var/www/bracegirdle-test/shared/data
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

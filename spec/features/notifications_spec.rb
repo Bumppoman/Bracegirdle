@@ -12,7 +12,6 @@ feature 'Notifications' do
     fill_in 'Name', with: 'Herman Munster'
     fill_in 'Street Address', with: '1313 Mockingbird Ln.'
     fill_in 'City', with: 'Rotterdam'
-    select2 'NY', from: 'State'
     fill_in 'ZIP Code', with: '13202'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'

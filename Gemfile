@@ -84,7 +84,7 @@ group :test do
   gem 'database_cleaner'
 
   # To determine test coverage
-  gem 'simplecov'
+  gem 'simplecov', require: false
 
   # To test PDFs
   gem 'pdf-inspector'
