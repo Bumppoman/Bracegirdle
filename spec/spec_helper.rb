@@ -107,7 +107,4 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-
-  # SimpleCov 0.18.3 workaround
-  config.after(:suite) { SimpleCov.at_exit_behavior }
 end

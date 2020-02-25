@@ -84,7 +84,7 @@ group :test do
   gem 'database_cleaner'
 
   # To determine test coverage
-  gem 'simplecov', require: false
+  gem 'simplecov', '< 0.18', require: false
 
   # To test PDFs
   gem 'pdf-inspector'
@@ -99,7 +99,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # For geocoding cemetery locations
 gem 'geocoder'
 
-gem "rubyzip", "~> 1.2.2"
+gem "rubyzip"
 
 # For Slim templates
 gem "slim"
@@ -123,3 +123,4 @@ gem 'indefinite_article'
 # For Auth0
 gem 'omniauth'
 gem 'omniauth-auth0'
+gem 'omniauth-rails_csrf_protection'
