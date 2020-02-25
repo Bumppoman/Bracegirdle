@@ -99,7 +99,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # For geocoding cemetery locations
 gem 'geocoder'
 
+<<<<<<< HEAD
 gem "rubyzip"
+=======
+gem "rubyzip", "~> 1.3.0"
+>>>>>>> 4fdfc53d95d8505e2777c83f97b3e73c8b207955
 
 # For Slim templates
 gem "slim"
