@@ -123,4 +123,4 @@ gem 'indefinite_article'
 # For Auth0
 gem 'omniauth'
 gem 'omniauth-auth0'
-gem 'omniauth-rails_csrf_protection'
+#gem 'omniauth-rails_csrf_protection'
