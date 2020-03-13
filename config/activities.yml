@@ -49,10 +49,18 @@ activities:
       title: 'Added a note'
   notice:
     color: 'danger'
+    follow_up:
+      icon: 'icon ion-ios-flashlight'
+      text: 'completed a follow-up inspection regarding Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> against <%= activity.object.cemetery.name %>'
+      title: 'Followed up on notice'
     issued:
       icon: 'icon ion-ios-mail'
       text: 'issued Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> to <%= activity.object.cemetery.name %>'
       title: 'Issued notice'
+    resolved:
+      icon: 'icon ion-ios-thumbs-up'
+      text: 'resolved Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> against <%= activity.object.cemetery.name %>'
+      title: 'Resolved notice'
     response:
       icon: 'icon ion-ios-mail-open'
       text: 'received a response to Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> from <%= activity.object.cemetery.name %>'
@@ -61,23 +69,23 @@ activities:
     color: 'teal'
     approved:
       icon: 'icon ion-ios-thumbs-up'
-      text: 'approved <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
+      text: 'approved <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
       title: 'Approved rules'
     assigned:
       icon: 'fas fa-user-plus'
-      text: 'assigned <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %> to <%= activity.object.investigator.name %>'
+      text: 'assigned <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %> to <%= activity.object.investigator.name %>'
       title: 'Assigned rules'
     revision_received:
       icon: 'fas fa-envelope-open'
-      text: 'received a revision to <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
+      text: 'received a revision to <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
       title: 'Received rules revision'
     revision_requested:
       icon: 'fas fa-user-edit'
-      text: 'requested a revision to <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
+      text: 'requested a revision to <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
       title: 'Requested rules revision'
     uploaded:
       icon: 'icon ion-ios-cloud-upload'
-      text: 'uploaded new <%= link_to "rules", activity.object %> for <%= activity.object.cemetery.name %>'
+      text: 'uploaded new <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
       title: 'Uploaded new rules'
   restoration:
     color: 'indigo'

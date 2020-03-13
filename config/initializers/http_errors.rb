@@ -1,1 +1,1 @@
-ActionDispatch::ExceptionWrapper.rescue_responses.merge!('ApplicationController::Forbidden' => :forbidden)
+ActionDispatch::ExceptionWrapper.rescue_responses.merge!('Pundit::NotAuthorizedError' => :forbidden)

@@ -27,14 +27,9 @@ describe Notice, type: :model do
       it 'sets a notice number after saving' do
         subject.save
 
-        expect(subject.notice_number).to eq "XXX-#{Date.current.year}-#{'%04i' % subject.id}"
+        expect(subject.notice_number).to eq "XXX-#{Date.current.year}-#{'%05i' % subject.id}"
       end
     end
-  end
-
-  describe 'Associations' do
-    it { should belong_to(:investigator) }
-    it { should belong_to(:cemetery) }
   end
 
   describe 'Instance Methods' do
@@ -63,7 +58,7 @@ describe Notice, type: :model do
     describe Notice, '#concern_text' do
       it 'provides the correct text' do
         subject.save
-        expect(subject.concern_text).to eq ['Notice of Non-Compliance', "#XXX-#{Date.current.year}-0001", 'against Anthony Cemetery']
+        expect(subject.concern_text).to eq ['Notice of Non-Compliance', "#XXX-#{Date.current.year}-00001", 'against Anthony Cemetery']
       end
     end
 

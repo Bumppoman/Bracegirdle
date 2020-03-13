@@ -1,6 +1,6 @@
 class ErrorsController < ApplicationController
   skip_before_action :ensure_authenticated
-
+  
   def forbidden
     @status = 403
     @message = 'You are not allowed to access this page.'

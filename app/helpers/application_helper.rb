@@ -19,7 +19,7 @@ module ApplicationHelper
       else
         path = "applications_#{application.send(method).downcase}_path"
       end
-    when :reviewed, :approved
+    when :reviewed, :scheduled, :approved
       path = "applications_#{application.send(method).downcase}_path"
     end
 

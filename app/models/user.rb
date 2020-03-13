@@ -93,6 +93,8 @@ class User < ApplicationRecord
     :support
   ]
 
+  STAFF_ROLES = %i(investigator accountant support).freeze
+
   def board_applications_count
     if investigator?
       @board_applications_count ||= land_sales.count + land_purchases.count + hazardous.count
@@ -126,5 +128,9 @@ class User < ApplicationRecord
   def signature
     filename = "#{name.to_s.downcase.split(' ').join}.tif"
     Pathname.new(Rails.root.join('app', 'pdfs', 'signatures', filename)).exist? ? filename : nil
+  end
+
+  def staff?
+    STAFF_ROLES.include? role.to_sym
   end
 end

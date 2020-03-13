@@ -166,7 +166,7 @@ feature 'Cemetery Inspections' do
     @inspection = FactoryBot.create(:cemetery_inspection)
     login
 
-    visit incomplete_inspections_path
+    visit incomplete_cemetery_inspections_path
 
     expect(page).to have_content 'Anthony Cemetery'
   end

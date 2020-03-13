@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_08_175123) do
+ActiveRecord::Schema.define(version: 2020_03_07_160553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,13 @@ ActiveRecord::Schema.define(version: 2019_07_08_175123) do
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
     t.index ["cemetery_id"], name: "index_attachments_on_cemetery_id"
     t.index ["user_id"], name: "index_attachments_on_user_id"
+  end
+
+  create_table "board_meetings", force: :cascade do |t|
+    t.datetime "date"
+    t.string "location"
+    t.integer "initial_index"
+    t.integer "status", default: 1
   end
 
   create_table "cemeteries", force: :cascade do |t|
@@ -242,6 +249,17 @@ ActiveRecord::Schema.define(version: 2019_07_08_175123) do
     t.string "locatable_type"
     t.float "latitude"
     t.float "longitude"
+  end
+
+  create_table "matters", force: :cascade do |t|
+    t.bigint "board_meeting_id"
+    t.integer "status", default: 1
+    t.text "comments"
+    t.string "application_type"
+    t.integer "application_id"
+    t.integer "order"
+    t.string "identifier"
+    t.index ["board_meeting_id"], name: "index_matters_on_board_meeting_id"
   end
 
   create_table "notes", force: :cascade do |t|

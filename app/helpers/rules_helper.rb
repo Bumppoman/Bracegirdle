@@ -7,4 +7,12 @@ module RulesHelper
 
     links.empty? ? 'None added.' : links.join(content_tag(:span, ' | ', class: 'mg-l-5 mg-r-10'))
   end
+
+  def rules_link(rules)
+    if rules.approved?
+      rules_path(rules)
+    else
+      review_rules_path(rules)
+    end
+  end
 end

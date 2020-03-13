@@ -1,0 +1,6 @@
+$('#schedule-matter').modal('hide');
+
+// Remove the row
+$('#matters-data-table').DataTable().row($('#matter-<%= @matter.id %>')).remove().draw();
+
+$('#schedule-success').show().delay(3000).fadeOut();

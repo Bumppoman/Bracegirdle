@@ -1,13 +1,7 @@
 class NoticesController < ApplicationController
-  include Permissions
-
-  before_action do
-    stipulate :must_be_employee
-  end
-
   def create
     # Create the object
-    @notice = Notice.new(notice_params)
+    @notice = authorize Notice.new(notice_params)
 
     # Set the cemetery and investigator
     begin
@@ -31,7 +25,7 @@ class NoticesController < ApplicationController
   end
 
   def download
-    @notice = Notice.find(params[:id])
+    @notice = authorize Notice.find(params[:id])
     pdf = NoticePdf.new(
         @notice.attributes.merge(
             'cemetery_name' => @notice.cemetery.name,
@@ -52,47 +46,59 @@ class NoticesController < ApplicationController
               disposition: 'inline'
   end
 
-  def edit; end
+  def follow_up
+    @notice = authorize Notice.find(params[:id])
 
-  def index
-    @notices = current_user.notices.includes(:cemetery)
-  end
+    @notice.update(
+      **notice_date_params,
+      status: :follow_up_completed)
+    Notices::NoticeFollowUpEvent.new(@notice, current_user).trigger
 
-  def new
-    @notice = Notice.new(served_on_state: 'NY')
-  end
-
-  def show
-    @notice = Notice.includes(notes: :user).find(params[:id])
-  end
-
-  def update_status
-    @notice = Notice.find(params[:id])
-
-    response_received if params.key? :response_received
-    follow_up_date if params.key? :follow_up_date
-    follow_up_completed if params.key? :follow_up_completed
-    resolve_notice if params.key? :resolve_notice
-
-    # Respond
-    if @notice.save
-      respond_to do |m|
-        m.js { render partial: @response }
-      end
+    respond_to do |m|
+      m.js { render partial: 'notices/update/follow_up'}
     end
   end
 
+  def index
+    @notices = authorize current_user.notices.includes(:cemetery)
+  end
+
+  def new
+    @notice = authorize Notice.new(served_on_state: 'NY')
+  end
+
+  def resolve
+    @notice = authorize Notice.find(params[:id])
+
+    @notice.update(
+      notice_resolved_date: Date.current,
+      status: :resolved
+    )
+    Notices::NoticeResolvedEvent.new(@notice, current_user).trigger
+
+    respond_to do |m|
+      m.js { render partial: 'notices/update/resolve'}
+    end
+  end
+
+  def response_received
+    @notice = authorize Notice.find(params[:id])
+
+    @notice.update(
+      response_received_date: Date.current,
+      status: :response_received)
+    Notices::NoticeResponseEvent.new(@notice, current_user).trigger
+
+    respond_to do |m|
+      m.js { render partial: 'notices/update/response_received'}
+    end
+  end
+
+  def show
+    @notice = authorize Notice.includes(notes: :user).find(params[:id])
+  end
+
   private
-
-  def follow_up_completed
-    @notice.update(notice_date_params)
-    @notice.status = :follow_up_completed
-    @response = 'notices/update/follow_up_complete'
-  end
-
-  def follow_up_date
-    @response = 'notices/update/follow_up_date'
-  end
 
   def notice_params
     params.require(:notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
@@ -100,18 +106,5 @@ class NoticesController < ApplicationController
 
   def notice_date_params
     date_params %w(response_required_date violation_date follow_up_inspection_date), params[:notice]
-  end
-
-  def resolve_notice
-    @notice.notice_resolved_date = Date.current
-    @notice.status = :resolved
-    @response = 'notices/update/resolve_notice'
-  end
-
-  def response_received
-    @notice.response_received_date = Date.current
-    @notice.status = :response_received
-    @response = 'notices/update/response_received'
-    Notices::NoticeResponseEvent.new(@notice, current_user).trigger
   end
 end

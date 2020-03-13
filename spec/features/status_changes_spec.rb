@@ -12,6 +12,7 @@ feature 'Status Changes' do
     fill_in 'Name', with: 'Herman Munster'
     fill_in 'Street Address', with: '1313 Mockingbird Ln.'
     fill_in 'City', with: 'Rotterdam'
+    select2 'NY', from: 'State'
     fill_in 'ZIP Code', with: '13202'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
@@ -37,6 +38,7 @@ feature 'Status Changes' do
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    select2 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
@@ -58,6 +60,7 @@ feature 'Status Changes' do
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    select2 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
@@ -94,5 +97,21 @@ feature 'Status Changes' do
       click_on 'Submit for Consideration'
       assert_selector '#restoration-exhibits'
     }.to change { StatusChange.count }
+  end
+
+  scenario 'Scheduling a board matter tracks status for matter and application', js: true do
+    @application = FactoryBot.create(:reviewed_hazardous)
+    @board_meeting = FactoryBot.create(:board_meeting, date: '2028-03-01')
+    @matter = FactoryBot.create(:matter, application: @application)
+    login
+
+    visit applications_schedulable_path # Visit is ok because we are not waiting on anything
+    click_on 'Schedule'
+    choose 'matter_board_meeting_1'
+
+    expect {
+      click_on 'Schedule Matter'
+      assert_selector '.dataTables_empty'
+    }.to change { StatusChange.count }.by(2)
   end
 end

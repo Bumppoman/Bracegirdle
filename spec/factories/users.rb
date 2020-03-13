@@ -24,4 +24,19 @@ FactoryBot.define do
     role { :investigator }
     region { 4 }
   end
+
+  factory :cemeterian, class: 'User' do
+    name { 'Bill Cemeterian' }
+    role { :cemeterian }
+  end
+
+  factory :accountant, class: 'User' do
+    name { 'Gus Ballard' }
+    role { :accountant }
+  end
+
+  factory :support, class: 'User' do
+    name { 'David Jacobson' }
+    role { :support }
+  end
 end

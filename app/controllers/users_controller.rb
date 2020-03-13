@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  include Permissions
-  
-  before_action do
-    stipulate :must_be_employee
-  end
-
   def calendar
   end
 
@@ -40,7 +34,7 @@ class UsersController < ApplicationController
 
     token = get_token
 
-    url = URI(URI.encode("https://bracegirdle.auth0.com/api/v2/users/#{session[:userinfo]['uid']}"))
+    url = URI("https://bracegirdle.auth0.com/api/v2/users/#{session[:userinfo]['uid']}")
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true

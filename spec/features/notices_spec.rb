@@ -52,12 +52,13 @@ feature 'Notices' do
     visit notices_path
     click_on @notice.notice_number
     click_on 'Response Received'
-    sleep(1)
+    wait_for_multistep
     click_on 'Follow-Up Completed'
-    sleep(1)
-    click_button 'follow-up-completed'
-    sleep(1)
+    sleep(1) # Can't get this to work with any kind of wait
+    click_button 'follow_up_completed'
+    wait_for_multistep
     click_on 'Resolve Notice'
+    assert_selector '#notice-resolved-date'
     visit notices_path
 
     expect(page).to have_content('There are no notices')
@@ -70,9 +71,9 @@ feature 'Notices' do
     visit notices_path
     click_on @notice.notice_number
     click_on 'Response Received'
-    sleep(1)
+    wait_for_multistep
     click_button 'Follow-Up Completed'
-    sleep(1)
+    sleep(1) # Can't get this to work with any kind of wait
     fill_in 'notice[follow_up_inspection_date]', with: '02/01/2019'
     all('h6').last.click
     click_on 'follow-up-completed'

@@ -13,11 +13,13 @@ end
 describe Land, type: :model do
   subject { create_land }
 
-  context Land, 'Associations' do
-    it { should belong_to :cemetery }
-  end
-
   context Land, 'Instance Methods' do
+    describe Land, '#formatted_application_type' do
+      it 'returns the correct application type' do
+        expect(subject.formatted_application_type).to eq 'Land purchase'
+      end
+    end
+
     describe Land, '#to_sym' do
       it 'returns the correct symbol' do
         expect(subject.to_sym).to be :land

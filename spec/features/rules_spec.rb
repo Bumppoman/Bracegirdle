@@ -20,13 +20,14 @@ feature 'Rules' do
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
     attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
     visit rules_index_path
 
     expect(page).to have_content 'Anthony Cemetery'
   end
 
-  scenario 'Investigator adds new rules selecting the cemetery', js: true do
+  scenario 'Investigator adds new rules without selecting the cemetery', js: true do
     login
     visit new_rules_path
 
@@ -36,9 +37,10 @@ feature 'Rules' do
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
+    select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
 
-    expect(page).to have_content'There was a problem'
+    expect(page).to have_content 'There was a problem'
   end
 
   scenario "User can't do anything with somebody else's rules in progress" do
@@ -47,9 +49,9 @@ feature 'Rules' do
     login
     @him = FactoryBot.create(:another_investigator)
 
-    visit rules_path(@rules)
-
-    expect(page).to_not have_content 'Approve Rules'
+    expect{
+      visit review_rules_path(@rules)
+    }.to raise_error(Pundit::NotAuthorizedError)
   end
 
   scenario "Can't approve rules when waiting for a revision" do
@@ -57,18 +59,17 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
 
     expect(page).to_not have_content 'Approve Rules'
   end
 
   scenario 'Can request revision' do
-    @rules = FactoryBot.create(:rules)
-    @rules.update(investigator_id: 1)
+    @rules = FactoryBot.create(:rules, investigator_id: 1)
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules) # Visit is ok because we aren't waiting on anything
     click_button 'Request Revision'
     visit rules_index_path
 
@@ -80,7 +81,7 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
 
     expect(page).to have_content 'Approve Rules'
   end
@@ -91,9 +92,8 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     click_button 'Approve Rules'
-    visit rules_path(@rules)
 
     expect(page).to have_content 'Approved'
   end
@@ -125,7 +125,7 @@ feature 'Rules' do
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     select2 'Bob Wood', from: 'Investigator'
     click_on 'Assign Rules'
     logout
@@ -140,11 +140,10 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login_supervisor
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     click_button 'Approve Rules'
-    visit rules_path(@rules)
 
-    expect(page).to have_content 'Approved'
+    expect(page).to have_content 'APPROVED'
   end
 
 
@@ -153,10 +152,9 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     first(:button, 'Submit').click
-    visit rules_path(@rules)
 
     expect(page).to have_content 'REVISION 2'
   end
@@ -166,10 +164,9 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.txt'), visible: false
     first(:button, 'Submit').click
-    visit rules_path(@rules)
 
     expect(page).not_to have_content('REVISION 2', wait: 2)
   end
@@ -180,7 +177,7 @@ feature 'Rules' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('lib', 'document_templates', 'rules-approval.docx'))
     login
 
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     fill_in 'note[body]', with: 'Adding a note to these rules'
     all(:button, 'Submit').last.click
 

@@ -13,7 +13,7 @@
       tbody
         - @rules.each do |rules|
           tr
-            td = link_to rules.identifier, rules
+            td = link_to rules.identifier, review_rules_path(rules)
             td = "#{rules.cemetery} (##{rules.cemetery.cemetery_id})"
             td
               span style="display: none;" = sort_date(rules.submission_date)

@@ -80,7 +80,7 @@ class Notice < ApplicationRecord
   private
 
   def set_notice_number
-    self.notice_number = "#{investigator.office_code}-#{Date.current.year}-#{'%04i' % id}"
+    self.notice_number = "#{investigator.office_code}-#{Date.current.year}-#{'%05i' % id}"
     save
   end
 end

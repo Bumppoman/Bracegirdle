@@ -29,6 +29,11 @@ module Applications
       end
     end
 
+    def schedulable
+      @matters = Matter.includes(:application).unscheduled
+      @board_meetings = BoardMeeting.all.order(:date)
+    end
+
     private
 
     def application_create_params

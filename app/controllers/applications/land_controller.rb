@@ -1,7 +1,5 @@
 module Applications
   class LandController < ApplicationsController
-    include Permissions
-
     CREATION_EVENT = Applications::ApplicationReceivedEvent
     MODEL = Land
 

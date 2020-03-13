@@ -8,8 +8,6 @@ describe User, type: :model do
   subject { create_user }
 
   context User, 'Associations' do
-    it { should have_many :notifications }
-
     describe User, 'User.cemeteries' do
       it 'lists the cemeteries for the user' do
         @cemetery = Cemetery.new(name: 'Anthony Cemetery', county: 4, order_id: 1, investigator_region: 5)

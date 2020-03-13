@@ -12,6 +12,7 @@ feature 'Activities' do
     fill_in 'Name', with: 'Herman Munster'
     fill_in 'Street Address', with: '1313 Mockingbird Ln.'
     fill_in 'City', with: 'Rotterdam'
+    select2 'NY', from: 'State'
     fill_in 'ZIP Code', with: '13202'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
@@ -52,6 +53,7 @@ feature 'Activities' do
     fill_in 'City', with: 'Rotterdam'
     fill_in 'ZIP Code', with: '12345'
     attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Submit'
 
     click_on 'Dashboard', match: :first
@@ -64,7 +66,7 @@ feature 'Activities' do
     @rules.update(investigator_id: 1)
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'))
     login
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     click_button 'Approve Rules'
 
     visit root_path # Visiting instead of clicking because of modal and no AJAX
@@ -77,7 +79,7 @@ feature 'Activities' do
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'))
     login_supervisor
     @him = FactoryBot.create(:another_investigator)
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     select2 'Bob Wood', from: 'Investigator'
     click_on 'Assign Rules'
 
@@ -90,7 +92,7 @@ feature 'Activities' do
     @rules = FactoryBot.create(:revision_requested)
     @rules.rules_documents.attach fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'))
     login
-    visit rules_path(@rules)
+    visit review_rules_path(@rules)
     attach_file 'rules_rules_documents', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     first(:button, 'Submit').click
 
@@ -117,7 +119,7 @@ feature 'Activities' do
 
     visit root_path # Visiting instead of clicking because of modal and no AJAX
 
-    expect(page).to have_content "Chester Butkiewicz issued Notice of Non-Compliance #BNG-#{@year}-0001 to Anthony Cemetery"
+    expect(page).to have_content "Chester Butkiewicz issued Notice of Non-Compliance #BNG-#{@year}-00001 to Anthony Cemetery"
   end
 
   scenario 'Receiving a response to a notice logs activity', js: true do
@@ -130,7 +132,7 @@ feature 'Activities' do
 
     click_on 'Dashboard', match: :first
 
-    expect(page).to have_content "Chester Butkiewicz received a response to Notice of Non-Compliance #BNG-#{@year}-0001 from Anthony Cemetery"
+    expect(page).to have_content "Chester Butkiewicz received a response to Notice of Non-Compliance #BNG-#{@year}-00001 from Anthony Cemetery"
   end
 
   scenario 'Uploading a hazardous monument application logs activity', js: true do
@@ -141,9 +143,11 @@ feature 'Activities' do
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    select2 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
     assert_selector '#process-restoration'
 

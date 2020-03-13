@@ -24,7 +24,7 @@ feature 'Appointments' do
     login
     @appointment = FactoryBot.create(:appointment)
 
-    visit scheduled_inspections_path
+    visit scheduled_cemetery_inspections_path
     click_on 'Begin'
 
     expect {
@@ -37,7 +37,7 @@ feature 'Appointments' do
     login
     @appointment = FactoryBot.create(:appointment)
 
-    visit scheduled_inspections_path
+    visit scheduled_cemetery_inspections_path
     click_on 'Reschedule'
     fill_in 'appointment[time]', with: (Time.now + 1.hour).strftime('%I:%M %p')
     click_on 'Reschedule inspection'
@@ -50,7 +50,7 @@ feature 'Appointments' do
     login
     @appointment = FactoryBot.create(:appointment)
 
-    visit scheduled_inspections_path
+    visit scheduled_cemetery_inspections_path
     click_on 'Cancel'
 
     expect {

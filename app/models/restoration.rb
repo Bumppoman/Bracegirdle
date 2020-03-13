@@ -1,4 +1,4 @@
-class Restoration < ApplicationRecord
+class Restoration < BoardApplication
   include Notable
   include Statable
 
@@ -24,11 +24,12 @@ class Restoration < ApplicationRecord
       received: 1,
       processed: 2,
       reviewed: 3,
-      approved: 4,
-      paid: 5,
-      repaired: 6,
-      verified: 7,
-      closed: 8
+      scheduled: 4,
+      approved: 5,
+      paid: 6,
+      repaired: 7,
+      verified: 8,
+      closed: 9
   }
 
   has_many :estimates, -> { order(:amount) }
@@ -41,9 +42,9 @@ class Restoration < ApplicationRecord
   scope :pending_supervisor_review, -> { where(status: :processed) }
   scope :team, -> (team) { joins(:investigator).where(users: { team: team }).or(joins(:investigator).where(investigator_id: team)) }
 
-  with_options if: :newly_created? do |application|
-    application.validates :amount, presence: true
-    application.validates :submission_date, presence: true
+  with_options if: :newly_created? do
+    validates :amount, presence: true
+    validates :submission_date, presence: true
   end
 
   FINAL_STATUSES = [:closed]
@@ -54,6 +55,7 @@ class Restoration < ApplicationRecord
     received: 'Received',
     processed: 'Sent to supervisor',
     reviewed: 'Sent to Cemetery Board',
+    scheduled: 'Scheduled for Cemetery Board review',
     approved: 'Approved by Cemetery Board',
     paid: 'Awaiting repairs',
     repaired: 'Repairs completed',
@@ -115,14 +117,14 @@ class Restoration < ApplicationRecord
     when :vandalism
       'Vandalism'
     when :hazardous
-      'Hazardous Monuments'
+      'Hazardous'
     when :abandonment
       'Abandonment'
     end
   end
 
   def set_identifier
-    self.identifier = "#{TYPE_CODES[type.downcase.to_sym]}-#{created_at.year}-#{'%04d' % id}"
+    self.identifier = "#{TYPE_CODES[type.downcase.to_sym]}-#{created_at.year}-#{'%05d' % id}"
     save
   end
 end

@@ -24,12 +24,6 @@ describe Complaint, type: :model do
     end
   end
 
-  describe 'Associations' do
-    it { should belong_to(:investigator) }
-    it { should belong_to(:cemetery) }
-    it { should belong_to(:receiver) }
-  end
-
   describe 'Instance Methods' do
     describe Complaint, 'active?' do
       it 'returns true when the complaint is active' do

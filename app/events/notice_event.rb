@@ -2,6 +2,8 @@ class NoticeEvent < Event
   class Type
     NOTICE_ISSUED = 'issued'
     NOTICE_RESPONSE = 'response'
+    NOTICE_FOLLOW_UP = 'follow_up'
+    NOTICE_RESOLVED = 'resolved'
   end
 
   attr_accessor :notice, :user

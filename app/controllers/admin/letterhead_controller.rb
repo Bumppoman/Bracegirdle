@@ -1,13 +1,11 @@
 class Admin::LetterheadController < Admin::BaseController
-  before_action do
-    stipulate :must_be_supervisor
-  end
-  
   def edit
+    authorize [:admin, :letterhead], :edit?
     @letterhead = letterhead
   end
 
   def update
+    authorize [:admin, :letterhead], :update? 
     File.open(Rails.root.join('config', 'letterhead.yml'), 'w') do |file|
       file.write({ 'letterhead' => letterhead_params.to_h }.to_yaml)
     end

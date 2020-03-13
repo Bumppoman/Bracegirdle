@@ -7,4 +7,8 @@ class Appointment < ApplicationRecord
     cancelled: 2,
     completed: 3
   }
+
+  def belongs_to?(provided_user)
+    provided_user == user
+  end
 end

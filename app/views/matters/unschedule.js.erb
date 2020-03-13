@@ -1,0 +1,7 @@
+$('#confirm-unschedule-matter').modal('hide');
+
+// Remove the row
+const row = $('#matter-<%= @matter.id %>');
+row.parents('table:first').DataTable().row(row).remove().draw();
+
+$('#unschedule-success').show().delay(3000).fadeOut();

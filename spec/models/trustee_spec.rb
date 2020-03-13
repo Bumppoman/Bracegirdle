@@ -10,10 +10,6 @@ end
 describe Trustee, type: :model do
   subject { create_trustee }
 
-  context Trustee, 'Associations' do
-    it { should belong_to :cemetery }
-  end
-
   context Trustee, 'Instance Methods' do
     describe Trustee, '#formatted_email' do
       it 'returns the email if it is set' do

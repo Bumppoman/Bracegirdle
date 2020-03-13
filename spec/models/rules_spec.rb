@@ -22,14 +22,9 @@ describe Rules, type: :model do
       it 'sets an identifier after saving' do
         subject.save
 
-        expect(subject.identifier).to eq "#{subject.created_at.year}-#{'%04d' % subject.id}"
+        expect(subject.identifier).to eq "RULES-#{subject.created_at.year}-#{'%05d' % subject.id}"
       end
     end
-  end
-
-  context 'Associations' do
-    it { should belong_to :cemetery }
-    it { should belong_to :investigator }
   end
 
   context 'Instance Methods' do
@@ -199,7 +194,7 @@ describe Rules, type: :model do
 
         result = Rules.active_for(@me)
 
-        expect(result).to eq [awaiting_revisions, @active]
+        expect(result).to eq [@active, awaiting_revisions]
       end
     end
 

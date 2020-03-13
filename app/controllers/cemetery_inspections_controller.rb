@@ -1,12 +1,6 @@
 class CemeteryInspectionsController < ApplicationController
-  include Permissions
-
-  before_action do
-    stipulate :must_be_investigator
-  end
-
   def additional_information
-    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(
       additional_comments: params[:cemetery_inspection][:additional_comments],
       additional_documents: additional_documents_param,
@@ -14,7 +8,7 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def cemetery_information
-    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.date_performed = cemetery_inspection_date_params['date_performed']
     @inspection.update(cemetery_information_params)
 
@@ -34,7 +28,7 @@ class CemeteryInspectionsController < ApplicationController
 
   def create_old_inspection
     @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
-    @inspection = CemeteryInspection.new(cemetery_inspection_date_params)
+    @inspection = authorize CemeteryInspection.new(cemetery_inspection_date_params)
 
     investigator = params[:cemetery_inspection][:investigator].present? ? User.find(params[:cemetery_inspection][:investigator]) : nil
     @inspection.assign_attributes(
@@ -58,7 +52,7 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def finalize
-    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
     @inspection.update(
       status: :complete,
       date_mailed: Date.current
@@ -68,12 +62,12 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def incomplete
-    @incomplete = current_user.incomplete_inspections
+    @incomplete = authorize current_user.incomplete_inspections
   end
 
   def perform
     @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
-    @inspection = CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
+    @inspection = authorize CemeteryInspection.where(cemetery: @cemetery, status: :begun).first ||
       CemeteryInspection.new(
         cemetery: @cemetery,
         investigator: current_user,
@@ -84,32 +78,32 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def physical_characteristics
-    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(physical_characteristics_params)
   end
 
   def record_keeping
-    @inspection = CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:cemetery_inspection][:identifier])
     @inspection.update(record_keeping_params)
   end
 
   def revise
-    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
     @inspection.update(status: :begun)
   end
 
   def show
     @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
-    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
   end
 
   def upload_old_inspection
     @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
-    @inspection = CemeteryInspection.new
+    @inspection = authorize CemeteryInspection.new
   end
 
   def view_full_package
-    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
     output = CombinePDF.new
 
     # Add appropriate letter
@@ -161,7 +155,7 @@ class CemeteryInspectionsController < ApplicationController
 
   def view_report
     @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
-    @inspection = CemeteryInspection.find_by_identifier(params[:identifier])
+    @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
 
     pdf = generate_report
     send_data pdf.render,

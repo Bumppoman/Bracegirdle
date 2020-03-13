@@ -10,11 +10,6 @@ end
 describe Estimate, type: :model do
   subject { create_estimate }
 
-  context Estimate, 'Associations' do
-    it { should belong_to :contractor }
-    it { should belong_to :restoration }
-  end
-
   context Estimate, 'Instance Methods' do
     describe Estimate, '#amount=' do
       it 'removes the comma when adding an estimate' do

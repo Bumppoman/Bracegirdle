@@ -14,6 +14,7 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       fill_in 'Phone Number', with: '518-555-3232'
       fill_in 'Email', with: 'test@test.test'
@@ -44,6 +45,7 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       find('#complaint_cemetery_regulated_false', visible: false).sibling('span').click
       select2 'Broome', from: 'County'
@@ -67,6 +69,7 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       select2 'Broome', from: 'County'
       select2 'Burial issues', from: 'Complaint Type'
@@ -102,12 +105,12 @@ feature 'Complaints' do
       login_supervisor
       @complaint = FactoryBot.create(:complaint_pending_closure)
 
-      visit complaints_pending_closure_path
+      visit pending_closure_complaints_path
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_on 'Close Complaint'
       assert_selector '#closure-date'
-      visit complaints_pending_closure_path
+      visit pending_closure_complaints_path
 
       expect(page).to have_content('There are no complaints')
     end
@@ -131,7 +134,7 @@ feature 'Complaints' do
       @complaint = FactoryBot.create(:complaint_pending_closure)
       login(FactoryBot.create(:mean_supervisor))
 
-      visit complaints_pending_closure_path
+      visit pending_closure_complaints_path
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_button 'Reopen Investigation'
@@ -198,6 +201,7 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       select2 'Broome', from: 'County'
       select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
@@ -221,6 +225,7 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
+      select2 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       select2 'Broome', from: 'County'
       select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'

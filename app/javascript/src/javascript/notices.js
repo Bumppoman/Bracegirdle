@@ -27,4 +27,9 @@ $(document).on('turbolinks:load', function () {
         nextItem($(notice_sections[hide]), false);
         hide++;
     }
+
+    $('#follow-up-date-button').click(function (e) {
+        e.preventDefault();
+        $('#follow-up-date').modal();
+    });
 });

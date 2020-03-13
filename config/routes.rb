@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     end
 
     standard_actions_for :abandonment, :hazardous, :vandalism
+
+    get 'schedulable', to: 'applications#schedulable'
   end
 
   # Appointments
@@ -54,15 +56,23 @@ Rails.application.routes.draw do
     end
 
     member do
-      patch 'begin', to: 'appointments#begin', as: :begin
-      patch 'cancel', to: 'appointments#cancel', as: :cancel
-      patch 'reschedule', to: 'appointments#reschedule', as: :reschedule
+      patch :begin
+      patch :cancel
+      patch :reschedule
     end
   end
 
   # Auth0
   get 'auth/auth0/callback', to: 'sessions#callback'
   get 'auth/failure', to: 'sessions#failure'
+
+  # Board Meetings
+  resources :board_meetings do
+    member do
+      patch 'finalize-agenda'
+      get '*filename.pdf', to: 'board_meetings#download_agenda', as: :download_agenda
+    end
+  end
 
   # Cemeteries
   resources :cemeteries, param: :cemetery_id do
@@ -73,6 +83,9 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'county/:county', to: 'cemeteries#list_by_county', as: :county
+      get 'county/:county/options', to: 'cemeteries#options_for_county'
+      get 'region/:region', to: 'cemeteries#list_by_region', as: :region
       get 'overdue-inspections(/region/:region)', to: 'cemeteries#overdue_inspections', as: :overdue_inspections
     end
 
@@ -90,42 +103,38 @@ Rails.application.routes.draw do
       get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_inspection_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
       post 'inspections/schedule', to: 'cemetery_inspections#schedule', as: :schedule_inspection
-      get 'rules', to: 'rules#show_approved', as: :rules
+      get 'rules', to: 'rules#show', as: :rules
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
       get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
       post 'upload-inspection', to: 'cemetery_inspections#create_old_inspection', as: :create_old_inspection
     end
   end
-  get 'cemeteries/county/:county', to: 'cemeteries#list_by_county', as: :cemeteries_by_county
-  get 'cemeteries/county/:county/options', to: 'cemeteries#options_for_county'
-  get 'cemeteries/region/:region' => 'cemeteries#list_by_region', as: :cemeteries_by_region
-  get 'cemeteries/:id/details.json', to: 'cemeteries#as_json', as: :cemetery_json
-  get 'cemeteries/:id/trustees/api/list', to: 'trustees#api_list', as: :trustees_api_list
+  get 'cemetery/:id/details.json', to: 'cemeteries#show', as: :cemetery_json
+  get 'cemetery/:id/trustees/api/list', to: 'trustees#api_list', as: :trustees_api_list
 
   # Complaints
-  get 'complaints/unassigned', to: 'complaints#unassigned', as: :unassigned_complaints
-  get 'complaints/pending-closure', to: 'complaints#pending_closure', as: :complaints_pending_closure
-  get 'complaints/all', to: 'complaints#all', as: :all_complaints
   resources :complaints do
     resources :attachments, module: :complaints
     resources :notes, module: :complaints
 
     collection do
+      get :all
+      get 'pending-closure'
+      get :unassigned
       get 'user/:user', to: 'complaints#index_by_user', as: :user
     end
 
     member do
-      patch 'assign', to: 'complaints#assign_complaint'
-      patch 'begin-investigation', to: 'complaints#begin_investigation'
-      patch 'change-investigator', to: 'complaints#change_investigator'
-      patch 'close', to: 'complaints#close_complaint'
-      patch 'complete-investigation', to: 'complaints#complete_investigation'
-      patch 'reopen-investigation', to: 'complaints#reopen_investigation'
-      patch 'request-update', to: 'complaints#request_update'
+      patch :assign
+      patch 'begin-investigation'
+      patch 'change-investigator'
+      patch :close
+      patch 'complete-investigation'
+      get 'investigation-details', to: 'complaints#show', defaults: { tab: :investigation }
+      patch 'reopen-investigation'
+      patch 'request-update'
     end
   end
-  get 'complaints/:id/investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :complaint_investigation
-  patch 'complaints/:id/update-investigation', to: 'complaints#update_investigation', as: :complaint_update_investigation
 
   # Dashboard
   post 'dashboard/search', to: 'dashboard#search', as: :search
@@ -138,18 +147,30 @@ Rails.application.routes.draw do
   # Inspections
   resources :cemetery_inspections, only: :none do
     resources :attachments, module: :cemetery_inspections
+
+    collection do
+      get :incomplete
+      get :scheduled, to: 'appointments#index'
+    end
   end
 
-  get 'inspections/incomplete', to: 'cemetery_inspections#incomplete', as: :incomplete_inspections
-  get 'inspections/scheduled', to: 'appointments#index', as: :scheduled_inspections
+  # Matters
+  resources :matters do
+    member do
+      patch :schedule
+      patch :unschedule
+    end
+  end
 
   # Notices
   resources :notices do
     resources :attachments, module: :notices
     resources :notes, module: :notices
     member do
+      patch 'follow-up'
       get '*filename.pdf', to: 'notices#download', as: :download
-      patch 'update-status', to: 'notices#update_status'
+      patch :resolve
+      patch 'response-received'
     end
   end
 
@@ -161,14 +182,18 @@ Rails.application.routes.draw do
   mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
 
   # Rules
-  get 'rules/upload-old-rules', to: 'rules#upload_old_rules', as: :upload_old_rules
+  get 'rules/upload-old-rules', as: :upload_old_rules
   post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
   resources :rules do
     resources :notes, module: :rules
+
     member do
+      patch :approve
+      patch :assign
       get '*filename.pdf', to: 'rules#download_approval', as: :download_approval
-      patch 'review', to: 'rules#review'
-      patch 'upload-revision', to: 'rules#upload_revision'
+      patch 'request-revision'
+      get :review
+      patch 'upload-revision'
     end
   end
 

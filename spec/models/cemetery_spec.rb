@@ -11,16 +11,6 @@ end
 describe Cemetery, type: :model do
   subject { create_cemetery }
 
-  context Cemetery, 'Associations' do
-    it { should have_many :cemetery_inspections }
-    it { should have_many :complaints }
-    it { should have_one :last_inspection }
-    it { should have_many :notices }
-    it { should have_one :rules }
-    it { should have_and_belong_to_many :towns }
-    it { should have_many :trustees }
-  end
-
   context Cemetery, 'Class Methods' do
     describe Cemetery, 'find_by_cemetery_id' do
       it 'returns the correct cemetery' do

@@ -27,7 +27,7 @@ $(document).on('turbolinks:load', function () {
 
             $('#application-trustee-name').prop('disabled', false);
             $.ajax({
-                url: '/cemeteries/' + selected_cemetery + '/trustees/api/list?name_only',
+                url: '/cemetery/' + selected_cemetery + '/trustees/api/list?name_only',
                 success: function (data) {
                     $('#application-trustee-name').html(data);
                     $('#application-trustee-name').trigger('change');
@@ -35,10 +35,25 @@ $(document).on('turbolinks:load', function () {
             });
 
             // Update the investigator to select the one assigned to the region
-            $.getJSON('/cemeteries/' + selected_cemetery, function (data) {
+            $.getJSON('/cemetery/' + selected_cemetery + '/details.json', function (data) {
                 $('#application-investigator').val(data.investigator.id);
                 $('#application-investigator').trigger('change');
             });
         });
+    }
+
+    if(document.getElementById('board-meeting-agenda-data-table')) {
+      $('#board-meeting-agenda-data-table').DataTable({
+        responsive: true,
+        rowReorder: {
+          update: false
+        },
+        language: {
+          emptyTable: $('#board-meeting-agenda-data-table').data('empty-message'),
+          searchPlaceholder: 'Search...',
+          sSearch: '',
+          lengthMenu: '_MENU_ items/page',
+        }
+      });
     }
 });

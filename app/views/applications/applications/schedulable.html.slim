@@ -1,0 +1,48 @@
+- content_for :title, 'Applications Awaiting Cemetery Board Review'
+- content_for :breadcrumbs, breadcrumbs_helper(['Applications awaiting Cemetery Board review'])
+.section-wrapper
+  #schedule-success.alert.alert-success style="display: none;" You have successfully scheduled this matter.
+  .table-wrapper
+    table#matters-data-table.table.display.responsive.no-wrap.data-table-basic data-empty-message="There are no unscheduled matters to display."
+      thead
+        tr
+          th
+          th Cemetery
+          th Type
+          th Submission Date
+          th Last Action
+          th Actions
+      tbody
+        - @matters.each do |matter|
+          tr id="matter-#{matter.id}"
+            td.align-middle = application_link matter.application
+            td.align-middle = "#{matter.cemetery} (##{matter.cemetery.cemetery_id})"
+            td.align-middle = matter.application.formatted_application_type
+            td.align-middle
+              span style="display: none;" = sort_date(matter.application.submission_date)
+              span = matter.application.submission_date
+            td.align-middle
+              span style="display: none;" = sort_date(matter.application.current_status.created_at)
+              span = matter.application.current_status.created_at
+            td
+              button.schedule-matter.btn.btn-primary.mr-2 data-action=schedule_matter_path(matter) Schedule
+= form_with model: Matter, method: :patch, html: { id: 'schedule-matter-form' } do |f|
+  #schedule-matter.modal
+    .modal-dialog.wd-30p role="document"
+      .modal-content
+        .modal-header.pd-x-20
+          h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold = "Schedule Matter"
+          button.close type="button" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+        .modal-body.pd-b-0
+          = f.hidden_field :matter
+          p
+            | Choose a board meeting for this matter
+            br<>
+            - @board_meetings.each do |board_meeting|
+                .row.pd-l-15
+                  .col-sm-1 = f.radio_button :board_meeting, board_meeting.id
+                  .col-sm-11 = f.label :board_meeting, board_meeting.date
+        .modal-footer.justify-content-center
+          = f.button "Schedule Matter", class: 'btn btn-primary'
+          button.btn.btn-secondary type="button" data-dismiss="modal" Close

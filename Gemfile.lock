@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rspec/rspec-core.git
-  revision: da87aa0c5f25a6e6f2db6f0c8fb2a04625b80ac6
+  revision: 725b0d2eadaa9ac9f816a6d2d7ef1e507a6705cd
   branch: master
   specs:
     rspec-core (3.10.0.pre)
@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-expectations.git
-  revision: 986f545858eb9154dd9177deb83575f3e95427dc
+  revision: 3c997d98f49731b2d28d01e070b88aef6bb3c68b
   branch: master
   specs:
     rspec-expectations (3.10.0.pre)
@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-mocks.git
-  revision: ae6e11d7f5100146c4b58b165975a29e2ccc60db
+  revision: 81c17e89b2722cb225d602e08b600e4a4f6148a4
   branch: master
   specs:
     rspec-mocks (3.10.0.pre)
@@ -26,17 +26,17 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-rails.git
-  revision: c11a1b6fff72c6c45c67727480d4558742eb292c
-  branch: 4-0-dev
+  revision: 148f7ce473e0f9e36018e9a7ca79aad4af0a6d14
+  branch: master
   specs:
-    rspec-rails (4.0.0.beta2)
+    rspec-rails (4.0.0.pre)
       actionpack (>= 4.2)
       activesupport (>= 4.2)
       railties (>= 4.2)
-      rspec-core (~> 3.8)
-      rspec-expectations (~> 3.8)
-      rspec-mocks (~> 3.8)
-      rspec-support (~> 3.8)
+      rspec-core (= 3.10.0.pre)
+      rspec-expectations (= 3.10.0.pre)
+      rspec-mocks (= 3.10.0.pre)
+      rspec-support (= 3.10.0.pre)
 
 GIT
   remote: https://github.com/rspec/rspec-support.git
@@ -44,14 +44,6 @@ GIT
   branch: master
   specs:
     rspec-support (3.10.0.pre)
-
-GIT
-  remote: https://github.com/thoughtbot/shoulda-matchers.git
-  revision: 4b160bd19ecca7f97d7ac22dccd5fde9b0da5a9f
-  branch: rails-5
-  specs:
-    shoulda-matchers (3.1.2)
-      activesupport (>= 4.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -116,14 +108,18 @@ GEM
     afm (0.2.2)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    backports (3.16.1)
+    backports (3.17.0)
     bcrypt (3.1.13)
-    bindex (0.8.1)
-    bootsnap (1.4.5)
+    better_errors (2.6.0)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
+    bootsnap (1.4.6)
       msgpack (~> 1.0)
     builder (3.2.4)
-    byebug (11.1.1)
-    capistrano (3.12.0)
+    capistrano (3.12.1)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -148,8 +144,9 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    capybara-select-2 (0.4.3)
+    capybara-select-2 (0.5.0)
     childprocess (3.0.0)
+    coderay (1.1.2)
     combine_pdf (1.0.16)
       ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.1.6)
@@ -157,6 +154,7 @@ GEM
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
     database_cleaner (1.8.3)
+    debug_inspector (0.0.3)
     diff-lcs (1.3)
     docile (1.3.2)
     erubi (1.9.0)
@@ -182,9 +180,9 @@ GEM
       net-http-pipeline
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    hashdiff (1.0.0)
+    hashdiff (1.0.1)
     hashery (2.1.2)
-    hashie (3.6.0)
+    hashie (4.1.0)
     highline (1.7.10)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
@@ -196,10 +194,9 @@ GEM
     jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
+    listen (3.2.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -222,7 +219,7 @@ GEM
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
     nio4r (2.5.2)
-    nokogiri (1.10.8)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     numbers_and_words (0.11.6)
       i18n
@@ -232,17 +229,14 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (1.9.0)
-      hashie (>= 3.4.6, < 3.7.0)
+    omniauth (1.9.1)
+      hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-auth0 (2.2.0)
+    omniauth-auth0 (2.3.0)
       omniauth-oauth2 (~> 1.5)
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
-    omniauth-rails_csrf_protection (0.1.2)
-      actionpack (>= 4.2)
-      omniauth (>= 1.3.1)
     pdf-core (0.7.0)
     pdf-inspector (1.3.0)
       pdf-reader (>= 1.0, < 3.0.a)
@@ -262,8 +256,10 @@ GEM
       ttfunk (~> 1.5)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    puma (4.3.1)
+    puma (4.3.3)
       nio4r (~> 2.0)
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
@@ -310,8 +306,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     ruby-rc4 (0.1.5)
-    ruby_dep (1.5.0)
-    rubyzip (1.3.0)
+    rubyzip (2.2.0)
     safe_yaml (1.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -324,6 +319,14 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (2.2.1)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -350,14 +353,14 @@ GEM
     squid (1.4.1)
       activesupport (>= 4.0)
       prawn (~> 2.2)
-    sshkit (1.20.0)
+    sshkit (1.21.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    travis (1.8.10)
+    travis (1.8.11)
       backports
       faraday (~> 0.9)
       faraday_middleware (~> 0.9, >= 0.9.1)
@@ -374,16 +377,11 @@ GEM
       ethon (>= 0.8.0)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
-    web-console (4.0.1)
-      actionview (>= 6.0.0)
-      activemodel (>= 6.0.0)
-      bindex (>= 0.4.0)
-      railties (>= 6.0.0)
-    webdrivers (4.1.2)
+    webdrivers (4.2.0)
       nokogiri (~> 1.6)
-      rubyzip (~> 1.0)
+      rubyzip (>= 1.3.0)
       selenium-webdriver (>= 3.0, < 4.0)
-    webmock (3.8.2)
+    webmock (3.8.3)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -397,38 +395,38 @@ GEM
     websocket-extensions (0.1.4)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.2.2)
+    zeitwerk (2.3.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt (~> 3.1.7)
+  bcrypt
+  better_errors
+  binding_of_caller
   bootsnap (>= 1.4.2)
-  byebug
   capistrano
   capistrano-rails
   capistrano-rvm
   capistrano3-puma
-  capybara (>= 2.15)
+  capybara
   capybara-select-2
   combine_pdf
   database_cleaner
   factory_bot_rails
   geocoder
   indefinite_article
-  jbuilder (~> 2.5)
-  listen (>= 3.0.5, < 3.2)
+  jbuilder
   numbers_and_words
   omniauth
   omniauth-auth0
-  omniauth-rails_csrf_protection
   pdf-inspector
   pdfjs_viewer-rails
   pg
   prawn
   prawn-table
   puma
+  pundit
   rack_session_access
   rails (= 6.0.2.1)
   remotipart
@@ -439,25 +437,23 @@ DEPENDENCIES
   rspec-retry
   rspec-support!
   rubyzip
-  sass-rails (~> 5.0)
+  sassc-rails
   selenium-webdriver
-  shoulda-matchers!
   simplecov (< 0.18)
   slim
   spring
-  spring-watcher-listen (~> 2.0.0)
-  sqlite3 (~> 1.4)
+  spring-watcher-listen
+  sqlite3
   squid
   travis
-  turbolinks (~> 5)
+  turbolinks
   tzinfo-data
-  web-console (>= 3.3.0)
   webdrivers
   webmock
-  webpacker (~> 4.0)
+  webpacker
 
 RUBY VERSION
-   ruby 2.6.3p62
+   ruby 2.7.0p0
 
 BUNDLED WITH
    2.1.4

@@ -35,6 +35,10 @@ class CemeteryInspection < ApplicationRecord
     begun? || performed?
   end
 
+  def belongs_to?(user)
+    user == investigator
+  end
+
   def current_inspection_step
     return 3 unless pet_burials.nil?
     return 2 unless renovations.nil?

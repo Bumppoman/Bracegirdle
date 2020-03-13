@@ -1,6 +1,5 @@
 class Rules < ApplicationRecord
-  include Notable
-  include Statable
+  include Notable, Statable
 
   after_commit :set_identifier, on: :create
 
@@ -87,7 +86,7 @@ class Rules < ApplicationRecord
   end
 
   def set_identifier
-    self.identifier = "#{created_at.year}-#{'%04d' % id}"
+    self.identifier = "RULES-#{created_at.year}-#{'%05d' % id}"
     save
   end
 end

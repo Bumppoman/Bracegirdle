@@ -1,9 +1,11 @@
 class ApplicationController < ActionController::Base
-  include Permissions, SessionsHelper
-
-  Forbidden = Class.new(StandardError)
+  include Pundit, SessionsHelper
 
   before_action :ensure_authenticated
+
+  def ensure_authenticated
+    redirect_to :login and return unless current_user
+  end
 
   protected
 

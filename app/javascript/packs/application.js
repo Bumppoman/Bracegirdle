@@ -16,21 +16,28 @@ require("channels")
 const images = require.context('../images', true);
 const imagePath = (name) => images(name, true);
 
-window.$ = $; // to get jQuery or some other library you're after, if you'd want it
+import $ from 'jquery';
+window.$ = $;
 window.jQuery = jQuery;
 
 import 'bootstrap/dist/js/bootstrap';
 import 'select2/dist/js/select2.min';
 import 'jquery-steps/build/jquery.steps.min';
 import 'fullcalendar/dist/fullcalendar.min';
-import 'jquery-timepicker/jquery.timepicker'
+import 'jquery-timepicker/jquery.timepicker';
 
 require('jquery-ui/ui/widgets/datepicker');
 require('jquery-ui/ui/effect');
 require('jquery-ui/ui/effects/effect-highlight');
 
-require('datatables.net')(window, $);
-require('datatables.net-responsive')(window, $);
+// Add DataTables jQuery plugin
+require('imports-loader?define=>false!datatables.net')(window, $);
+require('imports-loader?define=>false!datatables.net-rowreorder')(window, $);
+require('imports-loader?define=>false!datatables.net-responsive')(window, $);
+
+// Load datatables styles
+import 'datatables.net-dt/css/jquery.dataTables.min.css'
+import 'datatables.net-rowreorder-dt/css/rowReorder.dataTables.min.css'
 
 import '../src/javascript/multistep';
 
@@ -43,6 +50,7 @@ import '../src/javascript/complaints';
 import '../src/javascript/confirmation_modal';
 import '../src/javascript/dashboard';
 import '../src/javascript/limit_cemeteries';
+import '../src/javascript/matters';
 import '../src/javascript/notices';
 import '../src/javascript/restoration';
 import '../src/javascript/rules';

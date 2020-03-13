@@ -28,13 +28,21 @@ FactoryBot.define do
         hazardous.estimates << create(:estimate, restoration: hazardous)
         hazardous.estimates << create(:higher_estimate, restoration: hazardous)
 
-        FactoryBot.create(:create_hazardous_status_change, statable: hazardous)
-        FactoryBot.create(:process_hazardous_status_change, statable: hazardous)
+        FactoryBot.create(:create_restoration_status_change, statable: hazardous)
+        FactoryBot.create(:process_restoration_status_change, statable: hazardous)
       end
 
       factory :hazardous_three_estimates do
         after(:create) do |hazardous|
           hazardous.estimates << create(:highest_estimate, restoration: hazardous)
+        end
+      end
+
+      factory :reviewed_hazardous do
+        status { :reviewed }
+
+        after(:create) do |hazardous|
+          FactoryBot.create(:review_restoration_status_change, statable: hazardous)
         end
       end
     end

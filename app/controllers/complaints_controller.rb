@@ -1,30 +1,24 @@
 # frozen_string_literal: true
 
 class ComplaintsController < ApplicationController
-  include Permissions
-
-  before_action do
-    stipulate :must_be_investigator
-  end
-
   def all
-    @complaints = Complaint.includes(:cemetery).all
+    @complaints = authorize Complaint.includes(:cemetery).all
   end
 
-  def assign_complaint
-    @complaint = Complaint.find(params[:id])
+  def assign
+    @complaint = authorize Complaint.find(params[:id])
     @complaint.update(
       status: :investigation_begun,
       investigator: User.find(params[:complaint][:investigator]))
     Complaints::ComplaintAssignEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
-      f.js { render partial: 'complaints/update/assign_complaint' }
+      f.js { render partial: 'complaints/update/assign' }
     end
   end
 
   def begin_investigation
-    @complaint = Complaint.find(params[:id])
+    @complaint = authorize Complaint.find(params[:id])
     @complaint.update(
       status: :investigation_begun,
       investigator: current_user)
@@ -36,7 +30,7 @@ class ComplaintsController < ApplicationController
   end
 
   def change_investigator
-    @complaint = Complaint.find(params[:id])
+    @complaint = authorize Complaint.find(params[:id])
     @complaint.update(investigator: User.find(params[:complaint][:investigator]))
     Complaints::ComplaintReassignEvent.new(@complaint, current_user).trigger
 
@@ -45,8 +39,8 @@ class ComplaintsController < ApplicationController
     end
   end
 
-  def close_complaint
-    @complaint = Complaint.find(params[:id])
+  def close
+    @complaint = authorize Complaint.find(params[:id])
 
     if params.key? :recommend_closure
       @complaint.update(
@@ -66,12 +60,12 @@ class ComplaintsController < ApplicationController
         closure_review_comments: params[:complaint][:closure_review_comments])
       Complaints::ComplaintCloseEvent.new(@complaint, current_user).trigger
 
-      redirect_to complaint_investigation_path(@complaint)
+      redirect_to investigation_details_complaint_path(@complaint)
     end
   end
 
   def complete_investigation
-    @complaint = Complaint.find(params[:id])
+    @complaint = authorize Complaint.find(params[:id])
     @complaint.update(status: :investigation_completed)
     Complaints::ComplaintCompleteInvestigationEvent.new(@complaint, current_user).trigger
 
@@ -81,7 +75,7 @@ class ComplaintsController < ApplicationController
   end
 
   def create
-    @complaint = Complaint.new(complaint_params)
+    @complaint = authorize Complaint.new(complaint_params)
 
     # Link to cemetery if cemetery is regulated
     @complaint.cemetery = Cemetery.find_by(id: params.dig(:complaint, :cemetery))
@@ -129,24 +123,24 @@ class ComplaintsController < ApplicationController
   end
 
   def index
-    @complaints = current_user.complaints.includes(:cemetery)
+    @complaints = authorize current_user.complaints.includes(:cemetery)
   end
 
   def index_by_user
     @user = User.find(params[:user])
-    @complaints = @user.complaints.includes(:cemetery)
+    @complaints = authorize @user.complaints.includes(:cemetery)
   end
 
   def new
-    @complaint = Complaint.new(receiver: current_user, complainant_state: 'NY')
+    @complaint = authorize Complaint.new(receiver: current_user, complainant_state: 'NY')
   end
 
   def pending_closure
-    @complaints = Complaint.includes(:cemetery).pending_closure
+    @complaints = authorize Complaint.includes(:cemetery).pending_closure
   end
 
   def reopen_investigation
-    @complaint = Complaint.find(params[:id])
+    @complaint = authorize Complaint.find(params[:id])
     @complaint.update(
         status: :investigation_begun,
         investigation_required: true,
@@ -154,11 +148,11 @@ class ComplaintsController < ApplicationController
         disposition: nil)
     Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
 
-    redirect_to complaint_investigation_path(@complaint)
+    redirect_to investigation_details_complaint_path(@complaint)
   end
 
   def request_update
-    @complaint = Complaint.find(params[:id])
+    @complaint = authorize Complaint.find(params[:id])
     @note = @complaint.notes.create(user: current_user, body: 'Please provide an update on the status of this complaint.')
     Complaints::ComplaintRequestUpdateEvent.new(@complaint, current_user).trigger
 
@@ -168,11 +162,11 @@ class ComplaintsController < ApplicationController
   end
 
   def show
-    @complaint = Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
+    @complaint = authorize Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
   end
 
   def unassigned
-    @complaints = Complaint.includes(:cemetery).unassigned
+    @complaints = authorize Complaint.includes(:cemetery).unassigned
   end
 
   private

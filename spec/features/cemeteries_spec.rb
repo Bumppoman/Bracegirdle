@@ -20,7 +20,7 @@ feature 'Cemeteries' do
   scenario 'Add new cemetery', js: true do
     @second_town = Town.new(name: 'Lisle', county: 4)
     @second_town.save
-    login
+    login_supervisor
     visit new_cemetery_path
 
     fill_in 'Name', with: 'Center Lisle Cemetery'
@@ -43,7 +43,7 @@ feature 'Cemeteries' do
   scenario 'Display cemeteries by county' do
     login
 
-    visit cemeteries_by_county_path(4)
+    visit county_cemeteries_path(4)
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -51,7 +51,7 @@ feature 'Cemeteries' do
   scenario 'List cemeteries by region' do
     login
 
-    visit cemeteries_by_region_path('binghamton')
+    visit region_cemeteries_path('binghamton')
 
     expect(page).to have_content 'Anthony Cemetery'
   end

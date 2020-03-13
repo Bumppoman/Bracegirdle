@@ -13,9 +13,11 @@ feature 'Land' do
     click_on 'Upload new application'
     select2 'Broome', from: 'County'
     select2 '04-001 Anthony Cemetery', from: 'Cemetery'
+    select2 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'land_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    select2 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
     click_on 'Dashboard'
     visit applications_land_index_path :purchase

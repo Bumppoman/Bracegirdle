@@ -3,7 +3,6 @@ require 'rails_helper'
 feature 'Cemetery Inspection Items PDF' do
   before :each do
     @cemetery = FactoryBot.create(:cemetery)
-    @cemetery.save
     @inspection = FactoryBot.create(:cemetery_inspection)
     @package = CemeteryInspectionItemsPdf.new({ inspection: @inspection })
   end

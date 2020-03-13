@@ -1,0 +1,62 @@
+li.nav-item.with-sub
+  a.nav-link href="#"
+    i.icon.ion-ios-filing
+    span Inbox
+  .sub-item
+    ul
+      li
+        = active_circle_link 'Rules and Regulations', rules_index_path, current_user.rules.any?
+li.nav-item.with-sub.mega-dropdown
+  a.nav-link href="#"
+    i.icon.ion-ios-briefcase
+    span Board Meetings
+  .sub-item
+    .row
+      .col-lg-4
+        label.section-label Land
+        ul
+          li = active_circle_link 'Land Purchase', applications_land_index_path(application_type: :purchase), current_user.land_purchases.any?
+          li = active_circle_link 'Land Sale', applications_land_index_path(application_type: :sale), current_user.land_sales.any?
+        label.section-label.mg-t-20 Major Renovations
+        ul
+          li = link_to 'Mausoleum', '#'
+          li = link_to 'Columbarium', '#'
+      .col-lg.mg-t-30.mg-lg-t-0
+        label.section-label Restoration
+        ul
+          li = active_circle_link 'Hazardous Monuments', applications_hazardous_index_path, current_user.hazardous.any?
+          li = link_to 'Vandalism', applications_vandalism_index_path
+          li = link_to 'Abandonment', applications_abandonment_index_path
+      .col-lg.mg-t-30.mg-lg-t-0
+        label.section-label Other
+        ul
+          li = link_to 'Incorporation', '#'
+          li = link_to 'Merger', '#'
+li.nav-item.with-sub
+  a.nav-link href="#"
+    i.icon.ion-ios-flashlight
+    span Investigators
+  .sub-item
+    ul
+      li = active_circle_link 'Scheduled inspections', scheduled_inspections_path, current_user.appointments.where(status: :scheduled).any?
+      li = active_circle_link 'Incomplete inspections', incomplete_inspections_path, current_user.incomplete_inspections.any?
+      li = active_circle_link 'Overdue inspections', overdue_inspections_cemeteries_path, current_user.overdue_inspections.any?
+li.nav-item.with-sub
+  a.nav-link href="#"
+    i.icon.ion-ios-cash
+    span Accountants
+  .sub-item
+    ul
+      li.sub-with-sub
+        a href="#" Complaints
+        ul
+          li = active_circle_link 'My complaints', complaints_path, current_user.complaints.any?
+          - if current_user.supervisor?
+            li = active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.pending_closure.any?
+            li = active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
+          li = link_to 'Add new complaint', new_complaint_path
+      li.sub-with-sub
+        a href="#" Non-Compliance
+        ul
+          li = active_circle_link 'Active notices', notices_path, current_user.notices.any?
+          li = link_to 'Issue new notice', new_notice_path

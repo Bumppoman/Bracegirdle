@@ -1,12 +1,33 @@
 class RulesController < ApplicationController
-  include Permissions
+  def approve
+    @rules = authorize Rules.find(params[:id])
 
-  before_action do
-    stipulate :must_be_investigator
+    @rules.update(
+      status: :approved,
+      approval_date: Date.current,
+      investigator: current_user
+    )
+    @rules.rules_documents.order(id: :desc).offset(1).destroy_all
+
+    Rules::RulesApprovalEvent.new(@rules, current_user).trigger
+
+    redirect_to rules_path(@rules, download_rules_approval: true)
+  end
+
+  def assign
+    @rules = authorize Rules.find(params[:id])
+
+    @rules.update(
+      status: :pending_review,
+      investigator_id: params[:rules][:investigator]
+    )
+    Rules::RulesAssignedEvent.new(@rules, current_user).trigger
+
+    redirect_to review_rules_path(@rules)
   end
 
   def create
-    @rules = Rules.new(rules_params)
+    @rules = authorize Rules.new(rules_params)
     @rules.assign_attributes(rules_date_params)
 
     begin
@@ -25,7 +46,7 @@ class RulesController < ApplicationController
       @rules.rules_documents.attach(params[:rules][:rules_documents])
 
       Rules::RulesUploadEvent.new(@rules, current_user).trigger
-      redirect_to @rules
+      redirect_to review_rules_path(@rules)
     else
       @rules.cemetery_county = params[:rules][:cemetery_county]
       render action: :new
@@ -33,7 +54,7 @@ class RulesController < ApplicationController
   end
 
   def create_old_rules
-    @rules = Rules.new(rules_date_params)
+    @rules = authorize Rules.new(rules_date_params)
 
     begin
       @rules.cemetery = Cemetery.find(params.dig(:rules, :cemetery))
@@ -58,7 +79,7 @@ class RulesController < ApplicationController
   end
 
   def download_approval
-    @rules = Rules.find(params[:id])
+    @rules = authorize Rules.find(params[:id])
     if @rules.request_by_email
       address_line_one = @rules.sender_email
       address_line_two = ''
@@ -86,11 +107,11 @@ class RulesController < ApplicationController
   end
 
   def index
-    @rules = current_user.rules.includes(:cemetery)
+    @rules = authorize current_user.rules.includes(:cemetery)
   end
 
   def new
-    @rules = Rules.new(
+    @rules = authorize Rules.new(
         submission_date: Date.current.strftime('%m/%d/%Y'),
         request_by_email: false,
         sender_state: 'NY',
@@ -98,56 +119,38 @@ class RulesController < ApplicationController
     )
   end
 
+  def request_revision
+    @rules = authorize Rules.find(params[:id])
+
+    @rules.update(status: :revision_requested)
+    Rules::RulesRevisionRequestedEvent.new(@rules, current_user).trigger
+
+    redirect_to review_rules_path(@rules)
+  end
+
   def review
-    @rules = Rules.find(params[:id])
+    @rules = authorize Rules.with_attached_rules_documents.find(params[:id])
 
-    if params.key?(:approve_rules)
-      @rules.update(
-        status: :approved,
-        approval_date: Date.current,
-        investigator: current_user
-      )
-      @rules.rules_documents.order(id: :desc).offset(1).destroy_all
-      @prompt = true
-
-      Rules::RulesApprovalEvent.new(@rules, current_user).trigger
-    elsif params.key?(:request_revision)
-      @rules.update(status: :revision_requested)
-      Rules::RulesRevisionRequestedEvent.new(@rules, current_user).trigger
-    elsif params.key?(:assign_rules)
-      @rules.update(
-        status: :pending_review,
-        investigator_id: params[:rules][:investigator]
-      )
-      Rules::RulesAssignedEvent.new(@rules, current_user).trigger
-    end
-
-    redirect_to rules_path(@rules, download_rules_approval: @prompt || false)
+    @documents = @rules.rules_documents.clone.to_a
+    @revisions = @documents.length
+    @current_revision = @documents.pop
   end
 
   def show
-    @rules = Rules.with_attached_rules_documents.find(params[:id])
-
-    if @rules.approved?
-      render :show_approved
+    if params.key? :cemetery_id
+      @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
+      @rules = authorize Rules.approved.order(approval_date: :desc).joins(:cemetery).where(cemeteries: { id: @cemetery.id }).first
     else
-      @documents = @rules.rules_documents.clone.to_a
-      @revisions = @documents.length
-      @current_revision = @documents.pop
+      @rules = authorize Rules.with_attached_rules_documents.find(params[:id])
     end
   end
 
-  def show_approved
-    @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
-    @rules = Rules.approved.order(approval_date: :desc).joins(:cemetery).where(cemeteries: { id: @cemetery.id }).first
-  end
-
   def upload_old_rules
-    @rules = Rules.new
+    @rules = authorize Rules.new
   end
 
   def upload_revision
-    @rules = Rules.find(params[:id])
+    @rules = authorize Rules.find(params[:id])
     old_submission_date = @rules.submission_date
     @rules.assign_attributes(rules_date_params)
 
@@ -155,25 +158,22 @@ class RulesController < ApplicationController
       first_revision = @rules.rules_documents.last
       old_submission_time = first_revision.created_at
       first_revision.created_at = Time.mktime(
-          old_submission_date.year,
-          old_submission_date.month,
-          old_submission_date.day,
-          old_submission_time.hour,
-          old_submission_time.min,
-          old_submission_time.sec)
+          old_submission_date.year, old_submission_date.month,
+          old_submission_date.day, old_submission_time.hour,
+          old_submission_time.min, old_submission_time.sec)
       first_revision.save
 
       @rules.save
       @rules.rules_documents.attach(params[:rules][:rules_documents])
 
       Rules::RulesRevisionReceivedEvent.new(@rules, current_user).trigger
-      redirect_to rules_path(@rules)
+      redirect_to review_rules_path(@rules)
     else
       @documents = @rules.rules_documents.clone.to_a
       @revisions = @documents.length
       @current_revision = @documents.pop
 
-      render :show
+      render :review
     end
   end
 

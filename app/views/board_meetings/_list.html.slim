@@ -1,0 +1,18 @@
+.section-wrapper
+  .table-wrapper
+    table#board-meetings-data-table.table.display.responsive.no-wrap.data-table-basic data-empty-message="There are no board meetings to display."
+      thead
+        tr
+          th Meeting
+          th Date
+          th Location
+      tbody
+        - @board_meetings.each do |board_meeting|
+          tr
+            td
+              span.d-none = sort_date(board_meeting.date)
+              = link_to board_meeting, board_meeting
+            td
+              span.d-none = sort_date(board_meeting.date)
+              = board_meeting.date.strftime('%A, %B %-d, %Y at %R %p')
+            td = board_meeting.location

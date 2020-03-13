@@ -2,13 +2,8 @@ require 'net/http'
 
 module Applications
   class RestorationController < ApplicationsController
-    include Permissions
 
     CREATION_EVENT = Applications::ApplicationReceivedEvent
-
-    before_action do
-      stipulate :must_be_investigator
-    end
 
     def finish_processing
       @restoration = model.find(params[:id])
@@ -40,6 +35,7 @@ module Applications
 
     def new
       @application = model.new(investigator: current_user)
+      authorize [:applications, @application]
       @page_info = self.class::PAGE_INFO[:new]
     end
 
@@ -49,6 +45,7 @@ module Applications
           estimates: [:contractor, document_attachment: :blob],
           legal_notice_attachment: :blob)
         .find(params[:id])
+      authorize [:applications, @restoration]
       @contractors = Contractor.all.order(:name)
     end
 
@@ -65,46 +62,27 @@ module Applications
     def send_to_board
       @restoration = model.find(params[:id])
       @restoration.update(status: :reviewed)
+      @matter = Matter.create
       Applications::ApplicationReviewedEvent.new(@restoration, current_user).trigger
     end
 
     def show
       @restoration = model.includes(estimates: :contractor).find(params[:id])
+      authorize [:applications, @restoration]
 
       redirect_to self.send("process_applications_#{@restoration.type.downcase}_path") if @restoration.received? && @restoration.investigator == current_user
     end
 
     def upload_application
       upload_portion %i(application_form monuments application_form_complete field_visit_date)
-      #@restoration = model.find(params[:id])
-      #@restoration.update(
-      #  application_form: params[@restoration.to_sym][:application_form],
-      #  monuments: params[@restoration.to_sym][:monuments],
-      #  application_form_complete: params[@restoration.to_sym][:application_form_complete],
-      #  field_visit_date: date_params([:field_visit_date], params[@restoration.to_sym])[:field_visit_date]
-      #)
     end
 
     def upload_legal_notice
       upload_portion %i(legal_notice legal_notice_newspaper legal_notice_cost legal_notice_format)
-      #@restoration = model.find(params[:id])
-      #@restoration.update(
-      #  legal_notice: params[@restoration.to_sym][:legal_notice],
-      #  legal_notice_newspaper: params[@restoration.to_sym][:legal_notice_newspaper],
-      #  legal_notice_cost: params[@restoration.to_sym][:legal_notice_cost],
-      #  legal_notice_format: params[@restoration.to_sym][:legal_notice_format]
-      #)
     end
 
     def upload_previous
       upload_portion %i(previous_report previous_exists previous_type previous_date)
-      #@restoration = model.find(params[:id])
-      #@restoration.update(
-      #  previous_report: params[@restoration.to_sym][:previous_report],
-      #  previous_exists: params[@restoration.to_sym][:previous_exists],
-      #  previous_type: params[@restoration.to_sym][:previous_type],
-      #  previous_date: params[@restoration.to_sym][:previous_date]
-      #)
     end
 
     def view_application_form

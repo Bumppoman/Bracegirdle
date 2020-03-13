@@ -38,8 +38,8 @@ li.nav-item.with-sub
     span Inspections
   .sub-item
     ul
-      li = active_circle_link 'Scheduled inspections', scheduled_inspections_path, current_user.appointments.where(status: :scheduled).any?
-      li = active_circle_link 'Incomplete inspections', incomplete_inspections_path, current_user.incomplete_inspections.any?
+      li = active_circle_link 'Scheduled inspections', scheduled_cemetery_inspections_path, current_user.appointments.where(status: :scheduled).any?
+      li = active_circle_link 'Incomplete inspections', incomplete_cemetery_inspections_path, current_user.incomplete_inspections.any?
       li = active_circle_link 'Overdue inspections', overdue_inspections_cemeteries_path, current_user.overdue_inspections.any?
 li.nav-item.with-sub
   a.nav-link href="#"
@@ -52,7 +52,7 @@ li.nav-item.with-sub
         ul
           li = active_circle_link 'My complaints', complaints_path, current_user.complaints.any?
           - if current_user.supervisor?
-            li = active_circle_link 'Complaints pending closure', complaints_pending_closure_path, Complaint.pending_closure.any?
+            li = active_circle_link 'Complaints pending closure', pending_closure_complaints_path, Complaint.pending_closure.any?
             li = active_circle_link 'Unassigned complaints', unassigned_complaints_path, Complaint.where(investigator: nil).any?
           li = link_to 'Add new complaint', new_complaint_path
       li.sub-with-sub

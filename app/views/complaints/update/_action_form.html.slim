@@ -10,20 +10,20 @@
       fieldset#complaint-received
         label.section-label Complaint Received
         p.mb-10 ="Complaint received by #{@complaint.receiver.name} on #{@complaint.created_at}."
-        - if @complaint.belongs_to?(current_user) || current_user.supervisor?
+        - if policy(@complaint).begin_investigation?
           = f.button 'Begin Investigation', name: 'begin_investigation', class: 'next action-button bracegirdle-action-button', data: { path: begin_investigation_complaint_path(@complaint) }
-          = f.button('Assign to Investigator', id: 'open-assign-complaint-modal', class: 'next action-button') if current_user.supervisor?
+          = f.button('Assign to Investigator', id: 'open-assign-complaint-modal', class: 'next action-button') if policy(@complaint).assign?
       fieldset#investigation-begun
         label.section-label Investigation Begun
         p.mb-10 == "Investigation begun on #{tag.span(@complaint.investigation_begin_date, id: 'investigation-begin-date')}."
-        - if @complaint.belongs_to? current_user
+        - if policy(@complaint).complete_investigation?
           = f.button 'Complete Investigation', name: 'complete_investigation', class: 'next action-button bracegirdle-action-button', data: { path: complete_investigation_complaint_path(@complaint) }
-        - else
+        - elsif policy(@complaint).request_update?
           = f.button('Request Update', name: 'request_update', class: 'action-button with-confirmation-modal', data: { modal: '#confirm-request-update' }) if current_user.supervisor?
       fieldset#investigation-completed
         label.section-label Investigation Completed
         p.mb-10 == "Investigation completed on #{tag.span(@complaint.investigation_completion_date, id: 'investigation-completion-date')}."
-        - if @complaint.belongs_to? current_user
+        - if policy(@complaint).close?
           .row
             .col-lg-12
               .form-group.required

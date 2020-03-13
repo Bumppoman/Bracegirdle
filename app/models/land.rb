@@ -1,4 +1,4 @@
-class Land < ApplicationRecord
+class Land < BoardApplication
   include Statable
 
   after_commit :set_identifier, on: :create
@@ -34,7 +34,8 @@ class Land < ApplicationRecord
     received: 1,
     processed: 2,
     reviewed: 3,
-    approved: 4
+    scheduled: 4,
+    approved: 5
   }
 
   FINAL_STATUSES = [:approved]
@@ -45,8 +46,13 @@ class Land < ApplicationRecord
       received: 'Received',
       processed: 'Sent to supervisor',
       reviewed: 'Sent to Cemetery Board',
+      scheduled: 'Scheduled for Cemetery Board review',
       approved: 'Approved by Cemetery Board'
   }.freeze
+
+  def formatted_application_type
+    "Land #{application_type}"
+  end
 
   def to_s
     identifier

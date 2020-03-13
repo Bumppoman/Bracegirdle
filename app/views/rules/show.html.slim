@@ -1,64 +1,41 @@
-- content_for :title, "Review rules for #{@rules.cemetery.name}"
-- content_for :breadcrumbs, breadcrumbs_helper([['Rules pending approval', rules_index_path], yield(:title)])
-#review-rules.section-wrapper.pd-30
-  label.section-title Rules
-  .rules-revision.mg-b-10 id="revision-#{@revisions}"
-    .row
-      .col-lg-11
-        label.section-label ="Revision #{@revisions} (submitted #{@rules.submission_date})"
-      .col-lg-1.text-right
-        a.toggle-revision.section-label href="#" data-revision="#{@revisions}"
-          i.fa.fa-angle-down.tx-18
-    .embed-responsive id="revision-#{@revisions}-content" style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-      iframe.embed-responsive-item src="#{attachment_display_link(@current_revision, request)}"
-  - if @documents.any?
-    - @documents.to_enum.with_index.reverse_each do |document, index|
-      .rules-revision.mg-t-10
-        .row
-          .col-lg-11
-            label.section-label ="Revision #{index + 1} (submitted #{document.created_at.to_date})"
-          .col-lg-1.text-right
-            a.toggle-revision.section-label href="#" data-revision="#{index + 1}"
-              i.fa.fa-angle-down.tx-18
-        .embed-responsive id="revision-#{index + 1}-content" style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll; display: none;"
-          iframe.embed-responsive-item src="#{attachment_display_link(document, request)}"
-  = form_for @rules, url: review_rules_path, method: :patch do |f|
-    .form-layout-footer.mg-t-20
-      - if (@rules.assigned_to?(current_user) || (@rules.received? && current_user.supervisor?)) && @rules.revision_received?
-        = f.button 'Approve Rules', name: 'approve_rules', class: 'btn btn-primary mr-1'
-        = f.button 'Request Revision', name: 'request_revision', class: 'btn btn-primary'
-- if @rules.assigned_to?(current_user) || (@rules.received? && current_user.supervisor?)
-  .section-wrapper.mg-t-5.pd-30
-    label.section-title Upload Another Revision
-    = form_for @rules, url: upload_revision_rules_path, method: :patch do |f|
-      .row
-        .col-lg-8
-          .form-group.required
-            = f.label :rules_documents, 'File', class: 'form-control-label'
-            .custom-file
-              = f.file_field :rules_documents, class: 'custom-file-input'
-              = f.label :rules_documents, 'Choose file', class: 'custom-file-label'
-            small.form-text.text-muted Acceptable file formats are .doc, .docx, and .pdf
-        .col-lg-4
-          .form-group.required
-            = f.label :submission_date, 'Date Submitted', class: 'form-control-label'
-            .input-group
-              .input-group-prepend
-                .input-group-text
-                  i.icon.ion-ios-calendar.tx-16.lh-0.op-6
-              = f.text_field :submission_date, value: Date.current.strftime('%m/%d/%Y'), class: 'form-control fc-datepicker'
-      .form-layout-footer
-        = f.button 'Submit', class: 'btn btn-primary bd-0 mr-1'
-        = link_to 'Cancel', :dashboard_index, class: 'btn btn-secondary bd-0'
-  = render 'notes/show_notes', object: @rules
-- if @rules.received? && current_user.supervisor?
-  .section-wrapper.mg-t-5.pd-30
-    label.section-title Assign Rules
-    = form_for @rules, url: review_rules_path, method: :patch do |f|
-      .row
-        .col-lg-12
-          .form-group.required
-            = f.label :investigator, 'Investigator'
-            = f.select :investigator, employee_options(nil, [:investigator]), { prompt: 'Unassigned' }, class: 'form-control select2-basic'
-      .form-layout-footer
-        = f.button 'Assign Rules', name: 'assign_rules', class: 'btn btn-primary'
+- content_for :title, "Rules for #{@rules.cemetery.name}"
+- content_for :breadcrumbs, breadcrumbs_helper([["#{@rules.cemetery.name} (##{@rules.cemetery.cemetery_id})", cemetery_path(@rules.cemetery)], 'Rules and Regulations'])
+.section-wrapper
+  .row.mg-b-10
+    .col-lg-11.col-sm-3
+      label.section-title = "Rules (approved #{@rules.approval_date})"
+    .col-lg-1.text-right
+      = link_to rails_blob_path(@rules.rules_documents.first, disposition: 'attachment') do
+        i.icon.ion-md-download.tx-18.tx-black
+  .embed-responsive style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
+    iframe.embed-responsive-item src="#{attachment_display_link(@rules.rules_documents.first, request)}"
+.section-wrapper.mg-t-5.pd-t-30
+  label.section-title.mg-b-20 Information
+  table.table.table-striped
+    tbody
+      tr
+        th.wd-30p Approved By
+        td
+          - if @rules.investigator
+            = @rules.investigator.name
+            == " (#{link_to 'download approval letter', '#', id: 'download-rules-approval'})" if !@rules.previously_approved?
+          - else
+            | Unknown
+      tr
+        th Other Rules
+        td == other_rules(@rules.cemetery, @rules.id)
+#rules-approval-download.modal
+  .modal-dialog.wd-40p role="document"
+    .modal-content
+      .modal-header.pd-x-20
+        h6.tx-14.mg-b-0.tx-uppercase.tx-inverse.tx-bold Download Approval Letter for Rules
+        button.close type="button" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+      .modal-body.pd-25
+        p.text-center
+          | Click below to download the approval letter for these rules.
+          br<>
+          br<>
+          == link_to content_tag(:i, '', class: 'fa fa-file-pdf-o mg-r-15 tx-danger tx-24') + "Download Rules-Approval-#{@rules.identifier}.pdf", '#', data: { dismiss: 'modal' }, class: 'btn btn-outline-secondary btn-lg btn-block', id: 'download-rules-approval-link', onclick: "javascript:window.location=\"#{download_approval_rules_path(@rules, "Download-Approval-Rules-#{@rules.identifier}")}\""
+      .modal-footer
+        button.btn.btn-secondary type="button" data-dismiss="modal" Close

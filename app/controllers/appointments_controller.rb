@@ -1,10 +1,4 @@
 class AppointmentsController < ApplicationController
-  include Permissions
-
-  before_action do
-    stipulate :must_be_investigator
-  end
-
   def api_user_events
     @events = current_user.appointments
       .where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
@@ -25,7 +19,7 @@ class AppointmentsController < ApplicationController
   end
 
   def begin
-    @appointment = Appointment.find(params[:id])
+    @appointment = authorize Appointment.find(params[:id])
     @appointment.update(status: :completed)
 
     # Set the item to begin
@@ -39,7 +33,7 @@ class AppointmentsController < ApplicationController
   end
 
   def cancel
-    @appointment = Appointment.find(params[:id])
+    @appointment = authorize Appointment.find(params[:id])
     @appointment.update(status: :cancelled)
 
     respond_to do |m|
@@ -49,7 +43,7 @@ class AppointmentsController < ApplicationController
 
   def create
     date = parse_date
-    @appointment = Appointment.create(
+    @appointment = authorize Appointment.create(
       cemetery: Cemetery.find(params[:appointment][:cemetery]),
       user: current_user,
       begin: date,
@@ -60,12 +54,12 @@ class AppointmentsController < ApplicationController
   end
 
   def index
-    @appointments = current_user.appointments.where(status: :scheduled).order(:begin)
+    @appointments = authorize current_user.appointments.where(status: :scheduled).order(:begin)
     @appointment_name = current_user.investigator? ? 'inspection' : 'audit'
   end
 
   def reschedule
-    @appointment = Appointment.find(params[:id])
+    @appointment = authorize Appointment.find(params[:id])
     date = parse_date
     @appointment.update(
       begin: date,

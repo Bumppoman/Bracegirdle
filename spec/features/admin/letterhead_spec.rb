@@ -15,7 +15,7 @@ feature 'Admin' do
     scenario 'Unauthorized user cannot update' do
       login
 
-      expect { visit admin_edit_letterhead_path }.to raise_error(ApplicationController::Forbidden)
+      expect { visit admin_edit_letterhead_path }.to raise_error(Pundit::NotAuthorizedError)
     end
 
     scenario 'Administrator can update letterhead' do

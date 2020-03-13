@@ -12,12 +12,6 @@ end
 describe Hazardous, type: :model do
   subject { create_hazardous }
 
-  describe Hazardous, 'Associations' do
-    it { should have_many :estimates }
-    it { should belong_to :cemetery }
-    it { should belong_to :reviewer }
-  end
-
   describe Hazardous, 'Instance Methods' do
     describe Hazardous, 'active?' do
       it 'should return true when restoration is active' do
@@ -88,7 +82,7 @@ describe Hazardous, type: :model do
 
     describe Hazardous, '#formatted_application_type' do
       it 'returns the correct application type' do
-        expect(subject.formatted_application_type).to eq 'Hazardous Monuments'
+        expect(subject.formatted_application_type).to eq 'Hazardous'
       end
     end
 
@@ -124,8 +118,24 @@ describe Hazardous, type: :model do
       it 'returns the identifier' do
         subject.save
 
-        expect(subject.to_s).to eq "HAZD-#{Date.today.year}-0001"
+        expect(subject.to_s).to eq "HAZD-#{Date.today.year}-00001"
       end
+    end
+  end
+
+  describe 'Validations' do
+    it 'is valid with valid attributes' do
+      expect(subject).to be_valid
+    end
+
+    it 'is not valid without an amount' do
+      subject.write_attribute(:amount, nil)
+      expect(subject).to_not be_valid
+    end
+
+    it 'is not valid without a submission date' do
+      subject.submission_date = nil
+      expect(subject).to_not be_valid
     end
   end
 end

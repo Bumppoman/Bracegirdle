@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.3'
+ruby '2.7.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.2.1'
@@ -10,22 +10,22 @@ gem 'rails', '6.0.2.1'
 gem 'puma'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
+gem 'webpacker'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 
 # Use ActiveModel has_secure_password
- gem 'bcrypt', '~> 3.1.7'
+ gem 'bcrypt'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -44,37 +44,40 @@ gem 'pg'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  #gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
   #gem 'rspec-rails'
   %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: '4-0-dev'
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: 'master'
   gem 'rspec-retry'
-  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'factory_bot_rails'
   gem 'travis'
 
   # Use sqlite3 as the database for Active Record
-  gem 'sqlite3', '~> 1.4'
+  gem 'sqlite3'
 
   gem 'rack_session_access'
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  #gem 'web-console'
+  #gem 'listen'
+
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen'
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   gem 'selenium-webdriver'
   gem 'capybara-select-2'
 
@@ -124,3 +127,5 @@ gem 'indefinite_article'
 gem 'omniauth'
 gem 'omniauth-auth0'
 #gem 'omniauth-rails_csrf_protection'
+
+gem "pundit"
