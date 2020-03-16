@@ -1,4 +1,4 @@
-class CemeteryInspectionReportPdf < BasicPdf
+class CemeteryInspectionReportPDF < BasicPDF
   MARGIN_Y = 20
   MARGIN_X = 38
 

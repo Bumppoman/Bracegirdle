@@ -5,7 +5,7 @@ feature 'Cemetery Inspection Report PDF' do
     @cemetery = FactoryBot.create(:cemetery)
     @cemetery.save
     @inspection = FactoryBot.create(:cemetery_inspection)
-    @package = CemeteryInspectionReportPdf.new({ inspection: @inspection, signature: 'test.jpg' })
+    @package = CemeteryInspectionReportPDF.new({ inspection: @inspection, signature: 'test.jpg' })
   end
 
   scenario 'The package is properly displayed' do

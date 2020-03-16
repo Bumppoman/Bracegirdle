@@ -7,7 +7,7 @@ module Applications
         breadcrumbs: 'Hazardous monuments applications'
       },
       report: {
-        class: Reports::HazardousReportPdf
+        class: Reports::HazardousReportPDF
       }
     }.freeze
 

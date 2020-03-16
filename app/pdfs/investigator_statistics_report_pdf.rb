@@ -1,4 +1,4 @@
-class InvestigatorStatisticsReportPdf < BasicPdf
+class InvestigatorStatisticsReportPDF < BasicPDF
   MARGIN_Y = 30
   MARGIN_X = 38
 

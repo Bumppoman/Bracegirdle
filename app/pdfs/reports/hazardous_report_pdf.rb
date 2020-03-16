@@ -1,4 +1,4 @@
-class Reports::HazardousReportPdf < Reports::ReportPdf
+class Reports::HazardousReportPDF < Reports::ReportPDF
   def initialize(*args)
     @regarding = 'Application for Repair of Hazardous Monuments'
     super

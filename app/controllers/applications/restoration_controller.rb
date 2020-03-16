@@ -94,35 +94,8 @@ module Applications
 
     def view_combined
       @restoration = model.find(params[:id])
-      output = CombinePDF.new
-      output << CombinePDF.parse(generate_report.render)
 
-      # Include application
-      output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: 'A' }).render)
-      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.application_form.key))
-
-      # Include estimates
-      exhibit_letters = ('B'..'Z').to_a
-      exhibits = @restoration.estimates.length
-      current = 0
-      while current < exhibits
-        output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: exhibit_letters[current]}).render)
-        output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.estimates[current].document.key))
-        current += 1
-      end
-
-      # Include legal notice
-      output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: exhibit_letters[current]}).render)
-      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.legal_notice.key))
-
-      # Include previous report if applicable
-      if @restoration.previous_exists?
-        current += 1
-        output << CombinePDF.parse(ExhibitSheetPdf.new({ exhibit: exhibit_letters[current]}).render)
-        output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.previous_report.key))
-      end
-
-      send_data output.to_pdf,
+      send_data PDFGenerators::RestorationCombinedPDFGenerator.call(@restoration, self.class::PAGE_INFO[:report][:class]).to_pdf,
                 filename: 'Combined Application.pdf',
                 type: 'application/pdf',
                 disposition: 'inline'
@@ -160,25 +133,13 @@ module Applications
     def view_report
       @restoration = model.includes(estimates: :contractor).find(params[:id])
 
-      pdf = generate_report
-      send_data pdf.render,
-                filename: "Report.pdf",
+      send_data PDFGenerators::RestorationReportPDFGenerator.call(@restoration, self.class::PAGE_INFO[:report][:class]).render,
+                filename: 'Report.pdf',
                 type: 'application/pdf',
                 disposition: 'inline'
     end
 
     private
-
-    def generate_report
-      @report_class = self.class::PAGE_INFO[:report][:class]
-
-      @report_class.new({
-        writer: @restoration.investigator,
-        cemetery: @restoration.cemetery,
-        restoration: @restoration,
-        report_date: @restoration.recommendation_date || Date.current
-      })
-    end
 
     def upload_portion(keys)
       @restoration = model.find(params[:id])

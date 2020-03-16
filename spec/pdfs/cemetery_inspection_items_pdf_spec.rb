@@ -4,7 +4,7 @@ feature 'Cemetery Inspection Items PDF' do
   before :each do
     @cemetery = FactoryBot.create(:cemetery)
     @inspection = FactoryBot.create(:cemetery_inspection)
-    @package = CemeteryInspectionItemsPdf.new({ inspection: @inspection })
+    @package = CemeteryInspectionItemsPDF.new({ inspection: @inspection })
   end
 
   scenario 'The package is properly displayed' do

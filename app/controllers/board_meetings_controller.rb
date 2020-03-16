@@ -2,7 +2,7 @@ class BoardMeetingsController < ApplicationController
   def download_agenda
     @board_meeting = authorize BoardMeeting.find(params[:id])
 
-    pdf = AgendaPdf.new(@board_meeting)
+    pdf = AgendaPDF.new(@board_meeting)
 
     send_data pdf.render,
       filename: "Agenda-#{@board_meeting.date.strftime('%F')}.pdf",

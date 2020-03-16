@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Notice PDF' do
   before :each do
-    @notice = NoticePdf.new(
+    @notice = NoticePDF.new(
       'cemetery_name' => 'Anthony Cemetery',
       'cemetery_number' => '04-001',
       'investigator_name' => 'Chester Butkiewicz',

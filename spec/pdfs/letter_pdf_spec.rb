@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Letter PDF' do
   before :each do
-    @letter = Letters::LetterPdf.new({
+    @letter = Letters::LetterPDF.new({
       date: Date.current,
       recipient: 'Andrew Hickey',
       address_line_one: '223 Owego St.',

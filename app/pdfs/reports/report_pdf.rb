@@ -1,4 +1,4 @@
-class Reports::ReportPdf < DefaultPdf
+class Reports::ReportPDF < DefaultPDF
   def content
     super
     report_heading

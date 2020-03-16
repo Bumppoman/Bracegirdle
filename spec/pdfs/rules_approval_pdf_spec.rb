@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Rules Approval PDF' do
   before :each do
-    @letter = Letters::RulesApprovalPdf.new({
+    @letter = Letters::RulesApprovalPDF.new({
       approval_date: Date.current.to_s,
       cemetery_name: 'Anthony Cemetery',
       address_line_one: '123 Main St.',

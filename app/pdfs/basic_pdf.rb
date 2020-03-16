@@ -1,4 +1,4 @@
-class BasicPdf
+class BasicPDF
   include Prawn::View
 
   def document

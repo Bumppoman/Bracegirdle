@@ -11,7 +11,7 @@ feature 'Agenda PDF' do
       @land_sale_matter = FactoryBot.create(:matter, board_meeting: @board_meeting, application: @land_sale)
     end
     @board_meeting.set_matter_identifiers
-    @agenda = AgendaPdf.new(@board_meeting)
+    @agenda = AgendaPDF.new(@board_meeting)
   end
 
   scenario 'The package is properly displayed' do

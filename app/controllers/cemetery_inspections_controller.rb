@@ -104,50 +104,8 @@ class CemeteryInspectionsController < ApplicationController
 
   def view_full_package
     @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
-    output = CombinePDF.new
 
-    # Add appropriate letter
-    letter_params = {
-      date: Date.current,
-      recipient: @inspection.cemetery.name,
-      address_line_one: @inspection.trustee_street_address,
-      address_line_two: "#{@inspection.trustee_city}, #{@inspection.trustee_state} #{@inspection.trustee_zip}",
-      cemetery: @inspection.cemetery,
-      name: @inspection.investigator.name,
-      title: @inspection.investigator.title,
-      signature: @inspection.investigator.signature
-    }
-
-    if @inspection.violations?
-      output << CombinePDF.parse(Letters::CemeteryInspectionViolationsPdf.new(letter_params).render)
-    else
-      output << CombinePDF.parse(Letters::CemeteryInspectionNoViolationsPdf.new(letter_params).render)
-    end
-
-    # Add inspection report
-    output << CombinePDF.parse(BlankPdf.new({}).render)
-    output << CombinePDF.parse(generate_report.render)
-
-    # Output violation items
-    if @inspection.violations?
-      output << CombinePDF.parse(CemeteryInspectionItemsPdf.new({ inspection: @inspection }).render)
-      unless @inspection.sign?
-        output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', "Sample Sign#{@inspection.cemetery.investigator_region == 1 ? ' NYC' : ''}.pdf"))
-        output << CombinePDF.parse(BlankPdf.new({}).render)
-      end
-      output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', 'Sample Rules and Regulations.pdf')) unless @inspection.rules_approved?
-    end
-
-    # Output additional items
-    CemeteryInspection::ADDITIONAL_DOCUMENTS.each_with_index do |(document, title), i|
-      if @inspection[:additional_documents][i]
-        output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', "Sample #{title}.pdf"))
-        output << CombinePDF.parse(BlankPdf.new({}).render) unless %i(by_laws rules).include? document
-      end
-    end
-
-    # Output package
-    send_data output.to_pdf,
+    send_data PDFGenerators::CemeteryInspectionPackagePDFGenerator.call(@inspection).to_pdf,
       filename: "Inspection Package #{@inspection.identifier}.pdf",
       type: 'application/pdf',
       disposition: 'inline'
@@ -157,8 +115,7 @@ class CemeteryInspectionsController < ApplicationController
     @cemetery = Cemetery.find_by_cemetery_id(params[:cemetery_id])
     @inspection = authorize CemeteryInspection.find_by_identifier(params[:identifier])
 
-    pdf = generate_report
-    send_data pdf.render,
+    send_data PDFGenerators::CemeteryInspectionReportPDFGenerator.call(@inspection).render,
       filename: "Inspection #{params[:identifier]}.pdf",
       type: 'application/pdf',
       disposition: 'inline'
@@ -179,14 +136,6 @@ class CemeteryInspectionsController < ApplicationController
 
   def cemetery_inspection_date_params
     date_params %w(date_performed), params[:cemetery_inspection]
-  end
-
-  def generate_report
-    CemeteryInspectionReportPdf.new(
-      {
-          inspection: @inspection,
-          signature: @inspection.investigator.signature
-      })
   end
 
   def physical_characteristics_params

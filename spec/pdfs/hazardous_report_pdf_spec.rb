@@ -8,7 +8,7 @@ feature 'Hazardous Report PDF' do
 
   scenario 'The report is properly displayed' do
     @restoration = FactoryBot.create(:processed_hazardous)
-    @report = Reports::HazardousReportPdf.new({
+    @report = Reports::HazardousReportPDF.new({
       writer: @restoration.investigator,
       cemetery: @restoration.cemetery,
       restoration: @restoration,
@@ -22,7 +22,7 @@ feature 'Hazardous Report PDF' do
   scenario 'A report with differing warranties generates properly' do
     @restoration = FactoryBot.create(:processed_hazardous)
     @restoration.estimates.first.update(warranty: 10)
-    @report = Reports::HazardousReportPdf.new({
+    @report = Reports::HazardousReportPDF.new({
       writer: @restoration.investigator,
       cemetery: @restoration.cemetery,
       restoration: @restoration,
@@ -35,7 +35,7 @@ feature 'Hazardous Report PDF' do
 
   scenario 'A report with three estimates generates properly' do
     @restoration = FactoryBot.create(:hazardous_three_estimates)
-    @report = Reports::HazardousReportPdf.new({
+    @report = Reports::HazardousReportPDF.new({
       writer: @restoration.investigator,
       cemetery: @restoration.cemetery,
       restoration: @restoration,

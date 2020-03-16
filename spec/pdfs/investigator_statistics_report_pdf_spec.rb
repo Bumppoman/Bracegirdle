@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Investigator Statistics Report PDF' do
   scenario 'The investigator statistics report is created' do
-    sheet = InvestigatorStatisticsReportPdf.new({
+    sheet = InvestigatorStatisticsReportPDF.new({
       investigator: FactoryBot.create(:user),
       month: 5,
       year: 2019,

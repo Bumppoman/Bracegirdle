@@ -26,21 +26,8 @@ class NoticesController < ApplicationController
 
   def download
     @notice = authorize Notice.find(params[:id])
-    pdf = NoticePdf.new(
-        @notice.attributes.merge(
-            'cemetery_name' => @notice.cemetery.name,
-            'cemetery_number' => @notice.cemetery.cemetery_id,
-            'investigator_name' => @notice.investigator.name,
-            'investigator_title' => @notice.investigator.title,
-            'response_street_address' => @notice.investigator.street_address,
-            'response_city' => @notice.investigator.city,
-            'response_zip' => @notice.investigator.zip,
-            'notice_date' => @notice.created_at,
-            'secondary_law_sections' => @notice.law_sections,
-            'served_on_title' => Trustee::POSITIONS[@notice.served_on_title.to_i]
-        )
-    )
-    send_data pdf.render,
+
+    send_data PDFGenerators::NoticePDFGenerator.call(@notice).render,
               filename: "#{@notice.notice_number}.pdf",
               type: 'application/pdf',
               disposition: 'inline'

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Cemetery Inspection Violations PDF' do
   before :each do
-    @letter = Letters::CemeteryInspectionViolationsPdf.new(
+    @letter = Letters::CemeteryInspectionViolationsPDF.new(
       {
           date: Date.current,
           recipient: 'Anthony Cemetery',

@@ -1,4 +1,4 @@
-class AgendaPdf < DefaultPdf
+class AgendaPDF < DefaultPDF
   def content
     super
 
