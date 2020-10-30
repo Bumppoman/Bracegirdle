@@ -58,8 +58,8 @@ jobs:
         yarn install
 
     - name: Rails test
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: |
-          bundle exec rails db:setup
-          bundle exec rails test
+      env:
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      run: |
+        bundle exec rails db:setup
+        bundle exec rails test
