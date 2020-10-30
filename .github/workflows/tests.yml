@@ -36,7 +36,7 @@ jobs:
         path: vendor/bundle
         key: ${{ runner.os }}-gem-use-ruby-${{ hashFiles('**/Gemfile.lock') }}
 
-    - name: Install PostgreSQL 12 client
+    - name: Install PostgreSQL headers
       run: |
         sudo apt-get -yqq install libpq-dev
     
@@ -62,6 +62,10 @@ jobs:
       run: |
         npm install -g yarn
         yarn install
+    
+    - name: Change database file
+      run: |
+        cp config/database.yml.github config/database.yml
 
     - name: Rails test
       env:

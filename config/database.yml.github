@@ -1,0 +1,5 @@
+test:
+  host: localhost
+  username: postgres
+  password: postgres
+  database: bracegirdle_test
