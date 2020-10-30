@@ -29,6 +29,13 @@ jobs:
     - name: Install PostgreSQL 12 client
       run: |
         sudo apt-get -yqq install libpq-dev
+    
+    - name: Install Node
+      uses: actions/setup-node@v1
+    
+    - name: Install Yarn
+      run: |
+        npm install -g yarn
 
     - name: Build App
       env:
@@ -36,7 +43,6 @@ jobs:
         PGUSER: postgres
         RAILS_ENV: test
       run: |
-        nvm install node
         yarn install
         gem install bundler
         bundle install --jobs 4 --retry 3
