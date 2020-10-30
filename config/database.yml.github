@@ -6,4 +6,3 @@ test:
   pool: 20
   username: postgres
   password: postgres
-  port: <%= ENV['DB_PORT']
