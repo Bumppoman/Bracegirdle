@@ -14,8 +14,9 @@ jobs:
 
     services:
       postgres:
-        image: postgres
+        image: postgres:13
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
@@ -65,6 +66,7 @@ jobs:
     - name: Rails test
       env:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        CI: true
       run: |
         bundle exec rails db:setup
         bundle exec rails test
