@@ -71,6 +71,7 @@ jobs:
       env:
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         CI: true
+        RAILS_ENV: test
       run: |
         bundle exec rails db:setup
         bundle exec rails test
