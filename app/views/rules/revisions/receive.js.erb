@@ -1,0 +1,11 @@
+document.getElementById('rules-approvals-show').dispatchEvent(
+  new CustomEvent('bracegirdle:rules:approvals:revisionReceived', 
+    {
+      detail: {
+        date: '<%= @revision.formatted_date_received %>',
+        revision: '<%= j render(partial: "rules/revisions/revision", locals: { index: @rules_approval.revisions.length, revision: @revision, revision_number: @rules_approval.revisions.length }) %>',
+        revisionID: '<%= @revision.id %>'
+      }
+    }
+  )
+);

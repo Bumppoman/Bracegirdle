@@ -1,0 +1,41 @@
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="rules-data-table"
+      class="table display responsive no-wrap"
+      data-empty-message="There are no rules for this cemetery."
+      data-direction="desc"
+    >
+      <thead>
+        <tr>
+          <th data-type="date" data-format="MMMM D, YYYY">Approval Date</th>
+          <th>Approved By</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rules.each do |rules| %>
+          <tr>
+            <td>
+              <%= link_to rules.approval_date, 
+                rules_by_date_cemetery_path(cemid: rules.cemetery_cemid, date: rules.approval_date.iso8601) 
+              %>
+            </td>
+            <td><%= rules.approved_by ? rules.approved_by.name : 'Unknown' %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="mg-t-20">
+    <ul class="nav nav-gray-600 nav-underline justify-content-center">
+      <li class="nav-item">
+        <%= link_to 'Upload previously approved rules',
+          new_rules_path,
+          class: 'btn btn-primary'
+        %>
+      </li>
+    </ul>
+  </div>
+</section>

@@ -1,5 +1,9 @@
-$('#cemetery-inspection-download-package').modal();
-$('#finalize-cemetery-inspection').hide();
-$('#revise-cemetery-inspection').hide();
-$('#print-cemetery-inspection-package').show();
-$('#cemetery-inspection-status').html('Complete (mailed <%= @inspection.date_mailed %>)');
+document.getElementById('cemetery_inspections-show').dispatchEvent(
+  new CustomEvent('bracegirdle:cemetery_inspections:inspectionFinalized',
+    {
+      detail: {
+        date: '<%= @inspection.date_mailed %>'
+      }
+    }
+  )
+);

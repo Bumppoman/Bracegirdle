@@ -1,4 +1,10 @@
-$('#notification-<%= @notification.id %>').addClass('read');
-<% unless @unread %>
-  $('#unread-notifications').hide();
-<% end %>
+document.getElementById('notifications').dispatchEvent(
+  new CustomEvent('bracegirdle:notifications:notificationRead', 
+    {
+      detail: {
+        notificationId: '<%= @notification.id %>',
+        unread: <%= @unread %>
+      }
+    }
+  )
+);

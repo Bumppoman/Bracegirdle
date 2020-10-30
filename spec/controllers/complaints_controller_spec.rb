@@ -20,9 +20,7 @@ describe ComplaintsController, type: :controller do
     actions = {
       all: :get,
       index: :get,
-      new: :post,
-      pending_closure: :get,
-      unassigned: :get
+      new: :get
     }
 
     actions.each do |action, method|
@@ -39,16 +37,10 @@ describe ComplaintsController, type: :controller do
   context 'Just the investigator who owns object or supervisor' do
     allowed = %i(investigator mean_supervisor)
     disallowed = %i(cemeterian another_investigator accountant support)
-    actions = {
-      close: :patch
-    }
-
-    actions.each do |action, method|
-      permissions_test(allowed, disallowed, action, method, true).call
-    end
 
     permissions_test(allowed, disallowed, :begin_investigation, :patch, true, format: :js).call
-    permissions_test(allowed, disallowed, :change_investigator, :patch, true, format: :js, complaint: { investigator: 1 }).call
+    permissions_test(allowed, disallowed, :close, :patch, true, complaint: { closure_review_comments: '' }, status: 302).call
+    permissions_test(allowed, disallowed, :reassign, :patch, true, format: :js, complaint: { investigator: 1 }, status: 302).call
   end
 
   context 'Just the investigator who owns object' do

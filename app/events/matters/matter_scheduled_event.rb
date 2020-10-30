@@ -5,7 +5,7 @@ class Matters::MatterScheduledEvent < MatterEvent
 
   def payload
     super.merge({
-      additional: [matter.application]
+      additional: [matter.board_application]
     })
   end
 end

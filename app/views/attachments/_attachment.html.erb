@@ -1,0 +1,28 @@
+<div 
+  class="file-item"
+  data-attachment-id="<%= attachment.id %>"
+  data-target="attachments.attachment"
+>
+  <div class="row no-gutters wd-100p">
+    <div class="col-sm-5 d-flex align-items-center">
+      <i class="material-icons mr-2">attachment</i>
+      <%= link_to attachment.file.filename, view_attachment_link(object, attachment) %>
+    </div>
+    <div class="col-sm-4 mg-t-5 mg-sm-t-0"><%= attachment.description %></div>
+    <div class="col-sm-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+      <%= link_to attachment.file do %>
+        <i class="material-icons mg-r-15">download</i>
+      <% end %>
+      <%= link_to '#',
+        class: 'attachments-delete-link', 
+        data: { 
+          action: 'attachments#confirmDelete',
+          attachment_id: attachment.id,
+          path: send("#{object.class.name.underscore}_attachments_path", object)
+        } do
+      %>
+        <i class="material-icons">delete</i>
+      <% end %>
+    </div>
+  </div>
+</div>

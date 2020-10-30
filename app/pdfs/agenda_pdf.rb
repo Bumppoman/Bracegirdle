@@ -41,7 +41,7 @@ class AgendaPDF < DefaultPDF
             end
           ],
           ["#{@params.date_code}–D–#{@params.initial_index + 3}", 'Vandalism, Abandonment and Monument Repair or Removal Fund Report'],
-          ['', "Vandalism/Abandoned/Repair Orders – #{@params.restoration.count}"]
+          ['', "Vandalism/Abandoned/Repair Orders – #{@params.restorations.count}"]
         ]
       ) do
         cells.borders = []
@@ -56,7 +56,7 @@ class AgendaPDF < DefaultPDF
         else
           start_new_page
         end
-        text "#{matter.identifier} #{matter.cemetery.name} (##{matter.cemetery.cemetery_id}) – #{matter.application.formatted_application_type}"
+        text "#{matter.identifier} #{matter.cemetery.formatted_name} – #{matter.board_application.formatted_application_type}"
       end
 
       move_down 15
@@ -88,9 +88,9 @@ class AgendaPDF < DefaultPDF
     text 'VANDALISM FUND APPLICATIONS', align: :center
     table_data = [['Name', 'Amount', 'County', 'ID No.']]
     total = 0
-    @params.restoration.each do |restoration|
-      total += restoration.application.amount
-      table_data << [restoration.cemetery.name, ActionController::Base.helpers.number_to_currency(restoration.application.amount), restoration.cemetery.county_name, restoration.cemetery.cemetery_id]
+    @params.restorations.each do |restoration|
+      total += restoration.board_application.amount
+      table_data << [restoration.cemetery.name, ActionController::Base.helpers.number_to_currency(restoration.board_application.amount), restoration.cemetery.county_name, restoration.cemetery.cemid]
     end
     table_data << ['Total', { content: ActionController::Base.helpers.number_to_currency(total), colspan: 3 }]
 

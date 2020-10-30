@@ -1,0 +1,62 @@
+<% content_for :title, "Evaluate #{@restoration.formatted_application_type} Application" %>
+<% content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      [
+        "Pending #{@restoration.type.downcase} applications", 
+        self.send("board_applications_#{@restoration.type.downcase}_index_path")
+      ], 
+      "Application #{@restoration.identifier}"
+    ]
+  ) 
+%>
+<section
+  id="board_applications-restorations-evaluate"
+  class="section-wrapper" 
+  style="overflow: hidden;"
+  data-controller="board-applications--restorations--evaluate"
+>
+  <label class="section-title">Actions</label>
+  <%= render layout: 'application/tracker',
+    locals: {
+      current_step: @restoration.current_evaluation_step,
+      linkable: true,
+      steps: {
+        application: {
+          number: 1,
+          title: 'Application'
+        },
+        estimates: {
+          number: 2,
+          title: 'Estimates'
+        },
+        legal_notice: {
+          number: 3,
+          title: 'Legal Notice'
+        },
+        previous_restoration: {
+          number: 4,
+          title: 'Previous Restoration'
+        },
+        summary: {
+          number: 5,
+          title: 'Summary'
+        }
+      },
+      target: 'board-applications--restorations--evaluate.tracker'
+    } do
+  %>
+    <%= render partial: 'board_applications/restorations/evaluate/application' %>
+    <%= render partial: 'board_applications/restorations/evaluate/estimates' %>
+    <%= render partial: 'board_applications/restorations/evaluate/legal_notice' %>
+    <%= render partial: 'board_applications/restorations/evaluate/previous' %>
+    <%= render partial: 'board_applications/restorations/evaluate/summary' %>
+  <% end %>
+  <%= render partial: 'board_applications/restorations/contractors/form' %>
+  <%= render partial: 'board_applications/restorations/estimates/new_modal' %>
+</section>
+<%= render partial: 'board_applications/restorations/detail' %>
+<%= render 'notes/notes', 
+  object: @restoration, 
+  url: self.send("board_applications_#{@restoration.type.downcase}_notes_path", @restoration) 
+%>

@@ -3,17 +3,10 @@ class NoticesController < ApplicationController
     # Create the object
     @notice = authorize Notice.new(notice_params)
 
-    # Set the cemetery and investigator
-    begin
-      @notice.cemetery = Cemetery.find(params.dig(:notice, :cemetery))
-    rescue ActiveRecord::RecordNotFound
-      @notice.cemetery = nil
-    end
-
+    # Set the cemetery, investigator, and trustee
+    @notice.cemetery = Cemetery.find_by(cemid: params.dig(:notice, :cemetery))
     @notice.investigator = current_user
-
-    # Update dates
-    @notice.assign_attributes(notice_date_params)
+    @notice.trustee = Trustee.find(params.dig(:notice, :trustee))
 
     if @notice.save
       Notices::NoticeIssueEvent.new(@notice, current_user).trigger
@@ -28,22 +21,21 @@ class NoticesController < ApplicationController
     @notice = authorize Notice.find(params[:id])
 
     send_data PDFGenerators::NoticePDFGenerator.call(@notice).render,
-              filename: "#{@notice.notice_number}.pdf",
-              type: 'application/pdf',
-              disposition: 'inline'
+      filename: "#{@notice.notice_number}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
   end
 
   def follow_up
     @notice = authorize Notice.find(params[:id])
 
     @notice.update(
-      **notice_date_params,
-      status: :follow_up_completed)
+      follow_up_completed_date: params[:notice][:follow_up_completed_date],
+      status: :follow_up_completed
+    )
     Notices::NoticeFollowUpEvent.new(@notice, current_user).trigger
 
-    respond_to do |m|
-      m.js { render partial: 'notices/update/follow_up'}
-    end
+    respond_to :js
   end
 
   def index
@@ -51,34 +43,35 @@ class NoticesController < ApplicationController
   end
 
   def new
-    @notice = authorize Notice.new(served_on_state: 'NY')
+    @notice = authorize Notice.new(
+      response_required_date: (Date.current + 2.weeks).next_occurring(:monday),
+      served_on_state: 'NY',
+      violation_date: Date.current
+    )
+  end
+  
+  def receive_response
+    @notice = authorize Notice.find(params[:id])
+
+    @notice.update(
+      response_received_date: Date.current,
+      status: :response_received
+    )
+    Notices::NoticeResponseEvent.new(@notice, current_user).trigger
+
+    respond_to :js
   end
 
   def resolve
     @notice = authorize Notice.find(params[:id])
 
     @notice.update(
-      notice_resolved_date: Date.current,
+      resolved_date: Date.current,
       status: :resolved
     )
     Notices::NoticeResolvedEvent.new(@notice, current_user).trigger
 
-    respond_to do |m|
-      m.js { render partial: 'notices/update/resolve'}
-    end
-  end
-
-  def response_received
-    @notice = authorize Notice.find(params[:id])
-
-    @notice.update(
-      response_received_date: Date.current,
-      status: :response_received)
-    Notices::NoticeResponseEvent.new(@notice, current_user).trigger
-
-    respond_to do |m|
-      m.js { render partial: 'notices/update/response_received'}
-    end
+    respond_to :js
   end
 
   def show
@@ -88,10 +81,8 @@ class NoticesController < ApplicationController
   private
 
   def notice_params
-    params.require(:notice).permit(:served_on_name, :served_on_title, :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, :law_sections, :specific_information)
-  end
-
-  def notice_date_params
-    date_params %w(response_required_date violation_date follow_up_inspection_date), params[:notice]
+    params.require(:notice).permit(
+      :served_on_street_address, :served_on_city, :served_on_state, :served_on_zip, 
+      :law_sections, :specific_information, :response_required_date, :violation_date)
   end
 end

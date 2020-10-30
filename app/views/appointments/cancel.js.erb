@@ -1,3 +1,10 @@
-$('#confirm-cancel-appointment').modal('hide');
-$('#appointments-data-table').DataTable().row('#appointment-<%= @appointment.id %>').remove().draw(false);
-$('#cancel-success').show().delay(3000).fadeOut();
+document.getElementById('appointments-index').dispatchEvent(
+  new CustomEvent('bracegirdle:appointments:appointmentCancelled', 
+    {
+      detail: {
+        appointmentId: '<%= @appointment.id %>',
+        message: 'You have successfully cancelled this <%= @appointment_name %>'
+      }
+    }
+  )
+);

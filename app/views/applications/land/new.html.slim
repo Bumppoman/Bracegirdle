@@ -1,3 +1,0 @@
-- content_for :title, "Upload New Land #{params[:application_type].capitalize} Application"
-- content_for :breadcrumbs, breadcrumbs_helper([["Pending land #{params[:application_type]} applications", applications_land_index_path(application_type: params[:application_type])], 'Upload new application'])
-= render partial: 'applications/raw_application_form', locals: { object: @application }

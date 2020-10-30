@@ -1,0 +1,67 @@
+<div
+  class="mg-b-10"
+  data-revision-id="<%= revision.id %>"
+>
+  <div class="row">
+    <div class="col-md-11">
+      <label class="section-label">
+        Revision <%= revision_number %> (submitted <%= revision.submission_date %>)
+      </label>
+    </div>
+    <div class="col-md-1 text-right">
+      <a
+        class="section-label"
+        href="#"
+        data-action="rules--approvals--show#toggleRevision"
+        data-revision-id="<%= revision.id %>"
+      >
+        <i 
+          class="material-icons tx-18"
+          data-revision-id="<%= revision.id %>"
+          data-target="rules--approvals--show.revisionToggleIcon"
+        >
+          <%= index == 0 ? 'expand_less' : 'expand_more' %>
+        </i>
+      </a>
+    </div>
+  </div>
+  <div 
+    class="<%= ' d-none' unless index == 0 %>"
+    data-revision-id="<%= revision.id %>"
+    data-target="rules--approvals--show.revision">
+    <div
+      class="embed-responsive mg-b-10"
+      style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
+    >
+      <object
+        class="embed-responsive-item"
+        type="<%= revision.rules_document.content_type %>"
+        data="<%= attachment_display_link(revision.rules_document, request) %>"
+      >
+      </object>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th colspan="2">Revision Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if revision.date_requested %>
+          <tr>
+            <th scope="row">Date Requested</th>
+            <td><%= revision.date_requested %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <th scope="row">Date Received</th>
+          <td><%= revision.formatted_date_received %></td>
+        </tr>
+        <tr>
+          <th scope="row">Comments</th>
+          <td><%= simple_format(revision.comments) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

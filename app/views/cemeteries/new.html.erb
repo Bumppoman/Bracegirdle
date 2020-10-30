@@ -1,0 +1,88 @@
+<% content_for :title, 'Add New Cemetery' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Add new cemetery']) %>
+<section
+  class="section-wrapper"
+  data-controller="cemeteries--new"
+>
+  <label class="section-title">Cemetery</label>
+  <%= form_for @cemetery, builder: BracegirdleFormBuilder do |f| %>
+    <div class="form-layout">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :name, required: true %>
+        </div>
+        <div class="col-md-3">
+          <%= f.select :county,
+            COUNTIES.invert,
+            { prompt: 'Select county', required: true },
+            {
+              data: {
+                action: 'cemeteries--new#loadTowns',
+                target: 'cemeteries--new.county'
+              }
+            }
+          %>
+        </div>
+        <div class="col-md-3">
+          <%= f.text_field :cemid,
+            help_text: 'Enter with no dashes (ex. 01001; 57999)',
+            label: 'Cemetery ID',
+            required: true
+          %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <%= f.text_field :location, 
+              help_text: 'Latitude and longitude coordinates only (ex. -42.001234, 73.009876)', 
+              required: true 
+            %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <%= hidden_field_tag :selected_ids, 
+            @cemetery.towns.map(&:id).join(','),
+            data: {
+              target: 'cemeteries--new.selectedId'
+            }
+          %>
+          <%= f.select :town_ids, 
+            [], 
+            { 
+              help_text: 'Choose all that apply', 
+              label: 'Towns', 
+              required: true, 
+              without_choices: true 
+            }, 
+            {
+              data: {
+                target: 'cemeteries--new.towns'
+              },
+              disabled: true, 
+              multiple: true 
+            }
+          %>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group required">
+            <%= f.label :active, 'Status' %>
+            <label class="rdiobox">
+              <%= f.radio_button :active, true %>
+              <span>Active</span>
+            </label>
+            <label class="rdiobox">
+              <%= f.radio_button :active, false %>
+              <span>Abandoned</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-layout-footer mg-t-20">
+        <%= f.button 'Add Cemetery', class: 'btn btn-primary mg-r-5' %>
+      </div>
+    </div>
+  <% end %>
+</div>

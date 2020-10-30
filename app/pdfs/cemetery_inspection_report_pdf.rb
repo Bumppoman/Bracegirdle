@@ -27,13 +27,13 @@ class CemeteryInspectionReportPDF < BasicPDF
     table(
       [
         [smallcaps('1. Cemetery'), smallcaps('County'), smallcaps('Number')],
-        [@params[:inspection].cemetery.name, @params[:inspection].cemetery.county_name, @params[:inspection].cemetery.cemetery_id],
+        [@params[:inspection].cemetery.name, @params[:inspection].cemetery.county_name, @params[:inspection].cemetery.formatted_cemid],
         [smallcaps('2. Interviewee'), smallcaps('Title'), smallcaps('Date')],
-        [@params[:inspection].trustee_name, Trustee::POSITIONS[@params[:inspection].trustee_position], @params[:inspection].date_performed],
+        [@params[:inspection].trustee.name, @params[:inspection].trustee.position_name, @params[:inspection].date_performed],
         [{ content: smallcaps('3. Interviewee Address'), colspan: 2 }, smallcaps('Telephone Number')],
-        [{ content: "#{@params[:inspection].trustee_street_address}, #{@params[:inspection].trustee_city}, #{@params[:inspection].trustee_state} #{@params[:inspection].trustee_zip}", colspan: 2 }, ActionController::Base.helpers.number_to_phone(@params[:inspection].trustee_phone.presence) || '---'],
+        [{ content: "#{@params[:inspection].mailing_street_address}, #{@params[:inspection].mailing_city}, #{@params[:inspection].mailing_state} #{@params[:inspection].mailing_zip}", colspan: 2 }, ActionController::Base.helpers.number_to_phone(@params[:inspection].cemetery_phone.presence) || '---'],
         [{ content: smallcaps('4. Location of Cemetery'), colspan: 2 }, smallcaps('Email Address')],
-        [{ content: @params[:inspection].cemetery_location, colspan: 2 }, @params[:inspection].trustee_email.presence || '---'],
+        [{ content: @params[:inspection].cemetery_location, colspan: 2 }, @params[:inspection].cemetery_email.presence || '---'],
         [{ content: smallcaps('5. Sign'), colspan: 3 }],
         [{ content: @params[:inspection].cemetery_sign_text, colspan: 3 }]
       ],
@@ -66,10 +66,10 @@ class CemeteryInspectionReportPDF < BasicPDF
         ['14. Grave liners', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Number Stored')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].grave_liners_comments}"],
         ['15. Evidence of display or sale of monuments', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].sale_of_monuments_comments],
         ['16. Fencing', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Describe')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].fencing_comments}"],
-        ['17. Winter burials reasonable', "#{smallcaps('yes')}", smallcaps('no'), @params[:inspection].winter_burials_comments],
+        ['17. Winter burials reasonable', "#{smallcaps('yes')}", smallcaps('no'), "<font size='8'>#{smallcaps('Impediment')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].winter_burials_comments}"],
       ],
       bounds.width,
-      [6, 7, 8, 9, 11])
+      [6, 7, 8, 9, 11, 12])
     stroke_horizontal_rule
     move_down 10
     stroke_horizontal_rule
@@ -79,7 +79,7 @@ class CemeteryInspectionReportPDF < BasicPDF
       sign offices rules_displayed prices_displayed
       scattering_gardens community_mausoleum private_mausoleum
       lawn_crypts grave_liners sale_of_monuments fencing winter_burials)
-    [494.5, 470.5, 446.5, 422.5, 398.5, 374.5, 350.5, 326.5, 302.5, 278.5, 254.5, 230.5].each_with_index do |y, i|
+    [494.75, 470.5, 446.5, 422.5, 398.5, 374.5, 350.5, 326.5, 302.5, 278.5, 254.5, 230.5].each_with_index do |y, i|
       checkbox(235, y, @params[:inspection].send(values[i]))
       checkbox(271, y, !@params[:inspection].send(values[i]))
     end
@@ -91,14 +91,14 @@ class CemeteryInspectionReportPDF < BasicPDF
             [@params[:inspection].main_road],
             [smallcaps('19. Side Roads')],
             [@params[:inspection].side_roads],
-            [smallcaps('20. Condition of New Memorials')],
+            [smallcaps('20. Directional Signs')],
+            [@params[:inspection].formatted_directional_signs],
+            [smallcaps('21. Condition of New Memorials')],
             [@params[:inspection].new_memorials],
-            [smallcaps('21. Condition of Old Memorials')],
+            [smallcaps('22. Condition of Old Memorials')],
             [@params[:inspection].old_memorials],
-            [smallcaps('22. Evidence of Vandalism')],
+            [smallcaps('23. Evidence of Vandalism')],
             [@params[:inspection].vandalism],
-            [smallcaps('23. Evidence of Hazardous Materials')],
-            [@params[:inspection].hazardous_materials]
         ],
         cell_style: { inline_format: true },
         width: bounds.width) do
@@ -179,7 +179,7 @@ class CemeteryInspectionReportPDF < BasicPDF
     questions_table(
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
-        ['27. Annual meetings held and advertised', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
+        ['27. Annual meetings held and advertised for three weeks', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
         ['28. Election held', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Number of Trustees')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].number_of_trustees}"],
         ['29. Burial permits filed within 7 days', smallcaps('yes'), smallcaps('no'), @params[:inspection].burial_permits_comments],
         ['30. Body delivery receipt issued', smallcaps('yes'), smallcaps('no'), @params[:inspection].body_delivery_receipt_comments],
@@ -254,13 +254,18 @@ class CemeteryInspectionReportPDF < BasicPDF
   private
 
   def items_for_consideration
-    items_text = []
-    items = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections']
-    items.each do |item, values|
-      items_text << values['report_text'] if !@params[:inspection].send(item).nil? && !@params[:inspection].send(item)
-    end
-
-    items_text
+    items = 
+      YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections'].select do |item, values|
+        if values['conditions']
+          values['conditions'].map { |condition, value|
+            !@params[:inspection].send(condition).nil? && @params[:inspection].send(condition) == value
+          }.all?
+        else
+          !@params[:inspection].send(item).nil? && !@params[:inspection].send(item)
+        end
+      end
+    
+    items.map { |item, values| values['report_text'] }
   end
 
   def questions_table(content, width, special_comments)
@@ -271,6 +276,7 @@ class CemeteryInspectionReportPDF < BasicPDF
       cells.borders = [:top]
       cells.height = 24
       column(0).size = 8
+      column(0).padding = [7.5, 0, 0, 0]
       columns([1, 2]).padding = [5, 5, 5, 0]
       columns([1, 2]).align = :right
       column(3).borders = [:top, :left]
@@ -281,6 +287,7 @@ class CemeteryInspectionReportPDF < BasicPDF
       row(0).column(3).font_style = :bold
 
       rows(special_comments).column(3).padding = [0, 0, 0, 5]
+      rows((1..content.length).to_a - special_comments).column(3).padding = [6, 0, 0, 5]
     end
   end
 end

@@ -7,13 +7,17 @@ feature 'Cemeteries' do
       county: 4
     )
 
-    @location = Location.new(
+    @cemetery_location = CemeteryLocation.new(
       latitude: 41.3144,
       longitude: -73.8964
     )
 
-    @cemetery = FactoryBot.create(:cemetery, last_inspection_date: Date.current - 6.years, last_audit_date: Date.current - 4.years)
-    @cemetery.locations << @location
+    @cemetery = FactoryBot.create(
+      :cemetery, 
+      last_inspection_date: Date.current - 6.years, 
+      last_audit_date: Date.current - 4.years
+    )
+    @cemetery.cemetery_locations << @cemetery_location
     @cemetery.towns << @town
   end
 
@@ -24,13 +28,13 @@ feature 'Cemeteries' do
     visit new_cemetery_path
 
     fill_in 'Name', with: 'Center Lisle Cemetery'
-    select2 'Broome', from: 'County'
-    fill_in 'Order ID', with: 2
+    choices 'Broome', from: 'County'
+    fill_in 'Cemetery ID', with: '04002'
+    choices 'Lisle', from: 'Towns'
     fill_in 'Location', with: '42.3144, -74.8964'
-    select2 'Lisle', from: 'Towns'
 
     expect {
-      click_on 'Submit'
+      click_on 'Add Cemetery'
     }.to change { Cemetery.count }
   end
 
@@ -45,6 +49,14 @@ feature 'Cemeteries' do
 
     visit county_cemeteries_path(4)
 
+    expect(page).to have_content 'Anthony Cemetery'
+  end
+  
+  scenario 'List all cemeteries' do
+    login
+    
+    visit cemeteries_path
+    
     expect(page).to have_content 'Anthony Cemetery'
   end
 
@@ -66,9 +78,9 @@ feature 'Cemeteries' do
 
   scenario 'View overdue inspections for region' do
     @syracuse_cemetery = Cemetery.new(
+      cemid: '06001',
       name: 'Bird Cemetery',
       county: 6,
-      order_id: 1,
       investigator_region: 4,
       last_inspection_date: Date.current - 6.years)
     @syracuse_cemetery.save

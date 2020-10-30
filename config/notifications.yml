@@ -15,8 +15,8 @@ notifications:
   restoration:
     received:
       text: 'assigned a restoration application to you for <%= notification.object.cemetery.name %>'
-  rules:
+  rulesapproval:
     assigned:
-      text: 'assigned you new rules for <%= notification.object.cemetery.name %>'
+      text: 'assigned you new rules for approval from <%= notification.object.cemetery.name %>'
     uploaded:
       text: 'uploaded new rules for <%= notification.object.cemetery.name %>'

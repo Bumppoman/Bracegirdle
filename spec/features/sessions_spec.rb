@@ -6,7 +6,8 @@ feature 'Sessions' do
   end
 
   scenario 'User can login with Auth0' do
-    visit login_path
+    visit root_path
+    click_link 'Sign In'
 
     expect(page).to have_content 'Chester Butkiewicz'
   end
@@ -16,7 +17,7 @@ feature 'Sessions' do
 
     expect(page.status_code).to be 200
   end
-
+  
   scenario 'User can log out with Auth0' do
     class DummyController < ApplicationController
       def dummy
@@ -28,13 +29,14 @@ feature 'Sessions' do
     end
     Rails.application.reload_routes!
 
-    visit login_path
+    visit root_path
+    click_link 'Sign In'
     visit new_complaint_path
     expect(page).to have_content 'Add New Complaint'
 
     visit logout_path
     visit new_complaint_path
 
-    #expect(current_path).to eq login_path
+    expect(current_path).to eq '/splash'
   end
 end

@@ -1,10 +1,10 @@
 class Matter < ApplicationRecord
   include Statable
 
-  belongs_to :application, polymorphic: true
+  belongs_to :board_application, polymorphic: true
   belongs_to :board_meeting, optional: true
 
-  delegate :cemetery, to: :application
+  delegate :cemetery, to: :board_application
 
   enum status: {
     unscheduled: 1,
@@ -21,6 +21,6 @@ class Matter < ApplicationRecord
   INITIAL_STATUSES = [:unscheduled]
 
   def to_s
-    application.to_s
+    board_application.to_s
   end
 end

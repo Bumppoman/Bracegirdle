@@ -1,0 +1,26 @@
+<div 
+  id="complaint-investigation_begun" 
+  class="tracker-step"
+  data-step="2"
+  data-target="tracker.step complaints--show.investigationBegunArea"
+>
+  <label class="section-label">Investigation Begun</label>
+  <p class="mb-10">Investigation begun on
+    <span data-target="complaints--show.investigationBegunDate"><%= @complaint.investigation_begun_date %></span>.
+  </p>
+  <div id="complaint-investigation_begun-action-area">
+    <% if policy(@complaint).complete_investigation? || @complaint.unassigned? %>
+      <%= button_with_confirmation_modal 'Complete Investigation',
+        form_action: complete_investigation_complaint_path,
+        text: 'Are you sure you want to finish investigating this complaint?',
+        title: 'Complete Investigation'
+      %>
+    <% elsif policy(@complaint).request_update? %>
+      <%= button_with_confirmation_modal 'Request Update',
+        form_action: request_update_complaint_path,
+        text: 'Are you sure you want to request an update on this complaint?',
+        title: 'Request Update'
+      %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div 
+  id="complaint-pending_closure" 
+  class="tracker-step"
+  data-step="4"
+  data-target="tracker.step"
+>
+  <%= form_for(
+    @complaint, 
+    url: close_complaint_path, 
+    html: { id: 'complaint-supervisor-closure-form' }
+  ) do |f| %>
+    <label class="section-label">Complaint Recommended for Closure</label>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th>Disposition Date</th>
+          <td data-target="complaints--show.dispositionDate"><%= @complaint.disposition_date %></td>
+        </tr>
+        <tr>
+          <th>Disposition</th>
+          <td data-target="complaints--show.disposition"><%= @complaint.disposition %></td>
+        </tr>
+        <% if current_user.supervisor? %>
+          <tr>
+            <th>
+              <label class="form-control-label">Closure Comments</label>
+            </th>
+            <td>
+              <%= f.text_area :closure_review_comments, rows: 10, class: 'form-control' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% if current_user.supervisor? %>
+      <div class="pd-l-20">
+        <%= button_with_confirmation_modal 'Close Complaint',
+          success_button: '<button class="btn btn-primary" form="complaint-supervisor-closure-form">Close Complaint</button>',
+          text: 'Are you sure you want to close this complaint?',
+          title: 'Close Complaint'
+        %>
+        <%= button_with_confirmation_modal 'Reopen Investigation',
+          form_action: reopen_investigation_complaint_path,
+          text: 'Are you sure you want to reopen the investigation for this complaint?',
+          title: 'Reopen Investigation'
+        %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

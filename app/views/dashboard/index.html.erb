@@ -1,0 +1,57 @@
+<% content_for :title, 'Dashboard' %>
+<% content_for :breadcrumbs, breadcrumbs_helper([]) %>
+<div class="row row-xs">
+  <div class="col-sm-6 col-lg-3">
+    <div class="card card-status">
+      <div class="media">
+        <i class="icon material-icons tx-teal">inbox</i>
+        <div class="media-body">
+          <h1><%= investigator_inbox_items %></h1>
+          <p><%= 'Inbox item'.pluralize(investigator_inbox_items) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0">
+    <div class="card card-status">
+      <div class="media">
+        <i class="icon material-icons tx-indigo">work</i>
+        <div class="media-body">
+          <h1><%= investigator_board_applications %></h1>
+          <p><%= 'Board application'.pluralize(investigator_board_applications) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3 mg-t-10 mg-lg-t-0">
+    <div class="card card-status">
+      <div class="media">
+        <i class="icon material-icons tx-danger">search</i>
+        <div class="media-body">
+          <h1><%= @complaints + @notices %></h1>
+          <p><%= 'Investigation'.pluralize(@complaints + @notices) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3 mg-t-10 mg-lg-t-0">
+    <div class="card card-status">
+      <div class="media">
+        <i class="icon material-icons tx-primary">highlight</i>
+        <div class="media-body">
+          <h1><%= @inspections %></h1>
+          <p><%= 'Inspection'.pluralize(@inspections) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row row-xs pd-t-10 d-flex">
+  <%= render partial: 'activity' %>
+  <div class="col-md-8">
+    <section class="section-wrapper ht-100p pd-20">
+      <label class="section-title pd-5">Overdue Inspections by Region (%)</label>
+      <div id="overdue-inspections-chart" data-overdue-inspections-data=<%= overdue_inspections_by_region %>></div>
+    </section>
+  </div>
+</div>

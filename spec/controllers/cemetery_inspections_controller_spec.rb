@@ -12,6 +12,7 @@ describe CemeteryInspectionsController, type: :controller do
     @users[:mean_supervisor] = FactoryBot.create(:mean_supervisor)
     @cemetery = FactoryBot.create(:cemetery)
     @object = FactoryBot.create(:cemetery_inspection)
+    @trustee = FactoryBot.create(:trustee)
     @completed = FactoryBot.create(:completed_inspection)
   end
 
@@ -20,16 +21,16 @@ describe CemeteryInspectionsController, type: :controller do
     disallowed = %i(cemeterian)
     actions = {
       show: :get,
-      upload_old_inspection: :get,
+      upload: :get,
       view_full_package: :get,
       view_report: :get
     }
 
     actions.each do |action, method|
-      permissions_test(allowed, disallowed, action, method, false, cemetery_id: '04-001', identifier: "#{Date.current.year}-INSP-00002").call
+      permissions_test(allowed, disallowed, action, method, false, cemid: '04001', identifier: "#{Date.current.year}-INSP-00002").call
     end
 
-    permissions_test(allowed, disallowed, :create_old_inspection, :post, false, cemetery_id: '04-001', cemetery_inspection: { date_performed: '03/12/2020' }).call
+    permissions_test(allowed, disallowed, :create, :post, false, cemid: '04001', cemetery_inspection: { date_performed: '03/12/2020' }).call
   end
 
   context 'Just investigators' do
@@ -37,8 +38,9 @@ describe CemeteryInspectionsController, type: :controller do
     disallowed = %i(cemeterian accountant support)
 
     permissions_test(allowed, disallowed, :incomplete, :get, false).call
-    permissions_test(allowed, disallowed, :perform, :get, false, cemetery_id: '04-001').call
+    permissions_test(allowed, disallowed, :perform, :get, false, cemid: '04001').call
   end
+
 
   context 'Just the investigator who owns object' do
     allowed = %i(investigator)
@@ -50,11 +52,11 @@ describe CemeteryInspectionsController, type: :controller do
       record_keeping: :patch
     }
 
-    actions.each do |action, method|
-      permissions_test(allowed, disallowed, action, method, false, cemetery_id: '04-001', cemetery_inspection: { identifier: "#{Date.current.year}-INSP-00001" }).call
-    end
+    #actions.each do |action, method|
+      #permissions_test(allowed, disallowed, action, method, false, cemetery_cemid: '04001', cemetery_inspection: { identifier: "#{Date.current.year}-INSP-00001" }).call
+    #end
 
-    permissions_test(allowed, disallowed, :finalize, :patch, false, format: :js, cemetery_id: '04-001', identifier: "#{Date.current.year}-INSP-00001").call
-    permissions_test(allowed, disallowed, :revise, :patch, false, cemetery_id: '04-001', identifier: "#{Date.current.year}-INSP-00001").call
+    permissions_test(allowed, disallowed, :finalize, :patch, false, format: :js, cemid: '04001', identifier: "#{Date.current.year}-INSP-00001").call
+    permissions_test(allowed, disallowed, :revise, :patch, false, cemid: '04001', identifier: "#{Date.current.year}-INSP-00001", status: 302).call
   end
 end

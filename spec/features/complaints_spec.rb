@@ -14,23 +14,23 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
-      select2 'NY', from: 'State'
+      choices 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       fill_in 'Phone Number', with: '518-555-3232'
       fill_in 'Email', with: 'test@test.test'
-      select2 'Broome', from: 'County'
-      select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
+      choices 'Broome', from: 'County'
+      choices '04-001 Anthony Cemetery', css: '[data-target="complaints--new.cemeterySelectArea"]'
       fill_in 'Location of Lot/Grave', with: 'Section 12 Row 7'
       fill_in 'Name on Deed', with: 'Mother Butkiewicz'
       fill_in 'Relationship', with: 'Relationship'
-      select2 'Burial issues', from: 'Complaint Type'
+      choices 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
       fill_in 'Date Complained to Cemetery', with: '1/1/2019'
       fill_in 'Person Contacted', with: 'Clive Bixby'
       all('span', text: 'Yes').last.click
-      select2 'Chester Butkiewicz', from: 'Investigator'
+      choices 'Chester Butkiewicz', from: 'Investigator'
       click_on 'Submit'
       assert_selector '#complaint-details'
       visit complaints_path
@@ -45,17 +45,17 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
-      select2 'NY', from: 'State'
+      choices 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
       find('#complaint_cemetery_regulated_false', visible: false).sibling('span').click
-      select2 'Broome', from: 'County'
+      choices 'Broome', from: 'County'
       fill_in 'complaint[cemetery_alternate_name]', with: 'Calvary Cemetery'
-      select2 'Burial issues', from: 'Complaint Type'
+      choices 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
       all('span', text: 'Yes').last.click
-      select2 'Chester Butkiewicz', from: 'Investigator'
+      choices 'Chester Butkiewicz', from: 'Investigator'
       click_on 'Submit'
       visit complaints_path
 
@@ -69,15 +69,15 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
-      select2 'NY', from: 'State'
+      choices 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
-      select2 'Broome', from: 'County'
-      select2 'Burial issues', from: 'Complaint Type'
+      choices 'Broome', from: 'County'
+      choices 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
       all('span', text: 'Yes').last.click
-      select2 'Chester Butkiewicz', from: 'Investigator'
+      choices 'Chester Butkiewicz', from: 'Investigator'
       click_on 'Submit'
 
       expect(page).to have_content('There was a problem')
@@ -91,11 +91,18 @@ feature 'Complaints' do
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_button 'Begin Investigation'
-      wait_for_multistep
+      within '#bracegirdle-confirmation-modal' do 
+        click_button 'Begin Investigation'
+      end
       click_button 'Complete Investigation'
-      wait_for_multistep
+      within '#bracegirdle-confirmation-modal' do 
+        click_button 'Complete Investigation'
+      end 
       fill_in 'complaint[disposition]', with: 'Testing.'
       click_button 'Recommend Complaint for Closure'
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Recommend Closure'
+      end
       visit complaints_path
 
       expect(page).to have_content('There are no complaints')
@@ -105,12 +112,15 @@ feature 'Complaints' do
       login_supervisor
       @complaint = FactoryBot.create(:complaint_pending_closure)
 
-      visit pending_closure_complaints_path
+      visit complaints_path
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_on 'Close Complaint'
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Close Complaint'
+      end
       assert_selector '#closure-date'
-      visit pending_closure_complaints_path
+      visit complaints_path
 
       expect(page).to have_content('There are no complaints')
     end
@@ -124,6 +134,9 @@ feature 'Complaints' do
       click_on 'Investigation Details'
       fill_in 'complaint[disposition]', with: 'Testing.'
       click_on 'Close Complaint'
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Close Complaint'
+      end
       assert_selector '#closure-date'
 
       expect(page).to have_content 'closed by'
@@ -134,11 +147,13 @@ feature 'Complaints' do
       @complaint = FactoryBot.create(:complaint_pending_closure)
       login(FactoryBot.create(:mean_supervisor))
 
-      visit pending_closure_complaints_path
+      visit complaints_path
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_button 'Reopen Investigation'
-      wait_for_ajax
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Reopen Investigation'
+      end
       visit complaints_path
 
       expect(page).to have_content('Herman Munster')
@@ -156,17 +171,16 @@ feature 'Complaints' do
     end
 
     scenario 'Supervisor can assign complaint', js: true do
-      @employee = FactoryBot.create(:user)
+      @employee = FactoryBot.create(:user, name: 'Andrew Hickey')
       @complaint = FactoryBot.create(:unassigned)
       login_supervisor
 
-      visit unassigned_complaints_path
+      visit complaints_path
       click_on @complaint.complaint_number
       click_on 'Investigation Details'
       click_on 'Assign to Investigator'
-      select2 'Chester Butkiewicz', xpath: '//*[@id="assign-investigator"]', match: :first
+      choices 'Andrew Hickey', css: '#complaint-assign-investigator-modal'
       click_on 'Assign'
-      assert_selector '#investigation-begin-date'
       logout
       login(@employee)
       visit complaints_path
@@ -176,15 +190,15 @@ feature 'Complaints' do
 
     scenario 'Supervisor can reassign complaint', js: true do
       @other_guy = FactoryBot.create(:user, name: 'Mark Smith')
-      @employee = FactoryBot.create(:user)
+      @employee = FactoryBot.create(:user, name: 'Andrew Hickey')
       @complaint = FactoryBot.create(:brand_new_complaint)
       login_supervisor
 
       visit complaint_path(@complaint)
       click_on 'Investigation Details'
-      click_on 'edit-investigator'
-      select2 'Chester Butkiewicz', xpath: '//*[@id="edit-investigator-area"]', match: :first
-      click_on 'Update'
+      click_link '(reassign)'
+      choices 'Andrew Hickey', css: '[data-target="complaints--show.reassignArea"]'
+      click_on 'Reassign'
       logout
       login(@employee)
       visit complaints_path
@@ -201,11 +215,11 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
-      select2 'NY', from: 'State'
+      choices 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
-      select2 'Broome', from: 'County'
-      select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
-      select2 'Burial issues', from: 'Complaint Type'
+      choices 'Broome', from: 'County'
+      choices '04-001 Anthony Cemetery', css: '[data-target="complaints--new.cemeterySelectArea"]'
+      choices 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
@@ -225,11 +239,11 @@ feature 'Complaints' do
       fill_in 'Name', with: 'Herman Munster'
       fill_in 'Street Address', with: '1313 Mockingbird Ln.'
       fill_in 'City', with: 'Rotterdam'
-      select2 'NY', from: 'State'
+      choices 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
-      select2 'Broome', from: 'County'
-      select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
-      select2 'Burial issues', from: 'Complaint Type'
+      choices 'Broome', from: 'County'
+      choices '04-001 Anthony Cemetery', css: '[data-target="complaints--new.cemeterySelectArea"]'
+      choices 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
@@ -250,6 +264,9 @@ feature 'Complaints' do
       visit complaint_path(@complaint)
       click_on 'Investigation Details'
       click_button 'Reopen Investigation'
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Reopen Investigation'
+      end
       visit complaints_path
 
       expect(page).to have_content(@complaint.complaint_number)
@@ -265,8 +282,8 @@ feature 'Complaints' do
     click_on @complaint.complaint_number
     click_on 'Investigation Details'
     click_on 'Request Update'
-    within '#confirm-request-update' do
-      click_on 'Request update'
+    within '#bracegirdle-confirmation-modal' do
+      click_on 'Request Update'
     end
 
     expect(page).to have_content 'Please provide an update on the status of this complaint.'
@@ -327,14 +344,6 @@ feature 'Complaints' do
       visit all_complaints_path
 
       expect(page).to have_content'Anthony Cemetery'
-    end
-
-    scenario 'View unassigned complaints' do
-      @complaint.update(investigator: nil)
-
-      visit unassigned_complaints_path
-
-      expect(page).to have_content 'Anthony Cemetery'
     end
 
     scenario 'View other user complaints' do

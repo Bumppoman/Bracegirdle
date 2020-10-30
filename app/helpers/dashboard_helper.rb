@@ -14,7 +14,7 @@ module DashboardHelper
   end
 
   def investigator_inbox_items
-    current_user.rules.where.not(status: :revision_requested).count
+    current_user.rules_approvals.where.not(status: :revision_requested).count
   end
 
   def overdue_inspections_by_region
@@ -23,12 +23,12 @@ module DashboardHelper
       .where('last_inspection_date < ? OR last_inspection_date IS NULL', Date.current - 5.years)
       .group(:investigator_region)
       .reorder(:investigator_region)
-      .count(:id)
+      .count(:cemid)
 
     total = active_cemeteries
       .group(:investigator_region)
       .reorder(:investigator_region)
-      .count(:id)
+      .count(:cemid)
 
     overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count, percentage: (count * 100) / total[region] } }.to_json
   end

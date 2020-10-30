@@ -11,6 +11,7 @@ describe NoticesController, type: :controller do
     @users[:another_investigator] = FactoryBot.create(:another_investigator)
     @users[:mean_supervisor] = FactoryBot.create(:mean_supervisor)
     @cemetery = FactoryBot.create(:cemetery)
+    @trustee = FactoryBot.create(:trustee)
     @object = FactoryBot.create(:notice)
   end
 
@@ -26,7 +27,8 @@ describe NoticesController, type: :controller do
       permissions_test(allowed, disallowed, action, method).call
     end
 
-    dummy_notice = FactoryBot.build(:brand_new_complaint).attributes
+    dummy_notice = FactoryBot.build(:notice).attributes
+    dummy_notice[:trustee] = 1;
     permissions_test(allowed, disallowed, :create, :post, true, notice: dummy_notice).call
     permissions_test(allowed, disallowed, :download, :get, true, filename: 'Test.pdf').call
     permissions_test(allowed, disallowed, :show, :get, true).call
@@ -38,6 +40,6 @@ describe NoticesController, type: :controller do
 
     permissions_test(allowed, disallowed, :follow_up, :patch, true, format: :js, notice: { follow_up_inspection_date: '3/12/2020' }).call
     permissions_test(allowed, disallowed, :resolve, :patch, true, format: :js).call
-    permissions_test(allowed, disallowed, :response_received, :patch, true, format: :js).call
+    permissions_test(allowed, disallowed, :receive_response, :patch, true, format: :js).call
   end
 end

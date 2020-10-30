@@ -1,0 +1,32 @@
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table 
+      id="cemeteries-data-table"
+      class="table responsive no-wrap"
+      data-empty-message="There are no cemeteries to display."
+    >
+      <thead>
+        <tr>
+          <th>Cemetery ID</th>
+          <th>Name</th>
+          <th>County</th>
+          <th>Location</th>
+          <th data-type="date" data-format="MMMM D, YYYY">Last Inspection</th>
+          <th data-type="date" data-format="MMMM D, YYYY">Last Audit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cemeteries.each do |cemetery| %>
+          <tr>
+            <td><%= cemetery.formatted_cemid %></td>
+            <td><%= link_to cemetery.name, cemetery %></td>
+            <td><%= "#{cemetery.county_name} County" %></td>
+            <td><%= cemetery.towns.to_sentence %></td>
+            <td><%= cemetery.last_inspection_date || 'No inspection recorded' %></td>
+            <td><%= cemetery.last_audit_date || 'No audit recorded' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

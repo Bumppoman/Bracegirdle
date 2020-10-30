@@ -1,0 +1,115 @@
+<% content_for :title, "Notice of Non-Compliance ##{@notice.notice_number}" %>
+<% content_for :breadcrumbs, breadcrumbs_helper([['Active notices', notices_path], yield(:title)]) %>
+<div id="notice-show" data-controller="notices--show">
+  <%= render partial: 'notices/actions/actions' unless @notice.resolved? %>
+  <section class="section-wrapper mg-b-5">
+    <label class="section-title">Notice Details</label>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th class="wd-25p" scope="row">Notice Number</th>
+          <td>
+            <%= raw "#{@notice.notice_number} (#{link_to 'download', '#notice-download-modal', data: { toggle: 'modal' } })" %>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Issued By</th>
+          <td><%= @notice.investigator.name %></td>
+        </tr>
+        <tr>
+          <th scope="row">Issued On</th>
+          <td><%= @notice.created_at %></td>
+        </tr>
+        <tr>
+          <th scope="row">Response Required</th>
+          <td><%= @notice.response_required_date %></td>
+        </tr>
+        <tr class="<%= 'd-none' if @notice.issued? %>">
+          <th scope="row">Response Received</th>
+          <td data-target="notices--show.responseReceivedDate"><%= @notice.response_received_date %></td>
+        </tr>
+        <tr class="<%= 'd-none' unless @notice.follow_up_completed? || @notice.resolved? %>">
+          <th scope="row">Follow-Up Completed</th>
+          <td data-target="notices--show.followUpCompletedDate"><%= @notice.follow_up_completed_date %></td>
+        </tr>
+        <tr class="<%= 'd-none' unless @notice.resolved? %>">
+          <th scope="row">Notice Resolved</th>
+          <td data-target="notices--show.resolvedDate"><%= @notice.resolved_date %></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="section-wrapper mg-b-5">
+    <label class="section-title">Cemetery Information</label>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th class="wd-25p" scope="row">Cemetery</th>
+          <td><%= raw "#{link_to @notice.cemetery.name, @notice.cemetery} (#{@notice.cemetery.formatted_cemid})" %></td>
+        </tr>
+        <tr>
+          <th scope="row">Served On</th>
+          <td>
+            <%= @notice.trustee.name %>
+            <br />
+            <%= @notice.served_on_street_address %>
+            <br />
+            <%= "#{@notice.served_on_city}, #{@notice.served_on_state} #{@notice.served_on_zip}" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="section-wrapper">
+    <label class="section-title">Violation Information</label>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th class="wd-25p" scope="row">Law Sections</th>
+          <td><%= simple_format(@notice.law_sections) %></td>
+        </tr>
+        <tr>
+          <th scope="row">Specific Information</th>
+          <td><%= simple_format(@notice.specific_information) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <%= render 'notes/notes', object: @notice %>
+  <%= render 'attachments/attachments', object: @notice, form: @notice.active? %>
+  <div
+    id="notice-download-modal" 
+    class="modal" 
+    data-target="notices--show.downloadModal"
+  >
+    <div class="modal-dialog wd-30p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Download Notice of Non-Compliance</h6>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <p class="text-center">
+            Click below to download this Notice of Non-Compliance.
+            <br />
+            <br />
+            <%= link_to(
+              content_tag(:i, 'attachment', class: 'material-icons mg-r-15 tx-danger tx-24') + 
+                "Download #{@notice.notice_number}.pdf", 
+              download_notice_path(@notice, filename: @notice.notice_number),
+              {
+                id: 'notice-download-link',
+                class: 'btn btn-outline-secondary btn-lg btn-block',
+                target: '_blank'
+              }) %>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

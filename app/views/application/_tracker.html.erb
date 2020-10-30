@@ -1,0 +1,30 @@
+<div 
+  class="tracker"
+  data-action="bracegirdle:tracker:nextStep->tracker#nextStep <%= defined?(action) ? action : '' %>" 
+  data-controller="tracker"
+  data-target="<%= defined?(target) ? target : '' %>"
+  data-tracker-current-step="<%= current_step %>"
+>
+  <ul class="progressbar">
+    <% steps.each do |id, step| %>
+      <li
+        class="tracker-indicator wd-<%= 100 / steps.length %>p"
+        data-step="<%= step[:number] %>"
+        data-target="tracker.indicator"
+      >
+        <% if defined?(linkable) && linkable %>
+          <a
+            href="#"
+            class="tracker-step-link"
+            data-action="tracker#goToStepByLink"
+            data-step="<%= step[:number] %>"
+          ><%= step[:title] %></a>
+        <% else %>
+          <%= step[:title] %>
+        <% end %>
+    <% end %>
+  </ul>
+  <section class="section-wrapper pd-20 mg-t-5" style="overflow: hidden;">
+    <%= yield %>
+  </section>
+</div>

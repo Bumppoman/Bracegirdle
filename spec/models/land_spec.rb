@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 def create_land(type = :purchase)
-  @cemetery = FactoryBot.create(:cemetery)
-
   Land.new(
-    cemetery: @cemetery,
+    cemetery_cemid: '04001',
+    trustee_id: 1,
     application_type: type,
     status: :received
   )
@@ -29,6 +28,8 @@ describe Land, type: :model do
 
   context Land, 'Scopes' do
     before :each do
+      FactoryBot.create(:cemetery)
+      FactoryBot.create(:trustee)
       @me = FactoryBot.create(:user)
       @active_purchase = create_land
       @active_purchase.update(investigator: @me)

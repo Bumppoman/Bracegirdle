@@ -1,0 +1,131 @@
+<div 
+  id="board_applications-restorations-previous-form" 
+  class="pd-t-10-force tracker-step"
+  data-step="4"
+  data-target="tracker.step"
+>
+  <label class="section-title">Previous Restoration</label>
+  <div 
+    class="<%= 'd-none' if @restoration.current_evaluation_step > 4 %>"
+    data-target="board-applications--restorations--evaluate.previousForm"
+  >
+    <%= form_with model: [:board_applications, @restoration],
+      url: send("upload_previous_board_applications_#{@restoration.type.downcase}_path"),
+      builder: BracegirdleFormBuilder,
+      html: {
+        data: {
+          action: 'change->board-applications--restorations--evaluate#previousFormChanged',
+          target: 'board-applications--restorations--evaluate.previousFormElement'
+        }
+      } do |f| 
+    %>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group required">
+            <%= f.label :previous_exists, 'Has the cemetery had previous restoration work?' %>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <label class="rdiobox">
+            <%= f.radio_button :previous_exists, 
+              true,
+              data: { 
+                action: 'board-applications--restorations--evaluate#setPreviousDetails',
+                target: 'board-applications--restorations--evaluate.previousExistsTrue'
+              }
+            %>
+            <span id="previous-exists-yes">Yes</span>
+          </label>
+        </div>
+        <div class="col-md-3">
+          <label class="rdiobox">
+            <%= f.radio_button :previous_exists, 
+              false,
+              data: { action: 'board-applications--restorations--evaluate#setPreviousDetails' }
+            %>
+            <span id="previous-exists-no">No</span>
+          </label>
+        </div>
+      </div>
+      <div
+        class="d-none"
+        data-target="board-applications--restorations--evaluate.previousDetailsArea"
+      >
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+              <%= f.label :previous_completion_report_file, 'Previous Completion Report' %>
+              <div class="custom-file">
+                <%= f.file_field :previous_completion_report_file,
+                  class: 'custom-file-input'
+                %>
+                <label class="custom-file-label">Choose file</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <%= f.select :previous_type,
+              Restoration::TYPES.keys.map { [_1.capitalize, _1] }.sort.to_h,
+              { label: 'Type of Project', prompt: 'Choose project type' }
+            %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <%= f.date_field :previous_date,
+              label: 'Date Previous Work Approved'
+            %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div 
+    class="file-group<%= ' d-none' if @restoration.current_evaluation_step <= 4 %>"
+    data-target="board-applications--restorations--evaluate.previousSummary"
+  >
+    <% if @restoration.previous_completion_report_file.attached? %>
+      <div class="file-item">
+        <div class="row no-gutters wd-100p">
+          <div class="col-9 col-sm-5 d-flex align-items-center">
+            <i class="material-icons">attach_file</i>
+            <%= link_to "Exhibit #{@remaining_letters.shift} (previous restoration report).pdf", 
+              self.send("view_previous_report_board_applications_#{@restoration.type.downcase}_path", @restoration.id)
+            %>
+          </div>
+          <div class="col-6 col-sm-4 mg-t-5 mg-sm-t-0">
+            <%# Restoration.formatted_type(@restoration) %>; completed <%# formatted_date(@restoration.previous_date) %>
+          </div>
+          <div class="col-6 col-sm-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+            <!-- if display_links
+              = link_to @restoration.previous_report do
+                i.icon.ion-md-download.mg-r-15
+              = link_to '#' do
+                i.icon.ion-ios-trash -->
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div>
+        No previous restoration. 
+        (<a href="#" data-action="board-applications--restorations--evaluate#changePreviousExists">change</a>)
+      </div>
+    <% end %>
+  </div>
+  <div class="row mg-t-20">
+    <div class="col-md-6">
+      <button 
+        class="btn btn-secondary"
+        data-action="tracker#previousStep"
+      >Previous</button>
+    </div>
+    <div class="col-md-6 text-right">
+      <button 
+        class="btn btn-primary"
+        <%= 'disabled="true"' unless @restoration.current_evaluation_step > 4 %>
+        data-action="board-applications--restorations--evaluate#savePrevious"
+        data-target="board-applications--restorations--evaluate.previousFormNextButton"
+      >Next</button>
+    </div>
+  </div>
+</div>

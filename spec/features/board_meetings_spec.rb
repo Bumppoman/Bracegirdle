@@ -9,7 +9,17 @@ feature 'Board Meetings' do
   end
 
   scenario 'User can finalize agenda', js: true do
+    @board_meeting = FactoryBot.create(:board_meeting, date: '2028-03-01')
     login_supervisor
+    
+    visit board_meeting_path(@board_meeting)
+    click_button 'Finalize agenda'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Finalize Agenda'
+    end
+    assert_selector '.disappearing-success-message'
+    
+    expect(@board_meeting.reload.status).to eq 'agenda_finalized'
   end
 
   scenario 'User can download PDF agenda' do

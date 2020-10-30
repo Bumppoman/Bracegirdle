@@ -1,0 +1,10 @@
+document.getElementById('attachments').dispatchEvent(
+  new CustomEvent('bracegirdle:attachments:attachmentCreated',
+    {
+      detail: {
+        attachment: '<%= j render partial: "attachments/attachment", locals: { object: @attachment.attachable, attachment: @attachment } %>',
+        attachmentId: '<%= @attachment.id %>'
+      }
+    }
+  )
+);

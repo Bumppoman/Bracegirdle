@@ -6,7 +6,7 @@ FactoryBot.define do
     complainant_state { 'NY' }
     complainant_zip { '13202' }
     cemetery_county { 4 }
-    cemetery_id { 1 }
+    cemetery_cemid { '04001' }
     complaint_type { 1 }
     summary { 'Testing.' }
     form_of_relief { 'Testing' }
@@ -14,7 +14,7 @@ FactoryBot.define do
     investigation_required { true }
     investigator_id { 1 }
     receiver_id { 1 }
-    complaint_number { '2019-0001' }
+    complaint_number { 'CPLT-2020-00001' }
 
     factory :complaint_under_investigation do
       status { :investigation_begun }

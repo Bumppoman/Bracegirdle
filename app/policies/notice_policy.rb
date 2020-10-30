@@ -23,7 +23,7 @@ class NoticePolicy < ApplicationPolicy
     record.belongs_to? user
   end
 
-  def response_received?
+  def receive_response?
     resolve?
   end
 

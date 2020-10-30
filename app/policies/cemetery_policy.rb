@@ -7,11 +7,11 @@ class CemeteryPolicy < ApplicationPolicy
     user.staff?
   end
 
-  def list_by_county?
+  def index_by_county?
     index?
   end
 
-  def list_by_region?
+  def index_by_region?
     index?
   end
 

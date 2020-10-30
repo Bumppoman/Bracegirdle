@@ -1,7 +1,10 @@
-$('#confirm-unschedule-matter').modal('hide');
-
-// Remove the row
-const row = $('#matter-<%= @matter.id %>');
-row.parents('table:first').DataTable().row(row).remove().draw();
-
-$('#unschedule-success').show().delay(3000).fadeOut();
+document.getElementById('board_meetings-show').dispatchEvent(
+  new CustomEvent('bracegirdle:matters:matterUnscheduled', 
+    {
+      detail: {
+        matterId: '<%= @matter.id %>',
+        type: '<%= @matter.board_application_type %>'
+      }
+    }
+  )
+);

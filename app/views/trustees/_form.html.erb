@@ -1,0 +1,88 @@
+<%= form_with model: [@cemetery, Trustee.new(state: 'NY')], 
+  url: cemetery_trustees_path(@cemetery), 
+  builder: BracegirdleFormBuilder do |f| 
+%>
+  <div 
+    id="trustee-form-modal" 
+    class="modal fade"
+    data-controller="trustees--form"
+    data-target="trustees--index.trusteeForm"
+  >
+    <div class="modal-dialog modal-lg wd-60p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 
+            class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"
+            data-target="trustees--form.title"
+          >Add New Trustee</h6>
+          <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-8">
+                <%= f.text_field :name, required: true %>
+              </div>
+              <div class="col-md-4">
+                <%= f.select :position,
+                  options_for_select(Trustee::POSITIONS.invert),
+                  { prompt: 'Select position', required: true, without_choices: true },
+                  { 
+                    data: {
+                      target: 'trustees--form.positionSelectElement'
+                    }
+                  }
+                %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.text_field :street_address %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <%= f.text_field :city %>
+              </div>
+              <div class="col-md-2">
+                <%= f.select :state, 
+                  options_for_select(STATES, f.object.state), 
+                  { without_choices: true },
+                  { 
+                    data: {
+                      target: 'trustees--form.stateSelectElement'
+                    }
+                  }
+                %>
+              </div>
+              <div class="col-md-4">
+                <%= f.text_field :zip, label: 'ZIP Code' %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <%= f.text_field :phone, label: 'Phone number' %>
+              </div>
+              <div class="col-md-6">
+                <%= f.text_field :email, label: 'Email address' %>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer mg-t-20">
+            <button 
+              class="btn btn-primary"
+              data-target="trustees--form.submit"
+            >Add New Trustee</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary" 
+              data-dismiss="modal"
+            >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

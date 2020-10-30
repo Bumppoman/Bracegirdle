@@ -1,0 +1,102 @@
+<%= form_with model: [:board_applications, object],
+  local: true,
+  builder: BracegirdleFormBuilder do |f| 
+%>
+  <div class="form-layout">
+    <section class="section-wrapper" data-controller="trustees--select-for-cemetery">
+      <%= content_tag(:div, 
+        'There was a problem uploading this application!', 
+        id: 'board_application-new-error', 
+        class: 'alert alert-danger', 
+        role: 'alert') if object.errors.any? 
+      %>
+      <label class="section-title">Cemetery Information</label>
+      <%= render partial: 'application/cemetery_with_county_form_part',
+        locals: {
+          action: 'addItem->trustees--select-for-cemetery#loadTrustees', 
+          f: f, 
+          object: object,
+          target: 'trustees--select-for-cemetery.cemetery'
+        }
+      %>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <%= f.label :trustee, 'Submitted By' %>
+            <div class="input-group">
+              <div class="row wd-100p no-gutters">
+                <div class="col-md-10">
+                  <%= f.hidden_field :selected_trustee, 
+                    value: object.trustee_id,
+                    data: {
+                      target: 'trustees--select-for-cemetery.selectedTrustee'
+                    }
+                  %>
+                  <%= f.select :trustee,
+                    {},
+                    { label: false, prompt: 'Select trustee', required: true, without_choices: true },
+                    { 
+                      data: { 
+                        target: 'trustees--select-for-cemetery.trustee' 
+                      },
+                      disabled: true
+                    }
+                  %>
+                </div>
+                <div class="col-md-2 text-md-right">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                  >Add New Trustee</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-wrapper mg-t-5">
+      <label class="section-title">Application</label>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.date_field :submission_date,
+            label: 'Submitted On',
+            required: true
+          %>
+        </div>
+        <div class="col-md-6">
+          <%= f.money_field :amount,
+            required: true
+          %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <%= f.label :raw_application_file, 'File' %>
+            <div class="custom-file">
+              <%= f.file_field :raw_application_file,
+                class: 'custom-file-input'
+              %>
+              <label class="custom-file-label">Choose file</label>
+            </div>
+            <small class="form-text text-muted">
+              Raw applications (.pdf) only.  Individual parts will be processed later.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.select :investigator,
+            employee_options(@board_application.investigator&.id, [:investigator]),
+            { label: 'Assign To', prompt: 'Unassigned', required: true }
+          %>
+        </div>
+      </div>
+      <div class="form-layout-footer mg-t-20">
+        <button class="btn btn-primary">Upload Application</button>
+      </div>
+    </section>
+  </div>
+<% end %>

@@ -1,0 +1,24 @@
+<div class="signin-wrapper">
+  <div class="signin-box">
+    <h2 class="signin-title-primary">Welcome back!</h2>
+    <h3 class="signin-title-secondary">Sign in to continue.</h3>
+    <%= form_tag sessions_path %>
+      <% if alert %>
+        <div class="alert alert-danger"><%= alert %></div>
+      <% end %>
+      <div class="form-group">
+        <%= text_field :email, 
+          nil, 
+          { class: 'form-control', placeholder: 'Enter your email' }
+        %>
+      </div>
+      <div class="form-group mg-b-50">
+        <%= password_field :password, 
+          nil, 
+          { class: 'form-control', placeholder: 'Enter your password' }
+        %>
+      </div>
+      <button class="btn btn-primary btn-block btn-signin">Sign In</button>
+    </div>
+  </div>
+</div>

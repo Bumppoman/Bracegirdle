@@ -1,0 +1,21 @@
+document.getElementById('board_applications-restorations-contractors-index').dispatchEvent(
+  new CustomEvent('bracegirdle:board_applications:restorations:contractors:contractorCreated',
+    {
+      detail: {
+        contractor: '<%= j render(partial: 'contractor_row', locals: { contractor: @contractor }) %>'
+      }
+    }
+  )
+);
+
+<% if params['contractor']['estimate_form'] %>
+  document.getElementById('board_applications-restorations-estimates-new-modal').dispatchEvent(
+    new CustomEvent('bracegirdle:board_applications:restorations:contractors:contractorCreated',
+      {
+        detail: {
+          contractor: '<%= @contractor.id %>'
+        }
+      }
+    )
+  );
+<% end %>

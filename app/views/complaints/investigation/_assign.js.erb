@@ -1,0 +1,13 @@
+// Close assignment modal
+new BSN.Modal(document.getElementById('complaint-assign-investigator-modal')).hide();
+
+// Update the investigator's name
+document.getElementById('current-investigator-name').textContent = '<%= @complaint.investigator.name %>';
+
+// Begin the investigation
+<%= render partial: 'complaints/investigation/begin_investigation' %>
+
+// Hide the "Complete Investigation" button if appropriate
+<% if @complaint.investigator != current_user %>
+document.getElementById('complaint-investigation_begun-action-area').style = 'display: none;';
+<% end%>

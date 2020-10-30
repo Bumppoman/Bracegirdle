@@ -13,8 +13,8 @@ module PDFGenerators
       letter_params = {
         date: Date.current,
         recipient: @inspection.cemetery.name,
-        address_line_one: @inspection.trustee_street_address,
-        address_line_two: "#{@inspection.trustee_city}, #{@inspection.trustee_state} #{@inspection.trustee_zip}",
+        address_line_one: @inspection.mailing_street_address,
+        address_line_two: "#{@inspection.mailing_city}, #{@inspection.mailing_state} #{@inspection.mailing_zip}",
         cemetery: @inspection.cemetery,
         name: @inspection.investigator.name,
         title: @inspection.investigator.title,
@@ -42,8 +42,8 @@ module PDFGenerators
       end
 
       # Output additional items
-      CemeteryInspection::ADDITIONAL_DOCUMENTS.each_with_index do |(document, title), i|
-        if @inspection[:additional_documents][i]
+      CemeteryInspection::ADDITIONAL_DOCUMENTS.each do |document, title|
+        if @inspection[:additional_documents][document.to_s]
           output << CombinePDF.load(Rails.root.join('app', 'pdfs', 'generated', "Sample #{title}.pdf"))
           output << CombinePDF.parse(BlankPDF.new({}).render) unless %i(by_laws rules).include? document
         end

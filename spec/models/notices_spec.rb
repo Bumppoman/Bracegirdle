@@ -4,10 +4,9 @@ def create_notice
   @investigator = FactoryBot.build(:user, office_code: 'XXX')
 
   Notice.new(
-    cemetery: FactoryBot.build(:cemetery),
+    cemetery_cemid: '04001',
     investigator: @investigator,
-    served_on_name: 'John Doe',
-    served_on_title: 'President',
+    trustee_id: 1,
     served_on_street_address: '123 Fake St.',
     served_on_city: 'Testing',
     served_on_state: 'NY',
@@ -25,6 +24,8 @@ describe Notice, type: :model do
   describe 'Actions' do
     describe Notice, '#after_commit' do
       it 'sets a notice number after saving' do
+        FactoryBot.create(:cemetery)
+        FactoryBot.create(:trustee)
         subject.save
 
         expect(subject.notice_number).to eq "XXX-#{Date.current.year}-#{'%05i' % subject.id}"
@@ -57,6 +58,8 @@ describe Notice, type: :model do
 
     describe Notice, '#concern_text' do
       it 'provides the correct text' do
+        FactoryBot.create(:cemetery)
+        FactoryBot.create(:trustee)
         subject.save
         expect(subject.concern_text).to eq ['Notice of Non-Compliance', "#XXX-#{Date.current.year}-00001", 'against Anthony Cemetery']
       end
@@ -91,16 +94,18 @@ describe Notice, type: :model do
 
   describe 'Scopes' do
     before :each do
+      FactoryBot.create(:cemetery)
+      FactoryBot.create(:trustee)
       @active = create_notice
       @active.save
     end
 
     describe Notice, '.active' do
-      it 'returns only active complaints' do
+      it 'returns only active notices' do
         resolved = create_notice
         resolved.update(
           response_received_date: Date.current,
-          follow_up_inspection_date: Date.current,
+          follow_up_completed_date: Date.current,
           status: :resolved
         )
         resolved.save
@@ -121,7 +126,7 @@ describe Notice, type: :model do
         resolved = create_notice
         resolved.update(
             response_received_date: Date.current,
-            follow_up_inspection_date: Date.current,
+            follow_up_completed_date: Date.current,
             status: :resolved,
             investigator_id: 2
         )
@@ -132,7 +137,7 @@ describe Notice, type: :model do
         my_resolved = create_notice
         my_resolved.update(
             response_received_date: Date.current,
-            follow_up_inspection_date: Date.current,
+            follow_up_completed_date: Date.current,
             status: :resolved,
             investigator_id: 3)
         my_resolved.save
@@ -146,6 +151,8 @@ describe Notice, type: :model do
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
+      FactoryBot.create(:cemetery)
+      FactoryBot.create(:trustee)
       expect(subject).to be_valid
     end
 

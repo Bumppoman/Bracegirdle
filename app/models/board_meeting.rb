@@ -1,8 +1,8 @@
 class BoardMeeting < ApplicationRecord
   has_many :matters,
-    -> { where.not application_type: 'Restoration' }
-  has_many :restoration,
-    -> { where application_type: 'Restoration' },
+    -> { where.not board_application_type: 'Restoration' }
+  has_many :restorations,
+    -> { where board_application_type: 'Restoration' },
     class_name: 'Matter'
 
   enum status: {
@@ -13,11 +13,11 @@ class BoardMeeting < ApplicationRecord
   }
 
   def abandonment_count
-    restoration_by_type('Abandonment').count
+    restorations_by_type('Abandonment').count
   end
 
   def hazardous_count
-    restoration_by_type('Hazardous').count
+    restorations_by_type('Hazardous').count
   end
 
   def date_code
@@ -37,13 +37,13 @@ class BoardMeeting < ApplicationRecord
   end
 
   def vandalism_count
-    restoration_by_type('Vandalism').count
+    restorations_by_type('Vandalism').count
   end
 
   private
 
-  def restoration_by_type(type)
-    restoration.joins('INNER JOIN restoration ON matters.application_id = restoration.id')
-      .where(restoration: { type: type })
+  def restorations_by_type(type)
+    restorations.joins('INNER JOIN restorations ON matters.board_application_id = restorations.id')
+      .where(restorations: { type: type })
   end
 end

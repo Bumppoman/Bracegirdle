@@ -1,9 +1,12 @@
 EVENT_CONSUMER_MAPPING = {
-  ApplicationEvent::Type::APPLICATION_PROCESSED => [ActivityConsumer, SupervisorConsumer, StatusChangeConsumer],
-  ApplicationEvent::Type::APPLICATION_RECEIVED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
-  ApplicationEvent::Type::APPLICATION_RETURNED=> [ActivityConsumer, AssignmentConsumer],
-  ApplicationEvent::Type::APPLICATION_REVIEWED => [ActivityConsumer, MatterConsumer, NotificationConsumer, StatusChangeConsumer],
-  CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_COMPLETED => [ActivityConsumer],
+  BoardApplicationEvent::Type::BOARD_APPLICATION_PROCESSED => [ActivityConsumer, SupervisorConsumer, StatusChangeConsumer],
+  BoardApplicationEvent::Type::BOARD_APPLICATION_RECEIVED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
+  BoardApplicationEvent::Type::BOARD_APPLICATION_RETURNED=> [ActivityConsumer, AssignmentConsumer],
+  BoardApplicationEvent::Type::BOARD_APPLICATION_REVIEWED => [ActivityConsumer, MatterConsumer, NotificationConsumer, StatusChangeConsumer],
+  CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_BEGUN => [StatusChangeConsumer],
+  CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_COMPLETED => [ActivityConsumer, StatusChangeConsumer],
+  CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_STATUS_CHANGED => [StatusChangeConsumer],
+  CemeteryInspectionEvent::Type::CEMETERY_INSPECTION_UPLOADED => [StatusChangeConsumer],
   ComplaintEvent::Type::COMPLAINT_ADDED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
   ComplaintEvent::Type::COMPLAINT_ASSIGNED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
   ComplaintEvent::Type::COMPLAINT_CLOSED => [ActivityConsumer, StatusChangeConsumer],
@@ -19,11 +22,13 @@ EVENT_CONSUMER_MAPPING = {
   NoticeEvent::Type::NOTICE_FOLLOW_UP => [ActivityConsumer, StatusChangeConsumer],
   NoticeEvent::Type::NOTICE_RESOLVED => [ActivityConsumer, StatusChangeConsumer],
   NoticeEvent::Type::NOTICE_RESPONSE => [ActivityConsumer, StatusChangeConsumer],
-  RulesEvent::Type::RULES_APPROVED => [ActivityConsumer, StatusChangeConsumer],
-  RulesEvent::Type::RULES_ASSIGNED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
-  RulesEvent::Type::RULES_REVISION_RECEIVED => [ActivityConsumer, StatusChangeConsumer],
-  RulesEvent::Type::RULES_REVISION_REQUESTED => [ActivityConsumer, StatusChangeConsumer],
-  RulesEvent::Type::RULES_UPLOADED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer]
+  RulesApprovalEvent::Type::RULES_APPROVAL_APPROVED => [ActivityConsumer, StatusChangeConsumer],
+  RulesApprovalEvent::Type::RULES_APPROVAL_ASSIGNED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
+  RulesApprovalEvent::Type::RULES_APPROVAL_REVISION_RECEIVED => [ActivityConsumer, StatusChangeConsumer],
+  RulesApprovalEvent::Type::RULES_APPROVAL_REVISION_REQUESTED => [ActivityConsumer, StatusChangeConsumer],
+  RulesApprovalEvent::Type::RULES_APPROVAL_UPLOADED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],
+  RulesRevisionEvent::Type::RULES_APPROVAL_REVISION_CREATED => [StatusChangeConsumer],
+  RulesRevisionEvent::Type::RULES_APPROVAL_REVISION_UPLOADED => [StatusChangeConsumer],
 }.freeze
 
 EVENT_CONSUMER_MAPPING.each do |event_name, consumer_list|

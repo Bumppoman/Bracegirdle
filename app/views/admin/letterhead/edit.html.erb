@@ -1,0 +1,48 @@
+<% content_for :title, 'Edit Letterhead' %>
+<% content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      ['Administration', '#'], 
+      'Edit letterhead'
+    ]
+  )
+%>
+<section class="section-wrapper">
+  <%= form_with model: @letterhead,
+    url: admin_update_letterhead_path, 
+    method: :patch,
+    builder: BracegirdleFormBuilder do |f| 
+  %>
+    <div class="form-layout">
+      <label class="section-title">Officials</label>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :governor, required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :secretary_of_state, label: 'Secretary of State', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :attorney_general, label: 'Attorney General', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :commissioner_of_health, label: 'Commissioner of Health', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :director, required: true %>
+        </div>
+      </div>
+    </div>
+    <div class="form-layout-footer mg-t-20 pd-l-20">
+      <button class="btn btn-primary">Update</button>
+    </div>
+  <% end %>
+</section>

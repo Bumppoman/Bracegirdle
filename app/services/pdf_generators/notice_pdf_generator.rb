@@ -10,15 +10,15 @@ module PDFGenerators
       NoticePDF.new(
         @notice.attributes.merge(
           'cemetery_name' => @notice.cemetery.name,
-          'cemetery_number' => @notice.cemetery.cemetery_id,
+          'cemetery_number' => @notice.cemetery.formatted_cemid,
           'investigator_name' => @notice.investigator.name,
           'investigator_title' => @notice.investigator.title,
+          'trustee_name' => @notice.trustee.name,
+          'trustee_position' => @notice.trustee.position_name,
           'response_street_address' => @notice.investigator.street_address,
           'response_city' => @notice.investigator.city,
           'response_zip' => @notice.investigator.zip,
-          'notice_date' => @notice.created_at,
-          'secondary_law_sections' => @notice.law_sections,
-          'served_on_title' => Trustee::POSITIONS[@notice.served_on_title.to_i]
+          'notice_date' => @notice.created_at
         )
       )
     end

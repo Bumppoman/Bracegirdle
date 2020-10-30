@@ -1,0 +1,103 @@
+<div 
+  id="board_applications-restoration-application" 
+  class="pd-t-10-force tracker-step"
+  data-step="1"
+  data-target="tracker.step"
+>
+  <label class="section-title">Application</label>
+  <div 
+    class="<%= 'd-none' unless @restoration.current_evaluation_step == 1 %>"
+    data-target="board-applications--restorations--evaluate.applicationForm"
+  >
+    <%= form_with model: [:board_applications, @restoration],
+      url: send("upload_application_board_applications_#{@restoration.type.downcase}_path"),
+      builder: BracegirdleFormBuilder,
+      html: {
+        data: {
+          action: 'change->board-applications--restorations--evaluate#applicationFormChanged',
+          target: 'board-applications--restorations--evaluate.applicationFormElement'
+        },
+        id: 'board_applications-restoration-application-form'
+      } do |f| 
+    %>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <%= f.label :application_file, 'Application' %>
+            <div class="custom-file">
+              <%= f.file_field :application_file,
+                class: 'custom-file-input',
+                required: true
+              %>
+              <label class="custom-file-label">Choose file</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <%= f.date_field :field_visit_date,
+            label: 'Date of Visit to Cemetery',
+            required: true
+          %>
+        </div>
+        <div class="col-md-4">
+          <%= f.number_field :monuments, label: 'Number of Monuments', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group required">
+            <%= f.label :application_form_complete, 'Does the application appear complete?' %>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <label class="rdiobox">
+            <%= f.radio_button :application_form_complete, true %>
+            <span id="application-form-complete-yes">Yes</span>
+          </label>
+        </div>
+        <div class="col-md-3">
+          <label class="rdiobox">
+            <%= f.radio_button :application_form_complete, false %>
+            <span id="application-form-complete-no">No</span>
+          </label>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div 
+    class="file-group mb-5<%= ' d-none' if @restoration.current_evaluation_step == 1 %>"
+    data-target="board-applications--restorations--evaluate.applicationSummary"
+  >
+    <div class="file-item">
+      <div class="row no-gutters wd-100p">
+        <div class="col-md-9 d-flex align-items-center">
+          <i class="material-icons mr-2">attach_file</i>
+          <%= link_to 'Exhibit A (application).pdf', 
+            self.send("view_application_form_board_applications_#{@restoration.type.downcase}_path", @restoration) 
+          %>
+        </div>
+        <div class="col-md-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+          <% if defined?(display_links) %>
+            <%= link_to @restoration.application_form do %>
+              <i class="material-icons mg-r-15">cloud_download</i>
+            <% end %>
+            <%= link_to '#' do %>
+              <i class="material-icons">trash</i>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-layout-footer text-right">
+    <button 
+      type="button" 
+      class="btn btn-primary"
+      <%= 'disabled="true"' unless @restoration.current_evaluation_step > 1 %>
+      data-action="board-applications--restorations--evaluate#saveApplication"
+      data-target="board-applications--restorations--evaluate.applicationFormNextButton"
+    >Next</button>
+  </div>
+</div>

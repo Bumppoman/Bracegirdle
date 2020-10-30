@@ -16,11 +16,11 @@ class Admin::LetterheadController < Admin::BaseController
   private
 
   def letterhead
-    @_letterhead ||= OpenStruct.new(YAML.load(File.read(Rails.root.join('config', 'letterhead.yml')))['letterhead'])
+    @_letterhead ||= Admin::Letterhead.new(YAML.load(File.read(Rails.root.join('config', 'letterhead.yml')))['letterhead'])
   end
 
   def letterhead_params
-    params.require(:letterhead).permit(
+    params.require(:admin_letterhead).permit(
       :governor, :secretary_of_state, :attorney_general,
       :commissioner_of_health, :director
     )

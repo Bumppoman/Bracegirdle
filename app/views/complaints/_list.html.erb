@@ -1,0 +1,36 @@
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="complaints-data-table"
+      class="table display responsive no-wrap" 
+      data-empty-message="There are no complaints to display."
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Complainant</th>
+          <th>Cemetery</th>
+          <th data-type="date" data-format="MMMM D, YYYY">Complaint Date</th>
+          <th>Status</th>
+          <th data-type="date" data-format="MMMM D, YYYY">Last Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @complaints.each do |complaint| %>
+          <tr>
+            <td><%= link_to complaint, complaint %></td>
+            <td><%= complaint.complainant_name %></td>
+            <td><%= complaint.formatted_cemetery_name %></td>
+            <td><%= complaint.created_at %></td>
+            <td>
+              <span class="d-none"><%= Complaint.statuses[complaint.status] %></span>
+              <%= complaint.formatted_status %>
+            </td>
+            <td><%= complaint.updated_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+

@@ -21,17 +21,17 @@ class InvestigatorStatisticsReportPDF < BasicPDF
 
     @inspections = {}
     @inspections[:completed] = CemeteryInspection.where(investigator: @params[:investigator], date_mailed: month_range)
-    @inspections[:incomplete] = CemeteryInspection.where(investigator: @params[:investigator], date_performed: month_range).where.not(status: :complete)
+    @inspections[:incomplete] = CemeteryInspection.where(investigator: @params[:investigator], date_performed: month_range).where.not(status: :completed)
 
-    @rules = {}
-    @rules[:approved] = Rules.where(investigator: @params[:investigator], approval_date: month_range)
-    @rules[:unreviewed] = Rules.pending_review_for(@params[:investigator])
-    @rules[:total_approved] = Rules.where(investigator: @params[:investigator], status: :approved).where.not(submission_date: nil)
-    @rules[:total_time] = @rules[:total_approved].map { |r| (r.approval_date - r.submission_date).to_i }.inject(0, :+)
+    @rules_approvals = {}
+    @rules_approvals[:approved] = RulesApproval.where(investigator: @params[:investigator], approval_date: month_range)
+    @rules_approvals[:unreviewed] = RulesApproval.pending_review_for(@params[:investigator])
+    @rules_approvals[:total_approved] = RulesApproval.where(investigator: @params[:investigator], status: :approved).where.not(submission_date: nil)
+    @rules_approvals[:total_time] = @rules_approvals[:total_approved].map { |r| (r.approval_date - r.submission_date).to_i }.inject(0, :+)
     begin
-      @rules[:average_time] = @rules[:total_time] / @rules[:total_approved].count
+      @rules_approvals[:average_time] = @rules_approvals[:total_time] / @rules_approvals[:total_approved].count
     rescue ZeroDivisionError
-      @rules[:average_time] = 0
+      @rules_approvals[:average_time] = 0
     end
 
     font_size 10
@@ -82,7 +82,7 @@ class InvestigatorStatisticsReportPDF < BasicPDF
         ],
         ['Rules',
           make_table(
-            rules_table_data,
+            rules_approvals_table_data,
             cell_style: { size: 8 }
           ) do
             cells.borders = []
@@ -103,7 +103,7 @@ class InvestigatorStatisticsReportPDF < BasicPDF
       data = {
         'Time (days)' => {
           'Complaints' => @complaints[:average_time],
-          'Rules' => @rules[:average_time],
+          'Rules' => @rules_approvals[:average_time],
         },
       }
       chart data, height: 175
@@ -116,7 +116,7 @@ class InvestigatorStatisticsReportPDF < BasicPDF
           'Total' => {
               'Complaints' => @complaints[:closed].count,
               'Inspections' => @inspections[:completed].count,
-              'Rules' => @rules[:approved].count,
+              'Rules' => @rules_approvals[:approved].count,
           },
       }
       chart data, height: 175
@@ -149,9 +149,9 @@ class InvestigatorStatisticsReportPDF < BasicPDF
   def complaints_table_data
     table = [
       ["Closed: #{@complaints[:closed].count}"],
-      [bulleted_list(@complaints[:closed].map {|c| "##{c.complaint_number} against#{" ##{c.cemetery.cemetery_id}" if c.cemetery} #{c.formatted_cemetery} (received #{c.created_at})"})],
+      [bulleted_list(@complaints[:closed].map {|c| "##{c.complaint_number} against#{" #{c.cemetery.formatted_cemid}" if c.cemetery} #{c.formatted_cemetery} (received #{c.created_at})"})],
       ["Active: #{@complaints[:active].count}"],
-      [bulleted_list(@complaints[:active].map {|c| "##{c.complaint_number} against#{" ##{c.cemetery.cemetery_id}" if c.cemetery} #{c.formatted_cemetery} (received #{c.created_at})"})]
+      [bulleted_list(@complaints[:active].map {|c| "##{c.complaint_number} against#{" #{c.cemetery.formatted_cemid}" if c.cemetery} #{c.formatted_cemetery} (received #{c.created_at})"})]
     ]
 
     if @complaints[:closed].count == 0
@@ -168,7 +168,7 @@ class InvestigatorStatisticsReportPDF < BasicPDF
   def inspections_table_data
     table = [
       ["Completed: #{@inspections[:completed].count}"],
-      [bulleted_list(@inspections[:completed].map {|i| "##{i.cemetery.cemetery_id}: #{i.cemetery.name} (inspected on #{i.date_performed}; completed on #{i.date_mailed})"})],
+      [bulleted_list(@inspections[:completed].map {|i| "#{i.cemetery.formatted_cemid}: #{i.cemetery.name} (inspected on #{i.date_performed}; completed on #{i.date_mailed})"})],
       ["Incomplete: #{@inspections[:incomplete].count}"],
       ["Overdue: #{@params[:investigator].overdue_inspections.count}"]
     ]
@@ -182,11 +182,11 @@ class InvestigatorStatisticsReportPDF < BasicPDF
     table
   end
 
-  def rules_table_data
+  def rules_approvals_table_data
     [
-      ["Approved: #{@rules[:approved].count}"],
-      [bulleted_list(@rules[:approved].map {|r| "##{r.cemetery.cemetery_id}: #{r.cemetery.name} (received on #{r.created_at}; approved on #{r.approval_date})"})],
-      ["Awaiting Review: #{@rules[:unreviewed].count}"]
+      ["Approved: #{@rules_approvals[:approved].count}"],
+      [bulleted_list(@rules_approvals[:approved].map {|r| "#{r.cemetery.formatted_cemid}: #{r.cemetery.name} (received on #{r.created_at}; approved on #{r.approval_date})"})],
+      ["Awaiting Review: #{@rules_approvals[:unreviewed].count}"]
     ]
   end
 end

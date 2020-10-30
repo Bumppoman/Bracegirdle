@@ -1,0 +1,52 @@
+<% content_for :title, 'Perform Inspection' %>
+<% content_for :breadcrumbs, breadcrumbs_helper([[@inspection.cemetery.formatted_name, cemetery_path(@inspection.cemetery)], ['Inspections', inspections_cemetery_path(@inspection.cemetery)], 'Perform inspection']) %>
+<section
+  id="cemetery_inspection-perform"
+  class="section-wrapper" 
+  style="overflow: hidden;" 
+  data-controller="cemetery-inspections--perform"
+>
+  <label class="section-title">Actions</label>
+  <%= render layout: 'application/tracker',
+    locals: {
+      action: 'bracegirdleTracker:stepChanged->cemetery-inspections--perform#save',
+      current_step: @inspection.current_inspection_step,
+      linkable: true,
+      steps: {
+        cemetery_information: {
+          number: 1,
+          title: 'Cemetery Information'
+        },
+        physical_characteristics: {
+          number: 2,
+          title: 'Physical Characteristics'
+        },
+        record_keeping_information: {
+          number: 3,
+          title: 'Record Keeping Information'
+        },
+        additional_information: {
+          number: 4,
+          title: 'Additional Information'
+        }
+      },
+      target: 'cemetery-inspections--perform.tracker'
+    } do 
+  %>
+    <%= form_with model: @inspection, 
+      url: save_inspection_cemetery_path(identifier: @inspection), 
+      builder: BracegirdleFormBuilder,
+      html: {
+        data: {
+          target: 'cemetery-inspections--perform.form'
+        }
+      } do |f|
+    %>
+      <%= f.hidden_field :status, data: { target: 'cemetery-inspections--perform.status' } %>
+      <%= render partial: 'cemetery_inspections/inspection/cemetery_information', locals: { f: f } %>
+      <%= render partial: 'cemetery_inspections/inspection/physical_characteristics', locals: { f: f } %>
+      <%= render partial: 'cemetery_inspections/inspection/record_keeping_information', locals: { f: f } %>
+      <%= render partial: 'cemetery_inspections/inspection/additional_information', locals: { f: f } %>
+    <% end %>
+  <% end %>
+</section>

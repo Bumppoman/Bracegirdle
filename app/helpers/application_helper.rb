@@ -6,42 +6,38 @@ module ApplicationHelper
   end
 
   def active_item(expression)
-    "active" if expression
-  end
-
-  def application_link(application, method = :to_sym, title = nil)
-    case application.status.to_sym
-    when :received
-      path = "process_applications_#{application.send(method).downcase}_path"
-    when :processed
-      if current_user.supervisor?
-        path = "review_applications_#{application.send(method).downcase}_path"
-      else
-        path = "applications_#{application.send(method).downcase}_path"
-      end
-    when :reviewed, :scheduled, :approved
-      path = "applications_#{application.send(method).downcase}_path"
-    end
-
-    if application.has_attribute? :application_type
-      link_to (title.nil? ? application : title), self.send(path, application, application_type: application.application_type)
-    else
-      link_to (title.nil? ? application : title), self.send(path, application)
-    end
+    'active' if expression
   end
 
   def breadcrumbs_helper(breadcrumbs)
     html = content_tag(:li, link_to('Dashboard', root_path), class: 'breadcrumb-item')
     breadcrumbs.each do |item|
       case item
-      when Array
-        string, link = item
-        html << content_tag(:li, link_to(string, link), class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
-      when String, ActiveSupport::SafeBuffer
-        html << content_tag(:li, item, class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
+        when Array
+          string, link = item
+          html << content_tag(:li, link_to(string, link), class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
+        when String, ActiveSupport::SafeBuffer
+          html << content_tag(:li, item, class: "breadcrumb-item #{item.equal?(breadcrumbs.last) ? 'active' : nil}")
       end
     end
+    
     html.html_safe
+  end
+  
+  def button_with_confirmation_modal(text, options)
+    content_tag :button,
+      text,
+      type: 'button',
+      class: ['btn btn-primary', options[:class]].join(' '),
+      data: {
+        action: 'main#openBracegirdleConfirmationModal',
+        confirmation_modal_form_action: options[:form_action],
+        confirmation_modal_form_method: options[:form_method],
+        confirmation_modal_success_button: options[:success_button],
+        confirmation_modal_text: options[:text],
+        confirmation_modal_title: options[:title],
+        target: options[:target]
+      }
   end
 
   def cemetery_options
@@ -49,8 +45,11 @@ module ApplicationHelper
     grouped_cemeteries = []
 
     county_cemeteries.each do |county, cemeteries|
-      grouped_cemeteries << ["#{COUNTIES[county]} County",
-                             cemeteries.map {|cemetery| ["#{cemetery.cemetery_id} #{cemetery.name}", cemetery.id]}]
+      grouped_cemeteries << 
+        [
+          "#{COUNTIES[county]} County",
+          cemeteries.map {|cemetery| ["#{cemetery.formatted_cemid} #{cemetery.name}", cemetery.cemid]}
+        ]
     end
 
     grouped_cemeteries

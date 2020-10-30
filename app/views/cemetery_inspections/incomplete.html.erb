@@ -1,0 +1,30 @@
+<% content_for :title, 'Incomplete Inspections' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Incomplete inspections']) %>
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table 
+      id="cemetery_inspection-incomplete-data-table"
+      class="table display responsive no-wrap"
+      data-empty-message="There are no inspections to display."
+    >
+      <thead>
+        <tr>
+          <th scope="col">Inspection</th>
+          <th scope="col">Cemetery</th>
+          <th scope="col">Date Begun</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @incomplete.order(date_performed: :asc).each do |inspection| %>
+          <tr>
+            <td><%= cemetery_inspection_link inspection, :identifier %></td>
+            <td><%= link_to inspection.cemetery.name, inspection.cemetery %></td>
+            <td><%= inspection.date_performed %></td>
+            <td><%= inspection.named_status %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

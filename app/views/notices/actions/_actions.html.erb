@@ -1,0 +1,66 @@
+<section 
+  id="notice-actions" 
+  class="section-wrapper mg-b-5"
+  data-action="bracegirdle:notices:advance->notices--show#dispatch"
+  data-target="notices--show.actionsArea"
+>
+  <%= render layout: 'application/tracker',
+    locals: {
+      current_step: @notice.current_step,
+      steps: {
+        issued: {
+          number: 1,
+          title: 'Notice Issued'
+        },
+        response_received: {
+          number: 2,
+          title: 'Response Received'
+        },
+        follow_up_completed: {
+          number: 3,
+          title: 'Follow-Up Completed'
+        },
+        resolved: {
+          number: 4,
+          title: 'Notice Resolved'
+        }
+      },
+      target: 'notices--show.tracker'
+    } do
+  %>
+    <label class="section-title">Status</label>
+    <%= render partial: 'notices/actions/issued' %>
+    <%= render partial: 'notices/actions/response_received' %>
+    <%= render partial: 'notices/actions/follow_up_completed' %>
+  <% end %>
+</section>
+<%= form_with model: @notice, url: follow_up_notice_path, method: :patch do |f| %>
+  <div 
+    id="notice-follow-up-modal" 
+    class="modal fade"
+    data-target="notices--show.followUpModal"
+  >
+    <div class="modal-dialog wd-30p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Follow-up Inspection Completed</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <p>
+            Enter the date this follow-up inspection was completed:
+            <br />
+            <br />
+            <%= f.date_field :follow_up_completed_date, class: 'form-control', value: Date.current.iso8601 %>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <%= f.submit 'Follow-Up Completed', class: 'btn btn-primary' %>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

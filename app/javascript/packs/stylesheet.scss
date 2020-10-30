@@ -1,13 +1,9 @@
 // Vendor stylesheets
-@import '~select2/dist/css/select2.min';
-@import '~bootstrap/scss/bootstrap';
-@import '~fullcalendar/dist/fullcalendar.min';
-@import '~jquery-timepicker/jquery.timepicker';
-
-// Modified vendor stylesheets
-@import '../src/stylesheets/wizard';
+@import '~choices.js/public/assets/styles/choices.min';
+@import '~@fullcalendar/core/main';
+@import '~@fullcalendar/daygrid/main';
 
 // App stylesheets
 @import '../src/stylesheets/slim.min';
-@import '../src/stylesheets/multistep';
+@import '../src/stylesheets/tracker';
 @import '../src/stylesheets/tweaks';

@@ -1,0 +1,28 @@
+<div 
+  class="pd-t-10-force tracker-step"
+  data-step="5"
+  data-target="tracker.step"
+>
+  <label class="section-title">Summary</label>
+  <%= render partial: 'board_applications/restorations/exhibits' %>
+  <%= form_with method: :patch,
+    url: (
+      current_user.supervisor? ?
+        send("make_schedulable_board_applications_#{@restoration.type.downcase}_path") :
+        send("send_to_supervisor_board_applications_#{@restoration.type.downcase}_path")
+    ) do |f| 
+  %>
+    <div class="row mg-t-20">
+      <div class="col-md-6">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-action="tracker#previousStep"
+        >Previous</button>
+      </div>
+      <div class="col-md-6 text-right">
+        <button class="btn btn-primary">Submit Application</button>
+      </div>
+    </div>
+  <% end %>
+</div>

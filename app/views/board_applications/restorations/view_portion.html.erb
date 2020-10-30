@@ -1,0 +1,44 @@
+<% content_for :title, "View Application Portion" %>
+<% content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      [
+        "Pending #{@restoration.type.downcase} applications", 
+        self.send("board_applications_#{@restoration.type.downcase}_index_path")
+      ], 
+      [
+        "Application #{@restoration.identifier}",
+        self.send(board_application_path(@restoration))
+      ],
+      'View portion'
+    ]
+  ) 
+%>
+<section class="section-wrapper">
+  <div class="row mg-b-10">
+    <div class="col-md-1">
+      <%= link_to(request.referer.present? ? request.referer : root_path) do %>
+        <i class="material-icons tx-18 tx-black">arrow_back</i>
+      <% end %>
+    </div>
+    <div class="col-md-10 col-sm-3 text-center">
+      <label class="section-title">View <%= @portion %></label>
+    </div>
+    <div class="col-md-1 text-right">
+      <%= link_to @file, disposition: 'attachment' do %>
+        <i class="material-icons tx-black">cloud_download</i>
+      <% end %>
+    </div>
+  </div>
+  <div
+    class="embed-responsive"
+    style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
+  >
+    <object
+      class="embed-responsive-item"
+      type="<%= @file.content_type %>"
+      data="<%= attachment_display_link(@file, request) %>"
+    >
+    </object>
+  </div>
+</section>

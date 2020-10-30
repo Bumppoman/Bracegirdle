@@ -1,0 +1,89 @@
+<div 
+  id="investigation-details" 
+  role="tabpanel" 
+  class="tab-pane<%= ' active show' if params[:tab] == :investigation %>"
+  data-controller="complaints--show"
+>
+  <% unless @complaint.closed? %>
+    <%= render partial: 'complaints/investigation/actions' %>
+  <% end %>
+  <section class="section-wrapper pd-20-force mg-t-0-force">
+    <%= form_with model: @complaint, url: reassign_complaint_path, method: :patch do |f| %>
+      <label class="section-title mg-t-5 mg-b-15">Investigation Details</label>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <th scope="row" class="wd-25p">Investigation Required</th>
+            <td><%= @complaint.investigation_required? ? 'Yes' : 'No' %></td>
+          </tr>
+          <tr>
+            <th scope="row" class="align-middle">Investigator</th>
+            <td colspan="3" class="align-middle">
+              <span data-target="complaints--show.currentInvestigatorArea">
+                <%= @complaint.investigator&.name || 'Unassigned' %>
+              </span>
+              <% unless @complaint.closed? %>
+                <a 
+                  href="#" 
+                  class="<%= ' d-none' if @complaint.unassigned? %>"
+                  data-action="complaints--show#toggleReassign"
+                  data-target="complaints--show.openReassignButton"
+                >
+                  (reassign)
+                </a>
+                <div 
+                  class="form-layout wd-50p d-none"
+                  data-target="complaints--show.reassignArea"
+                >
+                  <div class="pb-1">
+                    <%= f.select :investigator, 
+                      employee_options(@complaint.investigator&.id, [:investigator]), 
+                      { prompt: 'Select employee' }, 
+                      { class: 'form-control choices-basic wd-250' }
+                    %>
+                  </div>
+                  <div class="form-layout-footer">
+                    <button class="btn btn-primary">Reassign</button>
+                    <a 
+                      href="#" 
+                      class="btn btn-secondary"
+                      data-action="complaints--show#toggleReassign"
+                    >Cancel</a>
+                  </div>
+                </div>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Complaint Received</th>
+            <td><%= @complaint.created_at.to_date %></td>
+          </tr>
+          <tr class="<%= 'd-none' unless !@complaint.received? && @complaint.investigation_required? %>">
+            <th scope="row">Investigation Begun</th>
+            <td data-target="complaints--show.investigationBegunDate"><%= @complaint.investigation_begun_date %></td>
+          </tr>
+          <tr class="<%= 'd-none' unless (!@complaint.received? && !@complaint.investigation_begun?) && @complaint.investigation_required? %>">
+            <th scope="row">Investigation Completed</th>
+            <td data-target="complaints--show.investigationCompletedDate"><%= @complaint.investigation_completed_date %></td>
+          </tr>
+          <% if @complaint.closed? %>
+            <tr>
+              <th scope="row">Closure Date</th>
+              <td colspan="3" id="closure-date"><%= @complaint.closure_date %></td>
+            </tr>
+            <tr>
+              <th scope="row">Disposition</th>
+              <td colspan="3"><%= @complaint.disposition %></td>
+            </tr>
+            <tr>
+              <th scope="row">Closure Comments</td>
+              <td colspan="3"><%= "#{@complaint.closure_review_comments.presence || 'None'} (closed by #{@complaint.closed_by.name})" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </section>
+  <%= render 'notes/notes', object: @complaint %>
+  <%= render 'attachments/attachments', object: @complaint, form: @complaint.active? %>
+</div>

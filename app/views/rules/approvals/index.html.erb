@@ -1,0 +1,42 @@
+<% content_for :title, 'Rules Pending Approval' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Rules pending approval']) %>
+<section id="rules-approval-index" class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="rules-approvals-data-table"
+      class="table display responsive no-wrap"
+      data-empty-message="There are no rules to display."
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cemetery</th>
+          <th>Submission Date</th>
+          <th>Status</th>
+          <th>Last Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @rules_approvals.each do |rules_approval| %>
+          <tr>
+            <td><%= link_to rules_approval.identifier, rules_approval_path(rules_approval) %></td>
+            <td><%= rules_approval.cemetery.formatted_name %></td>
+            <td><%= rules_approval.submission_date %></td>
+            <td><%= rules_approval.named_status %></td>
+            <td><%= rules_approval.updated_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="mg-t-20">
+    <ul class="nav nav-gray-600 nav-underline justify-content-center">
+      <li class="nav-item pr-0">
+        <%= link_to 'Upload new rules', new_rules_approval_path, class: 'btn btn-primary' %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'Upload previously approved rules', new_rules_path, class: 'btn btn-primary' %>
+      </li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+<% content_for :title, "Review #{@restoration.formatted_application_type} Application" %>
+<% content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      [
+        "Pending #{@restoration.type.downcase} applications", 
+        self.send("board_applications_#{@restoration.type.downcase}_index_path")
+      ], 
+      'Review application'
+    ]
+  )
+%>
+<section class="section-wrapper">
+  <label class="section-title">Summary</label>
+  <%= render 'board_applications/restorations/exhibits' %>
+</section>
+<%= render 'board_applications/restorations/detail' %>
+<%= render 'notes/notes', 
+  object: @restoration, 
+  url: self.send("board_applications_#{@restoration.type.downcase}_notes_path", @restoration) 
+%>
+<section class="section-wrapper mg-t-5">
+  <label class="section-title mg-b-20">Actions</label>
+  <div class="form-layout-footer mg-t-20">
+    <%= button_with_confirmation_modal 'Approve for Cemetery Board',
+      form_action: send("make_schedulable_board_applications_#{@restoration.type.downcase}_path", @restoration),
+      text: 'Are you sure you want to approve this application for the Cemetery Board?',
+      title: 'Approve Application'
+    %>
+    <%= button_with_confirmation_modal 'Return to investigator',
+      form_action: send("return_to_investigator_board_applications_#{@restoration.type.downcase}_path", @restoration),
+      text: 'Are you sure you want to return this application to the assigned investigator?',
+      title: 'Return to Investigator'
+    %>
+  </div>
+</section>

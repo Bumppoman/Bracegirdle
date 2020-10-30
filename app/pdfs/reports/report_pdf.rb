@@ -35,7 +35,7 @@ class Reports::ReportPDF < DefaultPDF
     text "\n\n\nDEPARTMENT OF STATE - DIVISION OF CEMETERIES\n\nMEMORANDUM", style: :bold, align: :center
     text "\n\n\n<b>TO:</b>  New York State Cemetery Board", inline_format: true
     text "\n<b>FROM:</b>  #{@params[:writer].name}, #{@params[:writer].title}", inline_format: true
-    text "\n<b>SUBJECT:</b>  #{@params[:cemetery].name}, ##{@params[:cemetery].cemetery_id}", inline_format: true
+    text "\n<b>SUBJECT:</b>  #{@params[:cemetery].name}, #{@params[:cemetery].formatted_cemid}", inline_format: true
     text "\n<b>RE:</b>  #{@regarding}", inline_format: true
     text "\n<b>DATE:</b>  #{@params[:report_date]}", inline_format: true
   end

@@ -2,12 +2,8 @@ require 'rails_helper'
 
 feature 'Dashboard' do
   before :each do
-    @cemetery = FactoryBot.create(:cemetery,
-      name: 'Anthony Cemetery',
-      county: 4,
-      order_id: 1
-    )
-    @cemetery.save
+    @cemetery = FactoryBot.create(:cemetery)
+
   end
 
   scenario 'Performing a search with the cemetery ID' do
@@ -15,6 +11,16 @@ feature 'Dashboard' do
 
     visit root_path
     fill_in 'search', with: '04001'
+    click_on 'search-button'
+
+    expect(page).to have_content 'Anthony Cemetery'
+  end
+  
+  scenario 'Performing a search with the hyphenated cemetery ID' do
+    login
+
+    visit root_path
+    fill_in 'search', with: '04-001'
     click_on 'search-button'
 
     expect(page).to have_content 'Anthony Cemetery'
@@ -28,5 +34,16 @@ feature 'Dashboard' do
     click_on 'search-button'
 
     expect(page).to have_content 'Anthony Cemetery'
+  end
+  
+  scenario 'Performing a search for nonexistant cemetery returns no results', js: true do
+    login
+    
+    visit root_path
+    fill_in 'search', with: 'butternuts'
+    click_on 'search-button'
+    
+    expect(page).not_to have_content 'Anthony Cemetery'
+    expect(page).to have_content 'There are no results to display.'
   end
 end

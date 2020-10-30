@@ -1,0 +1,108 @@
+<div 
+  id="board_applications-restorations-legal_notice-form" 
+  class="pd-t-10-force tracker-step"
+  data-step="3"
+  data-target="tracker.step"
+>
+  <label class="section-title">Legal Notice</label>
+  <div 
+    class="<%= 'd-none' if @restoration.current_evaluation_step > 3 %>"
+    data-target="board-applications--restorations--evaluate.legalNoticeForm"
+  >
+    <%= form_with model: [:board_applications, @restoration],
+      url: send("upload_legal_notice_board_applications_#{@restoration.type.downcase}_path"),
+      builder: BracegirdleFormBuilder,
+      html: {
+        data: {
+          action: 'change->board-applications--restorations--evaluate#legalNoticeFormChanged',
+          target: 'board-applications--restorations--evaluate.legalNoticeFormElement'
+        }
+      } do |f| 
+    %>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group required">
+            <%= f.label :legal_notice_file, 'Legal Notice' %>
+            <div class="custom-file">
+              <%= f.file_field :legal_notice_file,
+                class: 'custom-file-input',
+                required: true
+              %>
+              <label class="custom-file-label">Choose file</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <%= f.money_field :legal_notice_cost, label: 'Cost', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :legal_notice_newspaper, label: 'Newspaper', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group required">
+            <%= f.label :legal_notice_proper_format, 'Does the legal notice appear to be in the proper format?' %>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <label class="rdiobox">
+            <%= f.radio_button :legal_notice_format, true %>
+            <span id="legal-notice-proper-format-yes">Yes</span>
+          </label>
+        </div>
+        <div class="col-md-3">
+          <label class="rdiobox">
+            <%= f.radio_button :legal_notice_format, false %>
+            <span id="legal-notice-proper-format-no">No</span>
+          </label>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div 
+    class="file-group mb-5<%= ' d-none' if @restoration.current_evaluation_step <= 3 %>"
+    data-target="board-applications--restorations--evaluate.legalNoticeSummary"
+  >
+    <div class="file-group">
+      <div class="file-item">
+        <div class="row no-gutters wd-100p">
+          <div class="col-9 col-sm-5 d-flex align-items-center">
+            <i class="material-icons">attach_file</i>
+            <%= link_to "Exhibit #{@remaining_letters.shift} (legal notice).pdf", 
+              self.send("view_legal_notice_board_applications_#{@restoration.type.downcase}_path", @restoration.id)
+            %>
+          </div>
+          <div class="col-6 col-sm-4 mg-t-5 mg-sm-t-0">
+            Cost: <%= number_to_currency(@restoration.legal_notice_cost) %>; Newspaper: <%= @restoration.legal_notice_newspaper %>
+          </div>
+          <div class="col-6 col-sm-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+            <!-- - if display_links
+              = link_to @restoration.legal_notice do
+                i.icon.ion-md-download.mg-r-15
+              = link_to '#' do
+                i.icon.ion-ios-trash -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mg-t-20">
+    <div class="col-md-6">
+      <button 
+        class="btn btn-secondary"
+        data-action="tracker#previousStep"
+      >Previous</button>
+    </div>
+    <div class="col-md-6 text-right">
+      <button 
+        class="btn btn-primary"
+        <%= 'disabled="true"' unless @restoration.current_evaluation_step > 3 %>
+        data-action="board-applications--restorations--evaluate#saveLegalNotice"
+        data-target="board-applications--restorations--evaluate.legalNoticeFormNextButton"
+      >Next</button>
+    </div>
+  </div>
+</div>

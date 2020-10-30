@@ -11,10 +11,6 @@ class ComplaintPolicy < ApplicationPolicy
     record.received? && (record.belongs_to?(user) || user.supervisor?)
   end
 
-  def change_investigator?
-    record.belongs_to?(user) || user.supervisor?
-  end
-
   def close?
     record.belongs_to?(user) || user.supervisor?
   end
@@ -38,13 +34,17 @@ class ComplaintPolicy < ApplicationPolicy
   def new?
     create?
   end
+  
+  def reassign?
+    record.belongs_to?(user) || user.supervisor?
+  end
 
   def reopen_investigation?
     user.supervisor?
   end
-
-  def pending_closure?
-    index?
+  
+  def recommend_closure?
+    record.belongs_to?(user)
   end
 
   def request_update?
@@ -52,10 +52,6 @@ class ComplaintPolicy < ApplicationPolicy
   end
 
   def show?
-    index?
-  end
-
-  def unassigned?
     index?
   end
 end

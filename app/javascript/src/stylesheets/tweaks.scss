@@ -23,23 +23,52 @@ body.modal-open .ui-timepicker-container {
   width: 7px;
 }
 
+.disappearing-success-message {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.hidden {
+  max-height: 0;
+  transition: max-height 750ms ease-out;
+}
+
+/*.choices {
+  //z-index: 9999;
+}*/
+
+/*.choices__inner {
+  background-color: #fff;
+  //color: #000;
+  border: 1px solid #ced4da;
+  border-radius: 0;
+}*/
+
+/*.choices:not(.is-disabled):focus .choices__inner {
+  color: #495057;
+  background-color: #fff;
+  border-color: #8ec2f3;
+  outline: 0;
+  box-shadow: none;
+}*/
+
 .input-group input {
   height: 100%;
 }
 
-.form-control:not(textarea) {
+.form-control:not(textarea), .choices__inner {
   height: 42px !important;
 }
+
+/*.choices, .choices__inner {
+  min-height: 42px !important;
+  max-height: 42px !important;
+}*/
 
 .tab-pane > .section-wrapper {
   border: 0;
   padding: 0;
   margin-top: 15px;
-}
-
-:not(.dataTables_length > label) > .select2-container {
-  text-align: left;
-  width: 100% !important;
 }
 
 .slim-navbar .sub-item .sub-with-sub::after {
@@ -53,9 +82,243 @@ body.modal-open .ui-timepicker-container {
 
 .questionnaire div.yesno span.question {
   display: inline-block;
-  width: 50%;
+  width: 49.3%;
 }
 
 .questionnaire div.yesno span.question span {
   padding-left: 10px;
+}
+
+// Choices.js/
+.choices, .choices__inner {
+  margin-bottom: 0;
+  max-height: 42px !important;
+  min-height: 42px !important;
+}
+
+.choices[data-type="select-one"] .choices__inner, .choices[data-type="select-multiple"] .choices__inner {
+  border-color: #ced4da;
+  border-radius: 0;
+  height: calc(2.5005rem + 2px);
+  outline: none;
+}
+
+.choices[data-type="select-one"]:not(.is-disabled) .choices__inner, .choices[data-type="select-multiple"]:not(.is-disabled) .choices__inner {
+  background-color: #fff;
+}
+
+.choices[data-type="select-one"] .choices__list--single .choices__item {
+  color: #495057;
+  line-height: calc(2.5005rem + 2px)-0.1rem;
+  height: 100%;
+  display: flex;
+}
+
+.choices[data-type="select-one"] .choices__list--single .choices__placeholder {
+    color: #6c757d;
+}
+
+.choices[data-type="select-multiple"] .choices__list--multiple .choices__item {
+  position: relative;
+  margin-right: 4px;
+  padding: 3px 10px 3px 10px;
+  border-color: transparent;
+  border-radius: 0;
+  background-color: #1b84e7;
+  color: #fff;
+  line-height: 1.45;
+}
+
+.choices[data-type="select-multiple"] .choices__list--multiple .choices__item .choices__button {
+  color: #fff;
+  opacity: .5;
+  font-size: 12px;
+}
+
+.choices[data-type="select-multiple"]:not(.is-disabled) .choices__input {
+  background-color: #fff;
+}
+
+.choices[data-type="select-multiple"]:not(.is-disabled):focus .choices__inner {
+  border-color: #ced4da;
+}
+
+.choices .choices__list--dropdown {
+  border-color: #ced4da;
+  z-index: 200;
+}
+
+.bracegirdle-data-table .header, .bracegirdle-data-table .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.bracegirdle-data-table .per-page {
+  color: #333;
+  padding-bottom: 10px;
+}
+
+.bracegirdle-data-table .per-page label {
+  display: flex;
+  align-items: center;
+}
+
+.bracegirdle-data-table .per-page .choices {
+  display: inline-block;
+  width: 80px;
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+.bracegirdle-data-table .per-page .choices__list--dropdown .choices__item--selectable {
+  padding-right: 0;
+}
+
+.bracegirdle-data-table .search {
+  padding-bottom: 10px;
+  padding-right: 5px;
+  width: 20%;
+}
+
+.bracegirdle-data-table .search input {
+  display: block;
+  width: 100%;
+  padding: .594rem .75rem;
+  font-size: 14px;
+  font-size: .875rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+.bracegirdle-data-table .search input:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #8ec2f3;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.bracegirdle-data-table table {
+  border: 1px solid #dee2e6;
+  margin-bottom: 15px;
+}
+
+.bracegirdle-data-table table thead th {
+  padding: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+  position: relative;
+}
+
+.bracegirdle-data-table table thead th a {
+  color: inherit;
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+}
+
+.bracegirdle-data-table table thead th.sorting.asc:after {
+  content: "keyboard_arrow_up";
+  font-family: "Material Icons";
+  position: absolute;
+  right: 4px;
+  top: 25%;
+  text-transform: none;
+}
+
+.bracegirdle-data-table table thead th.sorting.desc:after {
+  content: "keyboard_arrow_down";
+  font-family: "Material Icons";
+  position: absolute;
+  right: 4px;
+  bottom: 25%;
+  text-transform: none;
+}
+
+.bracegirdle-data-table table tbody td {
+  padding: 0.75rem;
+}
+
+.bracegirdle-data-table table tbody tr.even {
+  background-color: #f9f9f9;
+}
+
+.bracegirdle-data-table table tbody tr.even > .sorting {
+  background-color: #f1f1f1;
+}
+
+.bracegirdle-data-table table tbody tr.odd > .sorting {
+  background-color: #fafafa;
+}
+
+.bracegirdle-data-table .empty-message {
+  background-color: #f9f9f9 !important;
+  text-align: center;
+}
+
+.bracegirdle-data-table .pagination a {
+  border: 1px solid transparent;
+  float: left;
+  margin-left: 2px;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+  color: #333;
+}
+
+.bracegirdle-data-table .pagination li {
+  float: left;
+  list-style: none;
+}
+
+.bracegirdle-data-table .pagination li a {
+  padding-top: 0.54rem;
+  padding-bottom: 0.54rem;
+  background-color: #e9ecef;
+  border-color: transparent;
+  border-radius: 0;
+}
+
+.bracegirdle-data-table .pagination li a:hover, .bracegirdle-data-table .pagination li a:focus {
+  background-color: #ced4da;
+  background-image: none;
+  border-color: transparent;
+  color: #343a40 !important;
+}
+
+.bracegirdle-data-table .pagination a.active, .bracegirdle-data-table .pagination a.active:focus, .bracegirdle-data-table .pagination a.active:hover {
+  background-color: #1b84e7;
+  background-image: none;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.bracegirdle-data-table .pagination li.pager a {
+  font-weight: normal;
+}
+
+.bracegirdle-data-table .pagination a.disabled, .bracegirdle-data-table .pagination a.disabled:focus, .bracegirdle-data-table .pagination a.disabled:hover {
+  background-color: #e9ecef;
+  color: #adb5bd !important;
+  pointer-events: none;
+}
+
+.bracegirdle-data-table .footer {
+  padding: 8px 10px;
+}
+
+.bracegirdle-data-table .footer .info {
+  float: left;
+  margin: 7px 0;
 }

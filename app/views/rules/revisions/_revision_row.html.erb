@@ -1,0 +1,11 @@
+<tr data-revision="<%= revision.id %>">
+  <td>
+    <%= index == rules_approval.revisions.length - 1 ? 
+      'Initial submission' : 
+      "Revision #{rules_approval.revisions.length - index}"
+    %>
+  </td>
+  <td><%= revision.date_requested.presence || "---" %></td>
+  <td class="rules-approvals-revision-date-received"><%= revision.formatted_date_received %></td>
+  <td class="wd-40p"><%= revision.comments.truncate(150) %></td>
+</tr>

@@ -1,0 +1,94 @@
+<div
+  id="attachments"
+  data-action=
+    "bracegirdle:attachments:attachmentCreated->attachments#attachmentCreated
+    bracegirdle:attachments:attachmentDestroyed->attachments#attachmentDestroyed"
+  data-controller="attachments"
+>
+  <section class="section-wrapper pd-30-force mg-t-5-force">
+    <label class="section-title mg-b-15">Attachments</label>
+    <div 
+      class="file-group"
+      data-target="attachments.attachmentsList"
+    >
+      <%= render(partial: 'attachments/attachment', collection: object.attachments, locals: { object: object }) %>
+      <div 
+        class="<%= 'd-none' if object.attachments.any? %>" 
+        data-target="attachments.noAttachmentsMessage"
+      >
+        There are currently no attachments.
+      </div>
+    </div>
+  </section>
+  <% if object.active? %>
+    <section class="section-wrapper pd-30-force mg-t-5-force">
+      <label class="section-title">Upload Attachment</label>
+      <%= form_with model: [object, Attachment.new], 
+        html: { 
+          data: {
+            target: 'attachments.attachmentFormElement'
+          },
+          id: 'attachment-form'
+        } do |f| 
+      %>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group required">
+              <%= f.label :file, 'File', class: 'form-control-label' %>
+              <div class="custom-file">
+                <%= f.file_field :file, direct_upload: true, class: 'custom-file-input' %>
+                <label class="custom-file-label">Choose file</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="form-group required">
+              <%= f.label :description, 'Description', class: 'form-control-label' %>
+              <%= f.text_field :description, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+        <div class="row pd-l-15">
+          <button
+            type="submit"
+            form="attachment-form"
+            class="btn btn-primary"
+          >Upload</button>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+  <div 
+    id="attachments-confirm-delete-modal" 
+    class="modal fade"
+    data-target="attachments.confirmDeleteModal"
+  >
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content bd-0 tx-14">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Delete?</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-20">
+          <p class="mg-b-10">Are you sure you want to delete this attachment?</p>
+          <div class="modal-footer justify-content-center">
+            <%= link_to 'Delete', 
+              "#", 
+              {
+                class: 'btn btn-primary',
+                data: {
+                  target: 'attachments.deleteButton'
+                },
+                method: 'delete', 
+                remote: 'true' 
+              }
+            %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div 
+  id="board_applications-restorations-estimates-form" 
+  class="pd-t-10-force tracker-step"
+  data-step="2"
+  data-target="tracker.step"
+>
+  <label class="section-title">Estimates</label>
+  <div 
+    class="file-group"
+    data-target="board-applications--restorations--evaluate.estimatesList"
+  >
+    <% if @restoration.estimates.none? %>
+      <div data-target="board-applications--restorations--evaluate.noEstimatesMessage">There are no estimates.</div>
+    <% else %>
+      <%= render partial: 'board_applications/restorations/estimates/estimate', collection: @restoration.estimates %>
+    <% end %>
+  </div>
+  <div class="row mg-t-20">
+    <div class="col-md-4">
+      <button 
+        type="button"
+        class="btn btn-secondary"
+        data-action="tracker#previousStep"
+      >Previous</button>
+    </div>
+    <div class="col-md-4 text-center">
+      <button 
+        type="button" 
+        class="btn btn-primary"
+        data-action="board-applications--restorations--evaluate#openEstimateForm"
+      >Add Estimate</button>
+    </div>
+    <div class="col-md-4 text-right">
+      <button 
+        class="btn btn-primary"
+        <%= 'disabled="true"' unless @restoration.estimates.any? %>
+        data-action="tracker#nextStep"
+        data-target="board-applications--restorations--evaluate.estimatesNextButton"
+      >Next</button>
+    </div>
+  </div>
+</div>

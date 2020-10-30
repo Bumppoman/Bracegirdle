@@ -1,0 +1,143 @@
+<% content_for :title, "#{@board_meeting} Board Meeting" %>
+<% content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      ["Board meetings", board_meetings_path], 
+      @board_meeting.to_s
+    ]
+  )
+%>
+<div
+  id="board_meetings-show"
+  data-action="bracegirdle:matters:matterUnscheduled->board-meetings--show#unschedule"
+  data-controller="board-meetings--show"
+>
+  <section class="section-wrapper">
+    <div 
+      class="disappearing-success-message<%= ' hidden' unless flash[:success] %>"
+      data-target="board-meetings--show.successMessage"
+    >
+      <div class="alert alert-success"><%= flash[:success] %></div>
+    </div>
+    <table class="table table-striped mg-t-10">
+      <thead>
+        <tr>
+          <th colspan="2">Meeting Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="wd-30p" scope="row">Meeting Date</th>
+          <td><%= @board_meeting.date.strftime('%A, %B %-d, %Y at %R %p') %></td>
+        </tr>
+        <tr>
+          <th scope="row">Location</th>
+          <td><%= @board_meeting.location %></td>
+        </tr>
+        <tr class="<%= 'd-none' unless @board_meeting.agenda_finalized? %>">
+          <th scope="row">Documents</th>
+          <td>
+            <%= link_to 'Agenda', 
+              download_agenda_board_meeting_path(@board_meeting, "Agenda-#{@board_meeting.date.strftime('%F')}")
+            %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="form-layout-footer mg-t-20 pd-l-20<%= ' d-none' unless @board_meeting.scheduled? %>">
+      <%= button_with_confirmation_modal 'Finalize agenda',
+        form_action: finalize_agenda_board_meeting_path,
+        text: 'Are you sure you want to finalize the agenda for this board meeting?',
+        title: 'Finalize Agenda'
+      %>
+    </div>
+  </section>
+  <section class="section-wrapper mg-t-10">
+    <label class="section-title mg-b-20">Restoration</label>
+    <div 
+      class="disappearing-success-message hidden"
+      data-target="board-meetings--show.restorationsSuccessMessage"
+    >
+      <div class="alert alert-success"></div>
+    </div>
+    <div 
+      data-controller="datatable"
+      data-target="board-meetings--show.restorationsDataTableElement"
+    >
+      <table
+        id="board-meeting-restorations-data-table"
+        class="table display responsive no-wrap"
+        data-empty-message="There are no restoration applications currently scheduled."
+      >
+        <thead>
+          <tr>
+            <th></th>
+            <th>Application</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @board_meeting.restorations.each_with_index do |restoration, i| %>
+            <tr data-matter-id="<%= restoration.id %>">
+              <td class="align-middle"><%= i + 1 %></td>
+              <td class="align-middle"><%= "#{restoration.cemetery.formatted_name} – #{restoration.board_application.formatted_application_type}" %></td>
+              <td>
+                <% if @board_meeting.scheduled? %>
+                  <%= button_with_confirmation_modal 'Unschedule',
+                    form_action: unschedule_matter_path(restoration),
+                    text: 'Are you sure you want to unschedule this restoration application?',
+                    title: 'Unschedule'
+                  %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section class="section-wrapper mg-t-10">
+    <label class="section-title mg-b-20">Scheduled Matters</label>
+    <div 
+      class="disappearing-success-message hidden"
+      data-target="board-meetings--show.boardApplicationsSuccessMessage"
+    >
+      <div class="alert alert-success"></div>
+    </div>
+    <div
+      data-controller="datatable"
+      data-target="board-meetings--show.boardApplicationsDataTableElement"
+    >
+      <table
+        id="board-meeting-agenda-data-table"
+        class="table display responsive no-wrap"
+        data-empty-message="There are no matters currently scheduled."
+      >
+        <thead>
+          <tr>
+            <th></th>
+            <th>Matter</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @board_meeting.matters.each_with_index do |matter, i| %>
+            <tr data-matter-id="<%= matter.id %>">
+              <td class="align-middle"><%= i + 1 %></td>
+              <td class="align-middle"><%= "#{matter.cemetery.formatted_name} – #{matter.application.formatted_application_type}" %></td>
+              <td>
+                <% if @board_meeting.scheduled? %>
+                  <%= button_with_confirmation_modal 'Unschedule',
+                    form_action: unschedule_matter_path(matter),
+                    text: 'Are you sure you want to unschedule this application?',
+                    title: 'Unschedule'
+                  %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

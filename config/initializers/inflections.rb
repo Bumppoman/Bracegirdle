@@ -9,7 +9,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.irregular 'person', 'people'
 #   inflect.uncountable %w( fish sheep )
   inflect.acronym 'PDF'
-  inflect.uncountable %w( abandonment hazardous land restoration rules scheduled vandalism )
+  inflect.uncountable %w( abandonment hazardous land rules scheduled vandalism )
 end
 
 # These inflection rules are supported but not enabled by default:

@@ -1,42 +1,53 @@
 # frozen_string_literal: true
 
 class Cemetery < ApplicationRecord
-  include Locatable
+  self.primary_key = :cemid
+    
+  attribute :location, :string
 
-  has_many :cemetery_inspections
-  has_many :complaints
+  has_many :approved_rules,
+    -> { order(approval_date: :desc) },
+    class_name: 'Rules',
+    foreign_key: :cemetery_cemid
+  has_many :cemetery_inspections, foreign_key: :cemetery_cemid
+  has_many :cemetery_locations, foreign_key: :cemetery_cemid
+  has_many :complaints, foreign_key: :cemetery_cemid
+  has_one :current_rules, 
+    -> {
+      order(approval_date: :desc)
+    },
+    class_name: 'Rules',
+    foreign_key: :cemetery_cemid
   has_one :last_inspection,
     -> (cemetery) {
       where(date_performed: cemetery.last_inspection_date)
     },
-    class_name: 'CemeteryInspection'
-  has_many :notices
-  has_one :rules, -> {
-      where(
-        status: :approved).
-        order(approval_date: :desc)}
-  has_and_belongs_to_many :towns
-  has_many :trustees, dependent: :destroy
+    class_name: 'CemeteryInspection',
+    foreign_key: :cemetery_cemid
+  has_many :notices, foreign_key: :cemetery_cemid
+  has_and_belongs_to_many :towns, foreign_key: :cemetery_cemid
+  has_many :trustees, -> {
+    order(:position, :sort_name)
+  }, foreign_key: :cemetery_cemid
 
   scope :active, -> {
-    where(active: true).order(:county, :order_id)
+    where(active: true)
   }
-
-  def self.find_by_cemetery_id(cemetery_id)
-    _, county, order_id = */(\d{2})-(\d{3})/.match(cemetery_id)
-    self.where(county: county, order_id: order_id).first
-  end
 
   def abandoned?
     self[:active] == false
   end
 
-  def cemetery_id
-    '%02d-%03d' % [county, order_id]
-  end
-
   def county_name
     COUNTIES[county]
+  end
+  
+  def formatted_cemid
+    "##{cemid[0..1]}-#{cemid[2..]}"
+  end
+  
+  def formatted_name
+    "#{name} (#{formatted_cemid})"
   end
 
   def investigator
@@ -44,11 +55,11 @@ class Cemetery < ApplicationRecord
   end
 
   def latitude
-    locations.first.latitude
+    cemetery_locations.first.latitude
   end
 
   def longitude
-    locations.first.longitude
+    cemetery_locations.first.longitude
   end
 
   def region(type)
@@ -56,9 +67,9 @@ class Cemetery < ApplicationRecord
       INVESTIGATOR_COUNTIES_BY_REGION[county]
     end
   end
-
+  
   def to_param
-    cemetery_id
+    cemid
   end
 
   def to_s

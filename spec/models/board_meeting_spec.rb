@@ -13,12 +13,14 @@ describe BoardMeeting, type: :model do
   context BoardMeeting, 'Instance Methods' do
     context BoardMeeting, 'Instance Methods // Specific Counts' do
       before :each do
+        @cemetery = FactoryBot.create(:cemetery)
+        @trustee = FactoryBot.create(:trustee)
         @hazardous = FactoryBot.create(:reviewed_hazardous)
-        @hazardous_matter = FactoryBot.create(:matter, application: @hazardous, board_meeting: subject)
+        @hazardous_matter = FactoryBot.create(:matter, board_application: @hazardous, board_meeting: subject)
         @vandalism = FactoryBot.create(:reviewed_vandalism)
-        @vandalism_matter = FactoryBot.create(:matter, application: @vandalism, board_meeting: subject)
+        @vandalism_matter = FactoryBot.create(:matter, board_application: @vandalism, board_meeting: subject)
         @abandonment = FactoryBot.create(:reviewed_abandonment)
-        @abandonment_matter = FactoryBot.create(:matter, application: @abandonment, board_meeting: subject)
+        @abandonment_matter = FactoryBot.create(:matter, board_application: @abandonment, board_meeting: subject)
       end
 
       describe BoardMeeting, '#abandonment_count' do
@@ -43,8 +45,9 @@ describe BoardMeeting, type: :model do
     describe BoardMeeting, '#set_matter_identifiers' do
       before :each do
         @cemetery = FactoryBot.create(:cemetery)
+        @trustee = FactoryBot.create(:trustee)
         @land_sale = FactoryBot.create(:land_sale)
-        @land_sale_matter = FactoryBot.create(:matter, application: @land_sale, board_meeting: subject)
+        @land_sale_matter = FactoryBot.create(:matter, board_application: @land_sale, board_meeting: subject)
       end
 
       it 'correctly sets the matter identifiers' do

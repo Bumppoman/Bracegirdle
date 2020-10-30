@@ -1,0 +1,40 @@
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="board_applications-data-table"
+      class="table display responsive no-wrap"
+      data-empty-message="There are no applications to display."
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cemetery</th>
+          <th data-type="date" data-format="MMMM D, YYYY">Submission Date</th>
+          <th>Status</th>
+          <th data-type="date" data-format="MMMM D, YYYY">Last Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @board_applications.each do |board_application| %>
+          <tr>
+            <td><%= board_application_link board_application %></td>
+            <td><%= board_application.cemetery.formatted_name %></td>
+            <td><%= board_application.submission_date %></td>
+            <td><%= board_application.formatted_status %></td>
+            <td><%= board_application.current_status.created_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="mg-t-20">
+    <ul class="nav nav-gray-600 nav-underline justify-content-center">
+      <li class="nav-item">
+        <%= link_to 'Upload new application',
+          yield(:new_application_path),
+          class: "btn btn-primary"
+        %>
+      </li>
+    </ul>
+  </div>
+</section>

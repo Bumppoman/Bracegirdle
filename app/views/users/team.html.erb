@@ -1,0 +1,69 @@
+<% content_for :title, 'My Team' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['My team']) %>
+<div class="manager-wrapper" data-controller="users--team">
+  <div class="manager-right">
+    <div class="row row-sm" data-tab="members" data-target="users--team.tab">
+      <% @members.each do |user| %>
+        <div class="col-sm-6 col-md-4 mg-b-20">
+          <div class="card-contact">
+            <div class="tx-center">
+              <%= link_to user_profile_path(user) do %>
+                <img class="card-img" src="http://via.placeholder.com/500x500" alt="" />
+              <% end %>
+              <h5 class="mg-t-10 mg-b-5">
+                <a class="contact-name" href=""><%= user.name %></a>
+              </h5>
+              <p><%= user.title %></p>
+            </div>
+            <p class="contact-item">
+              <span>Office Phone:</span>
+              <span><%= user.office_phone %></span>
+            </p>
+            <p class="contact-item">
+              <span>Cell Phone:</span>
+              <span><%= user.cell_phone %></span>
+            </p>
+            <p class="contact-item">
+              <span>Email:</span>
+              <a href="mailto:<%= user.email %>"><%= user.email %></a>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div 
+      class="d-none" 
+      data-tab="complaints" 
+      data-target="users--team.tab"
+    >
+      <%= render partial: 'complaints/list' %>
+    </div>
+  </div>
+  <div class="manager-left">
+    <nav class="nav">
+      <a 
+        class="nav-link active" 
+        href="#" 
+        data-action="users--team#changeTab"
+        data-tab="members"
+        data-target="users--team.tabLink"
+      >
+        <span>All team members</span>
+        <span><%= @members.count %></span>
+      </a>
+      <a class="nav-link" 
+        href="#" 
+        data-action="users--team#changeTab" 
+        data-tab="complaints"
+        data-target="users--team.tabLink"
+      >
+        <span>Open complaints</span>
+        <span><%= Complaint.active.team(@team).count %></span>
+      </a>
+      <a class="nav-link" href="">
+        <span>Pending board applications</span>
+        <span><%= team_board_applications(@team) %></span>
+      </a>
+    </nav>
+  </div>
+</div>

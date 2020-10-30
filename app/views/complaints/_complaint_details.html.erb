@@ -1,0 +1,85 @@
+<div id="complaint-details" class="tab-pane<%= ' active show' if params[:tab] == :complaint || params[:tab].nil? %>" role="tabpanel">
+  <section class="section-wrapper bd-0 pd-30-force mg-t-0-force">
+    <label class="section-title">Complainant Information</label>
+    <table class="table table-striped mb-0">
+      <tbody>
+        <tr>
+          <th class="wd-25p" scope="row">Complainant</th>
+          <td colspan="3">
+            <%= @complaint.complainant_name %>
+            <br />
+            <%= formatted_address(@complaint).presence || 'No address' %>
+            <br />
+            <%= (@complaint.complainant_phone.presence || 'No phone number') + ' | ' + (@complaint.complainant_email.presence || 'No email address') %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="section-wrapper pd-20-force mg-t-5-force">
+    <label class="section-title">Cemetery Information</label>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th class="wd-25p" scope="row">Cemetery</th>
+          <% if @complaint.cemetery_regulated? %>
+            <td colspan="3">
+              <%= link_to(@complaint.cemetery, @complaint.cemetery) + " (#{@complaint.cemetery.formatted_cemid})" %>
+            </td>
+          <% else %>
+            <td colspan="3"><%= @complaint.cemetery_alternate_name %></td>
+          <% end %>
+        </tr>
+        <tr>
+          <th scope="row">Grave/Ownership Information</th>
+          <td colspan="3">
+            <%= @complaint.lot_location.presence || 'No lot location provided' %>
+            <br />
+            <%= formatted_ownership(@complaint).presence || 'No owner information provided' %>
+            <br />
+            <%= @complaint.formatted_ownership_type || 'No ownership information provided' %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <section class="section-wrapper pd-20-force pd-t-0-force mg-t-5-force">
+    <label class="section-title">Complaint Information</label>
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th class="wd-25p" scope="row">Complaint Type</th>
+          <td colspan="3"><%= formatted_complaint_types(@complaint) %></td>
+        </tr>
+        <tr>
+          <th scope="row">Complaint Summary</th>
+          <td colspan="3"><%= @complaint.summary %></td>
+        </tr>
+        <tr>
+          <th scope="row">Form of Relief Complainant is Seeking</th>
+          <td colspan="3"><%= @complaint.form_of_relief %></td>
+        </tr>
+        <tr>
+          <th scope="row">Person Contacted</th>
+          <td colspan="3"><%= @complaint.cemetery_contact %></td>
+        </tr>
+        <tr>
+          <th scope="row">Has the Matter Been Submitted To An Attorney?</th>
+          <td colspan="3"><%= @complaint.attorney_contacted? ? 'Yes' : 'No' %></td>
+        </tr>
+        <tr>
+          <th scope="row">Is Court Action Pending?</th>
+          <td colspan="2"><%= @complaint.court_action_pending? ? 'Yes' : 'No' %></td>
+        </tr>
+        <tr>
+          <th class="text-center wd-50p" scope="col" colspan="2">Date of Event From Which Complaint Arose</th>
+          <th class="text-center" scope="col" colspan="2">Date of Complaint to Cemetery</th>
+        </tr>
+        <tr>
+          <td class="text-center" colspan="2"><%= @complaint.date_of_event %></td>
+          <td class="text-center" colspan="2"><%= @complaint.date_complained_to_cemetery || 'Not provided' %></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

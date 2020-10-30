@@ -11,7 +11,8 @@ feature 'Statistics' do
     @closed_complaint = FactoryBot.create(:closed_complaint, receiver_id: 1)
     @brand_new_complaint = FactoryBot.create(:brand_new_complaint)
     @inspection = FactoryBot.create(:completed_inspection, date_performed: @date, date_mailed: @date)
-    @rules = FactoryBot.create(:approved_rules, approval_date: @date)
+    @trustee = FactoryBot.create(:trustee)
+    @rules_approval = FactoryBot.create(:approved_rules_approval, approval_date: @date)
 
     visit statistics_investigator_path
 

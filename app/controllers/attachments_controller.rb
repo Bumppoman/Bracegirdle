@@ -1,6 +1,5 @@
 class AttachmentsController < ApplicationController
   def create
-
     # Create the attachment
     @attachment = @attachable.attachments.new(attachment_params)
     @attachment.user = current_user
@@ -8,9 +7,7 @@ class AttachmentsController < ApplicationController
     @attachment.save
 
     # Respond
-    respond_to do |m|
-      m.js { render partial: 'attachments/new_attachment.js.erb' }
-    end
+    respond_to :js
   end
 
   def destroy

@@ -1,0 +1,26 @@
+<tr 
+  data-target="trustees--index.trustee"
+  data-trustee-id="<%= trustee.id %>">
+  <td>
+    <span class="d-none"><%= trustee.sort_name %></span>
+    <%= trustee.name %>
+  </td>
+  <td>
+    <span class="d-none"><%= trustee.position %></span>
+    <%= trustee.position_name %>
+  </td>
+  <td><%= trustee.full_address.presence || '---' %></td>
+  <td><%= trustee.phone.presence || '---' %></td>
+  <td><%= trustee.email.presence || '---' %></td>
+  <td class="text-center">
+    <%= link_to '#', 
+      data: {
+        action: 'trustees--index#editTrustee',
+        form_action: cemetery_trustee_path(trustee.cemetery_cemid, trustee.id),
+        trustee_id: trustee.id 
+      } do
+    %>
+      <i class="trustee-edit-button material-icons tx-18">edit</i>
+    <% end %>
+  </td>
+</tr>

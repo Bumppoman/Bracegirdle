@@ -8,7 +8,8 @@ def create_complaint
       summary: 'Testing.',
       form_of_relief: 'Testing.',
       date_of_event: Date.current,
-      cemetery: FactoryBot.build(:cemetery))
+      #cemetery: FactoryBot.build(:cemetery))
+      cemetery_cemid: '04001')
 end
 
 describe Complaint, type: :model do
@@ -17,6 +18,7 @@ describe Complaint, type: :model do
   describe 'Actions' do
     describe Complaint, '#after_commit' do
       it 'sets a complaint number after saving' do
+        FactoryBot.create(:cemetery)
         subject.save
 
         expect(subject.complaint_number).to eq "CPLT-#{subject.created_at.year}-#{'%05d' % subject.id}"
@@ -84,6 +86,7 @@ describe Complaint, type: :model do
 
     describe Complaint, '#concern_text' do
       it 'provides the correct text' do
+        FactoryBot.create(:cemetery)
         subject.save
         expect(subject.concern_text).to eq ['complaint', "#CPLT-#{Date.current.year}-00001", 'against Anthony Cemetery']
       end
@@ -91,6 +94,7 @@ describe Complaint, type: :model do
 
     describe Complaint, '#formatted_cemetery' do
       it 'provides the cemetery name if the cemetery is regulated' do
+        FactoryBot.create(:cemetery)
         expect(subject.formatted_cemetery).to eq 'Anthony Cemetery'
       end
 
@@ -120,6 +124,7 @@ describe Complaint, type: :model do
 
     describe Complaint, '#link_text' do
       it 'returns the correct link text' do
+        FactoryBot.create(:cemetery)
         subject.save
 
         expect(subject.link_text).to eq "Complaint ##{subject.complaint_number}"
@@ -148,6 +153,7 @@ describe Complaint, type: :model do
 
   describe 'Scopes' do
     before :each do
+      FactoryBot.create(:cemetery)
       @active = create_complaint
       @active.save
     end
@@ -210,6 +216,7 @@ describe Complaint, type: :model do
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
+      FactoryBot.create(:cemetery)
       expect(subject).to be_valid
     end
 

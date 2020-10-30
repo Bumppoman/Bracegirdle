@@ -12,10 +12,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def create
-    redirect_to '/auth/auth0'
-  end
-
   def destroy
     reset_session
 

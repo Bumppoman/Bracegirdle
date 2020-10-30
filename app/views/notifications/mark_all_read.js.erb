@@ -1,2 +1,3 @@
-$('.notification-link').addClass('read');
-$('#unread-notifications').hide();
+document.getElementById('notifications').dispatchEvent(
+  new Event('bracegirdle:notifications:allNotificationsRead')
+);

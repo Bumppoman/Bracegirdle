@@ -1,0 +1,11 @@
+document.getElementById('complaint-actions').dispatchEvent(
+  new CustomEvent('bracegirdle:complaints:advance', 
+    { 
+      detail: { 
+        date: '<%= @complaint.investigation_begun_date %>',
+        method: 'investigationBegun',
+        tracker: '<%= j @tracker %>'
+      }
+    }
+  )
+);

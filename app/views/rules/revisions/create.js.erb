@@ -1,0 +1,9 @@
+document.getElementById('rules-approvals-show').dispatchEvent(
+  new CustomEvent('bracegirdle:rules:approvals:revisionCreated', 
+    {
+      detail: {
+        revision: "<%= j render(partial: 'rules/revisions/revision_row', locals: { index: 0, revision: @revision, rules_approval: @rules_approval }) %>"
+      }
+    }
+  )
+);

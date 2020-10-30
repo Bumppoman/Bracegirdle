@@ -1,0 +1,32 @@
+<% content_for :title, "Complaint ##{@complaint.complaint_number}" %>
+<% content_for :breadcrumbs, breadcrumbs_helper([['My active complaints', complaints_path], yield(:title)]) %>
+<div id="complaint" class="card mb-1 pd-0 bd-0" style="background-color: #f0f2f7">
+  <div style="background-color: white;">
+    <div class="card-header" style="border: 1px solid #ced4da;">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a
+            href="#complaint-details"
+            id="complaint-details-tab-link"
+            class="nav-link<%= ' active' if params[:tab] == :complaint || params[:tab].nil? %>"
+            data-toggle="tab"
+          >Complaint Details</a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#investigation-details"
+            id="investigation-details-tab-link"
+            class="nav-link<%= ' active' if params[:tab] == :investigation %>"
+            data-toggle="tab"
+          >Investigation Details</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body pd-0">
+    <div class="tab-content">
+      <%= render partial: 'complaint_details' %>
+      <%= render partial: 'investigation_details' %>
+    </div>
+  </div>
+</div>

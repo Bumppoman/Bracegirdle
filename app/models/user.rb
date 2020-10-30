@@ -11,14 +11,26 @@ class User < ApplicationRecord
 
   has_many :complaints,
     -> (user) {
-      where.not(status: [:pending_closure, :closed])
+      if user.supervisor?
+        unscope(:where)
+        .where(investigator: user, status: [:investigation_begun, :investigation_completed])
+        .or(where(status: [:received, :pending_closure]))
+      else
+        where.not(status: [:pending_closure, :closed])
+      end
     },
     foreign_key: :investigator_id,
     inverse_of: :investigator
 
   has_many :hazardous,
     -> (user) {
-      where(status: :received)
+      if user.supervisor?
+        unscope(:where)
+        .where(investigator: user, status: :assigned)
+        .or(where(status: :received))
+      else
+        where(status: :assigned)
+      end
     },
     class_name: 'Hazardous',
     foreign_key: :investigator_id,
@@ -26,7 +38,7 @@ class User < ApplicationRecord
 
   has_many :incomplete_inspections,
     -> (user) {
-      where.not(status: :complete)
+      where.not(status: :completed)
     },
     class_name: 'CemeteryInspection',
     foreign_key: :investigator_id,
@@ -70,7 +82,7 @@ class User < ApplicationRecord
     },
     foreign_key: :receiver_id
 
-  has_many :rules,
+  has_many :rules_approvals,
     -> (user) {
       if user.supervisor?
         unscope(:where).where(investigator: user, status: [:pending_review, :revision_requested]).or(where(status: :received))
@@ -107,7 +119,7 @@ class User < ApplicationRecord
 
   def inbox_items_count
     if investigator?
-      @inbox_items_count ||= rules.count
+      @inbox_items_count ||= rules_approvals.count
     end
   end
 

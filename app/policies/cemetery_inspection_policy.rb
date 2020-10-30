@@ -1,13 +1,9 @@
 class CemeteryInspectionPolicy < ApplicationPolicy
-  def additional_information?
-    finalize?
+  def complete?
+    save?
   end
-
-  def cemetery_information?
-    finalize?
-  end
-
-  def create_old_inspection?
+  
+  def create?
     user.staff?
   end
 
@@ -23,24 +19,20 @@ class CemeteryInspectionPolicy < ApplicationPolicy
     user.investigator?
   end
 
-  def physical_characteristics?
-    finalize?
-  end
-
-  def record_keeping?
-    finalize?
-  end
-
   def revise?
     finalize?
+  end
+  
+  def save?
+    record.belongs_to? user
   end
 
   def show?
     user.staff?
   end
 
-  def upload_old_inspection?
-    create_old_inspection?
+  def upload?
+    create?
   end
 
   def view_full_package?

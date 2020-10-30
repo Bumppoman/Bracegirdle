@@ -1,8 +1,10 @@
-$("#notes-list").prepend('<%= j render partial: "notes/note", locals: { note: @note } %>');
-
-$(window).scrollTop($("#note-<%= @note.id %>").position().top);
-$("#note-<%= @note.id %>").effect("highlight", {}, 3000);
-
-$("#note_body").val('');
-
-$("#no-notes-message").hide();
+document.getElementById('notes-area').dispatchEvent(
+  new CustomEvent('bracegirdle:notes:create', 
+    {
+      detail: {
+        body: '<%= j render partial: "notes/note", locals: { note: @note } %>',
+        id: '<%= @note.id %>'
+      }
+    }
+  )
+);

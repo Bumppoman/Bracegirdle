@@ -1,0 +1,11 @@
+<% @restoration = @estimate.restoration %>
+<% @remaining_letters = ('B'..'Z').to_a[@restoration.estimates.length - 1, 1] %>
+document.getElementById('board_applications-restorations-estimates-new-modal').dispatchEvent(
+  new CustomEvent('bracegirdle:board_applications:restorations:estimates:estimateCreated',
+    {
+      detail: {
+        estimate: '<%= j render(partial: "board_applications/restorations/estimates/estimate", locals: { estimate: @estimate }) %>'
+      }
+    }
+  )
+);

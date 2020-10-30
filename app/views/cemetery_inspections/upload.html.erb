@@ -1,0 +1,61 @@
+<% content_for :title, 'Upload Previous Inspection' %>
+<% content_for :breadcrumbs, breadcrumbs_helper([[@cemetery.formatted_name, cemetery_path(@cemetery)], 'Upload previous inspection']) %>
+<section class="section-wrapper">
+  <%= form_for @inspection, 
+    url: upload_inspection_cemetery_path(@cemetery),
+    builder: BracegirdleFormBuilder,
+    method: :post do |f| 
+  %>
+    <div class="form-layout">
+      <%= content_tag(:div, 
+        'There was a problem uploading this inspection!', 
+        class: 'alert alert-danger', 
+        role: 'alert'
+      ) if @inspection.errors.any? %>
+      <label class="section-title">Cemetery Information</label>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.hidden_field :identifier %>
+          <%= f.select :cemetery_county,
+            options_for_select(COUNTIES.invert, @cemetery.county), 
+            { label: 'County', prompt: 'Select county', required: true },
+            { disabled: true }
+          %>
+        </div>
+        <div class="col-md-6">
+          <%= f.select :cemetery,
+            grouped_options_for_select(cemetery_options, @cemetery.cemid), 
+            { prompt: 'Select cemetery', required: true }, 
+            { disabled: true }
+          %>
+        </div>
+      </div>
+      <label class="section-title">Inspection</label>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <%= f.label :inspection_report, 'File' %>
+            <div class="custom-file">
+              <%= f.file_field :inspection_report, class: 'form-control custom-file-input' %>
+              <label for="cemetery_inspection[inspection_report]" class="custom-file-label">Choose file</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <%= f.select :investigator, 
+            employee_options(nil, [:investigator]), 
+            { label: 'Performed By', prompt: 'Unknown' }
+          %>
+        </div>
+        <div class="col-md-4">
+          <%= f.date_field :date_performed, label: 'Date Performed', required: true %>
+        </div>
+      </div>
+      <div class="form-layout-footer mg-t-20 pd-l-20">
+        <%= f.button 'Upload Inspection', class: 'btn btn-primary bd-0 mr-1' %>
+      </div>
+    </div>
+  <% end %>
+</section>

@@ -1,9 +1,7 @@
-$('#trustee-form').modal('hide');
-var rowNode = $('#trustees-data-table').DataTable().row('#trustee-<%= @trustee.id %>').data([
-    "<%=  @trustee.name %>",
-    "<%=  @trustee.position_name %>",
-    "<%=  @trustee.full_address.presence || '---' %>",
-    "<%=  @trustee.phone.presence || '---' %>",
-    "<%=  @trustee.email.presence || '---' %>",
-    '<a href="#" class="edit-trustee" data-cemetery="<%= @trustee.cemetery.id %>" data-trustee="<%= @trustee.id %>" onclick="window.edit_trustee(event);"><i class="fa fa-edit"></i></a>'
-]).draw(false);
+document.getElementById('trustees-list').dispatchEvent(
+  new CustomEvent('bracegirdle:trustees:trusteeEdited', 
+    { 
+      detail: <%= raw @response %>,
+    }
+  )
+);

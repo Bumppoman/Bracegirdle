@@ -1,0 +1,117 @@
+<% content_for :title, "Scheduled #{@appointment_name.pluralize.capitalize}" %>
+<% content_for :breadcrumbs, breadcrumbs_helper(["Scheduled #{@appointment_name.pluralize}"]) %>
+<div 
+  id="appointments-index"
+  data-action=
+    "bracegirdle:appointments:appointmentCancelled->appointments--index#appointmentCancelled
+    bracegirdle:appointments:appointmentRescheduled->appointments--index#appointmentRescheduled"
+  data-controller="appointments--index"
+>
+  <section class="section-wrapper">
+    <div 
+      class="disappearing-success-message hidden" 
+      data-target="appointments--index.successMessage"
+    >
+      <div class="alert alert-success">You have successfully rescheduled this appointment.</div>
+    </div>
+    <div data-controller="datatable">
+      <table
+        id="appointments-data-table"
+        class="table display responsive no-wrap"
+        data-empty-message="There are no scheduled <%= @appointment_name.pluralize %> to display." 
+        data-order="1"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Cemetery</th>
+            <th scope="col" data-type="date" data-format="MMMM D, YYYY hh:mm A">Date Scheduled</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @appointments.each do |appointment| %>
+            <tr 
+              data-appointment-id="<%= appointment.id %>"
+              data-target="appointments--index.appointment"
+            >
+              <td class="align-middle"><%= link_to appointment.cemetery.name, appointment.cemetery %></td>
+              <td class="align-middle appointment-date">
+                <span class="formatted-date"><%= appointment.begin.strftime('%B %-e, %Y %I:%M %p') %></span>
+              </td>
+              <td class="wd-30p">
+                <%= button_with_confirmation_modal 'Begin',
+                  form_action: begin_appointment_path(appointment),
+                  text: "Are you sure you want to begin this #{@appointment_name}?",
+                  title: "Begin #{@appointment_name.capitalize}"
+                %>
+                <button 
+                  class="btn btn-primary"
+                  data-action="appointments--index#reschedule"
+                  data-date="<%= appointment.begin.strftime('%Y-%m-%d') %>"
+                  data-form-action="<%= reschedule_appointment_path(appointment) %>"
+                  data-time="<%= appointment.begin.strftime('%H:%M') %>"
+                >Reschedule</button>
+                <%= button_with_confirmation_modal 'Cancel',
+                  form_action: cancel_appointment_path(appointment),
+                  text: "Are you sure you want to cancel this #{@appointment_name}?",
+                  title: "Cancel #{@appointment_name.capitalize}"
+                %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <%= form_with model: Appointment, method: :patch do |f| %>
+    <div 
+      id="appointment-reschedule-modal" 
+      class="modal"
+      data-target="appointments--index.rescheduleModal"
+    >
+      <div class="modal-dialog wd-30p" role="document">
+        <div class="modal-content">
+          <div class="modal-header pd-x-20">
+            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Reschedule Appointment</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pd-b-0">
+            <p>Choose a date for this <%= @appointment_name %>
+              <br />
+              <div class="row">
+                <div class="col-md-6">
+                  <%= f.date_field :date, 
+                    {
+                      class: 'form-control',
+                      data: {
+                        target: 'appointments--index.rescheduleDate'
+                      }
+                    }
+                  %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.time_field :time, 
+                    {
+                      class: 'form-control',
+                      data: {
+                        target: 'appointments--index.rescheduleTime'
+                      },
+                      required: true,
+                      step: 900
+                    }
+                  %>
+                </div>
+              </div>
+            </p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <%= f.button "Reschedule #{@appointment_name}", class: 'btn btn-primary' %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

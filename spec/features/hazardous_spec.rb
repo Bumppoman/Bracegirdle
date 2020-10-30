@@ -5,23 +5,22 @@ feature 'Hazardous' do
     @cemetery = FactoryBot.create(:cemetery)
     @trustee = FactoryBot.create(:trustee)
     @contractor = FactoryBot.create(:contractor)
+    @second_contractor = FactoryBot.create(:contractor, name: 'Stony Rocks Monuments', county: 4)
   end
 
   scenario 'Hazardous monument application can be uploaded', js: true do
     login
 
-    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
-    assert_selector '#application-data-table'
+    visit board_applications_hazardous_index_path
     click_on 'Upload new application'
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
-    select2 'Mark Clark', from: 'Submitted By'
+    choices 'Broome', from: 'County'
+    choices '#04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Assign To'
+    choices 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
-    assert_selector '#process-restoration'
     click_on 'Applications'
     click_on 'Hazardous Monuments'
 
@@ -31,135 +30,148 @@ feature 'Hazardous' do
   scenario 'Hazardous monument application without necessary information cannot be saved', js: true do
     login
 
-    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
-    assert_selector '#application-data-table'
+    visit board_applications_hazardous_index_path
     click_on 'Upload new application'
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
-    select2 'Mark Clark', from: 'Submitted By'
+    choices 'Broome', from: 'County'
+    choices '#04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark', from: 'Submitted By'
+    fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
-    attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Assign To'
+    choices 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
 
-    assert_selector '#new-application-error'
-    expect(page).to have_content 'There was a problem'
+    expect(page).to have_content 'There was a problem uploading this application!'
   end
 
-  scenario 'Hazardous monument application can be processed', js: true do
+  scenario 'Hazardous monument application can be evaluated', js: true do
     login
 
-    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
-    assert_selector '#application-data-table'
+    visit board_applications_hazardous_index_path
     click_on 'Upload new application'
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
-    select2 'Mark Clark', from: 'Submitted By'
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Assign To'
+    choices 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
-    assert_selector '#process-restoration'
-    attach_file 'hazardous_application_form', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    attach_file 'hazardous_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
-    choose 'hazardous_application_form_complete_true'
+    find('#application-form-complete-yes').click
     click_on 'Next'
-    assert_selector '#add-new-estimate'
-    click_on 'Add New Estimate'
-    attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    fill_in 'Amount', with: '12345.67'
-    select2 'Rocky Stone Monuments', from: 'Contractor'
-    select2 'Lifetime', from: 'Warranty'
-    choose 'estimate_proper_format_true'
-    click_on 'Upload Estimate'
-    assert_selector '#estimate-1'
-    click_on 'Add New Estimate'
-    attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    fill_in 'Amount', with: '12845.67'
-    select2 'Stony Rocks Monuments', from: 'Contractor', tag: true
-    select2 'Lifetime', from: 'Warranty'
-    choose 'estimate_proper_format_true'
-    click_on 'Upload Estimate'
-    assert_selector '#estimate-2'
+    click_on 'Add Estimate'
+    within('#board_applications-restorations-estimates-new-modal') do
+      attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+      fill_in 'Amount', with: '12345.67'
+      choices 'Rocky Stone Monuments', from: 'Contractor'
+      choices 'Lifetime', from: 'Warranty'
+      find('#estimate-proper-format-yes').click
+      click_button 'Add Estimate'
+    end
+    click_on 'Add Estimate'
+    within('#board_applications-restorations-estimates-new-modal') do
+      attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+      fill_in 'Amount', with: '12845.67'
+      choices 'Stony Rocks Monuments', from: 'Contractor'
+      choices 'Lifetime', from: 'Warranty'
+      find('#estimate-proper-format-yes').click
+      click_button 'Add Estimate'
+    end
     click_on 'Next'
-    attach_file 'hazardous_legal_notice', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    attach_file 'hazardous_legal_notice_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Cost', with: '123.45'
     fill_in 'Newspaper', with: 'Albany Sun'
-    choose 'hazardous_legal_notice_format_true'
+    find('#legal-notice-proper-format-yes').click
     click_on 'Next'
-    assert_selector '#restoration-previous-form'
-    choose 'hazardous_previous_exists_true'
-    attach_file 'hazardous_previous_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Hazardous', from: 'Type of Project'
-    fill_in 'Date Previous Work Approved', with: 'September 2017'
+    assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
+    find('#previous-exists-yes').click
+    attach_file 'hazardous_previous_completion_report_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    choices 'Hazardous', from: 'Type of Project'
+    fill_in 'Date Previous Work Approved', with: '09/01/2017'
     click_on 'Next'
-    click_on 'Submit for Consideration'
-    assert_selector '#restoration-exhibits'
-    click_on 'Dashboard', match: :first
-    visit applications_hazardous_index_path
+    click_on 'Submit Application'
+    visit board_applications_hazardous_index_path
 
     expect(page).to have_content 'Sent to supervisor'
   end
 
-  scenario 'Supervisor can send application directly to cemetery board', js: true do
+  scenario 'Supervisor sends application past review', js: true do
     login_supervisor
 
-    visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
+    visit board_applications_hazardous_index_path
     click_on 'Upload new application'
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
-    select2 'Mark Clark', from: 'Submitted By'
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Assign To'
+    choices 'Chester Butkiewicz', from: 'Assign To'
     click_on 'Upload Application'
-    assert_selector '#process-restoration'
-    attach_file 'hazardous_application_form', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    attach_file 'hazardous_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
-    choose 'hazardous_application_form_complete_true'
+    find('#application-form-complete-yes').click
     click_on 'Next'
-    assert_selector '#add-new-estimate'
-    click_on 'Add New Estimate'
-    attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    fill_in 'Amount', with: '12345.67'
-    select2 'Rocky Stone Monuments', from: 'Contractor'
-    select2 'Lifetime', from: 'Warranty'
-    choose 'estimate_proper_format_true'
-    click_on 'Upload Estimate'
-    assert_selector '#estimate-1'
+    click_on 'Add Estimate'
+    within('#board_applications-restorations-estimates-new-modal') do
+      attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+      fill_in 'Amount', with: '12345.67'
+      choices 'Rocky Stone Monuments', from: 'Contractor'
+      choices 'Lifetime', from: 'Warranty'
+      find('#estimate-proper-format-yes').click
+      click_button 'Add Estimate'
+    end
+    click_on 'Add Estimate'
+    within('#board_applications-restorations-estimates-new-modal') do
+      attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+      fill_in 'Amount', with: '12845.67'
+      choices 'Stony Rocks Monuments', from: 'Contractor'
+      choices 'Lifetime', from: 'Warranty'
+      find('#estimate-proper-format-yes').click
+      click_button 'Add Estimate'
+    end
     click_on 'Next'
-    attach_file 'hazardous_legal_notice', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    attach_file 'hazardous_legal_notice_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Cost', with: '123.45'
     fill_in 'Newspaper', with: 'Albany Sun'
-    choose 'hazardous_legal_notice_format_true'
+    find('#legal-notice-proper-format-yes').click
     click_on 'Next'
-    assert_selector '#restoration-previous-form'
-    choose 'hazardous_previous_exists_true'
-    attach_file 'hazardous_previous_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Hazardous', from: 'Type of Project'
-    fill_in 'Date Previous Work Approved', with: 'September 2017'
+    assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
+    find('#previous-exists-yes').click
+    assert_selector 'div[data-target="board-applications--restorations--evaluate.previousDetailsArea"]'
+    attach_file 'hazardous_previous_completion_report_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    choices 'Hazardous', from: 'Type of Project'
+    fill_in 'Date Previous Work Approved', with: '09/01/2017'
     click_on 'Next'
-    click_on 'Submit for Consideration'
-    assert_selector '#restoration-exhibits'
-    click_on 'Dashboard', match: :first
-    visit applications_hazardous_index_path
+    click_on 'Submit Application'
+    visit board_applications_hazardous_index_path
 
-    expect(page).to have_content 'Sent to Cemetery Board'
+    expect(page).to have_content 'Ready for Cemetery Board'
+  end
+  
+  scenario 'User can add note to an application', js: true do
+    @restoration = FactoryBot.create(:evaluated_hazardous)
+    login
+    
+    visit board_applications_hazardous_path(@restoration)
+    fill_in 'note[body]', with: 'Adding a note to this application'
+    click_on 'Submit'
+
+    expect(page).to have_content 'Adding a note to this application'
   end
 
   context 'Viewing portions of the application' do
     before :each do
-      @restoration = FactoryBot.create(:processed_hazardous)
+      @restoration = FactoryBot.create(:evaluated_hazardous)
     end
 
     scenario 'View raw application' do
       login
 
-      visit view_raw_application_applications_hazardous_path(@restoration)
+      visit view_raw_application_board_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Raw Application'
     end
@@ -167,7 +179,7 @@ feature 'Hazardous' do
     scenario 'View application form' do
       login
 
-      visit view_application_form_applications_hazardous_path(@restoration)
+      visit view_application_form_board_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Application Form'
     end
@@ -175,7 +187,7 @@ feature 'Hazardous' do
     scenario 'View legal notice' do
       login
 
-      visit view_legal_notice_applications_hazardous_path(@restoration)
+      visit view_legal_notice_board_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Legal Notice'
     end
@@ -183,7 +195,7 @@ feature 'Hazardous' do
     scenario 'View estimate' do
       login
 
-      visit view_estimate_applications_hazardous_path(@restoration, @restoration.estimates.first)
+      visit view_estimate_board_applications_hazardous_path(@restoration, @restoration.estimates.first)
 
       expect(page).to have_content 'View Rocky Stone Monuments estimate'
     end
@@ -191,7 +203,7 @@ feature 'Hazardous' do
     scenario 'View previous report' do
       login
 
-      visit view_previous_report_applications_hazardous_path(@restoration)
+      visit view_previous_report_board_applications_hazardous_path(@restoration)
 
       expect(page).to have_content 'View Previous Restoration Report'
     end
@@ -199,7 +211,7 @@ feature 'Hazardous' do
     scenario 'View generated report' do
       login
 
-      visit view_report_applications_hazardous_path(@restoration)
+      visit view_report_board_applications_hazardous_path(@restoration)
 
       expect(page.status_code).to be 200
     end
@@ -207,7 +219,7 @@ feature 'Hazardous' do
     scenario 'View combined report' do
       login
 
-      visit view_combined_applications_hazardous_path(@restoration)
+      visit view_combined_board_applications_hazardous_path(@restoration)
 
       expect(page.status_code).to be 200
     end
@@ -215,28 +227,35 @@ feature 'Hazardous' do
 
   context Hazardous, 'Reviewing application' do
     before :each do
-      @restoration = FactoryBot.create(:processed_hazardous)
+      @user = FactoryBot.create(:another_investigator)
+      @restoration = FactoryBot.create(:evaluated_hazardous)
     end
 
     scenario 'Supervisor can send application to board', js: true do
       login_supervisor
-      visit applications_hazardous_index_path # Visit is ok because we are not waiting on anything
+      visit board_applications_hazardous_index_path
       click_on @restoration.identifier
 
-      click_on 'Send to cemetery board'
-      assert_selector '#application-data-table'
+      click_button 'Approve for Cemetery Board'
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Approve Application'
+      end
+      assert_selector '#board_applications-restorations-show'
 
       expect(@restoration.reload.status).to eq 'reviewed'
     end
 
     scenario 'Supervisor can return application to investigator', js: true do
       login_supervisor
-      visit review_applications_hazardous_path(@restoration)
+      visit review_board_applications_hazardous_path(@restoration)
 
-      click_on 'Return to investigator'
-      assert_selector '#application-data-table'
-
-      expect(@restoration.reload.status).to eq 'received'
+      click_button 'Return to investigator'
+      within '#bracegirdle-confirmation-modal' do
+        click_button 'Return to Investigator'
+      end
+      assert_selector '#board_applications-restorations-show'
+      
+      expect(@restoration.reload.status).to eq 'assigned'
     end
   end
 end

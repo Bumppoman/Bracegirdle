@@ -1,0 +1,19 @@
+<li 
+  class="media mb-4"
+  data-id="<%= note.id %>" 
+  data-target="notes.note"
+>
+  <img 
+    class="img-responsive user-photo mr-3" 
+    width="64" 
+    height="64" 
+    src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+  />
+  <div class="media-body">
+    <h5 class="mt-0 mb-1">
+      <strong><%= note.user.name %></strong>
+      <span class="text-muted"> on <%= note.created_at %></span>
+    </h5>
+    <%= simple_format(note.body) %>
+  </div>
+</li>

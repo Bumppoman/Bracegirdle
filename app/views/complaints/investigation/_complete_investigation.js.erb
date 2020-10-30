@@ -1,0 +1,10 @@
+document.getElementById('complaint-actions').dispatchEvent(
+  new CustomEvent('bracegirdle:complaints:advance', 
+    { 
+      detail: { 
+        date: '<%= @complaint.investigation_completed_date %>',
+        method: 'investigationCompleted'
+      }
+    }
+  )
+)

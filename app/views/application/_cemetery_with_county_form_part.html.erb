@@ -1,0 +1,38 @@
+<div class="row" data-controller="cemeteries--select">
+  <div class="col-md-6">
+    <%= f.select :cemetery_county, 
+      options_for_select(COUNTIES.invert, object.cemetery_county), 
+      { label: 'County', prompt: 'Select county', required: true }, 
+      { 
+        class: 'county', 
+        data: { 
+          action: 'cemeteries--select#loadCemeteries',
+          target: 'cemeteries--select.county' 
+        } 
+      }
+    %>
+  </div>
+  <div class="col-md-6">
+    <%= hidden_field_tag :selected_id, 
+      object.cemetery&.cemid, 
+      data: { target: 'cemeteries--select.selectedID' }
+    %>
+    <%= f.select :cemetery, 
+      [], 
+      { 
+        label: 'Cemetery', 
+        prompt: 'Select cemetery', 
+        required: true, 
+        without_choices: true 
+      },  
+      { 
+        class: 'cemeteries-by-county', 
+        data: {
+          action: defined?(action) ? action : '',
+          target: 'cemeteries--select.cemetery ' + (defined?(target) ? target : '')
+        }, 
+        disabled: true 
+      }
+    %>
+  </div>
+</div>

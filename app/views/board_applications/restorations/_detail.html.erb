@@ -1,0 +1,44 @@
+<section class="section-wrapper mg-t-5">
+  <label class="section-title">Application Information</label>
+  <table class="table table-striped mg-t-20">
+    <tbody>
+      <tr>
+        <th class="wd-30p" scope="row">Cemetery</th>
+        <td>
+          <%= link_to @restoration.cemetery.name, @restoration.cemetery %> (<%= @restoration.cemetery.formatted_cemid %>)
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Submitted By</th>
+        <td><%= @restoration.trustee.name %> (<%= @restoration.trustee.position_name %>)</td>
+      </tr>
+      <tr>
+        <th scope="row">Submitted On</th>
+        <td><%= @restoration.submission_date %></td>
+      </tr>
+      <tr>
+        <th scope="row">Amount Requested</th>
+        <td>
+          <%= @restoration.evaluated? ? 
+            number_to_currency(@restoration.calculated_amount) : 
+            number_to_currency(@restoration.amount)
+          %>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Application</th>
+        <td>
+          <%= link_to 'View application', 
+            self.send("view_raw_application_board_applications_#{@restoration.type.downcase}_path", @restoration.id)
+          %>
+        </td>
+      </tr>
+      <% unless @restoration.received? %>
+        <tr>
+          <th scope="row">Processed By</th>
+          <td><%= @restoration.investigator.name %> on <%= @restoration.recommendation_date %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

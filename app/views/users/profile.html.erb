@@ -1,0 +1,238 @@
+<% content_for :title, 'User Profile' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['User profile']) %>
+<div class="row row-sm">
+  <div class="col-md-8">
+    <div class="card card-profile">
+      <div class="card-body">
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="" />
+          <div class="media-body">
+            <h3 class="card-profile-name"><%= @user.name %></h3>
+            <p class="card-profile-position"><%= @user.title %></p>
+            <p><%= @user.city %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="nav nav-activity-profile mg-t-20">
+      <li class="nav-item">
+        <%= link_to '#', class: 'nav-link' do %>
+          <i class="material-icons tx-purple">send</i>
+          Send a message
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to '#', class: 'nav-link' do %>
+          <i class="material-icons tx-purple">send</i>
+          Send a message
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to '#', class: 'nav-link' do %>
+          <i class="material-icons tx-purple">send</i>
+          Send a message
+        <% end %>
+      </li>
+    </ul>
+    <div class="card card-recommendation mg-t-20">
+      <div class="card-body pd-25">
+        <div class="slim-card-title mg-b-15">Latest Complaints</div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Complaint</th>
+                <th>Cemetery</th>
+                <th>Last Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if @recent_complaints.empty? %>
+                <tr>
+                  <td class="pd-l-25-force" colspan="3">There are no recent complaints to display.</td>
+                </tr>
+              <% else %>
+                <% @recent_complaints.each do |complaint| %>
+                  <tr>
+                    <td><%= link_to complaint, complaint %></td>
+                    <td><%= complaint.formatted_cemetery + (complaint.cemetery_regulated? ? " (#{complaint.cemetery.formatted_cemid})" : '') %></td>
+                    <td><%= complaint.updated_at %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer pd-y-12 pd-x-25 bd-t bd-gray-300">
+        <%= link_to 'View all', user_complaints_path(@user.id) %>
+      </div>
+    </div>
+    <!--.card.card-latest-activity.mg-t-20
+      .card-body
+        <div class="slim-card-title">Latest Activity</div>
+        <div class="media media-author">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <h6><a href="">Katherine</a></h6>
+            <p>Executive Director</p>
+          </div>
+          <span>2 hours ago</span>
+        </div>
+
+        <p class="activity-text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <a href=""><img src="http://via.placeholder.com/1024x1280" class="img-fit-cover" alt=""></a>
+          </div>
+          <div class="col-md-8">
+            <div class="post-wrapper">
+              <a href="" class="activity-title">Sailing Basics: 10 Nautical & Sailing Terms To Know</a>
+              <p>Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.</p>
+              <p class="mg-b-0">
+                <a href="" class="d-block">Charmaine Montuya</a>
+                <span>Writer &amp; Entrepreneur</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+      <div class="card-footer">
+        <a href="">Comment</a>
+        <a href="">Likes</a>
+        <a href="">Share</a>
+      </div>
+    /<div class="card card-experience mg-t-20">
+      <div class="card-body">
+        <div class="slim-card-title">Work Experience</div>
+        <div class="media">
+          <div class="experience-logo">
+            <i class="icon ion-briefcase"></i>
+          </div>
+          <div class="media-body">
+            <h6 class="position-name">Front-End Engineer / Web Developer</h6>
+            <p class="position-company">Cebu Machine Intelligence, Inc.</p>
+            <p class="position-year">Nov 2012 - Present (5 years +) &nbsp;-&nbsp; <a href="">Edit</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="">Show more<span class="d-none d-sm-inline"> experiences (4)</span> <i class="fa fa-angle-down"></i></a>
+        <a href="">Add new</a>
+      </div>
+    /</div>-->
+  </div>
+  <div class="col-md-4 mg-t-20 mg-lg-t-0">
+    <div class="card card-connection">
+      <div class="row row-xs">
+        <div class="col-4 tx-teal"><%= @user.inbox_items_count %></div>
+        <div class="col-8"><%= 'inbox item'.pluralize(@user.inbox_items_count) %></div>
+      </div>
+      <hr />
+      <div class="row row-xs">
+        <div class="col-4 tx-purple"><%= @user.board_applications_count %></div>
+        <div class="col-8"><%= 'board application'.pluralize(@user.board_applications_count) %></div>
+      </div>
+      <hr />
+      <div class="row row-xs">
+        <div class="col-4 tx-danger"><%= @user.investigations_count %></div>
+        <div class="col-8"><%= 'investigation'.pluralize(@user.investigations_count) %></div>
+      </div>
+      <hr />
+      <div class="row row-xs">
+        <% inspection_count = @user.overdue_inspections.count %>
+        <div class="col-4 tx-primary">
+          <%= link_to inspection_count, overdue_inspections_cemeteries_path(region: @user.region_name.downcase) %>
+        </div>
+        <div class="col-8"><%= 'overdue inspection'.pluralize(inspection_count) %></div>
+      </div>
+    </div>
+    <!--<div class="card card-people-list mg-t-20">
+      <div class="slim-card-title">People also viewed</div>
+      <div class="media-list">
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Adrian Monino</a>
+            <p>Software Engineer</p>
+          </div>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Rolando Paloso</a>
+            <p>Architect</p>
+          </div>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Joyce Chua</a>
+            <p>Sales Representative</p>
+          </div>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Annalyn Mercado</a>
+            <p>Sales Representative</p>
+          </div>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Maricel Pasilbas</a>
+            <p>Sales Representative</p>
+          </div>
+        </div>
+      </div>
+    /</div>
+
+    /<div class="card card-people-list mg-t-20">
+      <div class="slim-card-title">People you may know</div>
+      <div class="media-list">
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Amber Heard</a>
+            <p>Software Engineer</p>
+          </div>
+          <a href=""><i class="icon ion-person-add tx-20"></i></a>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Richard Salomon</a>
+            <p>Architect</p>
+          </div>
+          <a href=""><i class="icon ion-person-add tx-20"></i></a>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Warren Vito</a>
+            <p>Sales Representative</p>
+          </div>
+          <a href=""><i class="icon ion-person-add tx-20"></i></a>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Charlene Plateros</a>
+            <p>Sales Representative</p>
+          </div>
+          <a href=""><i class="icon ion-person-add tx-20"></i></a>
+        </div>
+        <div class="media">
+          <img src="http://via.placeholder.com/500x500" alt="">
+          <div class="media-body">
+            <a href="">Allan Palban</a>
+            <p>Sales Representative</p>
+          </div>
+          <a href=""><i class="icon ion-person-add tx-20"></i></a>
+        </div>
+      </div>
+    /</div>-->
+  </div>
+</div>

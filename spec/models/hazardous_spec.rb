@@ -2,7 +2,8 @@ require 'rails_helper'
 
 def create_hazardous
   Hazardous.new(
-    cemetery: FactoryBot.create(:cemetery),
+    cemetery_cemid: '04001',
+    trustee_id: 1,
     submission_date: Date.today,
     amount: '25452.25',
     legal_notice_cost: '123.45'
@@ -13,19 +14,19 @@ describe Hazardous, type: :model do
   subject { create_hazardous }
 
   describe Hazardous, 'Instance Methods' do
-    describe Hazardous, 'active?' do
+    describe Hazardous, '#active?' do
       it 'should return true when restoration is active' do
         expect(subject.active?).to be true
       end
 
-      it 'should return false when the restoration is closed' do
-        subject.status = :closed
+      it 'should return false when the restoration is completed' do
+        subject.status = :completed
 
         expect(subject.active?).to be false
       end
     end
 
-    describe Hazardous, 'amount=' do
+    describe Hazardous, '#amount=' do
       it 'should remove the comma from the amount' do
         subject.amount = '12,345.67'
 
@@ -33,7 +34,7 @@ describe Hazardous, type: :model do
       end
     end
 
-    describe Hazardous, 'calculated_amount' do
+    describe Hazardous, '#calculated_amount' do
       before :each do
         subject.estimates << Estimate.new(contractor: FactoryBot.create(:contractor), amount: '12345.67', warranty: 20, proper_format: true)
       end
@@ -42,41 +43,54 @@ describe Hazardous, type: :model do
         expect(subject.calculated_amount).to eq 12469.12
       end
     end
+    
+    describe Hazardous, '#concern_link' do
+      it 'returns the correct link method' do
+        expect(subject.concern_link).to be :board_applications_hazardous_path
+      end
+    end
+    
+    describe Hazardous, '#concern_text' do
+      it 'returns the correct text' do
+        FactoryBot.create(:cemetery)
+        expect(subject.concern_text).to eq ['a', 'restoration application', 'for Anthony Cemetery']
+      end
+    end
 
-    describe Hazardous, 'current_processing_step' do
-      it 'returns 0 when the processing has not started' do
-        expect(subject.current_processing_step).to eq 0
+    describe Hazardous, '#current_evaluation_step' do
+      it 'returns 0 when the evaluation has not started' do
+        expect(subject.current_evaluation_step).to eq 1
       end
 
       it 'returns 1 if only the application form has been added' do
-        subject.application_form.attach(io: File.open(Rails.root.join('spec', 'support', 'test.pdf')), filename: 'test.pdf', content_type: 'application/pdf')
+        subject.application_file.attach(io: File.open(Rails.root.join('spec', 'support', 'test.pdf')), filename: 'test.pdf', content_type: 'application/pdf')
 
-        expect(subject.current_processing_step).to eq 1
+        expect(subject.current_evaluation_step).to eq 2
       end
 
       it 'returns 2 if an estimate has been added' do
         subject.estimates << Estimate.new(contractor: FactoryBot.create(:contractor), amount: '12345.67', warranty: 20, proper_format: true)
 
-        expect(subject.current_processing_step).to eq 2
+        expect(subject.current_evaluation_step).to eq 3
       end
 
       it 'returns 3 if a legal notice has been added' do
-        subject.legal_notice.attach(io: File.open(Rails.root.join('spec', 'support', 'test.pdf')), filename: 'test.pdf', content_type: 'application/pdf')
+        subject.legal_notice_file.attach(io: File.open(Rails.root.join('spec', 'support', 'test.pdf')), filename: 'test.pdf', content_type: 'application/pdf')
 
-        expect(subject.current_processing_step).to eq 3
+        expect(subject.current_evaluation_step).to eq 4
       end
 
       it 'returns 4 if the question about a previous application has been answered' do
         subject.previous_exists = true
 
-        expect(subject.current_processing_step).to eq 4
+        expect(subject.current_evaluation_step).to eq 5
       end
 
-      it 'returns 0 if the application is no longer in processing' do
-        subject.status = :processed
+      it 'returns 0 if the application is no longer in evaluation' do
+        subject.status = :evaluated
         subject.previous_exists = true
 
-        expect(subject.current_processing_step).to eq 0
+        expect(subject.current_evaluation_step).to eq 1
       end
     end
 
@@ -108,14 +122,18 @@ describe Hazardous, type: :model do
       end
 
       it 'returns false when the restoration is not new' do
+        FactoryBot.create(:cemetery)
+        FactoryBot.create(:trustee)
         subject.save
 
         expect(subject.newly_created?).to be false
       end
     end
 
-    describe Hazardous, 'to_s' do
+    describe Hazardous, '#to_s' do
       it 'returns the identifier' do
+        FactoryBot.create(:cemetery)
+        FactoryBot.create(:trustee)
         subject.save
 
         expect(subject.to_s).to eq "HAZD-#{Date.today.year}-00001"
@@ -125,6 +143,8 @@ describe Hazardous, type: :model do
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
+      FactoryBot.create(:cemetery)
+      FactoryBot.create(:trustee)
       expect(subject).to be_valid
     end
 

@@ -1,0 +1,11 @@
+document.getElementById('complaint-actions').dispatchEvent(
+  new CustomEvent('bracegirdle:complaints:advance', 
+    { 
+      detail: { 
+        date: '<%= @complaint.disposition_date %>',
+        disposition: '<%= j @complaint.disposition %>',
+        method: 'closureRecommended'
+      }
+    }
+  )
+)

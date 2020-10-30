@@ -1,0 +1,114 @@
+<div
+  id="cemetery_inspection-cemetery-information"
+  class="pd-t-10-force tracker-step"
+  data-step="1"
+  data-target="tracker.step"
+>
+  <label class="section-title">Cemetery Information</label>
+  <div class="form-layout">
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.hidden_field :identifier %>
+        <%= f.select :county,
+          options_for_select(COUNTIES.invert, @cemetery.county), 
+          { prompt: 'Select county', required: true },
+          { disabled: true }
+        %>
+      </div>
+      <div class="col-md-5">
+        <%= f.select :cemetery,
+          grouped_options_for_select(cemetery_options, @cemetery.cemid), 
+          { prompt: 'Select cemetery', required: true }, 
+          { disabled: true }
+        %>
+      </div>
+      <div class="col-md-3">
+        <%= f.date_field :date_performed,
+          label: 'Date',
+          required: true
+        %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group required">
+          <%= f.label :trustee_id, 'Interviewee' %>
+          <div class="input-group">
+            <div class="row wd-100p no-gutters">
+              <div class="col-md-10">
+                <%= select :cemetery_inspection,
+                  :trustee_id,
+                  options_from_collection_for_select(@cemetery.trustees, :id, :as_option, @inspection.trustee_id),
+                  { prompt: 'Select trustee' },
+                  { class: 'form-control choices-basic' }
+                %>
+              </div>
+              <div class="col-md-2 text-md-right">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                >Add New Trustee</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.text_field :mailing_street_address,
+          label: 'Address',
+          required: true
+        %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.text_field :mailing_city, label: 'City', required: true %>
+      </div>
+      <div class="col-md-2">
+        <%= f.select :mailing_state,
+          options_for_select(STATES, @inspection.mailing_state),
+          { label: 'State', required: true }
+        %>
+      </div>
+      <div class="col-md-4">
+        <%= f.text_field :mailing_zip, label: 'ZIP Code', required: true %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.phone_field :cemetery_phone, label: 'Phone Number' %>
+      </div>
+      <div class="col-md-6">
+        <%= f.email_field :cemetery_email, label: "Email Address" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.text_area :cemetery_location,
+          label: 'Location of Cemetery',
+          required: true,
+          rows: 3
+        %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.text_field :cemetery_sign_text, 
+          maxlength: 120, 
+          label: 'Cemetery Sign',
+          required: true,
+          value: @inspection.cemetery_sign_text.presence || 'N/A'
+        %>
+      </div>
+    </div>
+    <div class="mg-t-20 text-right">
+      <button 
+        type="button"
+        class="btn btn-primary"
+        data-action="tracker#nextStep"
+      >Next</button>
+    </div>
+  </div>
+</div>

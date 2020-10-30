@@ -1,0 +1,31 @@
+<% content_for :title, 'Search Results' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Search results']) %>
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="search-results-data-table"
+      class="table table-striped"
+      data-empty-message="There are no results to display."
+    >
+      <thead>
+        <tr>
+          <th class="wd-40p" scope="col">Cemetery</th>
+          <th class="wd-20p" scope="col">Cemetery ID</th>
+          <th scope="col">County</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cemeteries.each do |cemetery| %>
+          <tr>
+            <td>
+              <span class="d-none"><%= cemetery.cemid %></span>
+              <%= link_to cemetery.name, cemetery_path(cemetery) %>
+            </td>
+            <td><%= cemetery.formatted_cemid %></td>
+            <td><%= cemetery.county_name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

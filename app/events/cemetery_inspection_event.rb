@@ -1,6 +1,9 @@
 class CemeteryInspectionEvent < Event
   class Type
+    CEMETERY_INSPECTION_BEGUN = 'begun'
     CEMETERY_INSPECTION_COMPLETED = 'completed'
+    CEMETERY_INSPECTION_STATUS_CHANGED = 'status_changed'
+    CEMETERY_INSPECTION_UPLOADED = 'uploaded'
   end
 
   attr_accessor :inspection, :user

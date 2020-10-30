@@ -1,3 +1,0 @@
-- content_for :title, "Cemeteries with Overdue Inspections#{ params.key?(:region) ? " for #{NAMED_REGIONS[REGIONS_BY_KEY[params[:region].to_sym]]} Region" : ''}"
-- content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], 'Overdue inspections'])
-= render 'cemeteries_list'

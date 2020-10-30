@@ -1,0 +1,228 @@
+<div
+  id="cemetery_inspection-physical-characteristics"
+  class="pd-t-10-force tracker-step"
+  data-step="2"
+  data-target="tracker.step"
+>
+  <label class="section-title">Physical Characteristics</label>
+  <div class="form-layout questionnaire">
+    <%= f.question_field :sign, label: '201.7 sign posted' %>
+    <%= f.question_field :offices, label: 'Administrative offices' %>
+    <%= f.question_field :rules_displayed, label: 'Rules and regulations conspicuously displayed' %>
+    <%= f.question_field :prices_displayed, label: 'Service charges and lot prices conspicuously displayed' %>
+    <%= f.question_field :scattering_gardens, label: 'Scattering gardens' %>
+    <%= f.question_field :community_mausoleum, label: 'Community mausoleum', comments_label: 'Condition', default: 'N/A' %>
+    <%= f.question_field :private_mausoleum, label: 'Private mausoleum', comments_label: 'Condition', default: 'N/A' %>
+    <%= f.question_field :lawn_crypts, label: 'Lawn crypts', comments_label: 'Method of approval', default: 'N/A' %>
+    <%= f.question_field :grave_liners, label: 'Grave liners', comments_label: 'Number stored', default: 'N/A' %>
+    <%= f.question_field :sale_of_monuments, label: 'Evidence of display or sale of monuments' %>
+    <%= f.question_field :fencing, label: 'Fencing', comments_label: 'Describe', default: 'N/A' %>
+    <%= f.question_field :winter_burials, 
+      label: 'Are winter burials reasonable?', 
+      comments_label: 'Impediment', 
+      default: 'N/A' 
+    %>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :main_road, label: 'Main road', rows: 3 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :side_roads, label: 'Side roads', rows: 3 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="form-group">
+        <p>Directional signs required</p>
+        <label class="rdiobox">
+          <%= f.radio_button :directional_signs_required, true %>
+          <span>Yes</span>
+        </label>
+        <label class="rdiobox">
+          <%= f.radio_button :directional_signs_required,
+            false,
+            checked: !@inspection.directional_signs_required
+          %>
+          <span>No</span>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <p>Directional signs present</p>
+        <label class="rdiobox">
+          <%= f.radio_button :directional_signs_present, true %>
+          <span>Yes</span>
+        </label>
+        <label class="rdiobox">
+          <%= f.radio_button :directional_signs_present,
+            false,
+            checked: !@inspection.directional_signs_present
+          %>
+          <span>No</span>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <%= f.text_area :directional_signs_comments,
+        label: 'Comments',
+        rows: 3,
+        value: @inspection.directional_signs_comments || 'N/A'
+      %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :new_memorials, label: 'Condition of new memorials', rows: 3 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :old_memorials, label: 'Condition of old memorials', rows: 3 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :vandalism,
+        label: 'Evidence of vandalism',
+        rows: 3,
+        value: @inspection.vandalism || 'None noted.'
+      %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="form-group">
+        <p>Receiving vault</p>
+        <label class="rdiobox">
+          <%= f.radio_button :receiving_vault_exists, 
+            true,
+            data: {
+              action: 'cemetery-inspections--perform#receivingVaultExistence',
+              target: 'cemetery-inspections--perform.receivingVaultExists' 
+            }
+          %>
+          <span>Yes</span>
+        </label>
+        <label class="rdiobox">
+          <%= f.radio_button :receiving_vault_exists,
+            false,
+            checked: !@inspection.receiving_vault_exists,
+            data: { 
+              action: 'cemetery-inspections--perform#receivingVaultExistence',
+              target: 'cemetery-inspections--perform.receivingVaultExists' 
+            }
+          %>
+          <span>No</span>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <p>Receiving vault inspected</p>
+        <label class="rdiobox">
+          <%= f.radio_button :receiving_vault_inspected,
+            true,
+            data: {
+              action: 'cemetery-inspections--perform#receivingVaultInspection',
+              target: 'cemetery-inspections--perform.receivingVaultInspected' 
+            },
+            disabled: !@inspection.receiving_vault_exists
+          %>
+          <span>Yes</span>
+        </label>
+        <label class="rdiobox">
+          <%= f.radio_button :receiving_vault_inspected,
+            false,
+            checked: !@inspection.receiving_vault_inspected,
+            data: {
+              action: 'cemetery-inspections--perform#receivingVaultInspection',
+              target: 'cemetery-inspections--perform.receivingVaultInspected'
+            },
+            disabled: !@inspection.receiving_vault_exists
+          %>
+          <span>No</span>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :receiving_vault_bodies,
+            label: 'Number of bodies stored',
+            data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+            disabled: !@inspection.receiving_vault_inspected
+          %>
+        </div>
+        <div class="col-md-6">
+          <%= f.text_field :receiving_vault_capacity,
+            label: 'Capacity',
+            data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+            disabled: !@inspection.receiving_vault_inspected
+          %>
+        </div>
+      </div>
+      <div class="form-group mg-t-10">
+        <%= f.check_box :receiving_vault_clean,
+          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          disabled: !@inspection.receiving_vault_inspected 
+        %>
+        <span class="pd-l-10">Clean, dry, free of vermin and rodents</span>
+      </div>
+      <div class="form-group">
+        <%= f.check_box :receiving_vault_obscured,
+          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          disabled: !@inspection.receiving_vault_inspected 
+        %>
+        <span class="pd-l-10">Obscured from public view</span>
+      </div>
+      <div class="form-group">
+        <%= f.check_box :receiving_vault_exclusive,
+          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          disabled: !@inspection.receiving_vault_inspected 
+        %>
+        <span class="pd-l-10">Used exclusively for human remains</span>
+      </div>
+      <div class="form-group">
+        <%= f.check_box :receiving_vault_secured,
+          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          disabled: !@inspection.receiving_vault_inspected 
+        %>
+        <span class="pd-l-10">Secured when unattended</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :overall_conditions, rows: 3 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= f.text_area :renovations,
+        label: 'Signs of major renovations',
+        rows: 3,
+        value: @inspection.renovations || 'None noted.'
+      %>
+    </div>
+  </div>
+  <div class="row mg-t-20">
+    <div class="col-md-6">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-action="tracker#previousStep"
+      >Previous</button>
+    </div>
+    <div class="col-md-6 text-right">
+      <button 
+        type="button"
+        class="btn btn-primary"
+        data-action="tracker#nextStep"
+      >Next</button>
+    </div>
+  </div>
+</div>

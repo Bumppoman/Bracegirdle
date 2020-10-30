@@ -1,0 +1,45 @@
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="notices-data-table"
+      class="table display responsive no-wrap"
+      data-empty-message="There are no notices to display."
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Cemetery</th>
+          <th>Date Issued</th>
+          <th>Response Required</th>
+          <th>Response Received</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @notices.each do |notice| %>
+          <tr>
+            <td><%= link_to "#{ notice.notice_number }", notice %></td>
+            <td><%= notice.cemetery.formatted_name %></td>
+            <td>
+              <span class="d-none"><%= sort_date(notice.created_at) %></span>
+              <%= notice.created_at %>
+            </td>
+            <td>
+              <span class="d-none"><%= sort_date(notice.response_required_date) %></span>
+              <%= notice.response_required_date %>
+            </td>
+            <td>
+              <span class="d-none"><%= sort_date(notice.response_received_date) %></span>
+              <%= notice.response_received_date || 'None received' %>
+            </td>
+            <td>
+              <span class="d-none"><%= Notice.statuses[notice.status] %></span>
+              <%= notice.formatted_status %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+

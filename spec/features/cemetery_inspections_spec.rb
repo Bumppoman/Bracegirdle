@@ -12,7 +12,8 @@ feature 'Cemetery Inspections' do
         to_return(status: 200, body: {}.to_json, headers: {})
 
     @cemetery = FactoryBot.create(:cemetery)
-    @cemetery.locations << Location.new(latitude: 42.6547541, longitude: -73.7592342)
+    @cemetery.cemetery_locations << CemeteryLocation.new(latitude: 42.6547541, longitude: -73.7592342)
+    @trustee = FactoryBot.create(:trustee)
   end
 
   scenario 'Investigator begins inspection', js: true do
@@ -20,23 +21,37 @@ feature 'Cemetery Inspections' do
     visit inspections_cemetery_path(@cemetery)
 
     click_on 'Begin inspection'
-    within('#confirm-begin-inspection') do
-      click_on 'Begin inspection'
+    within('#bracegirdle-confirmation-modal') do
+      click_on 'Begin Inspection'
     end
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'Chester Butkiewicz'
   end
+  
+  scenario 'Beginning an inspection when one has already been started does not create another one', js: true do
+    @inspection = FactoryBot.create(:cemetery_inspection)
+    login
+    visit inspections_cemetery_path(@cemetery)
 
-  scenario 'Investigator uploads old inspection', js: true do
+    click_on 'Begin inspection'
+    
+    expect {
+      within('#bracegirdle-confirmation-modal') do
+        click_button 'Begin Inspection'
+      end
+    }.not_to change { CemeteryInspection.count }
+  end
+
+  scenario 'Investigator uploads legacy inspection', js: true do
     login
 
     visit inspections_cemetery_path(@cemetery)
     click_on 'Upload inspection'
     attach_file 'cemetery_inspection_inspection_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Performed By'
+    choices 'Chester Butkiewicz', from: 'Performed By'
     fill_in 'Date Performed', with: '5/6/2015'
-    click_on 'Submit'
+    click_button 'Upload Inspection'
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'May 6, 2015'
@@ -47,9 +62,10 @@ feature 'Cemetery Inspections' do
 
     visit inspections_cemetery_path(@cemetery)
     click_on 'Upload inspection'
-    attach_file 'cemetery_inspection_inspection_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Performed By'
-    click_on 'Submit'
+    #attach_file 'cemetery_inspection_inspection_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    choices 'Chester Butkiewicz', from: 'Performed By'
+    fill_in 'Date Performed', with: '5/6/2015'
+    click_on 'Upload Inspection'
 
     expect(page).to have_content 'There was a problem'
   end
@@ -60,11 +76,14 @@ feature 'Cemetery Inspections' do
     @inspection = FactoryBot.create(:cemetery_inspection)
 
     visit inspect_cemetery_path(@cemetery)
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Complete Inspection'
-    assert_selector '#show-inspection'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Complete Inspection'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Complete Inspection'
+    end
+    assert_selector '#cemetery_inspection-detail'
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'Performed'
@@ -76,19 +95,21 @@ feature 'Cemetery Inspections' do
     @inspection = FactoryBot.create(:cemetery_inspection)
 
     visit inspect_cemetery_path(@cemetery)
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Next'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Complete Inspection'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Complete Inspection'
+    end
+    assert_selector '#cemetery_inspection-detail'
     attach_file 'attachment_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'attachment[description]', with: 'Adding an attachment to this inspection'
     click_on 'Upload'
-    assert_selector '#attachment-1'
-    click_on 'Complete Inspection'
-    assert_selector '#show-inspection'
 
     expect(page).to have_content 'Adding an attachment to this inspection'
   end
-
+=begin
   scenario 'Investigator creates new trustee during inspection', js: true do
     login
     @inspection = FactoryBot.create(:cemetery_inspection)
@@ -109,22 +130,29 @@ feature 'Cemetery Inspections' do
 
     expect(page).to have_content 'Mark Smith'
   end
-
+=end
   scenario 'Investigator can finalize inspection', js: true do
     login
     @inspection = FactoryBot.create(:cemetery_inspection)
 
     visit inspect_cemetery_path(@cemetery)
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Complete Inspection'
-    assert_selector '#show-inspection'
-    click_on 'Mail inspection'
-    assert_selector '#cemetery-inspection-download-package'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Complete Inspection'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Complete Inspection'
+    end
+    assert_selector '#cemetery_inspection-detail'
+    click_button 'Finalize inspection'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Finalize Inspection'
+      sleep(10)
+    end
+    assert_selector '#cemetery_inspection-download-package-modal'
     visit inspections_cemetery_path(@cemetery)
 
-    expect(page).to have_content 'Complete'
+    expect(page).to have_content 'Completed'
   end
 
   scenario 'Investigator can revise inspection', js: true do
@@ -132,13 +160,19 @@ feature 'Cemetery Inspections' do
     login
 
     visit inspect_cemetery_path(@cemetery)
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Next'
-    click_on 'Complete Inspection'
-    assert_selector '#show-inspection'
-    click_on 'Revise inspection'
-    assert_selector '#perform-inspection'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Next'
+    click_button 'Complete Inspection'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Complete Inspection'
+    end
+    assert_selector '#cemetery_inspection-detail'
+    click_button 'Revise inspection'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Revise Inspection'
+    end
+    assert_selector '#cemetery_inspection-perform'
     visit inspections_cemetery_path(@cemetery)
 
     expect(page).to have_content 'In progress'

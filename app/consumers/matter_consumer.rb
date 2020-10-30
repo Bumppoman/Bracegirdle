@@ -1,10 +1,10 @@
 class MatterConsumer < Consumer
   def call
     # Determine if the matter already exists
-    unless matter = Matter.find_by(application: payload[:object])
+    unless matter = Matter.find_by(board_application: payload[:object])
       # Create the matter
       matter = Matter.create(
-        application: payload[:object]
+        board_application: payload[:object]
       )
     end
 

@@ -1,0 +1,20 @@
+<div 
+  id="notice-issued" 
+  class="tracker-step"
+  data-step="1"
+  data-target="tracker.step"
+>
+  <label class="section-label">Notice Issued</label>
+  <p class="mb-0">Notice issued on <%= @notice.created_at %>.</p>
+  <p class="mg-b-20">
+    <span>Response required on or before <strong><%= @notice.response_required_date %></strong></span>
+    <span> (<%= @notice.response_required_status %>).</span>
+  </p>
+  <% if policy(@notice).receive_response? %>
+    <%= button_with_confirmation_modal 'Response Received',
+      form_action: receive_response_notice_path,
+      text: 'Are you sure you want to update this notice?',
+      title: 'Response Received'
+    %>
+  <% end %>
+</div>

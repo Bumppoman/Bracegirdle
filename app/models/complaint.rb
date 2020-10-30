@@ -9,7 +9,7 @@ class Complaint < ApplicationRecord
 
   alias_attribute :user, :investigator
 
-  belongs_to :cemetery, optional: true
+  belongs_to :cemetery, optional: true, foreign_key: :cemetery_cemid
   belongs_to :closed_by, class_name: 'User', foreign_key: :closed_by_id, optional: true
   belongs_to :investigator, class_name: 'User', foreign_key: :investigator_id, optional: true
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
@@ -78,12 +78,12 @@ class Complaint < ApplicationRecord
   end
 
   def cemetery_contact
-    if person_contacted
+    if person_contacted.blank?
+      'No cemetery contact information provided'
+    else
       string = person_contacted
       (string << ' (by ' << manner_of_contact.split(', ').map { |manner| NAMED_MANNERS_OF_CONTACT[manner.to_i].downcase }.join(', ') << ')') if manner_of_contact
       string
-    else
-      'No cemetery contact information provided'
     end
   end
 
@@ -96,7 +96,11 @@ class Complaint < ApplicationRecord
   end
 
   def concern_text
-    ['complaint',  "##{complaint_number}", "against #{cemetery&.name || cemetery_alternate_name}"]
+    ['complaint',  "##{complaint_number}", "against #{formatted_cemetery}"]
+  end
+  
+  def current_step
+    self.class.statuses[status]
   end
 
   def disposition_date
@@ -114,16 +118,24 @@ class Complaint < ApplicationRecord
       cemetery.name
     end
   end
+  
+  def formatted_cemetery_name
+    if cemetery_alternate_name.present?
+      cemetery_alternate_name
+    else
+      "#{cemetery.name} (#{cemetery.formatted_cemid})"
+    end
+  end
 
   def formatted_ownership_type
     ownership_type&.capitalize
   end
 
-  def investigation_begin_date
+  def investigation_begun_date
     status_changes.where(status: self.class.statuses[:investigation_begun]).last&.created_at&.to_date
   end
 
-  def investigation_completion_date
+  def investigation_completed_date
     status_changes.where(status: self.class.statuses[:investigation_completed]).last&.created_at&.to_date
   end
 

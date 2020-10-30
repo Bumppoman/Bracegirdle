@@ -9,7 +9,7 @@ class Reports::HazardousReportPDF < Reports::ReportPDF
     intro = "\nI received an application (Exhibit A) for the repair of #{@params[:restoration].monuments} hazardous monuments \
 located in the #{@params[:cemetery].name} of the #{'town'.pluralize(@params[:cemetery].towns.count)} of \
 #{@params[:cemetery].towns.to_sentence}, #{@params[:cemetery].county_name} County.  The application was submitted by \
-#{@params[:restoration].trustee_name}, #{Trustee::POSITIONS[@params[:restoration].trustee_position].downcase} of the #{@params[:cemetery].name}.  \
+#{@params[:restoration].trustee.name}, #{@params[:restoration].trustee.position_name.downcase} of the #{@params[:cemetery].name}.  \
 Included with this application were #{@params[:restoration].estimates.length.to_words} \
 #{'estimate'.pluralize(@params[:restoration].estimates.length)}:  "
     letters = ('B'..'Z').to_a

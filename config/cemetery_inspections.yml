@@ -217,3 +217,17 @@ cemetery_inspections:
         addition shall be effective unless and until an order approving such amendments or additions is made by the cemetery board
         and filed in its office in the same manner as that applicable to the original filing of the rules, regulations and charges
         of the cemetery corporation.
+  directional_signs:
+    conditions:
+      directional_signs_required: true
+      directional_signs_present: false
+    report_text: 'The cemetery must post appropriate directional signs.'
+    law_section:
+      title: '19 NYCRR § 201.9 Maintenance of maps and directional signs'
+      body: >
+        (c) Every cemetery shall maintain appropriate identifying and directional signs at each and every intersection of the
+        roads, avenues, paths, alleys and walks in the cemetery; said signs shall be made of weatherproof material and
+        unobstructed, clear and legible. Where a cemetery has denominated subdivisions or sections by name, letter or other
+        convenient identification, the boundaries of each said section or subdivision shall be likewise so identified. This
+        subdivision shall not apply to cemeteries at which a full view of the whole area of its developed grounds is within sight
+        of the main entrance.

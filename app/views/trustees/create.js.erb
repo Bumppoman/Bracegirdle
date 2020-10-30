@@ -1,11 +1,7 @@
-$('#trustee-form').modal('hide');
-const table = $('#trustees-data-table').DataTable();
-table.row.add([
-    "<%=  @trustee.name %>",
-    "<%=  @trustee.position_name %>",
-    "<%=  @trustee.full_address.presence || '---' %>",
-    "<%=  @trustee.phone.presence || '---' %>",
-    "<%=  @trustee.email.presence || '---' %>",
-    '<a href="#" class="edit-trustee" data-cemetery="<%= @trustee.cemetery.id %>" data-trustee="<%= @trustee.id %>" onclick="window.edit_trustee(event);"><i class="fa fa-edit"></i></a>'
-]).node().id = 'trustee-<%= @trustee.id %>';
-table.draw();
+document.getElementById('trustees-list').dispatchEvent(
+  new CustomEvent('bracegirdle:trustees:trusteeAdded', 
+    { 
+      detail: <%= raw @response %>
+    }
+  )
+);

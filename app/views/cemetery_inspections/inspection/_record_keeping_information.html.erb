@@ -1,0 +1,58 @@
+<div
+  id="cemetery_inspection-record-keeping"
+  class="pd-t-10-force tracker-step"
+  data-step="3"
+  data-target="tracker.step"
+>
+  <label class="section-title">Record Keeping</label>
+  <div class="form-layout questionnaire">
+    <%= f.question_field :annual_meetings,
+      label: 'Annual meetings held and advertised',
+      comments_label: 'Newspaper',
+      default: 'Unknown'
+    %>
+    <%= f.question_field :election,
+      label: 'Election held',
+      comments_label: 'Number of trustees',
+      comments_field_name: :number_of_trustees,
+      default: @inspection.cemetery.trustees.count || 'Unknown'
+    %>
+    <%= f.question_field :burial_permits, label: 'Burial permits filed within 7 days' %>
+    <%= f.question_field :body_delivery_receipt, label: 'Body delivery receipt issued' %>
+    <%= f.question_field :deeds_signed, label: 'Deeds signed by president and treasurer' %>
+    <%= f.question_field :burial_records,
+      label: 'Burial book and map kept up to date',
+      comments_label: 'Location',
+      default: 'Unknown'
+    %>
+    <%= f.question_field :rules_provided, label: 'Rules and regulations provided with deed' %>
+    <%= f.question_field :rules_approved,
+      label: 'Rules and regulations approved by Division',
+      comments_label: 'Last approved',
+      default: @inspection.rules_approved_comments || @inspection.cemetery.current_rules&.approval_date || 'Unknown'
+    %>
+    <%= f.question_field :employees, label: 'Maintenance performed by employees' %>
+    <%= f.question_field :trustees_compensated,
+      label: 'Trustees compensated',
+      comments_label: 'Positions and amount',
+      default: 'N/A'
+    %>
+    <%= f.question_field :pet_burials, label: 'Pet burials allowed' %>
+  </div>
+  <div class="row mg-t-20">
+    <div class="col-md-6">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-action="tracker#previousStep"
+      >Previous</button>
+    </div>
+    <div class="col-md-6 text-right">
+      <button 
+        type="button"
+        class="btn btn-primary"
+        data-action="tracker#nextStep"
+      >Next</button>
+    </div>
+  </div>
+</div>

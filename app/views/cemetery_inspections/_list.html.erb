@@ -1,0 +1,90 @@
+<section class="section-wrapper">
+  <div data-controller="datatable">
+    <table
+      id="cemetery_inspection-data-table"
+      class="table display responsive no-wrap"
+      data-empty-message="There are no inspections to display."
+    >
+      <thead>
+        <tr>
+          <th scope="col" data-type="date" data-format="MMMM D, YYYY">Date</th>
+          <th scope="col">Investigator</th>
+          <th scope="col">Score</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cemetery.cemetery_inspections.order(date_performed: :desc).each do |inspection| %>
+          <tr>
+            <td><%= cemetery_inspection_link inspection %></td>
+            <td><%= inspection.investigator&.name || 'Unknown' %></td>
+            <td><%= inspection.score %></td>
+            <td><%= inspection.named_status %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if current_user.investigator? %>
+    <div class="mg-t-20">
+      <ul class="nav nav-gray-600 nav-underline justify-content-center">
+        <li class="nav-item pr-1">
+          <button 
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#schedule-inspection-modal"
+          >Schedule inspection</button>
+        </li>
+        <li class="nav-item pl-1 pr-1">
+          <%= button_with_confirmation_modal 'Begin inspection',
+            form_action: begin_inspection_cemetery_path,
+            form_method: :post,
+            text: 'Are you sure you want to begin inspecting this cemetery?',
+            title: 'Begin Inspection'
+          %>
+        </li>
+        <li class="nav-item pl-1">
+          <%= link_to 'Upload inspection', upload_inspection_cemetery_path(@cemetery), class: 'btn btn-primary' %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+</section>
+<%= form_with model: Appointment, 
+  url: appointments_path,
+  builder: BracegirdleFormBuilder do |f| 
+%>
+  <div id="schedule-inspection-modal" class="modal fade">
+    <div class="modal-dialog wd-30p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Schedule Inspection</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <p>
+            Choose a date for this inspection
+            <br />
+            <br />
+            <div class="row">
+              <div class="col">
+                <%= f.hidden_field :cemetery, value: @cemetery.cemid %>
+                <%= f.date_field :date, required: true, value: Date.current.iso8601 %>
+              </div>
+              <div class="col">
+                <%= f.time_field :time, required: true, step: 900, value: '12:00' %>
+              </div>
+            </div>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Schedule inspection</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

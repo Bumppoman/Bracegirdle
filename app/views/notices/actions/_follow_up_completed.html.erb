@@ -1,0 +1,18 @@
+<div 
+  id="notice-follow_up_completed" 
+  class="tracker-step"
+  data-step="3"
+  data-target="tracker.step"
+>
+  <label class="section-label">Follow-Up Completed</label>
+  <p>Follow-up inspection completed on
+    <span data-target="notices--show.followUpCompletedDate"><%= @notice.follow_up_completed_date %></span>.
+  </p>
+  <% if policy(@notice).resolve? %>
+    <%= button_with_confirmation_modal 'Resolve',
+      form_action: resolve_notice_path,
+      text: 'Are you sure you want to resolve this notice?',
+      title: 'Resolve'
+    %>
+  <% end %>
+</div>

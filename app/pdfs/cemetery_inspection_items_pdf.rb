@@ -17,9 +17,18 @@ class CemeteryInspectionItemsPDF < BasicPDF
     move_down 20
 
     item_number = 1
-    items = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections'].select {|k,v| v.has_key? 'law_section' }
+    items = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections'].select do |k, v| 
+      v.has_key? 'law_section'
+    end
+    
     items.each do |item, values|
-      next if @params[:inspection].send(item)
+      if values['conditions']
+        values['conditions'].each do |condition, value|
+          next unless !@params[:inspection].send(condition).nil? && @params[:inspection].send(condition) == value
+        end
+      else
+        next if @params[:inspection].send(item)
+      end
 
       start_new_page unless item_number == 1
       text "#{item_number}) #{values['report_text']}"

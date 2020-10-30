@@ -1,0 +1,110 @@
+<% content_for :title, 'Issue New Notice of Non-Compliance' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Issue new Notice of Non-Compliance']) %>
+<section class="section-wrapper" data-controller="notices--new">
+  <%= form_for @notice, builder: BracegirdleFormBuilder do |f| %>
+    <div class="form-layout">
+      <div 
+        data-controller="trustees--select-for-cemetery"
+        data-target="notices--new.trusteesSelectForCemetery"
+      >
+        <%= content_tag(
+            :div, 
+            'There was a problem saving this Notice of Non-Compliance!', 
+            class: 'alert alert-danger', 
+            role: 'alert'
+          ) if @notice.errors.any? 
+        %>
+        <label class="section-title">Cemetery Information</label>
+        <%= render partial: 'application/cemetery_with_county_form_part', 
+          locals: {
+            action: 'addItem->trustees--select-for-cemetery#loadTrustees',
+            f: f, 
+            object: @notice, 
+            target: 'trustees--select-for-cemetery.cemetery'
+          } 
+        %>
+        <div class="row">
+          <div class="col">
+            <div class="form-group required">
+              <%= f.label :trustee, 'Served On' %>
+              <div class="input-group">
+                <div class="row wd-100p no-gutters">
+                  <div class="col-md-10">
+                    <%= select :notice,
+                      :trustee,
+                      {},
+                      { prompt: 'Select trustee' },
+                      { 
+                        class: 'form-control', 
+                        disabled: true,
+                        data: {
+                          action: 'notices--new#loadServedOnInformation',
+                          target: 'notices--new.trustee trustees--select-for-cemetery.trustee' 
+                        }
+                      }
+                    %>
+                  </div>
+                  <div class="col-md-2 text-md-right">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                    >Add New Trustee</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :served_on_street_address, label: 'Address', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :served_on_city, label: 'City', required: true %>
+        </div>
+        <div class="col-md-2">
+          <%= f.select :served_on_state, 
+            options_for_select(STATES, @notice.served_on_state),  
+            { label: 'State', required: true }
+          %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :served_on_zip, label: 'ZIP Code', required: true %>
+        </div>
+      </div>
+    </section>
+    <section class="section-wrapper mg-t-10">
+      <label class="section-title">Violation Information</label>
+      <div class="row">
+        <div class="col">
+          <%= f.text_area :law_sections, label: 'Law Sections', required: true, rows: 10 %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_area :specific_information, label: 'Specific Information', required: true, rows: 10 %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.date_field :violation_date,
+            label: 'Violation Date',
+            required: true
+          %>
+        </div>
+        <div class="col-md-6">
+          <%= f.date_field :response_required_date,
+            label: 'Response Required',
+            required: true
+          %>
+        </div>
+      </div>
+      <div class="form-layout-footer mg-t-20">
+        <button type="submit" class="btn btn-primary">Issue Notice</button>
+      </div>
+    </div>
+  <% end %>
+</section>

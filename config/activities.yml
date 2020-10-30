@@ -2,102 +2,106 @@ activities:
   complaint:
     color: 'danger'
     added:
-      icon: 'icon ion-ios-add-circle'
+      icon: 'add_circle'
       text: 'received a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Received new complaint'
+    assigned:
+      icon: 'assignment'
+      text: 'assigned a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
+      title: 'Assigned complaint'
     closed:
-      icon: 'fas fa-door-closed'
+      icon: 'assignment_turned_in'
       text: 'closed a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Closed complaint'
     closure_recommended:
-      icon: 'fas fa-door-closed'
+      icon: 'assignment_turned_in'
       text: 'recommended closure of a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Recommended complaint be closed'
     investigation_begun:
-      icon: 'fas fa-hourglass-start'
+      icon: 'hourglass_full'
       text: 'began investigating a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Began investigating a complaint'
     investigation_completed:
-      icon: 'fas fa-hourglass-end'
+      icon: 'hourglass_empty'
       text: 'finished investigating a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Finished investigating a complaint'
     reassigned:
-      icon: 'fas fa-exchange-alt'
+      icon: 'assignment'
       text: 'reassigned a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Reassigned complaint'
     update_requested:
-      icon: 'fas fa-question'
+      icon: 'help_center'
       text: 'requested an update on a <%= link_to "complaint", activity.object %> against <%= activity.object.cemetery&.name || activity.object.cemetery_alternate_name %>'
       title: 'Requested update on complaint'
   cemeteryinspection:
     color: 'primary'
     completed:
-      icon: 'icon ion-ios-flashlight'
+      icon: 'highlight'
       text: 'completed an <%= link_to "inspection", show_inspection_cemetery_path(activity.object.cemetery, activity.object) %> of <%= activity.object.cemetery.name %>'
-      title: 'Completed an inspection'
+      title: 'Completed inspection'
   land:
     color: 'indigo'
     received:
-      icon: 'fas fa-satellite-dish'
-      text: 'received a <%= link_to("land #{activity.object.application_type} application", applications_land_path(activity.object.id, application_type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
+      icon: 'call_received'
+      text: 'received a <%= link_to("land #{activity.object.application_type} application", board_applications_land_path(activity.object.id, application_type: activity.object.application_type)) %> for <%= activity.object.cemetery.name %>'
       title: 'Received land application'
   note:
     color: 'orange'
     comment:
-      icon: 'fas fa-comment'
+      icon: 'comment'
       text: 'commented on <%= note_link(activity.object) %>'
       title: 'Added a note'
   notice:
     color: 'danger'
     follow_up:
-      icon: 'icon ion-ios-flashlight'
+      icon: 'highlight'
       text: 'completed a follow-up inspection regarding Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> against <%= activity.object.cemetery.name %>'
       title: 'Followed up on notice'
     issued:
-      icon: 'icon ion-ios-mail'
+      icon: 'mail'
       text: 'issued Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> to <%= activity.object.cemetery.name %>'
       title: 'Issued notice'
     resolved:
-      icon: 'icon ion-ios-thumbs-up'
+      icon: 'thumb_up'
       text: 'resolved Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> against <%= activity.object.cemetery.name %>'
       title: 'Resolved notice'
     response:
-      icon: 'icon ion-ios-mail-open'
+      icon: 'drafts'
       text: 'received a response to Notice of Non-Compliance <%= link_to "##{activity.object.notice_number}", activity.object %> from <%= activity.object.cemetery.name %>'
       title: 'Received response to notice'
-  rules:
+  rulesapproval:
     color: 'teal'
     approved:
-      icon: 'icon ion-ios-thumbs-up'
-      text: 'approved <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
+      icon: 'thumb_up'
+      text: 'approved <%= link_to "rules", rules_by_date_cemetery_path(cemid: activity.object.cemetery_cemid, date: activity.object.approved_rules.approval_date.iso8601) %> for <%= activity.object.cemetery.name %>'
       title: 'Approved rules'
     assigned:
-      icon: 'fas fa-user-plus'
-      text: 'assigned <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %> to <%= activity.object.investigator.name %>'
+      icon: 'person_add'
+      text: 'assigned <%= link_to "rules", rules_approval_path(activity.object) %> for <%= activity.object.cemetery.name %> to <%= activity.object.investigator.name %>'
       title: 'Assigned rules'
     revision_received:
-      icon: 'fas fa-envelope-open'
-      text: 'received a revision to <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
+      icon: 'move_to_inbox'
+      text: 'received a revision to <%= link_to "rules", rules_approval_path(activity.object) %> for <%= activity.object.cemetery.name %>'
       title: 'Received rules revision'
     revision_requested:
-      icon: 'fas fa-user-edit'
-      text: 'requested a revision to <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
+      icon: 'edit'
+      text: 'requested a revision to <%= link_to "rules", rules_approval_path(activity.object) %> for <%= activity.object.cemetery.name %>'
       title: 'Requested rules revision'
     uploaded:
-      icon: 'icon ion-ios-cloud-upload'
-      text: 'uploaded new <%= link_to "rules", rules_link(activity.object) %> for <%= activity.object.cemetery.name %>'
+      icon: 'cloud_upload'
+      text: 'uploaded new <%= link_to "rules", rules_approval_path(activity.object) %> submitted for approval by <%= activity.object.cemetery.name %>'
       title: 'Uploaded new rules'
   restoration:
     color: 'indigo'
-    processed:
-      icon: 'icon ion-ios-clipboard'
-      text: 'processed a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
-      title: 'Processed restoration application'
+    evaluated:
+      icon: 'assignment'
+      text: 'evaluated a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      title: 'Evaluated restoration application'
     received:
-      icon: 'fas fa-satellite-dish'
-      text: 'received a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      icon: 'call_received'
+      text: 'received a <%= link_to("restoration application", send(board_application_path(activity.object), activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Received restoration application'
     reviewed:
-      icon: 'fas fa-glasses'
-      text: 'reviewed a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      icon: 'grading'
+      text: 'reviewed a <%= link_to("restoration application", send(board_application_path(activity.object), activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Reviewed restoration application'

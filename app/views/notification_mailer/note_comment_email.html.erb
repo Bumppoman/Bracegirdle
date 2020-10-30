@@ -1,0 +1,19 @@
+<%= content_for :title, @user.name %>
+<section>
+  <h1 class="headline"><%= @subject %></h1>
+  <div class="note">
+    <div class="user-image-container">
+      <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    </div>
+    <div class="note-body">
+      <h5>
+        <strong><%= @notification.sender.name %></strong>
+        <span class="text-muted"><%= " on #{@notification.created_at}" %></span>
+      </h5>
+      <p><%= @notification.object.body %></p>
+    </div>
+  </div>
+  <div class="object-link">
+    <%= link_to "View #{@notification.object.notable.class.name.downcase}", @notification.object.notable %>
+  </div>
+</section>

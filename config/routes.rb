@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'estimates/new'
   get 'dashboard/index'
 
   # Admin
@@ -7,30 +6,48 @@ Rails.application.routes.draw do
     get 'letterhead/edit', to: 'letterhead#edit', as: :edit_letterhead
     patch 'letterhead/update', to: 'letterhead#update', as: :update_letterhead
   end
+  
+  # Appointments
+  resources :appointments do
+    collection do
+      get 'calendar', to: 'appointments#index_for_calendar', as: :calendar
+    end
 
-  # Applications
-  namespace :applications do
+    member do
+      patch :begin
+      patch :cancel
+      patch :reschedule
+    end
+  end
+
+  # Auth0
+  post 'auth/auth0', as: 'authentication'
+  get 'auth/auth0/callback', to: 'sessions#callback'
+  get 'auth/failure', to: 'sessions#failure'
+
+  # Board applications
+  namespace :board_applications do
     resources :land, path: 'land/:application_type', type: /(purchase|sale)/, only: [:create, :new, :index, :show] do
       member do
-        get 'process', to: 'land#process_application', as: :process
+        get 'evaluate', to: 'land#evaluate', as: :evaluate
       end
     end
 
     # Restoration
-    def standard_actions_for(*resources)
+    def restoration_actions_for(*resources)
       Array(resources).each do |resource|
         self.resources resource do
-          self.resources :estimates
-          self.resources :notes, module: resource
+          self.resources :estimates, module: :restorations
+          self.resources :notes, module: :restorations
 
           member do
-            patch 'finish-processing', to: "#{resource}#finish_processing", as: :finish_processing
+            patch 'make-schedulable', to: "#{resource}#make_schedulable"
             patch 'return-to-investigator', to: "#{resource}#return_to_investigator", as: :return_to_investigator
-            patch 'send-to-board', to: "#{resource}#send_to_board", as: :send_to_board
+            patch 'send-to-supervisor', to: "#{resource}#send_to_supervisor"
             patch 'upload-application', to: "#{resource}#upload_application", as: :upload_application
             patch 'upload-legal-notice', to: "#{resource}#upload_legal_notice", as: :upload_legal_notice
             patch 'upload-previous', to: "#{resource}#upload_previous", as: :upload_previous
-            get 'process', to: "#{resource}#process_restoration", as: :process
+            get 'evaluate', to: "#{resource}#evaluate", as: :evaluate
             get 'review', to: "#{resource}#review", as: :review
             get 'view-application-form', to: "#{resource}#view_application_form", as: :view_application_form
             get 'view-combined', to: "#{resource}#view_combined", as: :view_combined
@@ -44,27 +61,12 @@ Rails.application.routes.draw do
       end
     end
 
-    standard_actions_for :abandonment, :hazardous, :vandalism
-
-    get 'schedulable', to: 'applications#schedulable'
-  end
-
-  # Appointments
-  resources :appointments do
-    collection do
-      get 'api/user-events', to: 'appointments#api_user_events', as: :api_user_events
-    end
-
-    member do
-      patch :begin
-      patch :cancel
-      patch :reschedule
+    restoration_actions_for :abandonment, :hazardous, :vandalism
+    
+    namespace :restorations do
+      resources :contractors
     end
   end
-
-  # Auth0
-  get 'auth/auth0/callback', to: 'sessions#callback'
-  get 'auth/failure', to: 'sessions#failure'
 
   # Board Meetings
   resources :board_meetings do
@@ -75,42 +77,37 @@ Rails.application.routes.draw do
   end
 
   # Cemeteries
-  resources :cemeteries, param: :cemetery_id do
-    resources :trustees, except: :index do
-      member do
-        get 'api/show', to: 'trustees#api_show', as: :api_show
-      end
-    end
+  resources :cemeteries, param: :cemid do
+    resources :trustees, except: :index
 
     collection do
-      get 'county/:county', to: 'cemeteries#list_by_county', as: :county
+      get 'county/:county', to: 'cemeteries#index_by_county', as: :county
       get 'county/:county/options', to: 'cemeteries#options_for_county'
-      get 'region/:region', to: 'cemeteries#list_by_region', as: :region
+      get 'region/:region', to: 'cemeteries#index_by_region', as: :region
       get 'overdue-inspections(/region/:region)', to: 'cemeteries#overdue_inspections', as: :overdue_inspections
     end
 
     member do
       get 'complaints', to: 'cemeteries#show', defaults: { tab: :complaints }, as: :complaints
       get 'inspect', to: 'cemetery_inspections#perform', as: :inspect
-      patch 'inspect/cemetery-information', to: 'cemetery_inspections#cemetery_information', as: :cemetery_information_inspect
-      patch 'inspect/physical-characteristics', to: 'cemetery_inspections#physical_characteristics', as: :physical_characteristics_inspect
-      patch 'inspect/record-keeping', to: 'cemetery_inspections#record_keeping', as: :record_keeping_inspect
-      patch 'inspect/additional-information', to: 'cemetery_inspections#additional_information', as: :additional_information_inspect
       get 'inspection/:identifier', to: 'cemetery_inspections#show', as: :show_inspection
+      patch 'inspection/:identifier/complete', to: 'cemetery_inspections#complete', as: :complete_inspection
       patch 'inspection/:identifier/finalize', to: 'cemetery_inspections#finalize', as: :finalize_inspection
       patch 'inspection/:identifier/revise', to: 'cemetery_inspections#revise', as: :revise_inspection
+      patch 'inspection/:identifier/save', to: 'cemetery_inspections#save', as: :save_inspection
       get 'inspection/:identifier/view-full-package', to: 'cemetery_inspections#view_full_package', as: :view_full_inspection_package
       get 'inspection/:identifier/view-report', to: 'cemetery_inspections#view_report', as: :view_inspection_report
       get 'inspections', to: 'cemeteries#show', defaults: { tab: :inspections }, as: :inspections
-      post 'inspections/schedule', to: 'cemetery_inspections#schedule', as: :schedule_inspection
+      post 'inspections/begin', to: 'cemetery_inspections#begin', as: :begin_inspection
+      get 'inspections/upload', to: 'cemetery_inspections#upload', as: :upload_inspection
+      post 'inspections/upload', to: 'cemetery_inspections#create', as: :create_inspection
       get 'rules', to: 'rules#show', as: :rules
+      get 'rules/:date', to: 'rules#show_for_date', as: :rules_by_date
+      get 'trustees', to: 'trustees#index', constraints: lambda { |req| req.format == :json }, as: :trustees_list
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
-      get 'upload-inspection', to: 'cemetery_inspections#upload_old_inspection'
-      post 'upload-inspection', to: 'cemetery_inspections#create_old_inspection', as: :create_old_inspection
     end
   end
-  get 'cemetery/:id/details.json', to: 'cemeteries#show', as: :cemetery_json
-  get 'cemetery/:id/trustees/api/list', to: 'trustees#api_list', as: :trustees_api_list
+  get 'cemetery/:cemid/details.json', to: 'cemeteries#show', as: :cemetery_json
 
   # Complaints
   resources :complaints do
@@ -119,24 +116,27 @@ Rails.application.routes.draw do
 
     collection do
       get :all
-      get 'pending-closure'
-      get :unassigned
       get 'user/:user', to: 'complaints#index_by_user', as: :user
     end
 
     member do
       patch :assign
       patch 'begin-investigation'
-      patch 'change-investigator'
       patch :close
       patch 'complete-investigation'
-      get 'investigation-details', to: 'complaints#show', defaults: { tab: :investigation }
+      get 'investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :investigation
+      patch :reassign
+      patch 'recommend-closure'
       patch 'reopen-investigation'
       patch 'request-update'
     end
   end
+  
+  # Contractors
+  resources :contractors
 
   # Dashboard
+  get 'splash', to: 'dashboard#splash', as: :splash
   post 'dashboard/search', to: 'dashboard#search', as: :search
   root 'dashboard#index'
 
@@ -156,6 +156,10 @@ Rails.application.routes.draw do
 
   # Matters
   resources :matters do
+    collection do
+      get :schedulable
+    end
+    
     member do
       patch :schedule
       patch :unschedule
@@ -169,8 +173,8 @@ Rails.application.routes.draw do
     member do
       patch 'follow-up'
       get '*filename.pdf', to: 'notices#download', as: :download
+      patch 'receive-response'
       patch :resolve
-      patch 'response-received'
     end
   end
 
@@ -182,26 +186,31 @@ Rails.application.routes.draw do
   mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
 
   # Rules
-  get 'rules/upload-old-rules', as: :upload_old_rules
-  post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
-  resources :rules do
-    resources :notes, module: :rules
+  namespace :rules do
+    #get 'rules/upload-old-rules', as: :upload_old_rules
+    #post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
+    resources :approvals do
+      resources :notes, module: :approvals
+      resources :revisions do
+        patch :receive
+      end
 
-    member do
-      patch :approve
-      patch :assign
-      get '*filename.pdf', to: 'rules#download_approval', as: :download_approval
-      patch 'request-revision'
-      get :review
-      patch 'upload-revision'
+      member do
+        patch :approve
+        patch :assign
+        get '*filename.pdf', action: :download_approval_letter, as: :download_approval_letter
+        patch 'request-revision'
+        patch 'upload-revision'
+      end
     end
   end
+  resources :rules
 
   # Statistics
   get 'statistics/investigator', to: 'statistics#investigator_report'
 
   # Towns
-  get 'towns/county/:county/options', to: 'towns#options_for_county'
+  get 'towns/county/:county', to: 'towns#index_for_county'
 
   # Users
   resources :users, only: :none do

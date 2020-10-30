@@ -1,0 +1,37 @@
+<div
+  id="notes-area"
+  data-action="bracegirdle:notes:create->notes#create"
+  data-controller="notes"
+>
+  <section class="section-wrapper pd-30-force mg-t-5-force">
+    <label class="section-title mg-b-15">Notes</label>
+    <ul 
+      class="list-unstyled mb-0"
+      data-target="notes.list"
+    >
+      <%= render(partial: 'notes/note', collection: object.notes.includes(:user)) || 
+        content_tag(:li, 'There are no notes.', class: 'media', data: { target: 'notes.noNotesMessage' }) 
+      %>
+    </ul>
+  </section>
+  <% if object.active? %>
+    <section class="section-wrapper pd-30-force mg-t-5-force">
+      <label class="section-title">Add New Note</label>
+      <div class="mg-t-10">
+        <%= form_with model: [object, Note.new], url: (defined?(url) ? url : nil) do |f| %>
+          <%= f.text_area :body, 
+            rows: 8, 
+            class: 'form-control',
+            data: { target: 'notes.noteBodyInput' }
+          %>
+          <div class="form-layout-footer mg-t-10">
+            <button
+              id="submit-note-button"
+              class="btn btn-primary mt-1 mg-r-10"
+            >Submit</button>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>

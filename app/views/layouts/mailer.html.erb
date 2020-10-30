@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      body {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      header {
+        align-items: center;
+        display: flex;
+        height: 77.5px;
+        justify-content: space-between;
+      }
+
+      header div#logo {
+        padding-left: 8%;
+      }
+
+      header div#title {
+        color: #1b84e7;
+        font-size: .875rem;
+        padding-right: 8%;
+      }
+
+      div#content {
+        background-color: #f7f7f7;
+        padding: 50px 20px 20px 20px;
+      }
+
+      h1.headline {
+        text-align: center;
+      }
+
+      .note {
+        background-color: white;
+        color: rgb(134, 139, 161);
+        display: flex;
+        margin: 50px auto;
+        padding: 0 25px 10px 0;
+        width: 70%;
+      }
+
+      .note .user-image-container {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin: 0 30px;
+        min-width: 80px;
+        overflow: hidden;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .note .user-image-container {
+          display: none;
+        }
+      }
+
+      .note .user-image-container img {
+        flex-shrink: 0;
+        max-height: 80px;
+      }
+
+      .note .note-body {
+        font-size: 14px;
+        padding: 10px;
+        vertical-align: middle;
+      }
+
+      .note .note-body h5 {
+        font-size: 1.09375rem;
+        margin-bottom: 0;
+      }
+
+      span.text-muted {
+        font-weight: 500;
+      }
+
+      .object-link {
+        text-align: center;
+      }
+
+      .object-link a {
+        background-color: rgb(20, 106, 187);
+        border-radius: 5px;
+        color: #ffffff;
+        display: inline-block;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: regular;
+        line-height: 45px;
+        text-align: center;
+        text-decoration: none;
+        width: 155px;
+        -webkit-text-size-adjust: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div id="logo">
+        <img src="<%= asset_pack_path 'media/images/cemeteries-logo.jpg' %>" height="77.5" width="289.5" />
+      </div>
+      <div id="title">
+        <%= yield :title %>
+      </div>
+    </header>
+    <main id="content">
+      <%= yield %>
+    </main>
+  </body>
+</html>

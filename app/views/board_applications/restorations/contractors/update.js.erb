@@ -1,0 +1,10 @@
+document.getElementById('board_applications-restorations-contractors-index').dispatchEvent(
+  new CustomEvent('bracegirdle:board_applications:restorations:contractors:contractorUpdated',
+    {
+      detail: {
+        contractor: '<%= j render(partial: 'contractor_row', locals: { contractor: @contractor }) %>',
+        contractorId: '<%= @contractor.id %>'
+      }
+    }
+  )
+);

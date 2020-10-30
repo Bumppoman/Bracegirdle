@@ -58,12 +58,8 @@ en:
           attributes:
             cemetery:
               required: 'You must assign this notice to a cemetery.'
-            served_on_name:
-              blank: "You must specify the recipient of this notice."
-            served_on_title:
-              blank: "You must specify the title of the person on whom the notice is being served."
             served_on_street_address:
-              blank: &blank_address "You must provide a valid address to which to send the notice."
+              blank: &blank_address 'You must provide a valid address to which to send the notice.'
             served_on_city:
               blank: *blank_address
             served_on_state:
@@ -71,11 +67,11 @@ en:
             served_on_zip:
               blank: *blank_address
             law_sections:
-              blank:  "You must reference the law sections relevant to this notice."
+              blank:  'You must reference the law sections relevant to this notice.'
             specific_information:
-              blank:  "You must provide the specific information relevant to this notice."
+              blank:  'You must provide the specific information relevant to this notice.'
             violation_date:
-              blank:  "You must enter the date on which the violation occurred."
+              blank:  'You must enter the date on which the violation occurred.'
             response_required_date:
               blank:  'You must specify the date on which the notice must be answered.'
         restoration:
@@ -84,9 +80,11 @@ en:
               blank: 'You must enter the amount requested on the application.'
             cemetery:
               required: 'You must select the cemetery that submitted this application.'
+            raw_application_file:
+              blank: 'You must upload the application file.'
             submission_date:
               blank: 'You must enter the date that this application was submitted.'
-        rules:
+        rules_approval:
           attributes:
             cemetery:
               required: 'You must select the cemetery that submitted these rules.'
@@ -104,8 +102,5 @@ en:
               blank: *blank_address
             sender_zip:
               blank: *blank_address
-            rules_documents:
-              blank: 'You must upload the original rules as an attachment.'
-              invalid: 'The file format you uploaded is not valid.'
             approval_date:
               blank: 'You must enter the date that these rules were approved.'

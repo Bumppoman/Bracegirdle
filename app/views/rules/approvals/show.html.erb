@@ -1,0 +1,177 @@
+<% content_for :title, "Review rules for #{@rules_approval.cemetery.name}" %>
+<% content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      ['Rules pending approval', rules_approvals_path], 
+      yield(:title)
+    ]
+  ) 
+%>
+<div 
+  id="rules-approvals-show"
+  data-action=
+    "bracegirdle:rules:approvals:revisionCreated->rules--approvals--show#revisionCreated
+    bracegirdle:rules:approvals:revisionReceived->rules--approvals--show#revisionReceived"
+  data-controller="rules--approvals--show"
+>
+  <section 
+    class="section-wrapper pd-30"
+    data-target="rules--approvals--show.revisionsArea"
+  >
+    <div
+      class="disappearing-success-message<%= ' hidden' unless flash[:success] %>"
+      data-target="rules--approvals--show.successMessage"
+    >
+      <div class="alert alert-success"><%= flash[:success] %></div>
+    </div>
+    <label class="section-title mt-0">Rules</label>
+    <% @received_revisions.each_with_index do |revision, index| %>
+      <%= render partial: 'rules/revisions/revision', 
+        locals: { index: index, revision: revision, revision_number: @received_revisions.length - index } 
+      %>
+    <% end %>
+    <div class="form-layout-footer">
+      <% if policy(@rules_approval).approve? %>
+        <% if @rules_approval.received? || @rules_approval.pending_review? %>
+          <% if policy(@rules_approval).assign? %>
+            <button 
+              type="button" 
+              class="btn btn-primary" 
+              data-toggle="modal" 
+              data-target="#rules_approval-assign-investigator-modal"
+            >Assign</button>
+          <% end %>
+          <%= button_with_confirmation_modal 'Approve',
+            form_action: approve_rules_approval_path,
+            text: 'Are you sure you want to approve these rules?',
+            title: 'Approve Rules'
+          %>
+        <% end %>
+        <button class="btn btn-primary">Withdraw</button>
+      <% end %>
+    </div>
+  </section>
+  <section class="section-wrapper mg-t-5">
+    <div
+      class="disappearing-success-message hidden"
+      data-target="rules--approvals--show.revisionSuccessMessage"
+    >
+      <div class="alert alert-success"></div>
+    </div>
+    <label class="section-title mt-0">Revisions</label>
+    <table 
+      class="table"
+      data-target="rules--approvals--show.revisionsTable"
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Request Date</th>
+          <th>Received</th>
+          <th>Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @revisions.each_with_index do |revision, index| %>
+          <%= render partial: 'rules/revisions/revision_row', 
+            locals: { index: index, revision: revision, rules_approval: @rules_approval } 
+          %>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+  <% if policy(@rules_approval).approve? %>
+    <section 
+      class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.received? || @rules_approval.pending_review? %>"
+      data-target="rules--approvals--show.revisionRequestArea"
+    >
+      <label class="section-title">Request Revision</label>
+      <%= form_with model: [@rules_approval, Revision.new], 
+        html: { 
+          data: {
+            target: 'rules--approvals--show.revisionRequestFormElement'
+          }
+        } do |f| 
+      %>
+        <div class="row">
+          <div class="col">
+            <%= f.text_area :comments, rows: 15, class: 'form-control mg-t-10' %>
+          </div>
+        </div>
+        <div class="form-layout-footer mg-t-20">
+          <button class="btn btn-primary">Request Revision</button>
+        </div>
+      <% end %>
+    </section>
+    <section
+      class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.revision_requested? %>"
+      data-target="rules--approvals--show.revisionUploadArea"
+    >
+      <label class="section-title">Upload Revision</label>
+      <%= form_with model: @rules_approval.revisions.first, 
+        url: rules_approval_revision_receive_path(@rules_approval, @rules_approval.revisions.first),
+        html: { 
+          data: {
+            target: 'rules--approvals--show.revisionUploadFormElement'
+          } 
+        } do |f| 
+      %>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group required">
+              <%= f.label :rules_document, 'File', class: 'form-control-label' %>
+              <div class="custom-file">
+                <%= f.file_field :rules_document, class: 'custom-file-input' %>
+                <label class="custom-file-label" for="rules_document">Choose file</label>
+              </div>
+              <small class="form-text text-muted">Acceptable file formats are .doc, .docx, and .pdf</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group required">
+              <%= f.label :submission_date, 'Date Submitted', class: 'form-control-label' %>
+              <%= f.date_field :submission_date, required: true, class: 'form-control', value: Date.current.iso8601 %>
+            </div>
+          </div>
+        </div>
+        <div class="form-layout-footer">
+          <button class="btn btn-primary">Upload Revision</button>
+        </div>
+      <% end %>
+    </section>
+    <%= render 'notes/notes', object: @rules_approval %>
+  <% end %>
+  <%= form_with model: @rules_approval, 
+    url: assign_rules_approval_path, 
+    builder: BracegirdleFormBuilder do |f| 
+  %>
+    <div id="rules_approval-assign-investigator-modal" class="modal fade">
+      <div class="modal-dialog wd-30p" role="document">
+        <div class="modal-content">
+          <div class="modal-header pd-x-20">
+            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Assign Rules</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pd-25">
+            <p>
+              Assign these rules to an investigator:
+              <br />
+              <%= f.select(
+                :investigator, 
+                employee_options(nil, [:investigator]), 
+                { label: false, prompt: 'Select investigator' }, 
+                { class: 'form-control choices-basic' })
+              %>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary">Assign</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

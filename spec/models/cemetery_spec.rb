@@ -2,24 +2,14 @@ require 'rails_helper'
 
 def create_cemetery
   Cemetery.new(
+    cemid: '04001',
     name: 'Anthony Cemetery',
-    county: 4,
-    order_id: 1
+    county: 4
   )
 end
 
 describe Cemetery, type: :model do
   subject { create_cemetery }
-
-  context Cemetery, 'Class Methods' do
-    describe Cemetery, 'find_by_cemetery_id' do
-      it 'returns the correct cemetery' do
-        subject.save
-
-        expect(Cemetery.find_by_cemetery_id('04-001')).to eq subject
-      end
-    end
-  end
 
   context Cemetery, 'Instance Methods' do
     describe Cemetery, '#abandoned?' do
@@ -34,15 +24,21 @@ describe Cemetery, type: :model do
       end
     end
 
-    describe Cemetery, '#cemetery_id' do
-      it 'returns the correct cemetery ID' do
-        expect(subject.cemetery_id).to eq '04-001'
-      end
-    end
-
     describe Cemetery, '#county_name' do
       it 'returns the correct county name' do
         expect(subject.county_name).to eq 'Broome'
+      end
+    end
+    
+    describe Cemetery, '#formatted_cemid' do
+      it 'returns the correct cemid' do
+        expect(subject.formatted_cemid).to eq '#04-001'
+      end
+    end
+    
+    describe Cemetery, '#formatted_cemid' do
+      it 'returns the correct name and cemid' do
+        expect(subject.formatted_name).to eq 'Anthony Cemetery (#04-001)'
       end
     end
 
@@ -57,8 +53,8 @@ describe Cemetery, type: :model do
 
     describe Cemetery, '#latitude' do
       it 'returns the correct latitude' do
-        @location = Location.new(latitude: 41.3144, longitude: -73.8964)
-        subject.locations << @location
+        @cemetery_location = CemeteryLocation.new(latitude: 41.3144, longitude: -73.8964)
+        subject.cemetery_locations << @cemetery_location
 
         expect(subject.latitude).to eq 41.3144
       end
@@ -66,8 +62,8 @@ describe Cemetery, type: :model do
 
     describe Cemetery, '#longitude' do
       it 'returns the correct longitude' do
-        @location = Location.new(latitude: 41.3144, longitude: -73.8964)
-        subject.locations << @location
+        @cemetery_location = CemeteryLocation.new(latitude: 41.3144, longitude: -73.8964)
+        subject.cemetery_locations << @cemetery_location
 
         expect(subject.longitude).to eq -73.8964
       end
@@ -76,6 +72,12 @@ describe Cemetery, type: :model do
     describe Cemetery, '#region' do
       it 'returns the correct region for investigator type' do
         expect(subject.region(:investigator)).to eq 5
+      end
+    end
+    
+    describe Cemetery, '#to_param' do
+      it 'returns the cemid' do
+        expect(subject.to_param).to eq '04001'
       end
     end
 
@@ -90,9 +92,9 @@ describe Cemetery, type: :model do
     describe Cemetery, '#active' do
       it 'returns only active cemeteries' do
         subject.save
-        @active = Cemetery.new(name: 'Active Cemetery', county: 62, order_id: 1, active: true)
+        @active = Cemetery.new(name: 'Active Cemetery', cemid: '62001', county: 62, active: true)
         @active.save
-        @abandoned = Cemetery.new(name: 'Abandoned Cemetery', active: false)
+        @abandoned = Cemetery.new(name: 'Abandoned Cemetery', cemid: '62002', active: false)
         @abandoned.save
 
         expect(Cemetery.active).to eq [subject, @active]

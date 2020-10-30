@@ -1,0 +1,19 @@
+<div 
+  id="notice-response_received" 
+  class="tracker-step"
+  data-step="2"
+  data-target="tracker.step"
+>
+  <label class="section-label">Response Received</label>
+  <p>
+    Response received on <span data-target="notices--show.responseReceivedDate"><%= @notice.response_received_date %></span>.
+  </p>
+  <% if policy(@notice).follow_up? %>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#notice-follow-up-modal"
+    >Follow-Up Completed</button>
+  <% end %>
+</div>

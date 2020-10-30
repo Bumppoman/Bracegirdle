@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 def create_matter
+  FactoryBot.create(:cemetery)
+  FactoryBot.create(:trustee)
   @application = FactoryBot.create(:reviewed_hazardous)
-  @matter = Matter.new(application: @application)
+  @matter = Matter.new(board_application: @application)
 end
 
 describe Matter, type: :model do

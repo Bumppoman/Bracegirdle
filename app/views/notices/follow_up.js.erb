@@ -1,0 +1,10 @@
+document.getElementById('notice-actions').dispatchEvent(
+  new CustomEvent('bracegirdle:notices:advance', 
+    { 
+      detail: { 
+        date: '<%= @notice.follow_up_completed_date %>',
+        method: 'followUpCompleted'
+      }
+    }
+  )
+)

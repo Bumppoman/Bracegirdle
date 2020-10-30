@@ -17,6 +17,6 @@ module CemeteriesHelper
       output = 'No inspection recorded'
     end
 
-    output
+    raw output
   end
 end

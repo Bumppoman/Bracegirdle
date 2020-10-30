@@ -1,0 +1,24 @@
+<div class="col-md-4">
+  <div class="card card-activities">
+    <h6 class="slim-card-title">Recent Activity</h6>
+    <% if @recent_activity.any? %>
+      <p>Last active <%= time_ago_in_words(@recent_activity.first.created_at) %> ago</p>
+      <div class="media-list">
+        <% @recent_activity.each do |activity| %>
+          <div class="media">
+            <div class="activity-icon bg-<%= activity.color %>">
+              <i class="material-icons"><%= activity.icon %></i>
+            </div>
+            <div class="media-body">
+              <h6><%= activity.title %></h6>
+              <p><%= activity.user.name %> <%= render inline: activity.text, locals: { activity: activity } %></p>
+              <span><%= time_ago_in_words(activity.created_at) %> ago</span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No recent activity</p>
+    <% end %>
+  </div>
+</div>

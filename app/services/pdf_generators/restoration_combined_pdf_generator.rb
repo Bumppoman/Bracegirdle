@@ -13,7 +13,7 @@ module PDFGenerators
 
       # Include application
       output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: 'A' }).render)
-      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.application_form.key))
+      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.application_file.key))
 
       # Include estimates
       exhibit_letters = ('B'..'Z').to_a
@@ -27,13 +27,15 @@ module PDFGenerators
 
       # Include legal notice
       output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
-      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.legal_notice.key))
+      output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.legal_notice_file.key))
 
       # Include previous report if applicable
       if @restoration.previous_exists?
         current += 1
         output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
-        output << CombinePDF.load(ActiveStorage::Blob.service.send(:path_for, @restoration.previous_report.key))
+        output << CombinePDF.load(ActiveStorage::Blob.service.send(
+          :path_for, @restoration.previous_completion_report_file.key)
+        )
       end
 
       output

@@ -18,7 +18,9 @@ class BasicPDF
   def checkbox(x, y, selected = false)
     bounding_box([x, y], width: 5, height: 5) do
       stroke_bounds
-      text 'x', align: :center, size: 5, style: :bold if selected
+      indent 0.25 do
+        text 'x', align: :center, size: 5, style: :bold if selected
+      end
     end
   end
 

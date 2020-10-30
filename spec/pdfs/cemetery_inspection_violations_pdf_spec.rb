@@ -8,7 +8,7 @@ feature 'Cemetery Inspection Violations PDF' do
           recipient: 'Anthony Cemetery',
           address_line_one: '123 Main St.',
           address_line_two: 'Deposit, NY 13455',
-          cemetery: Cemetery.new(name: 'Anthony Cemetery', county: 4, order_id: 1),
+          cemetery: Cemetery.new(name: 'Anthony Cemetery', county: 4, cemid: '04001'),
           name: 'Chester Butkiewicz',
           title: 'Assistant Director',
       }

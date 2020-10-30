@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0.2.1'
+gem 'rails', '6.0.3.4'
 
 # Use Puma as the app server
 gem 'puma'
@@ -33,24 +33,11 @@ gem 'jbuilder'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-# Use Capistrano for deployment
-gem 'capistrano', group: :development
-gem 'capistrano-rails', group: :development
-gem 'capistrano-rvm', group: :development
-gem 'capistrano3-puma', group: :development
-
 # Use PostgreSQL for production
 gem 'pg'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  #gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-
-  #gem 'rspec-rails'
-  %w[rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
-    gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
-  end
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', branch: 'master'
+  gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'factory_bot_rails'
   gem 'travis'
@@ -59,12 +46,16 @@ group :development, :test do
   gem 'sqlite3'
 
   gem 'rack_session_access'
+  
+  gem 'byebug'
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  #gem 'web-console'
-  #gem 'listen'
+  # Use Capistrano for deployment
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-puma'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -79,7 +70,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'capybara-select-2'
+  gem 'capybara-choices'
 
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
@@ -87,7 +78,7 @@ group :test do
   gem 'database_cleaner'
 
   # To determine test coverage
-  gem 'simplecov', '< 0.18', require: false
+  gem 'simplecov', require: false
 
   # To test PDFs
   gem 'pdf-inspector'
@@ -96,16 +87,10 @@ group :test do
   gem 'webmock'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 # For geocoding cemetery locations
 gem 'geocoder'
 
 gem "rubyzip"
-
-# For Slim templates
-gem "slim"
 
 # For submitting files through Ajax
 gem 'remotipart'
@@ -125,7 +110,7 @@ gem 'indefinite_article'
 
 # For Auth0
 gem 'omniauth'
-gem 'omniauth-auth0'
-#gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-auth0', '2.2.0'
+gem 'omniauth-rails_csrf_protection'
 
-gem "pundit"
+gem 'pundit'

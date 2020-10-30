@@ -17,11 +17,13 @@ class BoardMeetingsController < ApplicationController
     # Set identifiers for matters
     @board_meeting.set_matter_identifiers
 
-    redirect_to @board_meeting
+    redirect_to @board_meeting, flash: {
+      success: 'You have successfully finalized the agenda for this meeting.'
+    }
   end
 
   def index
-    @board_meetings = authorize BoardMeeting.all.order(date: :asc)
+    @board_meetings = authorize BoardMeeting.all.order(:date)
   end
 
   def show

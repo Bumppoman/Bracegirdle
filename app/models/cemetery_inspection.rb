@@ -1,12 +1,13 @@
 class CemeteryInspection < ApplicationRecord
-  include Attachable
+  include Attachable, Statable
 
   after_commit :set_identifier, on: :create
 
   attribute :cemetery_county, :integer
 
-  belongs_to :cemetery
+  belongs_to :cemetery, foreign_key: :cemetery_cemid
   belongs_to :investigator, class_name: 'User', optional: true
+  belongs_to :trustee, optional: true
 
   has_one_attached :inspection_report
 
@@ -18,21 +19,32 @@ class CemeteryInspection < ApplicationRecord
     conflict: 'Conflict of Interest Policy',
     deed: 'Deed'
   }.freeze
+  
+  FINAL_STATUSES = [:completed]
+  
+  INITIAL_STATUSES = [:begun, :completed]
 
   NAMED_STATUSES = {
     begun: 'In progress',
+    cemetery_information_gathered: 'In progress',
+    physical_characteristics_surveyed: 'In progress',
+    record_keeping_reviewed: 'In progress',
+    additional_information_entered: 'In progress',
     performed: 'Performed',
-    complete: 'Complete'
+    completed: 'Completed'
   }.freeze
 
   enum status: {
-      begun: 2,
-      performed: 3,
-      complete: 4
+      begun: 1,
+      cemetery_information_gathered: 2,
+      physical_characteristics_surveyed: 3,
+      record_keeping_reviewed: 4,
+      performed: 5,
+      completed: 6
   }
 
   def active?
-    begun? || performed?
+    !completed?
   end
 
   def belongs_to?(user)
@@ -40,10 +52,30 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def current_inspection_step
-    return 3 unless pet_burials.nil?
-    return 2 unless renovations.nil?
-    return 1 unless cemetery_sign_text.nil?
-    0
+    self.class.statuses[status]
+  end
+  
+  def formatted_directional_signs
+    output = ''
+    if directional_signs_required
+      if directional_signs_present
+        output << 'Required and posted'
+      else
+        output << 'Required but not posted'
+      end
+    else
+      if directional_signs_present
+        output << 'Not required but posted'
+      else
+        output << 'Not required'
+      end
+    end
+    
+    directional_signs_comments.blank? ? output : "#{output}; #{directional_signs_comments}"
+  end
+  
+  def legacy?
+    inspection_report.attached?
   end
 
   def named_status
@@ -51,7 +83,7 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def score
-    return '---' unless complete? && !inspection_report.attached?
+    return '---' unless completed? && !legacy?
   end
 
   def to_param
@@ -59,12 +91,18 @@ class CemeteryInspection < ApplicationRecord
   end
 
   def violations?
-    violations = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections'].keys
-    violations.each do |violation|
-      return true if send(violation) == false
+    violations = YAML.load_file(Rails.root.join('config', 'cemetery_inspections.yml'))['cemetery_inspections']
+    violations.each do |violation, attributes|
+      if attributes['conditions']
+        return true if attributes['conditions'].map { |condition, value|
+          !send(condition).nil? && send(condition) == value
+        }.all?
+      else
+        return true if send(violation) == false
+      end
     end
 
-    return false
+    false
   end
 
   private

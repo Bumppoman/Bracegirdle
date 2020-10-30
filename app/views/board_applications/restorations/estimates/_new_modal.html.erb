@@ -1,0 +1,100 @@
+<%= form_with model: [@restoration, Estimate.new], 
+  url: send("board_applications_#{@restoration.type.downcase}_estimates_path", @restoration), 
+  builder: BracegirdleFormBuilder do |f|
+%>
+  <%= f.hidden_field :restoration_type, value: @restoration.type.downcase %>
+  <div 
+    id="board_applications-restorations-estimates-new-modal" 
+    class="modal fade"
+    data-action=
+      "bracegirdle:board_applications:restorations:contractors:contractorCreated->board-applications--restorations--estimates--new#contractorCreated
+      bracegirdle:board_applications:restorations:estimates:estimateCreated->board-applications--restorations--evaluate#estimateCreated"
+    data-controller="board-applications--restorations--estimates--new"
+    data-target="board-applications--restorations--evaluate.estimateFormModal"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Upload New Estimate</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group required">
+                  <%= f.label :document, 'Estimate' %>
+                  <div class="custom-file">
+                    <%= f.file_field :document, class: 'custom-file-input' %>
+                    <label class="custom-file-label">Choose file</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <%= f.money_field :amount, required: true %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group required mb-0">
+                  <%= f.label :contractor %>
+                  <div class="input-group">
+                    <div class="row wd-100p no-gutters">
+                      <div class="col-md-9">
+                        <%= f.select :contractor,
+                          options_from_collection_for_select(Contractor.all.order(:name), :id, :name),
+                          { label: false, prompt: 'Select contractor', required: true, without_choices: true },
+                          { data: { target: 'board-applications--restorations--estimates--new.contractorSelect' } }
+                        %>
+                      </div>
+                      <div class="col-md-3 text-md-right">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-action="board-applications--restorations--estimates--new#openNewContractorFormFromEstimate"
+                        >Add Contractor</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.select :warranty,
+                  options_for_select(WARRANTY_LENGTHS.invert),
+                  { prompt: 'Select warranty length', required: true }
+                %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group required">
+                  <%= f.label :proper_format, 'Does the estimate appear to be in the proper format?' %>
+                </div>
+              </div>
+              <div class="col-md-2 pd-r-0">
+                <label class="rdiobox">
+                  <%= f.radio_button :proper_format, true %>
+                  <span id="estimate-proper-format-yes">Yes</span>
+                </label>
+              </div>
+              <div class="col-md-2 pd-l-0">
+                <label class="rdiobox">
+                  <%= f.radio_button :proper_format, false %>
+                  <span id="estimate-proper-format-no">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary">Add Estimate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

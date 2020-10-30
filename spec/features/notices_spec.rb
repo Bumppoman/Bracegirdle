@@ -3,46 +3,47 @@ require 'rails_helper'
 feature 'Notices' do
   before :each do
     @cemetery = FactoryBot.create(:cemetery)
+    @trustee = FactoryBot.create(:trustee)
   end
 
   scenario 'Investigator issues notice', js: true do
     login
     visit new_notice_path
 
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
-    fill_in 'Served On', with: 'Herman Munster'
-    select2 'Treasurer', from: 'Title'
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark (President)', from: 'Served On'
     fill_in 'Address', with: '1313 Mockingbird Ln.'
-    fill_in 'City', with: 'Rotterdam'
+    fill_in 'City', with: 'Philadelphia'
+    choices 'PA', from: 'State'
     fill_in 'ZIP Code', with: '12345'
     fill_in 'Law Sections', with: 'Testing.'
     fill_in 'Specific Information', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
-    click_on 'Submit'
+    click_on 'Issue Notice'
     visit notices_path
 
-    expect(page).to have_content'Anthony Cemetery'
+    expect(page).to have_content 'Anthony Cemetery'
   end
 
-  scenario 'Investigator issues notice without cemetery', js: true do
+  scenario 'Investigator issues notice without specific information', js: true do
     login
     visit new_notice_path
 
-    select2 'Broome', from: 'County'
-    fill_in 'Served On', with: 'Herman Munster'
-    select2 'Treasurer', from: 'Title'
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark (President)', from: 'Served On'
     fill_in 'Address', with: '1313 Mockingbird Ln.'
-    fill_in 'City', with: 'Rotterdam'
+    fill_in 'City', with: 'Philadelphia'
+    choices 'PA', from: 'State'
     fill_in 'ZIP Code', with: '12345'
     fill_in 'Law Sections', with: 'Testing.'
-    fill_in 'Specific Information', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
-    click_on 'Submit'
+    click_on 'Issue Notice'
 
-    expect(page).to have_content'There was a problem'
+    expect(page).to have_button 'Issue Notice'
   end
 
   scenario 'Notice can advance', js: true do
@@ -51,14 +52,19 @@ feature 'Notices' do
 
     visit notices_path
     click_on @notice.notice_number
-    click_on 'Response Received'
-    wait_for_multistep
+    click_button 'Response Received'
+    within '#bracegirdle-confirmation-modal' do 
+      click_button 'Response Received'
+    end 
     click_on 'Follow-Up Completed'
-    sleep(1) # Can't get this to work with any kind of wait
-    click_button 'follow_up_completed'
-    wait_for_multistep
-    click_on 'Resolve Notice'
-    assert_selector '#notice-resolved-date'
+    within '#notice-follow-up-modal' do 
+      click_button 'Follow-Up Completed'
+    end
+    click_on 'Resolve'
+    within '#bracegirdle-confirmation-modal' do 
+      click_button 'Resolve'
+    end
+    assert_selector '[data-target="notices--show.resolvedDate"]'
     visit notices_path
 
     expect(page).to have_content('There are no notices')
@@ -70,13 +76,15 @@ feature 'Notices' do
 
     visit notices_path
     click_on @notice.notice_number
-    click_on 'Response Received'
-    wait_for_multistep
-    click_button 'Follow-Up Completed'
-    sleep(1) # Can't get this to work with any kind of wait
-    fill_in 'notice[follow_up_inspection_date]', with: '02/01/2019'
-    all('h6').last.click
-    click_on 'follow-up-completed'
+    click_button 'Response Received'
+    within '#bracegirdle-confirmation-modal' do 
+      click_button 'Response Received'
+    end 
+    click_on 'Follow-Up Completed'
+    within '#notice-follow-up-modal' do 
+      fill_in 'notice[follow_up_completed_date]', with: '02/01/2019'
+      click_button 'Follow-Up Completed'
+    end
 
     expect(page).to have_content 'Follow-up inspection completed on February 1, 2019'
   end
@@ -111,7 +119,7 @@ feature 'Notices' do
 
     expect {
       click_on 'Upload'
-      assert_selector '#attachment-1'
+      assert_selector '[data-attachment-id="1"]'
     }.to change(ActiveStorage::Attachment, :count).by(1)
     expect(page).to have_content 'Adding an attachment to this notice'
   end

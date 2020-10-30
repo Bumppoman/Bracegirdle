@@ -13,7 +13,7 @@ class ComplaintsController < ApplicationController
     Complaints::ComplaintAssignEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
-      f.js { render partial: 'complaints/update/assign' }
+      f.js { render partial: 'complaints/investigation/assign' }
     end
   end
 
@@ -21,47 +21,29 @@ class ComplaintsController < ApplicationController
     @complaint = authorize Complaint.find(params[:id])
     @complaint.update(
       status: :investigation_begun,
-      investigator: current_user)
+      investigator: current_user
+    )
     Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
+    
+    # Re-render the tracker
+    @tracker = render_to_string partial: 'complaints/investigation/investigation_begun'
 
     respond_to do |f|
-      f.js { render partial: 'complaints/update/begin_investigation' }
-    end
-  end
-
-  def change_investigator
-    @complaint = authorize Complaint.find(params[:id])
-    @complaint.update(investigator: User.find(params[:complaint][:investigator]))
-    Complaints::ComplaintReassignEvent.new(@complaint, current_user).trigger
-
-    respond_to do |f|
-      f.js { render partial: 'complaints/update/change_investigator' }
+      f.js { render partial: 'complaints/investigation/begin_investigation' }
     end
   end
 
   def close
     @complaint = authorize Complaint.find(params[:id])
+    @complaint.disposition = params[:complaint][:disposition] if @complaint.investigation_completed?
+    @complaint.update(
+      status: :closed,
+      closed_by: current_user,
+      closure_review_comments: params[:complaint][:closure_review_comments]
+    )
+    Complaints::ComplaintCloseEvent.new(@complaint, current_user).trigger
 
-    if params.key? :recommend_closure
-      @complaint.update(
-        status: :pending_closure,
-        disposition: params[:complaint][:disposition])
-      Complaints::ComplaintRecommendClosureEvent.new(@complaint, current_user).trigger
-
-      respond_to do |f|
-        f.js { render partial: 'complaints/update/recommend_closure' }
-      end
-    elsif params.key? :close_complaint
-      @complaint.disposition = params[:complaint][:disposition] if @complaint.investigation_completed?
-
-      @complaint.update(
-        status: :closed,
-        closed_by: current_user,
-        closure_review_comments: params[:complaint][:closure_review_comments])
-      Complaints::ComplaintCloseEvent.new(@complaint, current_user).trigger
-
-      redirect_to investigation_details_complaint_path(@complaint)
-    end
+    redirect_to investigation_complaint_path(@complaint)
   end
 
   def complete_investigation
@@ -70,7 +52,7 @@ class ComplaintsController < ApplicationController
     Complaints::ComplaintCompleteInvestigationEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
-      f.js { render partial: 'complaints/update/complete_investigation' }
+      f.js { render partial: 'complaints/investigation/complete_investigation' }
     end
   end
 
@@ -78,10 +60,7 @@ class ComplaintsController < ApplicationController
     @complaint = authorize Complaint.new(complaint_params)
 
     # Link to cemetery if cemetery is regulated
-    @complaint.cemetery = Cemetery.find_by(id: params.dig(:complaint, :cemetery))
-
-    # Update dates
-    @complaint.assign_attributes(complaint_date_params)
+    @complaint.cemetery = Cemetery.find_by(cemid: params.dig(:complaint, :cemetery))
 
     # Update complaint types and manners of contact
     @complaint.assign_attributes(
@@ -134,21 +113,38 @@ class ComplaintsController < ApplicationController
   def new
     @complaint = authorize Complaint.new(receiver: current_user, complainant_state: 'NY')
   end
+  
+  def reassign
+    @complaint = authorize Complaint.find(params[:id])
+    @complaint.update(investigator: User.find(params[:complaint][:investigator]))
+    Complaints::ComplaintReassignEvent.new(@complaint, current_user).trigger
 
-  def pending_closure
-    @complaints = authorize Complaint.includes(:cemetery).pending_closure
+    redirect_to investigation_complaint_path(@complaint)
+  end
+  
+  def recommend_closure
+    @complaint = authorize Complaint.find(params[:id])
+    @complaint.update(
+      status: :pending_closure,
+      disposition: params[:complaint][:disposition])
+    Complaints::ComplaintRecommendClosureEvent.new(@complaint, current_user).trigger
+
+    respond_to do |f|
+      f.js { render partial: 'complaints/investigation/recommend_closure' }
+    end
   end
 
   def reopen_investigation
     @complaint = authorize Complaint.find(params[:id])
     @complaint.update(
-        status: :investigation_begun,
-        investigation_required: true,
-        investigator: current_user,
-        disposition: nil)
+      status: :investigation_begun,
+      investigation_required: true,
+      investigator: current_user,
+      disposition: nil
+    )
     Complaints::ComplaintBeginInvestigationEvent.new(@complaint, current_user).trigger
 
-    redirect_to investigation_details_complaint_path(@complaint)
+    redirect_to investigation_complaint_path(@complaint)
   end
 
   def request_update
@@ -157,16 +153,12 @@ class ComplaintsController < ApplicationController
     Complaints::ComplaintRequestUpdateEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
-      f.js { render partial: 'complaints/update/request_update' }
+      f.js { render partial: 'complaints/investigation/update_requested' }
     end
   end
 
   def show
     @complaint = authorize Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
-  end
-
-  def unassigned
-    @complaints = authorize Complaint.includes(:cemetery).unassigned
   end
 
   private
@@ -175,13 +167,10 @@ class ComplaintsController < ApplicationController
     params.require(:complaint).permit(
       :complainant_name, :complainant_street_address, :complainant_city,
       :complainant_state, :complainant_zip, :complainant_email, :complainant_phone,
-      :cemetery_regulated, :cemetery_county, :cemetery_alternate_name, :lot_location,
-      :name_on_deed, :relationship, :ownership_type, :summary, :form_of_relief,
-      :person_contacted, :attorney_contacted, :court_action_pending, :investigation_required
+      :cemetery_regulated, :cemetery_county, :cemetery_alternate_name, :date_of_event,
+      :date_complained_to_cemetery, :lot_location, :name_on_deed, :relationship, 
+      :ownership_type, :summary, :form_of_relief, :person_contacted, :attorney_contacted, 
+      :court_action_pending, :investigation_required
     )
-  end
-
-  def complaint_date_params
-    date_params %w(date_of_event date_complained_to_cemetery), params[:complaint]
   end
 end

@@ -9,10 +9,11 @@ class Notice < ApplicationRecord
 
   attribute :cemetery_county, :string
 
-  belongs_to :cemetery
+  belongs_to :cemetery, foreign_key: :cemetery_cemid
   belongs_to :investigator, class_name: 'User',
                             foreign_key: :investigator_id,
                             inverse_of: :notices
+  belongs_to :trustee
 
   enum status: {
     issued: 1,
@@ -24,8 +25,6 @@ class Notice < ApplicationRecord
   scope :active, -> { where.not(status: :resolved)}
   scope :active_for, -> (user) { active.where(investigator: user) }
 
-  validates :served_on_name, presence: true
-  validates :served_on_title, presence: true
   validates :served_on_street_address, presence: true
   validates :served_on_city, presence: true
   validates :served_on_state, presence: true
@@ -56,6 +55,10 @@ class Notice < ApplicationRecord
 
   def concern_text
     ['Notice of Non-Compliance', "##{notice_number}", "against #{cemetery.name}"]
+  end
+  
+  def current_step
+    self.class.statuses[status]
   end
 
   def formatted_status

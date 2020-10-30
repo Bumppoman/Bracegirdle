@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_07_160553) do
+ActiveRecord::Schema.define(version: 2020_10_11_005420) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -48,12 +49,12 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
 
   create_table "appointments", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.datetime "begin"
     t.datetime "end"
     t.text "notes"
     t.integer "status"
-    t.index ["cemetery_id"], name: "index_appointments_on_cemetery_id"
+    t.index ["cemetery_cemid"], name: "index_appointments_on_cemetery_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
 
@@ -77,36 +78,35 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.integer "status", default: 1
   end
 
-  create_table "cemeteries", force: :cascade do |t|
+  create_table "cemeteries", primary_key: "cemid", id: :string, limit: 5, force: :cascade do |t|
     t.string "name"
     t.integer "county"
-    t.integer "order_id"
     t.boolean "active", default: true
     t.date "last_inspection_date"
     t.date "last_audit_date"
     t.integer "investigator_region"
+    t.bigint "temp_id"
   end
 
   create_table "cemeteries_towns", id: false, force: :cascade do |t|
-    t.integer "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.integer "town_id"
-    t.index ["cemetery_id"], name: "index_cemeteries_towns_on_cemetery_id"
+    t.index ["cemetery_cemid"], name: "index_cemeteries_towns_on_cemetery_cemid"
     t.index ["town_id"], name: "index_cemeteries_towns_on_town_id"
   end
 
   create_table "cemetery_inspections", force: :cascade do |t|
-    t.integer "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.integer "investigator_id"
     t.date "date_performed"
     t.integer "status", default: 1
-    t.string "trustee_name"
-    t.integer "trustee_position"
-    t.string "trustee_street_address"
-    t.string "trustee_city"
-    t.string "trustee_state"
-    t.string "trustee_zip"
-    t.string "trustee_phone"
-    t.string "trustee_email"
+    t.bigint "trustee_id"
+    t.string "mailing_street_address"
+    t.string "mailing_city"
+    t.string "mailing_state"
+    t.string "mailing_zip"
+    t.string "cemetery_phone"
+    t.string "cemetery_email"
     t.boolean "sign"
     t.string "identifier"
     t.text "cemetery_location"
@@ -173,12 +173,22 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.boolean "pet_burials"
     t.string "pet_burials_comments"
     t.text "additional_comments"
-    t.boolean "additional_documents", array: true
-    t.index ["cemetery_id"], name: "index_cemetery_inspections_on_cemetery_id"
+    t.hstore "additional_documents"
+    t.boolean "directional_signs_required"
+    t.boolean "directional_signs_present"
+    t.text "directional_signs_comments"
+    t.index ["cemetery_cemid"], name: "index_cemetery_inspections_on_cemetery_id"
+  end
+
+  create_table "cemetery_locations", force: :cascade do |t|
+    t.string "cemetery_cemid", limit: 5
+    t.float "latitude"
+    t.float "longitude"
+    t.bigint "temp_locatable_id"
   end
 
   create_table "complaints", force: :cascade do |t|
-    t.integer "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.text "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -212,14 +222,20 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.string "complainant_city"
     t.string "complainant_state"
     t.string "complainant_zip"
-    t.index ["cemetery_id"], name: "index_complaints_on_cemetery_id"
+    t.index ["cemetery_cemid"], name: "index_complaints_on_cemetery_id"
     t.index ["closed_by_id"], name: "index_complaints_on_closed_by_id"
   end
 
   create_table "contractors", force: :cascade do |t|
     t.string "name"
-    t.string "address"
+    t.string "street_address"
+    t.string "city"
+    t.string "state", limit: 2
+    t.string "zip", limit: 5
     t.string "phone"
+    t.integer "county"
+    t.boolean "active", default: true
+    t.string "email"
   end
 
   create_table "estimates", force: :cascade do |t|
@@ -233,30 +249,22 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
 
   create_table "land", force: :cascade do |t|
     t.integer "application_type"
-    t.bigint "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.integer "investigator_id"
     t.string "identifier"
     t.integer "status", default: 1
-    t.string "trustee_name"
-    t.integer "trustee_position"
+    t.bigint "trustee_id"
     t.date "submission_date"
     t.decimal "amount", precision: 9, scale: 2
-    t.index ["cemetery_id"], name: "index_land_on_cemetery_id"
-  end
-
-  create_table "locations", force: :cascade do |t|
-    t.integer "locatable_id"
-    t.string "locatable_type"
-    t.float "latitude"
-    t.float "longitude"
+    t.index ["cemetery_cemid"], name: "index_land_on_cemetery_id"
   end
 
   create_table "matters", force: :cascade do |t|
     t.bigint "board_meeting_id"
     t.integer "status", default: 1
     t.text "comments"
-    t.string "application_type"
-    t.integer "application_id"
+    t.string "board_application_type"
+    t.integer "board_application_id"
     t.integer "order"
     t.string "identifier"
     t.index ["board_meeting_id"], name: "index_matters_on_board_meeting_id"
@@ -274,7 +282,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
   end
 
   create_table "notices", force: :cascade do |t|
-    t.integer "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.integer "investigator_id"
     t.string "served_on_name"
     t.string "served_on_title"
@@ -287,14 +295,16 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.date "violation_date"
     t.date "response_required_date"
     t.date "response_received_date"
-    t.date "follow_up_inspection_date"
+    t.date "follow_up_completed_date"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "notice_number"
-    t.date "notice_resolved_date"
-    t.index ["cemetery_id"], name: "index_notices_on_cemetery_id"
+    t.date "resolved_date"
+    t.bigint "trustee_id"
+    t.index ["cemetery_cemid"], name: "index_notices_on_cemetery_id"
     t.index ["investigator_id"], name: "index_notices_on_investigator_id"
+    t.index ["trustee_id"], name: "index_notices_on_trustee_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -320,10 +330,9 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.float "longitude"
   end
 
-  create_table "restoration", force: :cascade do |t|
+  create_table "restorations", force: :cascade do |t|
     t.string "type"
-    t.integer "cemetery_id"
-    t.string "trustee_name"
+    t.string "cemetery_cemid", limit: 5
     t.decimal "amount", precision: 9, scale: 2
     t.date "submission_date"
     t.date "field_visit_date"
@@ -346,14 +355,33 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.integer "previous_type"
     t.string "previous_date"
     t.integer "reviewer_id"
-    t.integer "trustee_position"
-    t.index ["cemetery_id"], name: "index_restoration_on_cemetery_id"
-    t.index ["investigator_id"], name: "index_restoration_on_investigator_id"
-    t.index ["reviewer_id"], name: "index_restoration_on_reviewer_id"
+    t.bigint "trustee_id"
+    t.index ["cemetery_cemid"], name: "index_restorations_on_cemetery_cemid"
+    t.index ["investigator_id"], name: "index_restorations_on_investigator_id"
+    t.index ["reviewer_id"], name: "index_restorations_on_reviewer_id"
+    t.index ["trustee_id"], name: "index_restorations_on_trustee_id"
+  end
+
+  create_table "revisions", force: :cascade do |t|
+    t.bigint "rules_approval_id"
+    t.text "comments"
+    t.date "submission_date"
+    t.integer "status", default: 1
+    t.datetime "created_at", null: false
+    t.index ["rules_approval_id"], name: "index_revisions_on_rules_approval_id"
   end
 
   create_table "rules", force: :cascade do |t|
-    t.integer "cemetery_id"
+    t.bigint "rules_approval_id"
+    t.string "cemetery_cemid", limit: 5
+    t.date "approval_date"
+    t.bigint "approved_by_id"
+    t.index ["approved_by_id"], name: "index_rules_on_approved_by_id"
+    t.index ["rules_approval_id"], name: "index_rules_on_rules_approvals_id"
+  end
+
+  create_table "rules_approvals", id: :bigint, force: :cascade do |t|
+    t.string "cemetery_cemid", limit: 5
     t.date "submission_date"
     t.date "approval_date"
     t.datetime "created_at", null: false
@@ -369,8 +397,10 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.string "identifier"
     t.integer "investigator_id"
     t.date "revision_request_date"
-    t.index ["cemetery_id"], name: "index_rules_on_cemetery_id"
+    t.bigint "trustee_id"
+    t.index ["cemetery_cemid"], name: "index_rules_on_cemetery_id"
     t.index ["investigator_id"], name: "index_rules_on_investigator_id"
+    t.index ["trustee_id"], name: "index_rules_approvals_on_trustee_id"
   end
 
   create_table "status_changes", force: :cascade do |t|
@@ -389,7 +419,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
   end
 
   create_table "trustees", force: :cascade do |t|
-    t.integer "cemetery_id"
+    t.string "cemetery_cemid", limit: 5
     t.integer "position"
     t.string "name"
     t.string "street_address"
@@ -400,7 +430,11 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.string "city"
     t.string "state"
     t.integer "zip"
-    t.index ["cemetery_id"], name: "index_trustees_on_cemetery_id"
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true
+    t.datetime "removal_date"
+    t.string "sort_name"
+    t.index ["cemetery_cemid"], name: "index_trustees_on_cemetery_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -421,4 +455,7 @@ ActiveRecord::Schema.define(version: 2020_03_07_160553) do
     t.string "cell_phone"
   end
 
+  add_foreign_key "notices", "trustees"
+  add_foreign_key "rules", "cemeteries", column: "cemetery_cemid", primary_key: "cemid"
+  add_foreign_key "rules", "users", column: "approved_by_id"
 end

@@ -1,0 +1,7 @@
+<% content_for :title, 'Calendar' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Calendar']) %>
+<div 
+  data-controller="users--calendar"
+  data-users--calendar-events="<%= calendar_appointments_path %>"
+>
+</div>

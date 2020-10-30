@@ -1,0 +1,50 @@
+<div
+  id="cemetery_inspection-additional-information"
+  class="pd-t-10-force tracker-step"
+  data-step="4"
+  data-target="tracker.step"
+>
+  <label class="section-title">Additional Information</label>
+  <div class="form-layout">
+    <div class="row">
+      <div class="col">
+        <%= f.text_area :additional_comments,
+          help_text: 'Information entered here will not be shared with the cemetery',
+          rows: 10
+        %>
+      </div>
+    </div>
+    <div class="row mg-b-20">
+      <div class="col">
+        <div class="form-group">
+          <%= f.label :additional_documents, 'Sample documents to send' %>
+          <% CemeteryInspection::ADDITIONAL_DOCUMENTS.each do |document, title| %>
+            <label class="ckbox">
+              <%= f.check_box "additional_documents[#{document}]", 
+                { checked: @inspection.additional_documents && ActiveModel::Type::Boolean.new.cast(@inspection.additional_documents[document.to_s]) }, 
+                'true', 
+                'false'
+              %>
+              <span><%= title %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mg-t-20">
+    <div class="col-md-6">
+      <button
+        type="button"
+        class="btn btn-secondary tracker-previous-button"
+      >Previous</button>
+    </div>
+    <div class="col-md-6 text-right">
+      <%= button_with_confirmation_modal 'Complete Inspection',
+        form_action: complete_inspection_cemetery_path(@cemetery, @inspection),
+        text: 'Are you sure you want to complete this inspection?',
+        title: 'Complete Inspection'
+      %>
+    </div>
+  </div>
+</div>

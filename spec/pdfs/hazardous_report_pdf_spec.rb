@@ -4,10 +4,11 @@ feature 'Hazardous Report PDF' do
   before :each do
     @user = FactoryBot.create(:user)
     @cemetery = FactoryBot.create(:cemetery)
+    @trustee = FactoryBot.create(:trustee)
   end
 
   scenario 'The report is properly displayed' do
-    @restoration = FactoryBot.create(:processed_hazardous)
+    @restoration = FactoryBot.create(:reviewed_hazardous)
     @report = Reports::HazardousReportPDF.new({
       writer: @restoration.investigator,
       cemetery: @restoration.cemetery,
@@ -20,7 +21,7 @@ feature 'Hazardous Report PDF' do
   end
 
   scenario 'A report with differing warranties generates properly' do
-    @restoration = FactoryBot.create(:processed_hazardous)
+    @restoration = FactoryBot.create(:reviewed_hazardous)
     @restoration.estimates.first.update(warranty: 10)
     @report = Reports::HazardousReportPDF.new({
       writer: @restoration.investigator,

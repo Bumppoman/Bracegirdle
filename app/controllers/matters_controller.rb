@@ -1,4 +1,9 @@
 class MattersController < ApplicationController
+  def schedulable
+    @matters = Matter.includes(:board_application).unscheduled
+    @board_meetings = BoardMeeting.all.order(:date)
+  end
+  
   def schedule
     @matter = Matter.find(params[:id])
     @matter.update(
@@ -7,15 +12,11 @@ class MattersController < ApplicationController
     )
 
     # Update application status as well
-    @matter.application.update(
+    @matter.board_application.update(
       status: :scheduled
     )
 
     Matters::MatterScheduledEvent.new(@matter, current_user).trigger
-
-    respond_to do |m|
-      m.js
-    end
   end
 
   def unschedule
@@ -26,15 +27,10 @@ class MattersController < ApplicationController
     )
 
     # Update application status as well
-    @matter.application.update(
+    @matter.board_application.update(
       status: :reviewed
     )
 
     Matters::MatterUnscheduledEvent.new(@matter, current_user).trigger
-
-
-    #respond_to do |m|
-      #m.js
-    #end
   end
 end

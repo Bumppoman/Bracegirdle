@@ -1,5 +1,9 @@
-$('#attachment-<%= @attachment.id %>').remove();
-$('#delete-attachment-confirm').modal('hide');
-if ($('#attachments-list').children().length == 0) {
-    $('#attachments-list').append('<%= content_tag(:div, "There are currently no attachments.", id: "no-attachments-message") %>');
-}
+document.getElementById('attachments').dispatchEvent(
+  new CustomEvent('bracegirdle:attachments:attachmentDestroyed',
+    {
+      detail: {
+        attachmentId: '<%= @attachment.id %>'
+      }
+    }
+  )
+);

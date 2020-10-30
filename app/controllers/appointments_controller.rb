@@ -1,44 +1,23 @@
 class AppointmentsController < ApplicationController
-  def api_user_events
-    @events = current_user.appointments
-      .where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
-      .where.not(status: :cancelled)
-
-    response = @events.map do |event|
-      {
-          title: event.cemetery.name,
-          id: event.id.to_s,
-          start: event.begin.strftime('%Y-%m-%d %H:%M:%S'),
-          end: event.end.strftime('%Y-%m-%d %H:%M:%S')
-      }
-    end
-
-    respond_to do |format|
-      format.json { render json: response.to_json }
-    end
-  end
-
   def begin
     @appointment = authorize Appointment.find(params[:id])
     @appointment.update(status: :completed)
 
     # Set the item to begin
     if current_user.investigator?
+      BeginCemeteryInspection.call(@appointment.cemetery, current_user)
       @path = inspect_cemetery_path(@appointment.cemetery)
     end
 
-    respond_to do |m|
-      m.js
-    end
+    redirect_to @path
   end
 
   def cancel
     @appointment = authorize Appointment.find(params[:id])
+    @appointment_name = appointment_name
     @appointment.update(status: :cancelled)
 
-    respond_to do |m|
-      m.js
-    end
+    respond_to :js
   end
 
   def create
@@ -48,14 +27,34 @@ class AppointmentsController < ApplicationController
       user: current_user,
       begin: date,
       end: date + 90.minutes,
-      status: :scheduled)
+      status: :scheduled
+    )
 
     redirect_to appointments_path
   end
 
   def index
     @appointments = authorize current_user.appointments.where(status: :scheduled).order(:begin)
-    @appointment_name = current_user.investigator? ? 'inspection' : 'audit'
+    @appointment_name = appointment_name
+  end
+  
+  def index_for_calendar
+    @events = current_user.appointments
+      .where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
+      .where.not(status: :cancelled)
+
+    response = @events.map do |event|
+      {
+        title: event.cemetery.name,
+        id: event.id.to_s,
+        start: event.begin.strftime('%Y-%m-%d %H:%M:%S'),
+        end: event.end.strftime('%Y-%m-%d %H:%M:%S')
+      }
+    end
+
+    respond_to do |format|
+      format.json { render json: response.to_json }
+    end
   end
 
   def reschedule
@@ -63,16 +62,19 @@ class AppointmentsController < ApplicationController
     date = parse_date
     @appointment.update(
       begin: date,
-      end: date + 90.minutes)
+      end: date + 90.minutes
+    )
 
-    respond_to do |m|
-      m.js
-    end
+    respond_to :js
   end
 
   private
+  
+  def appointment_name
+    current_user.investigator? ? 'inspection' : 'audit'
+  end
 
   def parse_date
-    Time.strptime("#{params[:appointment][:date]} #{params[:appointment][:time]}", '%m/%d/%Y %I:%M %p')
+    Time.strptime("#{params[:appointment][:date]} #{params[:appointment][:time]}", '%Y-%m-%d %H:%M')
   end
 end

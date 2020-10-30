@@ -1,5 +1,5 @@
 class Appointment < ApplicationRecord
-  belongs_to :cemetery
+  belongs_to :cemetery, foreign_key: :cemetery_cemid
   belongs_to :user
 
   enum status: {

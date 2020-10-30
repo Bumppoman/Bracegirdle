@@ -1,0 +1,16 @@
+<tr data-contractor-id="<%= contractor.id %>">
+  <td><%= contractor.name %></td>
+  <td><%= contractor.county_name %></td>
+  <td><%= contractor.formatted_address %></td>
+  <td><%= contractor.email.presence || '---' %></td>
+  <td><%= contractor.phone.presence || '---' %></td>
+  <td class="text-center">
+    <%= link_to board_applications_restorations_contractor_path(contractor), 
+      data: {
+        action: 'board-applications--restorations--contractors--index#openEditContractorForm',
+      } do
+    %>
+      <i class="material-icons tx-18">edit</i>
+    <% end %>
+  </td>
+</tr>

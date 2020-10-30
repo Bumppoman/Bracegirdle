@@ -1,4 +1,12 @@
 module CemeteryInspectionsHelper
+  def cemetery_inspection_link(inspection, link_text_method = :date_performed)
+    path = (inspection.performed? || inspection.completed?) ? 
+      show_inspection_cemetery_path(inspection.cemetery, inspection) : 
+      inspect_cemetery_path(inspection.cemetery)
+
+    link_to inspection.send(link_text_method), path
+  end
+  
   def display_cemetery_inspection_report(inspection, request)
     if inspection.inspection_report.attached?
       attachment_display_link(inspection.inspection_report, request)
@@ -15,17 +23,12 @@ module CemeteryInspectionsHelper
     end
   end
 
-  def cemetery_inspection_link(inspection, link_text_method = :date_performed)
-    path = (inspection.performed? || inspection.complete?) ? show_inspection_cemetery_path(inspection.cemetery, inspection) : inspect_cemetery_path(inspection.cemetery)
-    link_to inspection.send(link_text_method), path
-  end
-
   def verbose_cemetery_inspection_status(inspection)
     case inspection.status.to_sym
-    when :performed
-      'Performed; not yet mailed'
-    when :complete
-      "Complete (mailed #{@inspection.date_mailed})"
+      when :performed
+        'Performed; not yet mailed'
+      when :completed
+        inspection.legacy? ? 'Completed' : "Completed (mailed #{@inspection.date_mailed})"
     end
   end
 end

@@ -1,0 +1,75 @@
+<%= form_with model: Contractor.new,
+  url: board_applications_restorations_contractors_path,
+  builder: BracegirdleFormBuilder do |f| 
+%>
+  <div 
+    id="board_applications-restorations-contractors-form-modal" 
+    class="modal fade"
+    data-controller="board-applications--restorations--contractors--form"
+    data-target="board-applications--restorations--contractors--index.formModal"
+  >
+    <div class="modal-dialog modal-lg wd-50p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 
+            class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"
+            data-target="board-applications--restorations--contractors--index.formModalTitle"
+          >Add New Contractor</h6>
+          <button 
+            type="button" 
+            class="close" 
+            aria-label="Close"
+            data-dismiss="modal"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <%= f.text_field :name, required: true %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.text_field :street_address, label: 'Street Address' %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <%= f.text_field :city %>
+              </div>
+              <div class="col-md-2">
+                <%= f.select :state, 
+                  options_for_select(STATES, 'NY'), 
+                  { without_choices: true },
+                  { data: { target: 'board-applications--restorations--contractors--form.state' } }
+                %>
+              </div>
+              <div class="col-md-4">
+                <%= f.text_field :zip, label: 'ZIP Code' %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.select :county,
+                  options_for_select(COUNTIES.invert),
+                  { prompt: 'Select county', required: true, without_choices: true },
+                  { data: { target: 'board-applications--restorations--contractors--form.county' } }
+                %>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button 
+                class="btn btn-primary"
+                data-target="board-applications--restorations--contractors--index.formModalTitle"
+              >Add New Contractor</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

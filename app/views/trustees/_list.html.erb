@@ -1,0 +1,50 @@
+<section
+  id="trustees-list"
+  class="section-wrapper"
+  data-action=
+    "bracegirdle:trustees:trusteeAdded->trustees--index#handleTrusteeEvent
+    bracegirdle:trustees:trusteeEdited->trustees--index#handleTrusteeEvent"
+  data-controller="trustees--index"
+>
+  <div 
+    class="disappearing-success-message hidden"
+    data-target="trustees--index.successMessage"
+  >
+    <div class="alert alert-success">
+    </div>
+  </div>
+  <div 
+    data-controller="datatable"
+    data-target="trustees--index.trusteesDataTable"
+  >
+    <table 
+      id="trustees-data-table" 
+      class="table display responsive no-wrap"
+      data-empty-message="There are no trustees to display."
+      data-order="1"
+      data-target="trustees--index.trusteesTableElement"
+    >
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Position</th>
+          <th scope="col">Address</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Email Address</th>
+          <th scope="col" data-sortable="false">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'trustees/trustee_row', collection: @cemetery.trustees, as: :trustee %>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center">
+    <button 
+      type="button"
+      class="btn btn-primary"
+      data-action="trustees--index#addTrustee"
+    >Add New Trustee</button>
+  </div>
+  <%= render partial: 'trustees/form' %>
+</section>

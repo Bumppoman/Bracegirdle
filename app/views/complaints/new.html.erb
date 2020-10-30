@@ -1,0 +1,286 @@
+<% content_for :title, 'Add New Complaint' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Add new complaint']) %>
+<%= form_for @complaint, builder: BracegirdleFormBuilder do |f| %>
+  <div class="form-layout" data-controller="complaints--new">
+    <section class="section-wrapper">
+      <% if @complaint.errors.any? %>
+        <div id="complaint-form-errors" class="alert alert-danger">There was a problem saving this complaint!</div>
+      <% end %>
+      <label class="section-title">Complainant</label>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :complainant_name, label: "Name", required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :complainant_street_address, label: 'Street Address' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :complainant_city, label: 'City' %>
+        </div>
+        <div class="col-md-2">
+          <%= f.select :complainant_state, options_for_select(STATES, @complaint.complainant_state), { label: 'State' } %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :complainant_zip, label: 'ZIP Code' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.phone_field :complainant_phone, label: 'Phone Number' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.email_field :complainant_email, label: 'Email Address' %>
+        </div>
+      </div>
+    </section>
+    <section class="section-wrapper mg-t-10">
+      <label class="section-title">Cemetery Information</label>
+      <div class="row" data-controller="cemeteries--select">
+        <div class="col-md-3">
+          <div class="form-group required">
+            <label class="form-control-label">DOS Jurisdiction?</label>
+            <label class="rdiobox">
+              <%= f.radio_button :cemetery_regulated, 
+                true, 
+                data: { 
+                  action: 'complaints--new#setCemeteryType',
+                  target: 'complaints--new.cemeteryRegulatedTrue'
+                } 
+              %>
+              <span id="complaint-cemetery-regulated-yes">Yes</span>
+            </label>
+            <label class="rdiobox">
+              <%= f.radio_button :cemetery_regulated, false, data: { action: 'complaints--new#setCemeteryType' } %>
+              <span id="complaint-cemetery-regulated-no">No</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group required">
+            <%= f.select :cemetery_county, 
+              options_for_select(COUNTIES.invert, @complaint.cemetery_county), 
+              { label: 'County', prompt: 'Select county' }, 
+              {
+                class: 'form-control choices-show-search county',
+                data: {
+                  action: 'cemeteries--select#loadCemeteries',
+                  target: 'cemeteries--select.county'
+                }
+              }
+            %>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group required">
+            <%= f.label :cemetery %>
+            <span data-target="complaints--new.cemeterySelectArea">
+              <%= hidden_field_tag :selected_id, 
+                @complaint.cemetery&.id, 
+                data: {
+                  target: 'cemeteries--select.selectedID'
+                }
+              %>
+              <%= select :complaint,
+                :cemetery, 
+                [],
+                { prompt: 'Select cemetery' },
+                { 
+                  class: 'form-control cemeteries-by-county',
+                  data: {
+                    target: 'cemeteries--select.cemetery'
+                  },
+                  disabled: true
+                }
+              %>
+            </span>
+            <%= text_field :complaint,
+              :cemetery_alternate_name,
+              { 
+                class: 'form-control d-none',
+                data: { target: 'complaints--new.cemeteryAlternateName' }
+              }
+            %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :lot_location, label: 'Location of Lot/Grave' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :name_on_deed, label: 'Name on Deed' %>
+        </div>
+        <div class="col-md-6">
+          <%= f.text_field :relationship %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <%= f.label :ownership_type, 'Means By Which You Acquired Ownership' %>
+            <% Complaint.ownership_types.keys.each do |type| %>
+              <label class="rdiobox">
+                <%= f.radio_button :ownership_type, type %>
+                <span><%= type.capitalize %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-wrapper mg-t-10">
+      <label class="section-title">Complaint Information</label>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <%= f.select :complaint_type, 
+              grouped_options_for_select(Complaint.grouped_complaint_types, @complaint.complaint_type), 
+              { label: 'Complaint Type', without_choices: true },
+              {
+                data: {
+                  target: 'complaints--new.type'
+                },
+                multiple: true 
+              }
+            %>
+            <small class="form-text text-muted">Select all that apply</small>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_area :summary, rows: 10, required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :form_of_relief, label: 'Form of Relief Complainant is Seeking', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.date_field :date_of_event, label: 'Date of Event from Which Complaint Arose', required: true %>
+        </div>
+        <div class="col-md-6">
+          <%= f.date_field :date_complained_to_cemetery, label: 'Date Complained to Cemetery' %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :person_contacted, label: 'Person Contacted' %>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :manner_of_contact, 'Manner of Contact' %>
+            <% Complaint::NAMED_MANNERS_OF_CONTACT.each do |id, type| %>
+              <label class="ckbox">
+                <%= f.check_box :manner_of_contact, { multiple: true }, id, nil %>
+                <span><%= type %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :attorney_contacted, 'Has the Matter Been Submitted to an Attorney?' %>
+            <label class="rdiobox">
+              <%= f.radio_button :attorney_contacted, true %>
+              <span id="complaint-attorney-contacted-yes">Yes</span>
+            </label>
+            <label class="rdiobox">
+              <%= f.radio_button :attorney_contacted, false %>
+              <span id="complaint-attorney-contacted-no">No</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :court_action_pending, 'Is Court Action Pending?' %>
+            <label class="rdiobox">
+              <%= f.radio_button :court_action_pending, true %>
+              <span id="complaint-court-action-pending-yes">Yes</span>
+            </label>
+            <label class="rdiobox">
+              <%= f.radio_button :court_action_pending, false %>
+              <span id="complaint-court-action-pending-no">No</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-wrapper mg-t-10">
+      <label class="section-title">Assignment</label>
+      <div class="row">
+        <div class="col-md-8">
+          <%= f.select :receiver, 
+            employee_options(@complaint.receiver.id, [:investigator, :accountant, :support]), 
+            { include_blank: 'Select employee' } 
+          %>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group required">
+            <%= label :complaint, :date_acknowledged, 'Date Complaint Received', class: 'form-control-label' %>
+            <%= date_field :complaint, 
+              :date_acknowledged, 
+              { class: 'form-control', readonly: true, value: Date.current.strftime("%Y-%m-%d") }
+            %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group required">
+            <%= f.label :investigation_required, 'Is an Investigation Required?' %>
+            <label class="rdiobox">
+              <%= f.radio_button :investigation_required, 
+                true,
+                data: {
+                  action: 'complaints--new#setInvestigation',
+                  target: 'complaints--new.investigationRequiredTrue'
+                }
+              %>
+              <span id="complaint-investigation-required-yes">Yes</span>
+            </label>
+            <label class="rdiobox">
+              <%= f.radio_button :investigation_required, 
+                false,
+                data: {
+                  action: 'complaints--new#setInvestigation'
+                }
+              %>
+              <span id="complaint-investigation-required-no">No</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <%= f.select :investigator, 
+            employee_options(@complaint.investigator&.id, [:investigator]), 
+            { include_blank: 'Unassigned', without_choices: true }, 
+            { 
+              data: {
+                target: 'complaints--new.investigatorSelect'
+              },
+              disabled: true
+            }
+          %>
+        </div>
+      </div>
+      <div class="row" data-target="complaints--new.dispositionArea">
+        <div class="col">
+          <%= f.text_area :disposition, rows: 10 %>
+        </div>
+      </div>
+      <div class="form-layout-footer mg-t-20 pd-l-20">
+        <%= f.button 'Submit', class: 'btn btn-primary bd-0 mr-1' %>
+      </div>
+    </section>
+  </div>
+<% end %>

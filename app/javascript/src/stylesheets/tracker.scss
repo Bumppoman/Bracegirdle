@@ -1,0 +1,103 @@
+.tracker {
+  background: #ffffff;
+  position: relative;
+  padding-top: 4px;
+  margin: 0 auto;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.tracker div.tracker-step {
+  border: 0;
+  padding-top: 20px;
+  position: absolute;
+  left: 50%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: transform 700ms ease-in-out, opacity 700ms ease-in-out, left 0ms linear 1s;
+  width: 100%;
+  visibility: hidden;
+}
+
+.tracker div.tracker-step.active {
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  position: relative;
+  transform: scale(1);
+  transition: opacity 700ms ease-in-out, left 700ms ease-in-out;
+  visibility: visible;
+}
+
+.tracker.no-transitions div.tracker-step {
+  transition: none !important;
+}
+
+.tracker div.tracker-step h3 {
+  font: 500 18px/35px "Roboto", sans-serif;
+  color: #3f4553;
+}
+
+.tracker div.tracker-step h6 {
+  font: 400 15px/28px "Roboto", sans-serif;
+  color: #5f6771;
+  padding-bottom: 30px;
+}
+
+.tracker ul.progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.tracker ul.progressbar li {
+  list-style-type: none;
+  color: #99a2a8;
+  font-size: 9px;
+  float: left;
+  position: relative;
+  font: 500 13px/1 "Roboto", sans-serif;
+}
+
+.tracker ul.progressbar li:before {
+  content: "";
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  display: block;
+  background: #eaf0f4;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+}
+
+.tracker ul.progressbar li:after {
+  content: '';
+  width: 100%;
+  height: 10px;
+  background: #eaf0f4;
+  position: absolute;
+  left: -50%;
+  top: 21px;
+  z-index: -1;
+}
+
+.tracker ul.progressbar li:last-child:after {
+  width: 150%;
+}
+
+.tracker ul.progressbar li.active {
+  color: #146abb;
+}
+
+.tracker ul.progressbar li.active:before, .tracker ul.progressbar li.active:after {
+  background: #146abb;
+  color: white;
+}
+
+.tracker ul.progressbar li a {
+  color: #99a2a8;
+}
+
+.tracker .tracker-indicator:not(.active) a {
+  pointer-events: none;
+}

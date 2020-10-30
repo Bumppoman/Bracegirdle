@@ -1,0 +1,32 @@
+<div 
+  id="complaint-investigation_completed" 
+  class="tracker-step"
+  data-step="3"
+  data-target="tracker.step"
+>
+  <%= form_with url: current_user.supervisor? ? close_complaint_path : recommend_closure_complaint_path,
+    model: @complaint, 
+    method: :patch, 
+    builder: BracegirdleFormBuilder, 
+    id: 'complaint-investigator-closure-form' do |f| 
+  %>
+    <label class="section-label">Investigation Completed</label>
+    <p class="mb-10">Investigation completed on
+      <span data-target="complaints--show.investigationCompletedDate"><%= @complaint.investigation_completed_date %></span>.
+    </p>
+    <% if policy(@complaint).close? || policy(@complaint).recommend_closure? %>
+      <div class="row">
+        <div class="col">
+          <%= f.text_area :disposition, rows: 10, required: true %>
+        </div>
+      </div>
+      <%= button_with_confirmation_modal(
+        current_user.supervisor? ? 'Close Complaint' : 'Recommend Complaint for Closure',
+        success_button: "<button class=\"btn btn-primary\" form=\"complaint-investigator-closure-form\">#{current_user.supervisor? ? 'Close Complaint' : 'Recommend Closure'}</button>",
+        text: "Are you sure you want to #{current_user.supervisor? ? 'close' : 'recommend closing'} this complaint?",
+        title: current_user.supervisor? ? 'Close Complaint' : 'Recommend Closure'
+      )
+      %>
+    <% end %>
+  <% end %>
+</div>

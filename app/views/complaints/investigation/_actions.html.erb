@@ -1,0 +1,71 @@
+<section 
+  id="complaint-actions"
+  class="section-wrapper bd-0 pd-30-force mg-t-0-force mg-b-5"
+  data-action=
+    "bracegirdle:complaints:advance->complaints--show#dispatch
+    bracegirdle:complaints:complaintReassigned->complaints--show#reassigned"
+>
+  <%= render layout: 'application/tracker',
+    locals: {
+      current_step: @complaint.current_step,
+      linkable: false,
+      steps: {
+        received: {
+          number: 1,
+          title: 'Complaint Received'
+        },
+        investigation_begun: {
+          number: 2,
+          title: 'Investigation Begun'
+        },
+        investigation_completed: {
+          number: 3,
+          title: 'Investigation Completed'
+        },
+        pending_closure: {
+          number: 4,
+          title: @complaint.investigator && @complaint.investigator.supervisor? ? 
+            'Complaint Closed' : 
+            'Complaint Recommended for Closure'
+        }
+      },
+      target: 'complaints--show.tracker'
+    } do
+  %>
+    <label class="section-title">Status</label>
+    <%= render partial: 'complaints/investigation/complaint_received' %>
+    <%= render partial: 'complaints/investigation/investigation_begun' %>
+    <%= render partial: 'complaints/investigation/investigation_completed' %>
+    <%= render partial: 'complaints/investigation/pending_closure' %>
+  <% end %>
+  <%= form_with model: @complaint, url: assign_complaint_path, method: :patch do |f| %>
+    <div id="complaint-assign-investigator-modal" class="modal fade">
+      <div class="modal-dialog wd-30p" role="document">
+        <div class="modal-content">
+          <div class="modal-header pd-x-20">
+            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Assign Complaint</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pd-25">
+            <p>
+              Assign this complaint to an investigator:
+              <br />
+              <br />
+              <%= f.select :investigator, 
+                employee_options(nil, [:investigator]), 
+                { prompt: 'Select employee' }, 
+                { class: 'form-control choices-basic' }
+              %>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <%= f.button 'Assign', class: 'btn btn-primary' %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>

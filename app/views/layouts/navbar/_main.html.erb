@@ -1,0 +1,30 @@
+<% if current_user %>
+  <div class="slim-navbar">
+    <div class="container">
+      <ul class="nav">
+        <li class="nav-item">
+          <%= link_to dashboard_index_path, class: 'nav-link' do %>
+            <i class="material-icons mr-2 tx-primary">home</i> Dashboard
+          <% end %>
+        </li>
+        <%= render "layouts/navbar/workflow/#{current_user.role}" %>
+        <li class="nav-item with-sub">
+          <a class="nav-link" href="#">
+            <i class="material-icons mr-2 tx-primary">help_outline</i>
+            <span>Information</span>
+          </a>
+          <div class="sub-item">
+            <ul>
+              <li>
+                <%= link_to "My Team", team_users_path %>
+                <%= link_to "Board Meetings", board_meetings_path %>
+                <a href="#">Cemetery Directory</a>
+                <a href="#">Investigator Manual</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+<% end %>

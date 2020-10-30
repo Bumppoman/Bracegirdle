@@ -1,6 +1,9 @@
-$('#schedule-matter').modal('hide');
-
-// Remove the row
-$('#matters-data-table').DataTable().row($('#matter-<%= @matter.id %>')).remove().draw();
-
-$('#schedule-success').show().delay(3000).fadeOut();
+document.getElementById('matters-schedulable').dispatchEvent(
+  new CustomEvent('bracegirdle:matters:matterScheduled', 
+    {
+      detail: {
+        matterId: '<%= @matter.id %>'
+      }
+    }
+  )
+);

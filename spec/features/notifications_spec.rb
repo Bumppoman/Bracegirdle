@@ -12,17 +12,25 @@ feature 'Notifications' do
     fill_in 'Name', with: 'Herman Munster'
     fill_in 'Street Address', with: '1313 Mockingbird Ln.'
     fill_in 'City', with: 'Rotterdam'
-    select2 'NY', from: 'State'
+    choices 'NY', from: 'State'
     fill_in 'ZIP Code', with: '13202'
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', css: '#complaint-cemetery-select-area'
-    select2 'Burial issues', from: 'Complaint Type'
+    fill_in 'Phone Number', with: '518-555-3232'
+    fill_in 'Email', with: 'test@test.test'
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', css: '[data-target="complaints--new.cemeterySelectArea"]'
+    fill_in 'Location of Lot/Grave', with: 'Section 12 Row 7'
+    fill_in 'Name on Deed', with: 'Mother Butkiewicz'
+    fill_in 'Relationship', with: 'Relationship'
+    choices 'Burial issues', from: 'Complaint Type'
     fill_in 'complaint[summary]', with: 'Testing.'
     fill_in 'complaint[form_of_relief]', with: 'Testing'
     fill_in 'complaint[date_of_event]', with: '12/31/2018'
+    fill_in 'Date Complained to Cemetery', with: '1/1/2019'
+    fill_in 'Person Contacted', with: 'Clive Bixby'
     all('span', text: 'Yes').last.click
-    select2 'Chester Butkiewicz', from: 'Investigator'
+    choices 'Chester Butkiewicz', from: 'Investigator'
     click_on 'Submit'
+    assert_selector '#complaint-details'
     logout
     login(@employee)
 
@@ -32,20 +40,21 @@ feature 'Notifications' do
     expect(page).to have_content 'John Smith assigned a complaint'
   end
 
-  scenario 'Adding new rules for another user sends a notification', js: true do
+  scenario 'Adding a new rules approval for another user sends a notification', js: true do
     @employee = FactoryBot.create(:user)
+    @trustee = FactoryBot.create(:trustee)
     login(FactoryBot.create(:mean_supervisor))
-    visit new_rules_path
-    select2 'Broome', from: 'County'
-    select2 '04-001 Anthony Cemetery', from: 'Cemetery'
-    fill_in 'Sender', with: 'Mark Smith'
+    visit new_rules_approval_path
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    choices 'Mark Clark (President)', from: 'Submitted By'
     fill_in 'Address', with: '223 Fake St.'
     fill_in 'City', with: 'Rotterdam'
+    choices 'PA', from: 'State'
     fill_in 'ZIP Code', with: '12345'
-    attach_file 'rules_rules_documents', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    select2 'Chester Butkiewicz', from: 'Investigator'
-    click_button 'Submit'
-    assert_selector '#review-rules'
+    attach_file 'rules_approval_rules_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    choices 'Chester Butkiewicz', from: 'Investigator'
+    click_button 'Upload Rules'
     logout
     login(@employee)
 
@@ -64,7 +73,6 @@ feature 'Notifications' do
     click_on 'Investigation Details'
     fill_in 'note[body]', with: 'Testing'
     click_on 'submit-note-button'
-    assert_selector '#note-1'
     logout
     login(@employee)
     click_on class: 'header-notification'
@@ -82,8 +90,8 @@ feature 'Notifications' do
     click_on class: 'header-notification'
 
     expect {
-      click_on 'notification-1'
-      wait_for_ajax # The page is changing so this is good here
+      find('.notification-link[data-notification-id="1"]').click
+      assert_no_selector '.indicator[data-target="main.notificationsUnreadIndicator"]'
     }.to change { Notification.first.read }
   end
 
@@ -98,8 +106,8 @@ feature 'Notifications' do
     click_on class: 'header-notification'
 
     expect {
-      click_on 'mark-all-notifications-read-link'
-      wait_for_ajax # The page is changing so this is good here
+      click_link 'Mark All as Read'
+      assert_no_selector '.indicator[data-target="main.notificationsUnreadIndicator"]'
     }.to change {
       Notification.first.read
       Notification.last.read
