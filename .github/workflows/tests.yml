@@ -70,10 +70,10 @@ jobs:
         cp config/database.yml.github config/database.yml
     
     - name: Setup Code Climate test-reporter
-    run: |
-      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      chmod +x ./cc-test-reporter
-      ./cc-test-reporter before-build
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
 
     - name: Rails test
       env:
