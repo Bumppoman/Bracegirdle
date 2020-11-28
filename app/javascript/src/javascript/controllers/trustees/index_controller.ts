@@ -6,14 +6,12 @@ export default class extends ApplicationController {
   static targets = [
     'successMessage',
     'trusteeForm',
-    'trusteesDataTable',
-    'trusteesTableElement'
+    'trusteesDataTable'
   ];
   
   declare successMessageTarget: HTMLElement;
   declare readonly trusteesDataTableTarget: HTMLElement & { stimulusController: DataTableController };
   declare readonly trusteeFormTarget: HTMLElement & { stimulusController: FormController };
-  declare readonly trusteesTableElementTarget: HTMLTableElement;
   
   addTrustee() {
     this.trusteeFormTarget.stimulusController.openToAddTrustee();
@@ -28,8 +26,7 @@ export default class extends ApplicationController {
     this.trusteeFormTarget.stimulusController.close();
     
     // Add or replace trustee row
-    const trusteeSuccessMessage = document.getElementById('trustee-success-message');
-    let successText;
+    let successText: string;
     
     if (event.type == 'bracegirdle:trustees:trusteeAdded') {
       const template = document.createElement('template');
@@ -38,7 +35,7 @@ export default class extends ApplicationController {
       successText = 'You have successfully added this trustee.';
       
     } else if (event.type == 'bracegirdle:trustees:trusteeEdited') {
-      const trusteeRow = [...this.trusteesTableElementTarget.rows].find(
+      const trusteeRow = [...this.trusteesDataTableTarget.stimulusController.table.rows].find(
         row => row.dataset.trusteeId === event.detail.trusteeId.toString());
       trusteeRow.outerHTML = event.detail.trustee;
       this.trusteesDataTableTarget.stimulusController.refresh();

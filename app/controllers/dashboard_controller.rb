@@ -12,7 +12,11 @@ class DashboardController < ApplicationController
     @inspections = current_user.overdue_inspections.count
 
     # Set recent activity
-    @recent_activity = Activity.includes(:user, :object).where(user: current_user).order(created_at: :desc).limit(3)
+    @recent_activity = Activity
+      .includes(:user, object: [:cemetery, notable: [:cemetery]])
+      .where(user: current_user)
+      .order(created_at: :desc)
+      .limit(3)
   end
 
   def search

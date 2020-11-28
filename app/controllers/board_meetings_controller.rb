@@ -1,4 +1,12 @@
 class BoardMeetingsController < ApplicationController
+  def create
+    @board_meeting = authorize BoardMeeting.new(board_meeting_params)
+    @board_meeting.date = Time.parse("#{params[:board_meeting][:raw_date]} #{params[:board_meeting][:raw_time]}")
+    @board_meeting.save
+    
+    redirect_to @board_meeting
+  end
+  
   def download_agenda
     @board_meeting = authorize BoardMeeting.find(params[:id])
 
@@ -28,5 +36,11 @@ class BoardMeetingsController < ApplicationController
 
   def show
     @board_meeting = authorize BoardMeeting.find(params[:id])
+  end
+  
+  private
+  
+  def board_meeting_params
+    params.require(:board_meeting).permit(:location)
   end
 end

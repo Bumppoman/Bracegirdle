@@ -21,6 +21,10 @@ class User < ApplicationRecord
     },
     foreign_key: :investigator_id,
     inverse_of: :investigator
+    
+  has_many :due_reminders,
+    -> { due },
+    class_name: 'Reminder'
 
   has_many :hazardous,
     -> (user) {
@@ -81,13 +85,21 @@ class User < ApplicationRecord
       where(read: false)
     },
     foreign_key: :receiver_id
+    
+  has_many :reminders,
+    -> (user) {
+      where(completed: false)
+      .order(:due_date)
+    }
 
   has_many :rules_approvals,
     -> (user) {
       if user.supervisor?
-        unscope(:where).where(investigator: user, status: [:pending_review, :revision_requested]).or(where(status: :received))
+        unscope(:where)
+        .where(investigator: user, status: [:pending_review, :revision_requested])
+        .or(where(status: [:received, :approval_recommended]))
       else
-        where.not(status: :approved).order(:submission_date)
+        where.not(status: [:approval_recommended, :approved]).order(:submission_date)
       end
     },
     foreign_key: :investigator_id,

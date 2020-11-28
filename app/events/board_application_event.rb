@@ -1,6 +1,6 @@
 class BoardApplicationEvent < Event
   class Type
-    BOARD_APPLICATION_PROCESSED = 'processed'
+    BOARD_APPLICATION_EVALUATED = 'evaluated'
     BOARD_APPLICATION_RECEIVED = 'received'
     BOARD_APPLICATION_RETURNED = 'returned'
     BOARD_APPLICATION_REVIEWED = 'reviewed'

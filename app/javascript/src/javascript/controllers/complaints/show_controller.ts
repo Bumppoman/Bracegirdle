@@ -4,9 +4,11 @@ import ApplicationController from '../application_controller';
 
 export default class extends ApplicationController {
   static targets = [
+    'assignModal',
     'currentInvestigatorArea',
     'disposition',
     'dispositionDate',
+    'investigationBegunActionsArea',
     'investigationBegunArea',
     'investigationBegunDate',
     'investigationCompletedDate',
@@ -15,16 +17,34 @@ export default class extends ApplicationController {
     'tracker'
   ];
   
+  declare readonly assignModalTarget: HTMLElement;
   declare readonly confirmBeginInvestigationModalTarget: HTMLElement;
   declare readonly currentInvestigatorAreaTarget: HTMLElement;
   declare readonly dispositionTarget: HTMLElement;
   declare readonly dispositionDateTarget: HTMLElement;
+  declare readonly investigationBegunActionsAreaTarget: HTMLElement;
   declare readonly investigationBegunAreaTarget: HTMLElement;
   declare readonly investigationBegunDateTargets: HTMLElement[];
   declare readonly investigationCompletedDateTargets: HTMLElement[];
   declare readonly openReassignButtonTarget: HTMLElement;
   declare readonly reassignAreaTarget: HTMLElement;
   declare readonly trackerTarget: HTMLElement;
+  
+  assigned(event: CustomEvent) {
+    // Close modal
+    this.closeModal(this.assignModalTarget);
+    
+    // Update the investigator name
+    this.currentInvestigatorAreaTarget.textContent = event.detail.investigatorName;
+    
+    // Advance tracker
+    this.trackerTarget.dispatchEvent(new Event('bracegirdle:tracker:nextStep'));
+    
+    // Hide actions if assigned to another investigator
+    if (!event.detail.assignedToSelf) {
+      this.investigationBegunActionsAreaTarget.classList.add('d-none');
+    }
+  }
   
   closureRecommended(event: CustomEvent) {
     // Close confirmation modal

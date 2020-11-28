@@ -46,3 +46,4 @@ yarn-debug.log*
 
 .env
 coverage
+/.test

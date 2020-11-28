@@ -3,6 +3,38 @@
 class UsersController < ApplicationController
   def calendar
   end
+  
+  def calendar_events
+
+    # Get appointments
+    @events = current_user.appointments
+      .where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
+      .where.not(status: :cancelled)
+
+    response = @events.map do |event|
+      {
+        title: event.cemetery.name,
+        id: event.id.to_s,
+        start: event.begin.strftime('%Y-%m-%d %H:%M:%S'),
+        end: event.end.strftime('%Y-%m-%d %H:%M:%S')
+      }
+    end
+    
+    # Add board meetings
+    @board_meetings = BoardMeeting.all
+    response += @board_meetings.map do |meeting|
+      {
+        title: "#{meeting.date.strftime('%B %Y')} Board Meeting",
+        id: meeting.id.to_s,
+        start: meeting.date.strftime('%Y-%m-%d %H:%M:%S'),
+        end: (meeting.date + 3.hours).strftime('%Y-%m-%d %H:%M:%S')
+      }
+    end
+
+    respond_to do |format|
+      format.json { render json: response.to_json }
+    end
+  end
 
   def change_password
   end

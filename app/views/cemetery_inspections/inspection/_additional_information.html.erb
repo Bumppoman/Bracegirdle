@@ -21,7 +21,11 @@
           <% CemeteryInspection::ADDITIONAL_DOCUMENTS.each do |document, title| %>
             <label class="ckbox">
               <%= f.check_box "additional_documents[#{document}]", 
-                { checked: @inspection.additional_documents && ActiveModel::Type::Boolean.new.cast(@inspection.additional_documents[document.to_s]) }, 
+                { 
+                  checked: 
+                    @inspection.additional_documents && 
+                    ActiveModel::Type::Boolean.new.cast(@inspection.additional_documents[document.to_s]) 
+                }, 
                 'true', 
                 'false'
               %>

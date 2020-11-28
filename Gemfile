@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0.3.4'
+gem 'rails', '6.1rc1'
 
 # Use Puma as the app server
 gem 'puma'
@@ -36,20 +36,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Use PostgreSQL for production
 gem 'pg'
 
-group :development, :test do
-  gem 'rspec-rails'
-  gem 'rspec-retry'
-  gem 'factory_bot_rails'
-  gem 'travis'
-
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
-
-  gem 'rack_session_access'
-  
-  gem 'byebug'
-end
-
 group :development do
   # Use Capistrano for deployment
   gem 'capistrano'
@@ -57,16 +43,24 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano3-puma'
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen'
-
   gem 'better_errors'
   gem 'binding_of_caller'
+  
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  #gem 'spring'
+  #gem 'spring-watcher-listen'
+  #gem 'spring-commands-rspec'
+  
+  gem 'listen'
 end
 
 
 group :test do
+  gem 'rspec-rails'
+  gem 'rspec-retry'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara'
   gem 'selenium-webdriver'
@@ -75,16 +69,18 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
 
-  gem 'database_cleaner'
-
   # To determine test coverage
-  gem 'simplecov', '<= 0.17', require: false
+  #gem 'simplecov', '< 0.18.0', require: false
+  gem 'simplecov', require: false
 
   # To test PDFs
   gem 'pdf-inspector'
 
   # To stub request
   gem 'webmock'
+  
+  gem 'rack_session_access'
+  gem 'byebug'
 end
 
 # For geocoding cemetery locations
@@ -110,7 +106,7 @@ gem 'indefinite_article'
 
 # For Auth0
 gem 'omniauth'
-gem 'omniauth-auth0', '2.2.0'
+gem 'omniauth-auth0'
 gem 'omniauth-rails_csrf_protection'
 
 gem 'pundit'

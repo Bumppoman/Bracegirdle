@@ -7,6 +7,7 @@ class RulesApproval < ApplicationRecord
 
   attribute :cemetery_county, :string
 
+  belongs_to :approved_by, class_name: 'User', optional: true
   belongs_to :cemetery, foreign_key: :cemetery_cemid
   belongs_to :investigator, class_name: 'User', optional: true
   belongs_to :trustee

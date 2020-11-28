@@ -1,5 +1,4 @@
 import Rails from '@rails/ujs';
-import { Data } from 'popper.js';
 
 import ApplicationController from '../../../application_controller';
 import DataTableController from '../../../datatable_controller';

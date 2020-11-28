@@ -1,0 +1,11 @@
+document.getElementById('reminders').dispatchEvent(
+  new CustomEvent('bracegirdle:reminders:reminderRemoved',
+    {
+      detail: {
+        reminderId: '<%= @reminder.id %>',
+        date: '<%= @reminder.due_date.to_date.iso8601 %>',
+        due: <%= current_user.due_reminders.count %>
+      }
+    }
+  )
+);

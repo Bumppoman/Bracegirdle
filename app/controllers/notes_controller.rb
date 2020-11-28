@@ -10,11 +10,6 @@ class NotesController < ApplicationController
     # Save the note
     @note.save
     Notes::NoteAddEvent.new(@note, current_user).trigger
-
-    # Respond
-    respond_to do |m|
-      m.js
-    end
   end
 
   private

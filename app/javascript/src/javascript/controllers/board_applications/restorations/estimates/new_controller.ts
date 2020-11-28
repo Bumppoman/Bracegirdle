@@ -1,21 +1,14 @@
-import Choices from 'choices.js';
 import Rails from '@rails/ujs';
 
-import ApplicationController from '../../../application_controller';
+import ApplicationController from 'src/javascript/controllers/application_controller';
+import { BracegirdleSelect } from 'src/javascript/types';
 
 export default class extends ApplicationController {
   static targets = [
-    'contractorSelect'
+    'contractorSelectElement'
   ];
   
-  declare contractorChoices: Choices;
-  declare readonly contractorSelectTarget: HTMLSelectElement;
-  
-  connect() {
-    super.connect();
-    
-    this.contractorChoices = this.createChoices(this.contractorSelectTarget);
-  }
+  declare readonly contractorSelectElementTarget: BracegirdleSelect;
   
   contractorCreated(event: CustomEvent) {
     Rails.ajax(
@@ -24,7 +17,8 @@ export default class extends ApplicationController {
         type: 'GET',
         url: '/board_applications/restorations/contractors',
         success: (response) => {
-          this.contractorChoices.removeActiveItems(-1).enable().setChoices(response, 'value', 'label', true);
+          this.contractorSelectElementTarget.choicesInstance.removeActiveItems(-1).enable()
+            .setChoices(response, 'value', 'label', true);
         }
       }
     )

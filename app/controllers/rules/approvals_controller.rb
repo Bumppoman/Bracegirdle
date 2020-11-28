@@ -6,8 +6,9 @@ class Rules::ApprovalsController < ApplicationController
     @rules_approval.update(
       status: :approved,
       approval_date: Date.current,
-      investigator: current_user
+      approved_by: current_user
     )
+    @rules_approval.investigator ||= current_user
     RulesApprovals::RulesApprovalApprovedEvent.new(@rules_approval, current_user).trigger
     
     # Create rules
@@ -19,7 +20,11 @@ class Rules::ApprovalsController < ApplicationController
     @rules.rules_document.attach(@rules_approval.revisions.first.rules_document.blob)
     @rules.save
     
-    redirect_to rules_by_date_cemetery_path(cemid: @rules.cemetery_cemid, date: @rules.approval_date.iso8601)
+    redirect_to rules_by_date_cemetery_path(cemid: @rules.cemetery_cemid, date: @rules.approval_date.iso8601),
+      flash: {
+        success: 'You have successfully approved these rules.',
+        download_letter: true
+      }
   end
   
   def assign
@@ -31,11 +36,10 @@ class Rules::ApprovalsController < ApplicationController
     )
     RulesApprovals::RulesApprovalAssignedEvent.new(@rules_approval, current_user).trigger
     
-    redirect_to rules_approval_path(@rules_approval,
+    redirect_to rules_approval_path(@rules_approval),
       flash: {
         success: 'You have successfully assigned these rules.'
       }
-    )
   end
   
   def create
@@ -87,17 +91,35 @@ class Rules::ApprovalsController < ApplicationController
   
   def new
     @rules_approval = authorize RulesApproval.new(
-        submission_date: Date.current,
-        request_by_email: false,
-        sender_state: 'NY',
-        investigator: current_user
+      submission_date: Date.current,
+      request_by_email: false,
+      sender_state: 'NY',
+      investigator: current_user
     )
   end
   
+  def recommend_approval
+    @rules_approval = authorize RulesApproval.find(params[:id])
+    @rules_approval.update(
+      status: :approval_recommended,
+      investigator: current_user
+    )
+    
+    RulesApprovals::RulesApprovalApprovalRecommendedEvent.new(@rules_approval, current_user).trigger
+  end
+  
   def show
-    @rules_approval = authorize RulesApproval.includes(:revisions).find(params[:id])
+    @rules_approval = authorize RulesApproval.includes(:cemetery, :investigator, revisions: [rules_document_attachment: :blob])
+      .find(params[:id])
     @revisions = @rules_approval.revisions
-    @received_revisions = @revisions.where(status: :received)
+    @received_revisions = @revisions.select { |revision| revision.received? }
+  end
+  
+  def withdraw
+    @rules_approval = authorize RulesApproval.find(params[:id])
+    @rules_approval.update(status: :withdrawn)
+    
+    RulesApprovals::RulesApprovalWithdrawnEvent.new(@rules_approval, current_user).trigger
   end
   
   private

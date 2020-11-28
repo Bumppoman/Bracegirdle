@@ -1,9 +1,17 @@
 class ContractorPolicy < ApplicationPolicy
-  def edit?
+  def create?
+    user.staff?
+  end
+  
+  def index?
+    show?
+  end
+  
+  def show?
     user.staff?
   end
   
   def update?
-    edit?
+    user.staff?
   end
 end

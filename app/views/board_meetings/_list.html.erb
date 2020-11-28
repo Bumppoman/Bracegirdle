@@ -29,4 +29,63 @@
       </tbody>
     </table>
   </div>
+  <% if policy(BoardMeeting.new).create? %>
+    <div class="mg-t-20">
+      <ul class="nav nav-gray-600 nav-underline justify-content-center">
+        <li class="nav-item">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-target="#board_meetings-form-modal"
+            data-toggle="modal"
+          >Add board meeting</button>
+        </li>
+      </ul>
+    </div>
+  <% end %>
 </section>
+<%= form_with model: BoardMeeting.new(raw_date: Date.current, raw_time: '16:00:00'), 
+  url: board_meetings_path, 
+  builder: BracegirdleFormBuilder do |f| 
+%>
+  <div 
+    id="board_meetings-form-modal" 
+    class="modal fade"
+  >
+    <div class="modal-dialog modal-lg wd-60p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Add New Board Meeting</h6>
+          <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <%= f.date_field :raw_date, label: 'Date', required: true %>
+              </div>
+              <div class="col">
+                <%= f.time_field :raw_time, label: 'Time', step: 900, required: true %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.text_field :location, label: 'Location', required: true %>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer mg-t-20">
+            <button class="btn btn-primary">Add New Board Meeting</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary" 
+              data-dismiss="modal"
+            >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

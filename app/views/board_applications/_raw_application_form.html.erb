@@ -34,10 +34,10 @@
                   %>
                   <%= f.select :trustee,
                     {},
-                    { label: false, prompt: 'Select trustee', required: true, without_choices: true },
+                    { label: false, prompt: 'Select trustee', required: true },
                     { 
                       data: { 
-                        target: 'trustees--select-for-cemetery.trustee' 
+                        target: 'trustees--select-for-cemetery.trusteeSelectElement' 
                       },
                       disabled: true
                     }

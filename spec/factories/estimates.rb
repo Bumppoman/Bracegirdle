@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :estimate do
-    document { fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf') }
+    document { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf')) }
     association :contractor, factory: :contractor
     amount { '12345.67' }
     warranty { 20 }

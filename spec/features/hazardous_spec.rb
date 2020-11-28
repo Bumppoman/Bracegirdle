@@ -92,6 +92,7 @@ feature 'Hazardous' do
     fill_in 'Date Previous Work Approved', with: '09/01/2017'
     click_on 'Next'
     click_on 'Submit Application'
+    assert_selector '#board_applications-restorations-show'
     visit board_applications_hazardous_index_path
 
     expect(page).to have_content 'Sent to supervisor'
@@ -140,11 +141,7 @@ feature 'Hazardous' do
     find('#legal-notice-proper-format-yes').click
     click_on 'Next'
     assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
-    find('#previous-exists-yes').click
-    assert_selector 'div[data-target="board-applications--restorations--evaluate.previousDetailsArea"]'
-    attach_file 'hazardous_previous_completion_report_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    choices 'Hazardous', from: 'Type of Project'
-    fill_in 'Date Previous Work Approved', with: '09/01/2017'
+    find('#previous-exists-no').click
     click_on 'Next'
     click_on 'Submit Application'
     visit board_applications_hazardous_index_path

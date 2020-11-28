@@ -6,11 +6,11 @@ body.modal-open .ui-timepicker-container {
   z-index: 3500 !important;
 }
 
-.form-group.required label:first-child {
+.form-group.required label.form-control-label:first-child {
   font-weight: bold;
 }
 
-.form-group.required label:first-child:after {
+.form-group.required label.form-control-label:first-child:after {
   content: " *";
 }
 
@@ -23,6 +23,20 @@ body.modal-open .ui-timepicker-container {
   width: 7px;
 }
 
+.badge {
+  align-items: center;
+  border-radius: 50%;
+  color: #fefefe;
+  display: flex;
+  font-size: 0.7rem;
+  justify-content: center;
+  min-height: 1.5em;
+  min-width: 1.5em;
+  position: absolute;
+  right: -6px;
+  top: -6px;
+}
+
 .disappearing-success-message {
   max-height: 200px;
   overflow: hidden;
@@ -31,6 +45,10 @@ body.modal-open .ui-timepicker-container {
 .hidden {
   max-height: 0;
   transition: max-height 750ms ease-out;
+}
+
+.activity-item a {
+  color: inherit;
 }
 
 /*.choices {
@@ -321,4 +339,41 @@ body.modal-open .ui-timepicker-container {
 .bracegirdle-data-table .footer .info {
   float: left;
   margin: 7px 0;
+}
+
+.bracegirdle-timepicker .picker-container {
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  display: flex;
+  left: 0;
+  margin: 0 15px;
+  overflow: hidden;
+  padding-top: 15px;
+  position: absolute;
+  right: 0;
+  z-index: 5;
+}
+
+.bracegirdle-timepicker .picker-container ul {
+  max-height: 200px;
+  overflow: scroll;
+  padding: 0;
+  width: 100%;
+}
+
+.bracegirdle-timepicker .picker-container ul li {
+  height: 40px;
+  list-style: none;
+  padding: 10px;
+  text-align: center;
+}
+
+.bracegirdle-timepicker .picker-container ul li:not(.empty):hover {
+  background-color: #5b93d3;
+  color: #ffffff;
+}
+
+.bracegirdle-timepicker .picker-container ul li.selected {
+  background-color: #1b8fe7;
+  color: #ffffff;
 }

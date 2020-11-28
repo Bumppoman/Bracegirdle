@@ -6,26 +6,31 @@ class TrusteesController < ApplicationController
   end
   
   def index
-    @trustees = Cemetery.includes(:trustees).find(params[:cemid]).trustees.order(:position, :name)
+    @cemetery = Cemetery.includes(:trustees).find(params[:cemid])
+    @trustees = @cemetery.trustees.order(:position, :name)
     
     respond_to do |format|
       format.json do
-        output = [
+        output = 
           {
-            value: '',
-            label: 'Select trustee',
-            placeholder: true
+            add_path: cemetery_trustees_url(@cemetery),
+            trustees: [
+              {
+                value: '',
+                label: 'Select trustee',
+                placeholder: true
+              }
+            ] + @trustees.map do |trustee|
+              {
+                value: trustee.id,
+                label: "#{trustee.name} (#{trustee.position_name})",
+                selected: trustee.id == params[:selected_value].to_i,
+                customProperties: {
+                  trustee: trustee
+                }
+              }
+            end
           }
-        ] + @trustees.map do |trustee|
-          {
-            value: trustee.id,
-            label: "#{trustee.name} (#{trustee.position_name})",
-            selected: trustee.id == params[:selected_value].to_i,
-            customProperties: {
-              trustee: trustee
-            }
-          }
-        end
         
         render json: output.to_json
       end

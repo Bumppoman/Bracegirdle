@@ -9,10 +9,6 @@ Rails.application.routes.draw do
   
   # Appointments
   resources :appointments do
-    collection do
-      get 'calendar', to: 'appointments#index_for_calendar', as: :calendar
-    end
-
     member do
       patch :begin
       patch :cancel
@@ -29,7 +25,7 @@ Rails.application.routes.draw do
   namespace :board_applications do
     resources :land, path: 'land/:application_type', type: /(purchase|sale)/, only: [:create, :new, :index, :show] do
       member do
-        get 'evaluate', to: 'land#evaluate', as: :evaluate
+        get :evaluate
       end
     end
 
@@ -81,10 +77,9 @@ Rails.application.routes.draw do
     resources :trustees, except: :index
 
     collection do
-      get 'county/:county', to: 'cemeteries#index_by_county', as: :county
-      get 'county/:county/options', to: 'cemeteries#options_for_county'
+      get 'county/:county(/:options)', to: 'cemeteries#index_by_county', as: :county
       get 'region/:region', to: 'cemeteries#index_by_region', as: :region
-      get 'overdue-inspections(/region/:region)', to: 'cemeteries#overdue_inspections', as: :overdue_inspections
+      get 'overdue-inspections(/:type(/:region))', to: 'cemeteries#index_with_overdue_inspections', as: :overdue_inspections
     end
 
     member do
@@ -103,7 +98,7 @@ Rails.application.routes.draw do
       post 'inspections/upload', to: 'cemetery_inspections#create', as: :create_inspection
       get 'rules', to: 'rules#show', as: :rules
       get 'rules/:date', to: 'rules#show_for_date', as: :rules_by_date
-      get 'trustees', to: 'trustees#index', constraints: lambda { |req| req.format == :json }, as: :trustees_list
+      get 'trustees', to: 'trustees#index', constraints: -> (req) { req.format == :json }, as: :trustees_list
       get 'trustees', to: 'cemeteries#show', defaults: { tab: :trustees }, as: :trustees
     end
   end
@@ -121,20 +116,27 @@ Rails.application.routes.draw do
 
     member do
       patch :assign
-      patch 'begin-investigation'
+      patch :begin_investigation
       patch :close
-      patch 'complete-investigation'
-      get 'investigation-details', to: 'complaints#show', defaults: { tab: :investigation }, as: :investigation
+      patch :complete_investigation
+      get :investigation_details, to: 'complaints#show', defaults: { tab: :investigation }, as: :investigation
       patch :reassign
-      patch 'recommend-closure'
-      patch 'reopen-investigation'
-      patch 'request-update'
+      patch :recommend_closure
+      patch :reopen_investigation
+      patch :request_update
     end
   end
   
-  # Contractors
-  resources :contractors
+  # Crematories
+  namespace :crematories do
+    resources :retort_models
+  end
 
+  resources :crematories, param: :cemid do
+    resources :operators, only: [:create, :show, :update]
+    resources :retorts, only: [:create, :show, :update]
+  end
+  
   # Dashboard
   get 'splash', to: 'dashboard#splash', as: :splash
   post 'dashboard/search', to: 'dashboard#search', as: :search
@@ -170,27 +172,41 @@ Rails.application.routes.draw do
   resources :notices do
     resources :attachments, module: :notices
     resources :notes, module: :notices
+    
     member do
-      patch 'follow-up'
+      patch :follow_up
       get '*filename.pdf', to: 'notices#download', as: :download
-      patch 'receive-response'
+      patch :receive_response
       patch :resolve
     end
   end
 
   # Notifications
-  patch 'notifications/mark-all-read', to: 'notifications#mark_all_read', as: :mark_read_all_notifications
-  patch 'notifications/:id/mark-read', to: 'notifications#mark_read', as: :read_notification
+  resources :notifications, only: [] do
+    collection do
+      patch :mark_all_read
+    end
+    
+    member do
+      patch :mark_read
+    end
+  end
 
   # PDFs
   mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+  
+  # Reminders
+  resources :reminders do
+    member do
+      patch :complete
+    end
+  end
 
   # Rules
   namespace :rules do
-    #get 'rules/upload-old-rules', as: :upload_old_rules
-    #post 'rules/upload-old-rules', to: 'rules#create_old_rules', as: :create_old_rules
     resources :approvals do
       resources :notes, module: :approvals
+      
       resources :revisions do
         patch :receive
       end
@@ -199,8 +215,10 @@ Rails.application.routes.draw do
         patch :approve
         patch :assign
         get '*filename.pdf', action: :download_approval_letter, as: :download_approval_letter
-        patch 'request-revision'
-        patch 'upload-revision'
+        patch :request_revision
+        patch :recommend_approval
+        patch :upload_revision
+        patch :withdraw
       end
     end
   end
@@ -219,10 +237,10 @@ Rails.application.routes.draw do
     end
   end
   get 'user/calendar', to: 'users#calendar', as: :calendar_user
+  get 'user/calendar/events', to: 'users#calendar_events', as: :calendar_events_user
   get 'user/change-password', to: 'users#change_password', as: :change_user_password
   get 'user(/:id)/profile', to: 'users#profile', as: :user_profile
   post 'user/update-password', to: 'users#update_password', as: :update_user_password
-  get 'login', to: 'sessions#create', as: :login
   get 'logout', to: 'sessions#destroy', as: :logout
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

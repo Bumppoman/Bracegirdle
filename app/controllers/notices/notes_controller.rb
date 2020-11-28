@@ -3,6 +3,6 @@ class Notices::NotesController < NotesController
 
   private
     def set_notable
-      @notable = Notice.find(params[:notice_id])
+      @notable = Notice.includes(:investigator).find(params[:notice_id])
     end
 end

@@ -7,6 +7,17 @@ feature 'Board Meetings' do
     @contractor = FactoryBot.create(:contractor)
     @application = FactoryBot.create(:reviewed_hazardous)
   end
+  
+  scenario 'Supervisor can create board meeting', js: true do
+    login_supervisor
+    
+    visit board_meetings_path
+    click_button 'Add board meeting'
+    fill_in 'Location', with: '99 Washington Avenue, Albany, NY 12231'
+    click_button 'Add New Board Meeting'
+    
+    expect(page).to have_content "#{Date.current.strftime('%B %Y').upcase} BOARD MEETING"
+  end
 
   scenario 'User can finalize agenda', js: true do
     @board_meeting = FactoryBot.create(:board_meeting, date: '2028-03-01')

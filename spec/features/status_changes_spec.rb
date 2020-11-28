@@ -104,10 +104,7 @@ feature 'Status Changes' do
     find('#legal-notice-proper-format-yes').click
     click_on 'Next'
     assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
-    find('#previous-exists-yes').click
-    attach_file 'hazardous_previous_completion_report_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
-    choices 'Hazardous', from: 'Type of Project'
-    fill_in 'Date Previous Work Approved', with: '09/01/2017'
+    find('#previous-exists-no').click
     click_on 'Next'
 
     expect {

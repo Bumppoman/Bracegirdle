@@ -14,17 +14,13 @@ class CemeteryPolicy < ApplicationPolicy
   def index_by_region?
     index?
   end
+  
+  def index_with_overdue_inspections?
+    index?
+  end
 
   def new?
     create?
-  end
-
-  def options_for_county?
-    show?
-  end
-
-  def overdue_inspections?
-    index?
   end
 
   def show?

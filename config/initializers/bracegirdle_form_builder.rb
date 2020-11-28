@@ -88,7 +88,27 @@ class BracegirdleFormBuilder < ActionView::Helpers::FormBuilder
   end
   
   def time_field(m, options = {})
-    wrapped_text_field(:time_field, m, options)
+    @template.tag.div(
+      class: "form-group#{' required' if options[:required]}",
+      data: {
+        controller: 'timepicker'
+      }
+    ) do
+      label(m, options[:label]) +
+      method(:text_field).super_method.call(
+        m, 
+        input_options(
+          options.merge(
+            {
+              data: {
+                target: 'timepicker.originalInput'
+              }
+            }
+          )
+        )
+      ) +
+      help_text(options[:help_text])
+    end
   end
 
   private
@@ -103,6 +123,8 @@ class BracegirdleFormBuilder < ActionView::Helpers::FormBuilder
     (defaults.keys + options.keys).inject({}) do |h, key|
       if key == :data
         h[key] = options[key]
+      elsif key == :label
+        h
       else
         h[key] = [defaults[key], options[key]].compact.join(' ')
       end

@@ -1,0 +1,60 @@
+<li class="nav-item with-sub">
+  <a class="nav-link" href="#">
+    <i class="material-icons mr-2 tx-primary">inbox</i>
+    <span>Inbox</span>
+  </a>
+  <div class="sub-item">
+    <ul>
+    </ul>
+  </div>
+</li>
+<li class="nav-item with-sub mega-dropdown">
+  <a class="nav-link" href="#">
+    <i class="material-icons mr-2 tx-primary">article</i>
+    <span>Reports</span>
+  </a>
+  <div class="sub-item">
+    <div class="row">
+      <div class="col-lg-4">
+        <label class="section-label">Accounting</label>
+        <ul>
+        </ul>
+        <label class="section-label mg-t-20">Investigative</label>
+        <ul>
+          <li><%= link_to 'Cemeteries with overdue inspections', overdue_inspections_cemeteries_path %></li>
+        </ul>
+      </div>
+      <div class="col-lg mg-t-30 mg-lg-t-0">
+        <label class="section-label">Restoration</label>
+        <ul>
+        </ul>
+      </div>
+      <div class="col-lg mg-t-30 mg-lg-t-0">
+        <label class="section-label">Other</label>
+        <ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+</li>
+<li class="nav-item with-sub">
+  <a class="nav-link" href="#">
+    <i class="material-icons mr-2 tx-primary">admin_panel_settings</i>
+    <span>Administration</span>
+  </a>
+  <div class="sub-item">
+    <ul>
+      <li class="sub-with-sub">
+        <a href="#">Staff</a>
+        <ul>
+        </ul>
+      </li>
+      <li class="sub-with-sub">
+        <a href="#">System</a>
+        <ul>
+          <li><%= link_to 'Update letterhead', admin_edit_letterhead_path %></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</li>

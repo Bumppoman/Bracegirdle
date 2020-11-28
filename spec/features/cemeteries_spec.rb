@@ -86,7 +86,7 @@ feature 'Cemeteries' do
     @syracuse_cemetery.save
     login
 
-    visit overdue_inspections_cemeteries_path(region: :syracuse)
+    visit overdue_inspections_cemeteries_path(type: :region, region: :syracuse)
 
     expect(page).to have_content 'Bird Cemetery'
   end

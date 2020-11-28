@@ -3,6 +3,6 @@ class Notices::AttachmentsController < AttachmentsController
 
   private
   def set_attachable
-    @attachable = Notice.find(params[:notice_id])
+    @attachable = Notice.includes(:cemetery).find(params[:notice_id])
   end
 end

@@ -19,9 +19,8 @@ describe CemeteriesController, type: :controller do
 
     permissions_test(allowed, disallowed, :index_by_county, :get, false, county: 4).call
     permissions_test(allowed, disallowed, :index_by_region, :get, false, region: 'binghamton').call
-    permissions_test(allowed, disallowed, :options_for_county, :get, false, county: 4, selected_value: '4,1').call
-    permissions_test(allowed, disallowed, :overdue_inspections, :get).call
-    #permissions_test(allowed, disallowed, :show, :get, true).call
+    permissions_test(allowed, disallowed, :index_with_overdue_inspections, :get).call
+    permissions_test(allowed, disallowed, :show, :get, false, cemid: '04001').call
   end
 
   context 'Just supervisor' do

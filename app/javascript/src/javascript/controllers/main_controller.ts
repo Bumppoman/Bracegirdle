@@ -1,7 +1,9 @@
 import BSN from 'bootstrap.native';
+import Choices from 'choices.js';
 import Rails from '@rails/ujs';
 
 import ApplicationController from './application_controller';
+import { BracegirdleSelect } from '../types';
 
 export default class extends ApplicationController {
   static targets = [
@@ -30,7 +32,7 @@ export default class extends ApplicationController {
   
     // Initialize Choices
     for (const select of document.querySelectorAll('.choices-basic, .choices-show-search')) {
-      this.createChoices(select as HTMLSelectElement);
+      (select as BracegirdleSelect).choicesInstance = this.createChoices(select as HTMLSelectElement);
     }
   
     // Load the file name in file inputs
@@ -39,6 +41,11 @@ export default class extends ApplicationController {
         const currentInput = event.target as HTMLInputElement;
         currentInput.nextElementSibling.textContent = currentInput.files[0].name;
       });
+    }
+    
+    // Disable nav links
+    for (const navLink of document.querySelectorAll('.slim-navbar .nav-link:not(.enabled), .sub-with-sub > a')) {
+      navLink.addEventListener('click', (event) => event.preventDefault());
     }
   }
   
@@ -92,7 +99,11 @@ export default class extends ApplicationController {
   }
   
   openBracegirdleConfirmationModal(event: Event) {
-    const attributes = (event.target as HTMLElement).dataset;
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Set the title and text
+    const attributes = (event.currentTarget as HTMLElement).dataset;
     this.confirmationModalTextTarget.textContent = attributes.confirmationModalText;
     this.confirmationModalTitleTarget.textContent = `${attributes.confirmationModalTitle}?`;
     
@@ -110,7 +121,10 @@ export default class extends ApplicationController {
     if ('confirmationModalFormMethod' in attributes) {
       (this.confirmationModalFormTarget.querySelector('input[name="_method"]') as HTMLInputElement).value = 
         attributes.confirmationModalFormMethod;
-      this.confirmationModalFormTarget.method = attributes.confirmationModalFormMethod;
+      
+      if (attributes.confirmationModalFormMethod === 'post') {
+        this.confirmationModalFormTarget.method = attributes.confirmationModalFormMethod;
+      }
     }
     
     this.openModal(this.confirmationModalTarget);

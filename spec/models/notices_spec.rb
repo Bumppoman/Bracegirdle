@@ -166,16 +166,6 @@ describe Notice, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'is not valid without served_on_name' do
-      subject.served_on_name = nil
-      expect(subject).to_not be_valid
-    end
-
-    it 'is not valid without served_on_title' do
-      subject.served_on_title = nil
-      expect(subject).to_not be_valid
-    end
-
     it 'is not valid without served_on_street_address' do
       subject.served_on_street_address = nil
       expect(subject).to_not be_valid

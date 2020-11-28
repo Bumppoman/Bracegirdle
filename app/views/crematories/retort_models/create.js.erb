@@ -1,0 +1,11 @@
+<% if params['retort_model']['retort_form'] %>
+  document.getElementById('retorts-form-modal').dispatchEvent(
+    new CustomEvent('bracegirdle:crematories:retort_models:retortModelCreated',
+      {
+        detail: {
+          retortModelId: '<%= @retort_model.id %>'
+        }
+      }
+    )
+  );
+<% end %>

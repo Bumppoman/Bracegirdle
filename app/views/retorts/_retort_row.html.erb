@@ -1,0 +1,20 @@
+<tr 
+  data-target="retorts--index.retort"
+  data-retort-id="<%= retort.id %>">
+  <td>
+    <%= retort.retort_model.formatted_name %>
+  </td>
+  <td><%= retort.installation_date %></td>
+  <td><%= retort.formatted_status %></td>
+  <td class="text-center">
+    <%= link_to '#', 
+      data: {
+        action: 'retorts--index#editRetort',
+        form_action: crematory_retort_path(retort.crematory_cemid, retort.id),
+        retort_id: retort.id 
+      } do
+    %>
+      <i class="material-icons tx-18">edit</i>
+    <% end %>
+  </td>
+</tr>

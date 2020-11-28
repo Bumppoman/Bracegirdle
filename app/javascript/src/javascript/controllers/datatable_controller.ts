@@ -4,6 +4,7 @@ import ApplicationController from './application_controller';
 
 export default class extends ApplicationController {
   static targets = [
+    'emptyMessage',
     'footer',
     'header',
     'info',
@@ -13,8 +14,10 @@ export default class extends ApplicationController {
   ];
   
   declare readonly element: HTMLElement;
+  declare readonly emptyMessageTarget: HTMLTableRowElement;
   declare firstRecord: number;
   declare readonly footerTarget: HTMLElement;
+  declare readonly hasEmptyMessageTarget: boolean;
   declare readonly headerTarget: HTMLElement;
   declare readonly infoTarget: HTMLElement;
   declare lastRecord: number;
@@ -56,10 +59,9 @@ export default class extends ApplicationController {
     this.draw();
   }
   
-  checkForEmpty() {
-    
+  checkForEmpty(rowCount) {
     // Display empty message
-    if (this.rowCount === 0) {      
+    if (rowCount === 0) {  
 
       // Create the empty cell
       const emptyCell = document.createElement('td');
@@ -69,11 +71,18 @@ export default class extends ApplicationController {
       
       // Create the empty row
       const emptyRow = document.createElement('tr');
+      emptyRow.dataset.target = 'datatable.emptyMessage';
       emptyRow.appendChild(emptyCell);
       this.table.tBodies[0].appendChild(emptyRow);
       
       // Hide the footer
       this.footerTarget.classList.add('d-none');
+    } else {
+      if (this.hasEmptyMessageTarget) {
+        this.emptyMessageTarget.remove();
+      }
+      
+      this.footerTarget.classList.remove('d-none');
     }
   }
   
@@ -149,7 +158,7 @@ export default class extends ApplicationController {
     this.table.before(header);
     
     // Create choices for per page select
-    this.perPageChoices = new Choices(this.perPageSelectTarget, { itemSelectText: '' });
+    this.perPageChoices = new Choices(this.perPageSelectTarget, { itemSelectText: '', searchEnabled: false });
     this.perPageChoices.setChoiceByValue(this.perPage.toString());
   }
   
@@ -199,7 +208,6 @@ export default class extends ApplicationController {
     
     // Create the footer
     this.createFooter();
-    this.rowCount = this.table.tBodies[0].rows.length;
     
     // Draw the table
     this.draw();
@@ -220,32 +228,32 @@ export default class extends ApplicationController {
         previousDisabled = false;
         previousLinkPage = this.page - 1;
       }
-      list.appendChild(this.linkToPage(previousLinkPage, 'Previous', previousDisabled));
+      list.appendChild(this._linkToPage(previousLinkPage, 'Previous', previousDisabled));
       
       // Add links
       if (totalPages <= 8) {
         for (let i = 1; i <= totalPages; i++) {
-          list.appendChild(this.linkToPage(i));
+          list.appendChild(this._linkToPage(i));
         }
       } else if (this.page - 4 > 1 && this.page + 4 < totalPages) {
-        list.appendChild(this.linkToPage(1));
-        list.appendChild(this.linkToPage(0, '...', true));
+        list.appendChild(this._linkToPage(1));
+        list.appendChild(this._linkToPage(0, '...', true));
         for (let i = this.page - 2; i <= this.page + 2; i++) {
-          list.appendChild(this.linkToPage(i));
+          list.appendChild(this._linkToPage(i));
         }
-        list.appendChild(this.linkToPage(0, '...', true));
-        list.appendChild(this.linkToPage(totalPages));
+        list.appendChild(this._linkToPage(0, '...', true));
+        list.appendChild(this._linkToPage(totalPages));
       } else if (this.page + 4 < totalPages) {
         for (let i = 1; i <= 7; i++) {
-          list.appendChild(this.linkToPage(i));
+          list.appendChild(this._linkToPage(i));
         }
-        list.appendChild(this.linkToPage(0, '...', true));
-        list.appendChild(this.linkToPage(totalPages));
+        list.appendChild(this._linkToPage(0, '...', true));
+        list.appendChild(this._linkToPage(totalPages));
       } else {
-        list.appendChild(this.linkToPage(1));
-        list.appendChild(this.linkToPage(0, '...', true));
+        list.appendChild(this._linkToPage(1));
+        list.appendChild(this._linkToPage(0, '...', true));
         for (let i = totalPages - 6; i <= totalPages; i++) {
-          list.appendChild(this.linkToPage(i))
+          list.appendChild(this._linkToPage(i))
         }
       }
       
@@ -256,7 +264,7 @@ export default class extends ApplicationController {
         nextDisabled = false;
         nextLinkPage = this.page + 1;
       }
-      list.appendChild(this.linkToPage(nextLinkPage, 'Next', nextDisabled));
+      list.appendChild(this._linkToPage(nextLinkPage, 'Next', nextDisabled));
     }
     
     this.paginationListTarget.replaceWith(list);
@@ -296,17 +304,22 @@ export default class extends ApplicationController {
   
   sort() {
     
+    // Check if the table is empty
+    this.checkForEmpty(this.table.tBodies[0].rows.length);
+    
     // Apply sort headers    
     for (const [index, header] of [...this.table.tHead.rows[0].cells].entries()) {
       
       // Turn header into link
-      const link = document.createElement('a');
-      link.href = '#';
-      link.dataset.action = 'datatable#performSort';
-      link.dataset.index = index.toString();
-      link.innerHTML = header.textContent || '&nbsp;';
-      header.innerHTML = '';
-      header.appendChild(link);
+      if (!('sortable' in header.dataset) || header.dataset.sortable === 'true') {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.dataset.action = 'datatable#performSort';
+        link.dataset.index = index.toString();
+        link.innerHTML = header.textContent || '&nbsp;';
+        header.innerHTML = '';
+        header.appendChild(link);
+      }
       
       // Add class if currently sorted
       if (index === this.sortParameters.index) {
@@ -394,7 +407,7 @@ export default class extends ApplicationController {
   }
   
   // #linkToPage(page: number)
-  linkToPage(page: number, title?: string, disabled: boolean = false): HTMLLIElement {
+  _linkToPage(page: number, title?: string, disabled: boolean = false): HTMLLIElement {
     
     // Create link
     const link = document.createElement('a');
@@ -436,7 +449,6 @@ export default class extends ApplicationController {
   
   set rowCount(rowCount: number) {
     this._rowCount = rowCount;
-    this.checkForEmpty();
   }
   
   get search() {

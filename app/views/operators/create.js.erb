@@ -1,0 +1,9 @@
+document.getElementById('operators-list').dispatchEvent(
+  new CustomEvent('bracegirdle:operators:operatorAdded', 
+    { 
+      detail: {
+        operator: '<%= j render(partial: 'operator_row', locals: { operator: @operator }) %>'
+      }
+    }
+  )
+);

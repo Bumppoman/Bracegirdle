@@ -1,7 +1,24 @@
-document.getElementById('trustees-list').dispatchEvent(
-  new CustomEvent('bracegirdle:trustees:trusteeAdded', 
-    { 
-      detail: <%= raw @response %>
-    }
-  )
-);
+<% if params['trustee']['added_at_need'] %>
+  document.body.dispatchEvent(
+    new CustomEvent('bracegirdle:trustees:trusteeAdded',
+      {
+        detail: {
+          label: '<%= "#{@trustee.name} (#{@trustee.position_name})" %>',
+          value: '<%= @trustee.id %>',
+          selected: true,
+          customProperties: {
+            trustee: <%= raw @trustee.to_json %>
+          }
+        }
+      }
+    )
+  );
+<% else %>
+  document.getElementById('trustees-list').dispatchEvent(
+    new CustomEvent('bracegirdle:trustees:trusteeAdded', 
+      { 
+        detail: <%= raw @response %>
+      }
+    )
+  );
+<% end %>

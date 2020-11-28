@@ -8,7 +8,7 @@ FactoryBot.define do
     
     after(:create) do |rules_approval|
       rules_approval.revisions << FactoryBot.create(:revision)
-      rules_approval.revisions.first.rules_document.attach fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'))
+      rules_approval.revisions.first.rules_document.attach Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf'))
     end
 
     factory :revision_requested do
@@ -23,6 +23,10 @@ FactoryBot.define do
     factory :another_investigator_rules_approval do
       investigator_id { 2 }
       status { :pending_review }
+    end
+    
+    factory :approval_recommended_rules_approval do
+      status { :approval_recommended }
     end
 
     factory :approved_rules_approval do

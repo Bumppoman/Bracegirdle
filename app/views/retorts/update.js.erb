@@ -1,0 +1,10 @@
+document.getElementById('retorts-list').dispatchEvent(
+  new CustomEvent('bracegirdle:retorts:retortUpdated',
+    {
+      detail: {
+        retort: '<%= j render(partial: 'retort_row', locals: { retort: @retort }) %>',
+        retortId: '<%= @retort.id %>'
+      }
+    }
+  )
+);

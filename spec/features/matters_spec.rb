@@ -27,6 +27,7 @@ feature 'Matters' do
     click_on 'Schedule'
     choose 'matter_board_meeting_1'
     click_on 'Schedule Matter'
+    assert_selector '.disappearing-success-message'
     visit board_meetings_path
     click_on 'March 2028'
 
@@ -39,6 +40,7 @@ feature 'Matters' do
     click_on 'Schedule'
     choose 'matter_board_meeting_1'
     click_on 'Schedule Matter'
+    assert_selector '.disappearing-success-message'
     visit board_meetings_path
     click_on 'March 2028'
 

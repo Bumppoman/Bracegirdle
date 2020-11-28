@@ -9,7 +9,8 @@ class ComplaintsController < ApplicationController
     @complaint = authorize Complaint.find(params[:id])
     @complaint.update(
       status: :investigation_begun,
-      investigator: User.find(params[:complaint][:investigator]))
+      investigator_id: params[:complaint][:investigator]
+    )
     Complaints::ComplaintAssignEvent.new(@complaint, current_user).trigger
 
     respond_to do |f|
@@ -34,7 +35,7 @@ class ComplaintsController < ApplicationController
   end
 
   def close
-    @complaint = authorize Complaint.find(params[:id])
+    @complaint = authorize Complaint.includes(:investigator, :receiver).find(params[:id])
     @complaint.disposition = params[:complaint][:disposition] if @complaint.investigation_completed?
     @complaint.update(
       status: :closed,
@@ -158,7 +159,9 @@ class ComplaintsController < ApplicationController
   end
 
   def show
-    @complaint = authorize Complaint.includes(:cemetery, attachments: { file_attachment: :blob }).find(params[:id])
+    @complaint = authorize Complaint.includes(
+      :cemetery, :closed_by, :investigator, :receiver, attachments: { file_attachment: :blob })
+      .find(params[:id])
   end
 
   private

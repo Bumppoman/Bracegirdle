@@ -19,7 +19,7 @@ feature 'Rules Approvals' do
     choices 'Mark Clark (President)', from: 'Submitted By'
     fill_in 'Address', with: '223 Fake St.'
     fill_in 'City', with: 'Rotterdam'
-    choices 'PA', from: 'State'
+    choices 'NY', from: 'State'
     fill_in 'ZIP Code', with: '12345'
     attach_file 'rules_approval_rules_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Investigator'
@@ -44,6 +44,31 @@ feature 'Rules Approvals' do
     click_button 'Upload Rules'
 
     expect(page).to have_content 'There was a problem'
+  end
+  
+  scenario 'User can add trustee while uploading rules', js: true do
+    login
+    visit new_rules_approval_path
+
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    click_button 'Add New Trustee'
+    within '#trustee-form-modal' do
+      fill_in 'Name', with: 'Horace Hamlin'
+      choices 'Treasurer', from: 'Position'
+      click_button 'Add New Trustee'
+    end
+    fill_in 'Address', with: '223 Fake St.'
+    fill_in 'City', with: 'Rotterdam'
+    choices 'NY', from: 'State'
+    fill_in 'ZIP Code', with: '12345'
+    attach_file 'rules_approval_rules_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    choices 'Chester Butkiewicz', from: 'Investigator'
+    click_button 'Upload Rules'
+    visit rules_approvals_path
+
+    expect(page).to have_content 'Anthony Cemetery'
+    expect(RulesApproval.first.trustee.name).to eq 'Horace Hamlin'
   end
   
   scenario "User can't do anything with somebody else's rules in progress" do
@@ -78,18 +103,46 @@ feature 'Rules Approvals' do
     expect(page).to have_content 'Waiting for revisions'
   end
   
-  scenario 'Can approve rules', js: true do
-    @rules_approval = FactoryBot.create(:rules_approval)
-    @rules_approval.update(investigator_id: 1)
+  scenario 'Investigator can recommend rules for approval', js: true do
+    @rules_approval = FactoryBot.create(:rules_approval, investigator_id: 1, status: :pending_review)
     login
-
+  
+    visit rules_approval_path(@rules_approval)
+    click_button 'Recommend Approval'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Recommend Approval'
+    end
+    assert_selector '.disappearing-success-message'
+  
+    expect(page).not_to have_content 'Recommend Approval'
+  end
+  
+  scenario 'Investigator can withdraw rules', js: true do
+    @rules_approval = FactoryBot.create(:rules_approval, investigator_id: 1, status: :pending_review)
+    login
+  
+    visit rules_approval_path(@rules_approval)
+    click_button 'Withdraw'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Withdraw Rules'
+    end
+    assert_selector '.disappearing-success-message'
+  
+    expect(page).not_to have_content 'Withdraw'
+  end
+  
+  scenario 'Supervisor can directly approve rules', js: true do
+    @rules_approval = FactoryBot.create(:rules_approval, investigator_id: 1, status: :pending_review)
+    login_supervisor
+  
     visit rules_approval_path(@rules_approval)
     click_button 'Approve'
     within '#bracegirdle-confirmation-modal' do
-      click_button 'Approve Rules'
+      click_button 'Approve'
     end
-
-    expect(page).to have_content 'Approved'
+    assert_selector '.disappearing-success-message'
+  
+    expect(page).to have_content 'APPROVED'
   end
   
   scenario 'Supervisor has unassigned rules in queue' do
@@ -98,6 +151,15 @@ feature 'Rules Approvals' do
 
     visit rules_approvals_path
 
+    expect(page).to have_content 'Anthony Cemetery'
+  end
+  
+  scenario 'Supervisor has rules recommended for approval in queue' do
+    @rules_approval = FactoryBot.create(:approval_recommended_rules_approval)
+    login_supervisor
+    
+    visit rules_approvals_path
+    
     expect(page).to have_content 'Anthony Cemetery'
   end
   
@@ -142,6 +204,20 @@ feature 'Rules Approvals' do
     expect(page).to have_content 'Anthony Cemetery'
   end
   
+  scenario 'Supervisor can approve rules recommended for approval', js: true do
+    @rules_approval = FactoryBot.create(:approval_recommended_rules_approval)
+    login_supervisor
+  
+    visit rules_approval_path(@rules_approval)
+    click_button 'Approve'
+    within '#bracegirdle-confirmation-modal' do
+      click_button 'Approve Rules'
+    end
+    assert_selector '.disappearing-success-message'
+  
+    expect(page).to have_content 'APPROVED'
+  end
+  
   scenario 'User can upload a revision to rules', js: true do
     @rules_approval = FactoryBot.create(:revision_requested)
     login
@@ -171,6 +247,7 @@ feature 'Rules Approvals' do
     visit rules_approval_path(@rules_approval)
     fill_in 'note[body]', with: 'Adding a note to this rules approval'
     click_on 'Submit'
+    assert_selector '[data-target="notes.note"]'
 
     expect(page).to have_content 'Adding a note to this rules approval'
   end

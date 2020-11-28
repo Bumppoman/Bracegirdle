@@ -178,7 +178,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <%= f.label :manner_of_contact, 'Manner of Contact' %>
-            <% Complaint::NAMED_MANNERS_OF_CONTACT.each do |id, type| %>
+            <% Complaint.named_manners_of_contact.each do |id, type| %>
               <label class="ckbox">
                 <%= f.check_box :manner_of_contact, { multiple: true }, id, nil %>
                 <span><%= type %></span>

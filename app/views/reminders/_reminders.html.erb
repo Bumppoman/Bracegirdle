@@ -1,0 +1,113 @@
+<div 
+  id="reminders"
+  data-action=
+    "hide.bs.dropdown->reminders#hide
+    bracegirdle:reminders:reminderCreated->reminders#create
+    bracegirdle:reminders:reminderRemoved->reminders#remove"
+  data-controller="reminders"
+>
+  <div 
+    class="dropdown dropdown-a" 
+    data-persist="true"
+    data-target="reminders.dropdown"
+  >
+    <a class="header-notification tx-primary" href="#" data-action="reminders#open">
+      <i class="material-icons">today</i>
+      <span 
+        class="badge bg-danger<%= ' d-none' unless current_user.due_reminders.count > 0 %>"
+        data-target="reminders.dueBadge"
+      >
+        <%= current_user.due_reminders.count %>
+      </span>
+    </a>
+    <div class="dropdown-menu" style="position: absolute !important;">
+      <div class="dropdown-menu-header">
+        <h6 class="dropdown-menu-title">Reminders</h6>
+        <div>
+          <%= link_to 'Mark All as Completed', 
+            '#', 
+            data: {
+              action: 'main#markAllRemindersCompleted'
+            }
+          %>
+          <a href="#">Settings</a>
+        </div>
+      </div>
+      <div class="dropdown-activity-list">
+        <% reminders = current_user.reminders.limit(5).group_by { |reminder| reminder.due_date.to_date } %>
+        <% reminders.each do |date, list| %>
+          <div data-target="reminders.reminderDate" data-date="<%= date.iso8601 %>">
+            <div class="activity-label"><%= date %></div>
+            <%= render partial: 'reminders/reminder', collection: list %>
+          </div>
+        <% end %>
+        <div 
+          class="activity-item<%= ' d-none' unless reminders.empty? %>"
+          data-target="reminders.noReminders"
+        >
+          You currently have no reminders.
+        </div>
+        <div class="dropdown-list-footer">
+          <a 
+            href="#"
+            data-action="reminders#add"
+          >Add Reminder</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= form_with model: Reminder.new(due_date: Date.current), 
+    url: reminders_path, 
+    builder: BracegirdleFormBuilder do |f| 
+  %>
+    <div 
+      id="reminders-form-modal" 
+      class="modal fade"
+      data-action=
+        "show.bs.modal->reminders#blockNextHide
+        hide.bs.modal->reminders#blockNextHide"
+      data-target="reminders.formModal"
+    >
+      <div class="modal-dialog modal-lg wd-60p" role="document">
+        <div class="modal-content">
+          <div class="modal-header pd-x-20">
+            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Create New Reminder</h6>
+            <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body pd-25">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col">
+                  <%= f.text_field :title, required: true %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <%= f.date_field :due_date, label: 'Date', required: true %>
+                </div>
+                <div class="col">
+                  <%= f.time_field :due_time, label: 'Time', step: 900, required: true, value: '12:00' %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <%= f.text_area :details, rows: 5, required: true %>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer mg-t-20">
+              <button class="btn btn-primary">Create New Reminder</button>
+              <button 
+                type="button" 
+                class="btn btn-secondary" 
+                data-dismiss="modal"
+              >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

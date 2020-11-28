@@ -28,15 +28,17 @@
                   id="search-box"
                   name="search"
                   class="form-control"
-                  placeholder="Search for cemeteries" />
+                  placeholder="Search for cemeteries" 
+                />
                 <button name="search-button" class="btn btn-primary">
                   <i class="material-icons tx-small" style="margin-left: -2.5px;">search</i>
                 </button>
               </div>
             <% end %>
+            <%= render 'reminders/reminders' %>
             <div
               id="notifications"
-              class="dropdown dropdown-b mg-r-10"
+              class="dropdown dropdown-b"
               data-action=
                 "bracegirdle:notifications:notificationRead->main#notificationRead
                 bracegirdle:notifications:allNotificationsRead->main#allNotificationsRead"
@@ -44,16 +46,18 @@
               <a class="header-notification tx-primary" href="#" data-toggle="dropdown">
                 <i class="material-icons">notifications</i>
                 <span 
-                  class="indicator<%= ' d-none' unless current_user.notifications.count > 0 %>"
+                  class="badge bg-danger<%= ' d-none' unless current_user.notifications.count > 0 %>"
                   data-target="main.notificationsUnreadIndicator"
-                ></span>
+                >
+                  <%= current_user.notifications.count %>
+                </span>
               </a>
               <div class="dropdown-menu" style="position: absolute !important;">
                 <div class="dropdown-menu-header">
                   <h6 class="dropdown-menu-title">Notifications</h6>
                   <div>
                     <%= link_to 'Mark All as Read', 
-                      mark_read_all_notifications_path, 
+                      mark_all_read_notifications_path, 
                       data: {
                         action: 'main#markAllNotificationsRead'
                       }
@@ -64,7 +68,7 @@
                 <div class="dropdown-list">
                   <%= render(
                     partial: 'notifications/notification', 
-                    collection: Notification.includes(:sender, :object).for_user(current_user).order(created_at: :desc).limit(5)
+                    collection: Notification.includes(:sender, object: [:cemetery]).for_user(current_user).order(created_at: :desc).limit(5)
                     ) || render(partial: 'notifications/none')
                   %>
                   <div class="dropdown-list-footer">
@@ -108,7 +112,7 @@
       </div>
     </header>
     <%= render "layouts/navbar/main" %>
-    <main role="main" class="slim-mainpanel">
+    <main class="slim-mainpanel">
       <div class="container">
         <div class="slim-pageheader">
           <ol class="breadcrumb slim-breadcrumb">

@@ -1,0 +1,74 @@
+<% content_for :title, 'Add New Crematory' %>
+<% content_for :breadcrumbs, breadcrumbs_helper(['Add new crematory']) %>
+<section class="section-wrapper">
+  <label class="section-title">Crematory</label>
+  <%= form_for @crematory, builder: BracegirdleFormBuilder do |f| %>
+    <div class="form-layout">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :name, required: true %>
+        </div>
+        <div class="col-md-3">
+          <%= f.select :county,
+            COUNTIES.invert,
+            { prompt: 'Select county', required: true }
+          %>
+        </div>
+        <div class="col-md-3">
+          <%= f.text_field :cemid,
+            help_text: 'Enter with no dashes (ex. 01001; 57999)',
+            label: 'Crematory ID',
+            required: true
+          %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.text_field :street_address, label: 'Address', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.text_field :city, required: true %>
+        </div>
+        <div class="col-md-2">
+          <%= f.select :state, 
+            options_for_select(STATES, @crematory.state),
+            { required: true }
+          %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :zip, label: 'ZIP Code', required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.phone_field :phone, required: true %>
+        </div>
+        <div class="col">
+          <%= f.email_field :email, required: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group required">
+            <label class="form-control-label">Classification</label>
+            <div class="d-flex justify-content-between">
+              <% Crematory::NAMED_CLASSIFICATIONS.each do |classification, title| %>
+                <div class="form-check form-check-inline">
+                  <label class="rdiobox">
+                    <%= f.radio_button :classification, classification, class: 'form-check-input' %>
+                    <span><%= title %></span>
+                  </label>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-layout-footer">
+        <button class="btn btn-primary">Add Crematory</button>
+      </div>
+    </div>
+  <% end %>
+</div>

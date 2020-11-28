@@ -39,10 +39,46 @@ class Complaint < ApplicationRecord
   validates :summary, presence: true
   validates :form_of_relief, presence: true
   validates :date_of_event, presence: true
-  validate :cemetery_is_completed
+  validate :cemetery_is_completed, on: :create
   validate :disposition_not_empty_if_closed
 
   FINAL_STATUSES = [:closed]
+  
+  GROUPED_COMPLAINT_TYPES = [
+    [
+      'Investigatory', 
+      [
+        ['Board member issue', 1],
+        ['Burial issues', 2],
+        ['Burial rights', 3],
+        ['Burial records', 4],
+        ['Burial society issues', 5],
+        ['Cemetery maintenance issues', 6],
+        ['Cremation process', 7],
+        ['Damaged monument', 8],
+        ['Dangerous conditions', 9],
+        ['Lot owner issues', 10],
+        ['Monument issues', 11],
+        ['Operating illegal cemetery', 12],
+        ['Perpetual care issues', 13],
+        ['Pet burial issues', 14],
+        ['Rules and regulations issues', 15],
+        ['Tree removal', 16],
+        ['Winter burial', 17]
+      ]
+    ],
+    [
+      'Accounting', 
+      [
+        ['Embezzlement/Fraud', 18],
+        ['Financial issues', 19],
+        ['Financial records issues', 20],
+        ['Service fee issues', 21],
+        ['Sales contract issues', 22]
+      ]
+    ]
+  ].freeze
+  private_constant :GROUPED_COMPLAINT_TYPES
 
   INITIAL_STATUSES = [:received, :investigation_begun, :pending_closure, :closed]
 
@@ -52,6 +88,7 @@ class Complaint < ApplicationRecord
       3 => 'Email',
       4 => 'In Person'
   }.freeze
+  private_constant :NAMED_MANNERS_OF_CONTACT
 
   NAMED_STATUSES = {
       received: 'Complaint received',
@@ -60,13 +97,45 @@ class Complaint < ApplicationRecord
       pending_closure: 'Closure recommended',
       closed: 'Complaint closed'
   }.freeze
-
-  def self.grouped_complaint_types
-    GROUPED_COMPLAINT_TYPES
-  end
-
-  def self.raw_complaint_types
-    RAW_COMPLAINT_TYPES
+  
+  RAW_COMPLAINT_TYPES = {
+    1 => 'Board member issue',
+    2 => 'Burial issues',
+    3 => 'Burial rights',
+    4 => 'Burial records',
+    5 => 'Burial society issues',
+    6 => 'Cemetery maintenance issues',
+    7 => 'Cremation process',
+    8 => 'Damaged monument',
+    9 => 'Dangerous conditions',
+    10 => 'Lot owner issues',
+    11 => 'Monument issues',
+    12 => 'Operating illegal cemetery',
+    13 => 'Perpetual care issues',
+    14 => 'Pet burial issues',
+    15 => 'Rules and regulations issues',
+    16 => 'Tree removal',
+    17 => 'Winter burial',
+    18 => 'Embezzlement/Fraud',
+    19 => 'Financial issues',
+    20 => 'Financial records issues',
+    21 => 'Service fee issues',
+    22 => 'Sales contract issues'
+  }.freeze
+  private_constant :RAW_COMPLAINT_TYPES
+  
+  class << self
+    def grouped_complaint_types
+      GROUPED_COMPLAINT_TYPES
+    end
+    
+    def named_manners_of_contact
+      NAMED_MANNERS_OF_CONTACT
+    end
+    
+    def raw_complaint_types
+      RAW_COMPLAINT_TYPES
+    end
   end
 
   def active?

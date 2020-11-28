@@ -1,0 +1,53 @@
+<div 
+  class="activity-item"
+  data-date="<%= reminder.due_date.to_date.iso8601 %>"
+  data-reminder-id="<%= reminder.id %>"
+  data-target="reminders.reminder"
+>
+  <div class="row no-gutters">
+    <div class="col-3"><%= reminder.due_date.strftime('%l:%M %P') %></div>
+    <div class="col-6">
+      <%= reminder.title %>
+    </div>
+    <div class="col-3">
+      <a 
+        href="#" 
+        data-action="reminders#toggleDetails"
+        data-reminder-id="<%= reminder.id %>"
+      >
+        <i class="material-icons tx-18">keyboard_arrow_down</i>
+      </a>
+      <a 
+        href="#"
+        data-action=
+          "main#openBracegirdleConfirmationModal
+          reminders#blockNextHide"
+        data-confirmation-modal-form-action="<%= reminder_path(reminder) %>"
+        data-confirmation-modal-form-method="delete"
+        data-confirmation-modal-text="Are you sure you want to cancel this reminder?"
+        data-confirmation-modal-title="Cancel Reminder"
+      >
+        <i class="material-icons tx-18">clear</i>
+      </a>
+      <a
+        href="#"
+        data-action=
+          "main#openBracegirdleConfirmationModal
+          reminders#blockNextHide"
+        data-confirmation-modal-form-action="<%= complete_reminder_path(reminder) %>"
+        data-confirmation-modal-text="Are you sure you want to complete this reminder?"
+        data-confirmation-modal-title="Complete Reminder"
+      >
+        <i class="material-icons tx-18">done</i>
+      </a>
+    </div>
+  </div>
+  <div 
+    class="row no-gutters d-none"
+    data-reminder-id="<%= reminder.id %>"
+    data-target="reminders.reminderDetails"
+  >
+    <div class="col-3"></div>
+    <div class="col-9"><%= reminder.details %></div>
+  </div>
+</div>

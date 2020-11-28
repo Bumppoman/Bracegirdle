@@ -1,4 +1,8 @@
 class BoardMeetingPolicy < ApplicationPolicy
+  def create?
+    user.supervisor?  
+  end
+  
   def download_agenda?
     show?
   end

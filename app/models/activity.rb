@@ -1,4 +1,4 @@
-class Activity < ApplicationRecord
+class Activity < ApplicationRecord  
   after_find do
     raw_configuration = YAML.load_file(Rails.root.join('config', 'activities.yml'))['activities'][object_type.downcase]
     @color = raw_configuration['color']

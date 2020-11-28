@@ -1,0 +1,48 @@
+<section
+  id="retorts-list"
+  class="section-wrapper"
+  data-action=
+    "bracegirdle:retorts:retortAdded->retorts--index#handleRetortEvent
+    bracegirdle:retorts:retortUpdated->retorts--index#handleRetortEvent"
+  data-controller="retorts--index"
+>
+  <div 
+    class="disappearing-success-message hidden"
+    data-target="retorts--index.successMessage"
+  >
+    <div class="alert alert-success">
+    </div>
+  </div>
+  <div 
+    data-controller="datatable"
+    data-target="retorts--index.retortsDataTable"
+  >
+    <table 
+      id="retorts-data-table" 
+      class="table display responsive no-wrap"
+      data-empty-message="There are no retorts to display."
+      data-order="1"
+    >
+      <thead>
+        <tr>
+          <th scope="col">Model</th>
+          <th scope="col">Installation Date</th>
+          <th scope="col">Status</th>
+          <th scope="col" data-sortable="false">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'retorts/retort_row', collection: @crematory.retorts, as: :retort %>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center">
+    <button 
+      type="button"
+      class="btn btn-primary"
+      data-action="retorts--index#addRetort"
+    >Add New Retort</button>
+  </div>
+  <%= render partial: 'retorts/form' %>
+  <%= render partial: 'crematories/retort_models/form' %>
+</section>

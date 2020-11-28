@@ -1,0 +1,46 @@
+<section
+  id="operators-list"
+  class="section-wrapper"
+  data-action=
+    "bracegirdle:operators:operatorAdded->operators--index#handleOperatorEvent
+    bracegirdle:operators:operatorUpdated->operators--index#handleOperatorEvent"
+  data-controller="operators--index"
+>
+  <div 
+    class="disappearing-success-message hidden"
+    data-target="operators--index.successMessage"
+  >
+    <div class="alert alert-success">
+    </div>
+  </div>
+  <div 
+    data-controller="datatable"
+    data-target="operators--index.operatorsDataTable"
+  >
+    <table 
+      id="operators-data-table" 
+      class="table display responsive no-wrap"
+      data-empty-message="There are no operators to display."
+    >
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Certification Date</th>
+          <th scope="col">Certification Expiration Date</th>
+          <th scope="col" data-sortable="false">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'operators/operator_row', collection: @crematory.operators, as: :operator %>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center">
+    <button 
+      type="button"
+      class="btn btn-primary"
+      data-action="operators--index#addOperator"
+    >Add New Operator</button>
+  </div>
+  <%= render partial: 'operators/form' %>
+</section>

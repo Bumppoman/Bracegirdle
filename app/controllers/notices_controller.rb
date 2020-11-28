@@ -4,9 +4,11 @@ class NoticesController < ApplicationController
     @notice = authorize Notice.new(notice_params)
 
     # Set the cemetery, investigator, and trustee
-    @notice.cemetery = Cemetery.find_by(cemid: params.dig(:notice, :cemetery))
+    @notice.update(
+      cemetery_cemid: params[:notice][:cemetery],
+      trustee_id: params[:notice][:trustee]
+    )
     @notice.investigator = current_user
-    @notice.trustee = Trustee.find(params.dig(:notice, :trustee))
 
     if @notice.save
       Notices::NoticeIssueEvent.new(@notice, current_user).trigger
@@ -75,7 +77,8 @@ class NoticesController < ApplicationController
   end
 
   def show
-    @notice = authorize Notice.includes(notes: :user).find(params[:id])
+    @notice = authorize Notice.includes(:cemetery, :investigator, :trustee, attachments: [file_attachment: :blob], notes: :user)
+      .find(params[:id])
   end
 
   private

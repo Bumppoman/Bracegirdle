@@ -3,7 +3,8 @@ document.getElementById('appointments-index').dispatchEvent(
     {
       detail: {
         appointmentId: '<%= @appointment.id %>',
-        date: '<%= @appointment.begin.strftime("%B %-e, %Y %I:%M %p") %>'
+        date: '<%= @appointment.begin.strftime("%B %-e, %Y %I:%M %p") %>',
+        message: 'You have successfully rescheduled this <%= @appointment_name %>.'
       }
     }
   )

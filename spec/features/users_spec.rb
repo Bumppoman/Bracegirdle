@@ -8,6 +8,7 @@ feature 'Users' do
   scenario 'User can display the calendar', js: true do
     login
     @appointment = FactoryBot.create(:appointment)
+    @board_meeting = FactoryBot.create(:board_meeting, date: Date.current)
 
     visit calendar_user_path
 

@@ -61,12 +61,15 @@ class CemeteryInspectionsController < ApplicationController
   end
 
   def incomplete
-    @incomplete = authorize current_user.incomplete_inspections
+    @incomplete = authorize current_user.incomplete_inspections.includes(:cemetery)
   end
 
   def perform
-    @cemetery = Cemetery.find(params[:cemid])
-    @inspection = authorize CemeteryInspection.where(cemetery: @cemetery).where.not(status: [:performed, :completed]).first
+    @cemetery = Cemetery.includes(:trustees).find(params[:cemid])
+    @inspection = authorize CemeteryInspection.includes(:cemetery)
+      .where(cemetery: @cemetery)
+      .where.not(status: [:performed, :completed])
+      .first
   end
 
   def revise

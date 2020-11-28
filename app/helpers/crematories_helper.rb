@@ -1,0 +1,2 @@
+module CrematoriesHelper
+end

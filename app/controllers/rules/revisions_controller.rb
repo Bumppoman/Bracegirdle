@@ -1,6 +1,7 @@
 class Rules::RevisionsController < ApplicationController
   def create
-    @rules_approval = authorize RulesApproval.includes(:revisions).find(params[:approval_id])
+    @rules_approval = authorize(
+      RulesApproval.includes(:revisions).find(params[:approval_id]), :request_revision?)
     @revision = @rules_approval.revisions.new(comments: params[:revision][:comments])
     
     if @revision.valid?

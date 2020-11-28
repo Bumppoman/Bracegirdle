@@ -22,11 +22,13 @@ export default class extends Controller {
   }
   
   createChoices(select: HTMLSelectElement) {
-    return new Choices(select, 
+    select['choicesInstance'] = new Choices(select, 
       {
         shouldSort: false
       }
     );
+    
+    return select['choicesInstance'];
   }
   
   disappearingSuccessMessage(messageElement: HTMLElement, text?: string) {

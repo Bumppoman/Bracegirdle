@@ -1,4 +1,7 @@
 class BoardMeeting < ApplicationRecord
+  attribute :raw_date, :date
+  attribute :raw_time, :string
+  
   has_many :matters,
     -> { where.not board_application_type: 'Restoration' }
   has_many :restorations,
@@ -11,6 +14,9 @@ class BoardMeeting < ApplicationRecord
     minutes_finalized: 3,
     minutes_approved: 4
   }
+  
+  validates :date, presence: true
+  validates :location, presence: true
 
   def abandonment_count
     restorations_by_type('Abandonment').count

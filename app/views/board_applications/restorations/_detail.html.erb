@@ -35,7 +35,7 @@
       </tr>
       <% unless @restoration.received? %>
         <tr>
-          <th scope="row">Processed By</th>
+          <th scope="row">Evaluated By</th>
           <td><%= @restoration.investigator.name %> on <%= @restoration.recommendation_date %></td>
         </tr>
       <% end %>

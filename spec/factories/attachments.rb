@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :attachment do
-    file { fixture_file_upload Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf' }
+    file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf')) }
     description { 'Testing attachment' }
   end
 end

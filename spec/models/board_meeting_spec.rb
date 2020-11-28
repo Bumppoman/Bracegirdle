@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 def create_board_meeting
-  BoardMeeting.new(
-    date: Date.today,
-    initial_index: 1
-  )
+  FactoryBot.build(:board_meeting, date: Date.current)
 end
 
 describe BoardMeeting, type: :model do
@@ -13,6 +10,7 @@ describe BoardMeeting, type: :model do
   context BoardMeeting, 'Instance Methods' do
     context BoardMeeting, 'Instance Methods // Specific Counts' do
       before :each do
+        subject.save
         @cemetery = FactoryBot.create(:cemetery)
         @trustee = FactoryBot.create(:trustee)
         @hazardous = FactoryBot.create(:reviewed_hazardous)

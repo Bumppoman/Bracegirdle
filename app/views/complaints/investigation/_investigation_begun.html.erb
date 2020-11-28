@@ -8,7 +8,7 @@
   <p class="mb-10">Investigation begun on
     <span data-target="complaints--show.investigationBegunDate"><%= @complaint.investigation_begun_date %></span>.
   </p>
-  <div id="complaint-investigation_begun-action-area">
+  <div data-target="complaints--show.investigationBegunActionsArea">
     <% if policy(@complaint).complete_investigation? || @complaint.unassigned? %>
       <%= button_with_confirmation_modal 'Complete Investigation',
         form_action: complete_investigation_complaint_path,

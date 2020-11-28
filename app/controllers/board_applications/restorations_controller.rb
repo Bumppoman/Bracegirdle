@@ -7,9 +7,13 @@ module BoardApplications
     
     def evaluate
       @restoration = model.includes(
-          application_file_attachment: :blob,
-          estimates: [:contractor, document_attachment: :blob],
-          legal_notice_file_attachment: :blob
+        :cemetery,
+        :investigator,
+        :trustee,
+        application_file_attachment: :blob,
+        estimates: [:contractor, document_attachment: :blob],
+        legal_notice_file_attachment: :blob,
+        previous_completion_report_file_attachment: :blob
       ).find(params[:id])
       
       authorize [:board_applications, @restoration]
@@ -79,7 +83,7 @@ module BoardApplications
     end
 
     def show
-      @restoration = model.includes(estimates: :contractor).find(params[:id])
+      @restoration = model.includes(:cemetery, :investigator, :trustee, estimates: :contractor).find(params[:id])
       authorize [:board_applications, @restoration]
       
       redirect_to self.send("evaluate_board_applications_#{@restoration.type.downcase}_path") if 

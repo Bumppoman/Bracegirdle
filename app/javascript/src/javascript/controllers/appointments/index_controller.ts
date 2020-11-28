@@ -34,8 +34,7 @@ export default class extends ApplicationController {
   
   appointmentRescheduled(event: CustomEvent) {
     // Show success message
-    this.successMessageTarget.classList.remove('hidden');
-    setTimeout(() => this.successMessageTarget.classList.add('hidden'), 5000);
+    this.disappearingSuccessMessage(this.successMessageTarget, event.detail.message);
     
     // Close modal
     this.closeModal(this.rescheduleModalTarget);

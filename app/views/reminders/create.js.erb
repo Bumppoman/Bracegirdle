@@ -1,0 +1,9 @@
+document.getElementById('reminders').dispatchEvent(
+  new CustomEvent('bracegirdle:reminders:reminderCreated',
+    {
+      detail: {
+        reminders: '<%= j render(partial: 'reminders') %>DIDDY'
+      }
+    }
+  )
+);

@@ -3,7 +3,7 @@
     <div class="container">
       <ul class="nav">
         <li class="nav-item">
-          <%= link_to dashboard_index_path, class: 'nav-link' do %>
+          <%= link_to dashboard_index_path, class: 'nav-link enabled' do %>
             <i class="material-icons mr-2 tx-primary">home</i> Dashboard
           <% end %>
         </li>
@@ -16,9 +16,10 @@
           <div class="sub-item">
             <ul>
               <li>
-                <%= link_to "My Team", team_users_path %>
-                <%= link_to "Board Meetings", board_meetings_path %>
-                <a href="#">Cemetery Directory</a>
+                <%= link_to 'My Team', team_users_path %>
+                <%= link_to 'Board Meetings', board_meetings_path %>
+                <%= link_to 'Cemetery Directory', cemeteries_path %>
+                <%= link_to 'Crematories Directory', crematories_path %>
                 <a href="#">Investigator Manual</a>
               </li>
             </ul>

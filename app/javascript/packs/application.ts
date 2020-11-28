@@ -18,9 +18,6 @@ const imagePath = (name) => images(name);
 
 import 'choices.js/public/assets/scripts/choices.min';
 
-import BSN from 'bootstrap.native/dist/bootstrap-native.esm.min.js';
-(window as unknown as Window & typeof globalThis & { BSN: BSN }).BSN = BSN;
-
 /*
  * Stimulus.js loader
  */
@@ -30,7 +27,5 @@ import { definitionsFromContext } from 'stimulus/webpack-helpers';
 const application = Application.start();
 const context = require.context('../src/javascript/controllers', true, /\.ts$/);
 application.load(definitionsFromContext(context));
-
-import '../src/javascript/dashboard';
 
 import './stylesheet.scss';

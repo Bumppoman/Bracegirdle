@@ -45,8 +45,12 @@
                       <div class="col-md-9">
                         <%= f.select :contractor,
                           options_from_collection_for_select(Contractor.all.order(:name), :id, :name),
-                          { label: false, prompt: 'Select contractor', required: true, without_choices: true },
-                          { data: { target: 'board-applications--restorations--estimates--new.contractorSelect' } }
+                          { label: false, prompt: 'Select contractor', required: true },
+                          { 
+                            data: { 
+                              target: 'board-applications--restorations--estimates--new.contractorSelectElement' 
+                            } 
+                          }
                         %>
                       </div>
                       <div class="col-md-3 text-md-right">

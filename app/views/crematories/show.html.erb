@@ -1,0 +1,127 @@
+<%= content_for :title, @crematory.formatted_name %>
+<%= content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      ['All crematories', crematories_path], 
+      yield(:title)
+    ]
+  ) 
+%>
+<section id="crematory-detail" class="section-wrapper">
+  <nav>
+    <div id="crematory-nav-tab" class="nav nav-tabs" role="tablist">
+      <a
+        id="nav-details-tab"
+        class="nav-item nav-link <%= active_item(params[:tab] == :details || params[:tab].nil?) %>"
+        href="#details"
+        role="tab"
+        data-toggle="tab"
+        data-height="false"
+      >Details</a>
+      <a
+        id="nav-operators-tab"
+        class="nav-item nav-link <%= active_item(params[:tab] == :operators) %>"
+        href="#operators"
+        role="tab"
+        data-toggle="tab"
+        data-height="false"
+      >Operators</a>
+      <a
+        id="nav-retorts-tab"
+        class="nav-item nav-link <%= active_item(params[:tab] == :retorts) %>"
+        href="#retorts"
+        role="tab"
+        data-toggle="tab"
+        data-height="false"
+      >Retorts</a>
+      <a
+        id="nav-inspections-tab"
+        class="nav-item nav-link <%= active_item(params[:tab] == :inspections) %>"
+        href="#inspections"
+        role="tab"
+        data-toggle="tab"
+        data-height="false"
+      >Inspections</a>
+      <a
+        id="nav-notices-tab"
+        class="nav-item nav-link <%= active_item(params[:tab] == :notices) %>"
+        href="#notices"
+        role="tab"
+        data-toggle="tab"
+        data-height="false"
+      >Notices of Non-Compliance</a>
+    </div>
+  </nav>
+  <div class="tab-content pl-3 pt-2">
+    <div 
+      id="details" 
+      class="tab-pane fade<%= ' show active' if params[:tab] == :details || params[:tab].nil? %>" 
+      role="tabpanel"
+    >
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card border border-secondary">
+            <div class="card-header">
+              <strong class="card-title">Information</strong>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Name</th>
+                    <td><%= @crematory.name %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Crematory ID</th>
+                    <td><%= @crematory.formatted_cemid %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Address</th>
+                    <td><%= @crematory.formatted_address %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Classification</th>
+                    <td><%= @crematory.formatted_classification %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Last Inspection</th>
+                    <td><%# formatted_last_inspection @crematory %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Last Audit</th>
+                    <td><%# formatted_last_audit @crematory %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Service Charges</th>
+                    <td>None added.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <iframe
+            class="bd-0"
+            width="100%"
+            height="425"
+            frameborder="0"
+            src="https://www.google.com/maps/embed/v1/place?key=<%= Rails.application.credentials.google[:api_key] %>&q=<%= "#{@crematory.formatted_address}" %>"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+    <div id="operators" class="tab-pane fade<%= ' show active' if params[:tab] == :operators %>" role="tabpanel">
+      <%= render partial: 'operators/list' %>
+    </div>
+    <div id="retorts" class="tab-pane fade<%= ' show active' if params[:tab] == :retorts %>" role="tabpanel">
+      <%= render partial: 'retorts/list' %>
+    </div>
+    <div id="inspections" class="tab-pane fade<%= ' show active' if params[:tab] == :inspections %>" role="tabpanel">
+      <%# render partial: 'cemetery_inspections/list' %>
+    </div>
+    <div id="notices" class="tab-pane fade<%= ' show active' if params[:tab] == :notices %>" role="tabpanel">
+      <%= render partial: 'notices/list' %>
+    </div>
+  </div>
+</section>

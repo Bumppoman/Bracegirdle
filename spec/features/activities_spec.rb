@@ -71,13 +71,15 @@ feature 'Activities' do
   scenario 'Approving rules logs activity', js: true do
     @rules_approval = FactoryBot.create(:rules_approval)
     @rules_approval.update(investigator_id: 1)
-    login
+    login_supervisor
     visit rules_approval_path(@rules_approval)
     click_button 'Approve'
     within '#bracegirdle-confirmation-modal' do
       click_button 'Approve Rules'
     end
-    click_on 'Dashboard', match: :first
+    assert_selector '.disappearing-success-message'
+    
+    visit root_path
 
     expect(page).to have_content 'Chester Butkiewicz approved rules for Anthony Cemetery'
   end

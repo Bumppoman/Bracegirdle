@@ -3,6 +3,7 @@
   class="section-wrapper bd-0 pd-30-force mg-t-0-force mg-b-5"
   data-action=
     "bracegirdle:complaints:advance->complaints--show#dispatch
+    bracegirdle:complaints:complaintAssigned->complaints--show#assigned
     bracegirdle:complaints:complaintReassigned->complaints--show#reassigned"
 >
   <%= render layout: 'application/tracker',
@@ -39,7 +40,11 @@
     <%= render partial: 'complaints/investigation/pending_closure' %>
   <% end %>
   <%= form_with model: @complaint, url: assign_complaint_path, method: :patch do |f| %>
-    <div id="complaint-assign-investigator-modal" class="modal fade">
+    <div 
+      id="complaint-assign-investigator-modal" 
+      class="modal fade"
+      data-target="complaints--show.assignModal"
+    >
       <div class="modal-dialog wd-30p" role="document">
         <div class="modal-content">
           <div class="modal-header pd-x-20">

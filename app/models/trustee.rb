@@ -16,6 +16,13 @@ class Trustee < ApplicationRecord
       7 => 'Operator',
       8 => 'Employee'
   }.freeze
+  private_constant :POSITIONS
+  
+  class << self
+    def positions_for_select
+      POSITIONS.invert
+    end
+  end
   
   def as_option
     "#{name} (#{position_name})"
@@ -40,6 +47,6 @@ class Trustee < ApplicationRecord
   private
   
   def set_sort_name
-    sort_name = name.downcase.split(' ').reverse.join(' ')
+    self.sort_name = name.downcase.split(' ').reverse.join(' ')
   end
 end

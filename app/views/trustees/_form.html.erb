@@ -1,12 +1,12 @@
 <%= form_with model: [@cemetery, Trustee.new(state: 'NY')], 
-  url: cemetery_trustees_path(@cemetery), 
+  url: @cemetery ? cemetery_trustees_path(@cemetery) : '', 
   builder: BracegirdleFormBuilder do |f| 
 %>
   <div 
     id="trustee-form-modal" 
     class="modal fade"
     data-controller="trustees--form"
-    data-target="trustees--index.trusteeForm"
+    data-target="trustees--index.trusteeForm trustees--select-for-cemetery.trusteeFormModal"
   >
     <div class="modal-dialog modal-lg wd-60p" role="document">
       <div class="modal-content">
@@ -27,7 +27,7 @@
               </div>
               <div class="col-md-4">
                 <%= f.select :position,
-                  options_for_select(Trustee::POSITIONS.invert),
+                  options_for_select(Trustee.positions_for_select),
                   { prompt: 'Select position', required: true, without_choices: true },
                   { 
                     data: {

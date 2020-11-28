@@ -1,0 +1,35 @@
+<div class="form-group required">
+  <%= f.label :trustee, trustee_label %>
+  <div class="input-group">
+    <div class="row no-gutters" style="width: <%= defined?(select_width) ? select_width : '100' %>%">
+      <div class="col-md-<%= defined?(select_container_width) ? select_container_width : 10 %>">
+        <%= defined?(selected_id) ? hidden_field_tag(:selected_id, selected_id) : '' %>
+        <%= f.select :trustee,
+          {},
+          { label: false, prompt: 'Select trustee' },
+          { 
+            class: 'form-control', 
+            disabled: true,
+            data: {
+              action: action,
+              target: "#{target} trustees--select-for-cemetery.trusteeSelectElement" 
+            }
+          }
+        %>
+      </div>
+      <div 
+        class="col-md-<%= defined?(select_container_width) ? 12 - select_container_width : 2 %> text-md-right" 
+        style="<%= defined?(button_style) ? button_style : '' %>"
+      >
+        <button
+          type="button"
+          class="btn btn-primary"
+          disabled="true"
+          data-action="trustees--select-for-cemetery#openTrusteeForm"
+          data-target="trustees--select-for-cemetery.addTrusteeButton"
+        >Add New Trustee</button>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render partial: 'trustees/form' %>

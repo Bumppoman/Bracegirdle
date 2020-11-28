@@ -1,0 +1,21 @@
+<tr 
+  data-target="operators--index.operator"
+  data-operator-id="<%= operator.id %>">
+  <td>
+    <span class="d-none"><%= operator.sort_name %></span>
+    <%= operator.name %>
+  </td>
+  <td><%= operator.certification_date %></td>
+  <td><%= operator.certification_expiration_date %></td>
+  <td class="text-center">
+    <%= link_to '#', 
+      data: {
+        action: 'operators--index#editOperator',
+        form_action: crematory_operator_path(operator.crematory_cemid, operator.id),
+        operator_id: operator.id 
+      } do
+    %>
+      <i class="material-icons tx-18">edit</i>
+    <% end %>
+  </td>
+</tr>

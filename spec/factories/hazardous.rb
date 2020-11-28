@@ -7,18 +7,18 @@ FactoryBot.define do
     investigator_id { 1 }
 
     factory :evaluated_hazardous do
-      raw_application_file { fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf') }
+      raw_application_file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf')) }
       field_visit_date { Date.current - 5.days }
       recommendation_date { Date.current }
       monuments { 25 }
-      application_file { fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf') }
+      application_file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf')) }
       application_form_complete { true }
-      legal_notice_file { fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf') }
+      legal_notice_file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf')) }
       legal_notice_cost { '123.45' }
       legal_notice_newspaper { 'Binghamton Press and Sun-Bulletin' }
       legal_notice_format { true }
       previous_exists { true }
-      previous_completion_report_file { fixture_file_upload(Rails.root.join('spec', 'support', 'test.pdf'), 'application/pdf') }
+      previous_completion_report_file { Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'test.pdf')) }
       previous_type { :abandonment }
       previous_date { Date.current - 5.years }
       status { :evaluated }

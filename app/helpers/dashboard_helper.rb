@@ -30,6 +30,20 @@ module DashboardHelper
       .reorder(:investigator_region)
       .count(:cemid)
 
-    overdue.map { |region, count| { region: NAMED_REGIONS[region], inspections: count, percentage: (count * 100) / total[region] } }.to_json
+    {
+      labels: NAMED_REGIONS.values,
+      inspections: 
+        NAMED_REGIONS.keys.map { |region_key|
+          overdue.find(-> {[0]}) { |region, count| region === region_key }.last
+        },
+      percentages:
+        NAMED_REGIONS.keys.map { |region_key|
+          begin
+            (overdue.find(-> {[0]}) { |region, count| region === region_key }.last * 100) / total.fetch(region_key, 0)
+          rescue ZeroDivisionError
+            0
+          end
+        }
+    }.to_json
   end
 end

@@ -1,6 +1,6 @@
 class RulesApprovalPolicy < ApplicationPolicy
   def approve?
-    record.assigned_to?(user) || (record.received? && user.supervisor?)
+    (record.assigned_to?(user) || record.received? || record.approval_recommended?) && user.supervisor?
   end
 
   def assign?
@@ -23,11 +23,23 @@ class RulesApprovalPolicy < ApplicationPolicy
     create?
   end
   
+  def recommend_approval?
+    record.assigned_to?(user)
+  end
+  
   def receive_revision?
-    create?
+    user.staff?
+  end
+  
+  def request_revision?
+    record.assigned_to?(user)
   end
 
   def show?
     record.assigned_to?(user) || user.supervisor?
+  end
+  
+  def withdraw?
+    record.assigned_to?(user)
   end
 end

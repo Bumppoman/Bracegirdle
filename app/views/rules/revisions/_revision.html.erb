@@ -47,7 +47,7 @@
         </tr>
       </thead>
       <tbody>
-        <% if revision.date_requested %>
+        <% unless revision.date_requested.blank? %>
           <tr>
             <th scope="row">Date Requested</th>
             <td><%= revision.date_requested %></td>

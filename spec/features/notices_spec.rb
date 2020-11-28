@@ -35,8 +35,8 @@ feature 'Notices' do
     choices '04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark (President)', from: 'Served On'
     fill_in 'Address', with: '1313 Mockingbird Ln.'
-    fill_in 'City', with: 'Philadelphia'
-    choices 'PA', from: 'State'
+    fill_in 'City', with: 'Rotterdam'
+    choices 'NY', from: 'State'
     fill_in 'ZIP Code', with: '12345'
     fill_in 'Law Sections', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
@@ -44,6 +44,33 @@ feature 'Notices' do
     click_on 'Issue Notice'
 
     expect(page).to have_button 'Issue Notice'
+  end
+  
+  scenario 'Investigator can add trustee while issuing notice', js: true do
+    login
+    visit new_notice_path
+
+    choices 'Broome', from: 'County'
+    choices '04-001 Anthony Cemetery', from: 'Cemetery'
+    click_button 'Add New Trustee'
+    within '#trustee-form-modal' do
+      fill_in 'Name', with: 'Horace Hamlin'
+      choices 'Treasurer', from: 'Position'
+      click_button 'Add New Trustee'
+    end
+    fill_in 'Address', with: '1313 Mockingbird Ln.'
+    fill_in 'City', with: 'Rotterdam'
+    choices 'NY', from: 'State'
+    fill_in 'ZIP Code', with: '12345'
+    fill_in 'Law Sections', with: 'Testing.'
+    fill_in 'Specific Information', with: 'Testing.'
+    fill_in 'Violation Date', with: '12/31/2018'
+    fill_in 'Response Required', with: '12/31/2019'
+    click_on 'Issue Notice'
+    visit notices_path
+
+    expect(page).to have_content 'Anthony Cemetery'
+    expect(Notice.first.trustee.name).to eq 'Horace Hamlin'
   end
 
   scenario 'Notice can advance', js: true do

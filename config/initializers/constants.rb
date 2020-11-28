@@ -98,35 +98,6 @@ DOCUMENTS = {
     1 => "Rules and Regulations"
 }.freeze
 
-GROUPED_COMPLAINT_TYPES = [
-    ['Investigatory', [
-        ['Board member issue', 1],
-        ['Burial issues', 2],
-        ['Burial rights', 3],
-        ['Burial records', 4],
-        ['Burial society issues', 5],
-        ['Cemetery maintenance issues', 6],
-        ['Cremation process', 7],
-        ['Damaged monument', 8],
-        ['Dangerous conditions', 9],
-        ['Lot owner issues', 10],
-        ['Monument issues', 11],
-        ['Operating illegal cemetery', 12],
-        ['Perpetual care issues', 13],
-        ['Pet burial issues', 14],
-        ['Rules and regulations issues', 15],
-        ['Tree removal', 16],
-        ['Winter burial', 17]
-    ]],
-    ['Accounting', [
-        ['Embezzlement/Fraud', 18],
-        ['Financial issues', 19],
-        ['Financial records issues', 20],
-        ['Service fee issues', 21],
-        ['Sales contract issues', 22]
-    ]]
-].freeze
-
 NAMED_REGIONS = {
     1 => 'NYC',
     2 => 'Albany',
@@ -138,31 +109,6 @@ NAMED_REGIONS = {
 NAMED_ROLES = {
     staff: 2,
     supervisor: 4
-}.freeze
-
-RAW_COMPLAINT_TYPES = {
-    1 => 'Board member issue',
-    2 => 'Burial issues',
-    3 => 'Burial rights',
-    4 => 'Burial records',
-    5 => 'Burial society issues',
-    6 => 'Cemetery maintenance issues',
-    7 => 'Cremation process',
-    8 => 'Damaged monument',
-    9 => 'Dangerous conditions',
-    10 => 'Lot owner issues',
-    11 => 'Monument issues',
-    12 => 'Operating illegal cemetery',
-    13 => 'Perpetual care issues',
-    14 => 'Pet burial issues',
-    15 => 'Rules and regulations issues',
-    16 => 'Tree removal',
-    17 => 'Winter burial',
-    18 => 'Embezzlement/Fraud',
-    19 => 'Financial issues',
-    20 => 'Financial records issues',
-    21 => 'Service fee issues',
-    22 => 'Sales contract issues'
 }.freeze
 
 REGIONS = {

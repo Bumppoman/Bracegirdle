@@ -35,7 +35,7 @@ feature 'Notifications' do
     login(@employee)
 
     visit root_path
-    click_on class: 'header-notification'
+    find('#notifications .header-notification').click
 
     expect(page).to have_content 'John Smith assigned a complaint'
   end
@@ -59,7 +59,7 @@ feature 'Notifications' do
     login(@employee)
 
     visit root_path
-    click_on class: 'header-notification'
+    find('#notifications .header-notification').click
 
     expect(page).to have_content 'John Smith uploaded new rules'
   end
@@ -75,7 +75,7 @@ feature 'Notifications' do
     click_on 'submit-note-button'
     logout
     login(@employee)
-    click_on class: 'header-notification'
+    find('#notifications .header-notification').click
 
     expect(page).to have_content 'John Smith added a comment'
   end
@@ -87,11 +87,11 @@ feature 'Notifications' do
     @notification = FactoryBot.create(:notification, object: @complaint, message: 'added')
 
     login(@employee)
-    click_on class: 'header-notification'
+    find('#notifications .header-notification').click
 
     expect {
       find('.notification-link[data-notification-id="1"]').click
-      assert_no_selector '.indicator[data-target="main.notificationsUnreadIndicator"]'
+      assert_no_selector '.badge[data-target="main.notificationsUnreadIndicator"]'
     }.to change { Notification.first.read }
   end
 
@@ -103,11 +103,11 @@ feature 'Notifications' do
     @second_notification = FactoryBot.create(:notification, object: @complaint, message: 'added')
 
     login(@employee)
-    click_on class: 'header-notification'
+    find('#notifications .header-notification').click
 
     expect {
       click_link 'Mark All as Read'
-      assert_no_selector '.indicator[data-target="main.notificationsUnreadIndicator"]'
+      assert_no_selector '.badge[data-target="main.notificationsUnreadIndicator"]'
     }.to change {
       Notification.first.read
       Notification.last.read

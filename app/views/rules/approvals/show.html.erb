@@ -10,8 +10,10 @@
 <div 
   id="rules-approvals-show"
   data-action=
-    "bracegirdle:rules:approvals:revisionCreated->rules--approvals--show#revisionCreated
-    bracegirdle:rules:approvals:revisionReceived->rules--approvals--show#revisionReceived"
+    "bracegirdle:rules:approvals:approvalRecommended->rules--approvals--show#approvalRecommended
+    bracegirdle:rules:approvals:revisionCreated->rules--approvals--show#revisionCreated
+    bracegirdle:rules:approvals:revisionReceived->rules--approvals--show#revisionReceived
+    bracegirdle:rules:approvals:withdrawn->rules--approvals--show#withdrawn"
   data-controller="rules--approvals--show"
 >
   <section 
@@ -30,24 +32,36 @@
         locals: { index: index, revision: revision, revision_number: @received_revisions.length - index } 
       %>
     <% end %>
-    <div class="form-layout-footer">
-      <% if policy(@rules_approval).approve? %>
-        <% if @rules_approval.received? || @rules_approval.pending_review? %>
-          <% if policy(@rules_approval).assign? %>
-            <button 
-              type="button" 
-              class="btn btn-primary" 
-              data-toggle="modal" 
-              data-target="#rules_approval-assign-investigator-modal"
-            >Assign</button>
-          <% end %>
+    <div class="form-layout-footer" data-target="rules--approvals--show.actionsArea">
+      <% if !@rules_approval.approved? %>
+        <% if policy(@rules_approval).assign? && @rules_approval.received? %>
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            data-toggle="modal" 
+            data-target="#rules_approval-assign-investigator-modal"
+          >Assign</button>
+        <% end %>
+        <% if policy(@rules_approval).approve? %>
           <%= button_with_confirmation_modal 'Approve',
             form_action: approve_rules_approval_path,
             text: 'Are you sure you want to approve these rules?',
             title: 'Approve Rules'
           %>
+        <% elsif policy(@rules_approval).recommend_approval? %>
+          <%= button_with_confirmation_modal 'Recommend Approval',
+            form_action: recommend_approval_rules_approval_path,
+            text: 'Are you sure you want to recommend these rules for approval?',
+            title: 'Recommend Approval'
+          %>
         <% end %>
-        <button class="btn btn-primary">Withdraw</button>
+        <% if policy(@rules_approval).withdraw? %>
+          <%= button_with_confirmation_modal 'Withdraw',
+            form_action: withdraw_rules_approval_path,
+            text: 'Are you sure you want to withdraw these rules?',
+            title: 'Withdraw Rules'
+          %>
+        <% end %>
       <% end %>
     </div>
   </section>
@@ -80,7 +94,7 @@
       </tbody>
     </table>
   </section>
-  <% if policy(@rules_approval).approve? %>
+  <% if @rules_approval.assigned_to?(current_user) && (!@rules_approval.approval_recommended? || @rules_approval.approved?) %>
     <section 
       class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.received? || @rules_approval.pending_review? %>"
       data-target="rules--approvals--show.revisionRequestArea"
@@ -103,44 +117,44 @@
         </div>
       <% end %>
     </section>
-    <section
-      class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.revision_requested? %>"
-      data-target="rules--approvals--show.revisionUploadArea"
-    >
-      <label class="section-title">Upload Revision</label>
-      <%= form_with model: @rules_approval.revisions.first, 
-        url: rules_approval_revision_receive_path(@rules_approval, @rules_approval.revisions.first),
-        html: { 
-          data: {
-            target: 'rules--approvals--show.revisionUploadFormElement'
-          } 
-        } do |f| 
-      %>
-        <div class="row">
-          <div class="col-md-8">
-            <div class="form-group required">
-              <%= f.label :rules_document, 'File', class: 'form-control-label' %>
-              <div class="custom-file">
-                <%= f.file_field :rules_document, class: 'custom-file-input' %>
-                <label class="custom-file-label" for="rules_document">Choose file</label>
-              </div>
-              <small class="form-text text-muted">Acceptable file formats are .doc, .docx, and .pdf</small>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group required">
-              <%= f.label :submission_date, 'Date Submitted', class: 'form-control-label' %>
-              <%= f.date_field :submission_date, required: true, class: 'form-control', value: Date.current.iso8601 %>
-            </div>
-          </div>
-        </div>
-        <div class="form-layout-footer">
-          <button class="btn btn-primary">Upload Revision</button>
-        </div>
-      <% end %>
-    </section>
-    <%= render 'notes/notes', object: @rules_approval %>
   <% end %>
+  <section
+    class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.revision_requested? %>"
+    data-target="rules--approvals--show.revisionUploadArea"
+  >
+    <label class="section-title">Upload Revision</label>
+    <%= form_with model: @rules_approval.revisions.first, 
+      url: rules_approval_revision_receive_path(@rules_approval, @rules_approval.revisions.first),
+      html: { 
+        data: {
+          target: 'rules--approvals--show.revisionUploadFormElement'
+        } 
+      } do |f| 
+    %>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group required">
+            <%= f.label :rules_document, 'File', class: 'form-control-label' %>
+            <div class="custom-file">
+              <%= f.file_field :rules_document, class: 'custom-file-input' %>
+              <label class="custom-file-label" for="rules_document">Choose file</label>
+            </div>
+            <small class="form-text text-muted">Acceptable file formats are .doc, .docx, and .pdf</small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group required">
+            <%= f.label :submission_date, 'Date Submitted', class: 'form-control-label' %>
+            <%= f.date_field :submission_date, required: true, class: 'form-control', value: Date.current.iso8601 %>
+          </div>
+        </div>
+      </div>
+      <div class="form-layout-footer">
+        <button class="btn btn-primary">Upload Revision</button>
+      </div>
+    <% end %>
+  </section>
+  <%= render 'notes/notes', object: @rules_approval %>
   <%= form_with model: @rules_approval, 
     url: assign_rules_approval_path, 
     builder: BracegirdleFormBuilder do |f| 

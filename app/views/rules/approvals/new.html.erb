@@ -25,39 +25,18 @@
         %>
         <div class="row">
           <div class="col-md-8">
-            <div class="form-group required">
-              <%= f.label :trustee, 'Submitted By' %>
-              <div class="input-group">
-                <div class="row no-gutters" style="width: 99%;">
-                  <div class="col-md-9">
-                    <%= hidden_field_tag :selected_id, 
-                      @rules_approval.trustee&.id,
-                      class: 'trustee-selected-id'
-                    %>
-                    <%= select :rules_approval,
-                      :trustee,
-                      {},
-                      { label: false, prompt: 'Select trustee' },
-                      { 
-                        class: 'form-control', 
-                        disabled: true,
-                        data: {
-                          action: 'rules--approvals--new#loadSenderInformation',
-                          target: 'trustees--select-for-cemetery.trustee'
-                        } 
-                      }
-                    %>
-                  </div>
-                  <div class="col-md-3 text-md-right" style="margin-left: -7px;">
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      disabled="true"
-                    >Add New Trustee</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <%= render partial: 'trustees/select_form_part',
+              locals: {
+                action: 'rules--approvals--new#loadSenderInformation',
+                button_style: 'margin-left: -7px;',
+                f: f,
+                selected_id: @rules_approval.trustee&.id,
+                select_container_width: 9,
+                select_width: 99,
+                target: 'notices--new.trustee',
+                trustee_label: 'Submitted By'
+              }
+            %>
           </div>
           <div class="col-md-3">
             <div class="form-group required">
@@ -103,7 +82,12 @@
           <div class="col-md-2">
             <%= f.select :sender_state,
               options_for_select(STATES, @rules_approval.sender_state),
-              { label: 'State', required: true }
+              { label: 'State', required: true },
+              {
+                data: {
+                  target: 'rules--approvals--new.senderState'
+                }
+              }
             %>
           </div>
           <div class="col-md-4">

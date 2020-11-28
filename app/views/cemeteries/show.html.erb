@@ -1,5 +1,13 @@
 <%= content_for :title, @cemetery.formatted_name %>
-<%= content_for :breadcrumbs, breadcrumbs_helper([['All cemeteries', '#'], ["#{@cemetery.county_name} County", county_cemeteries_path(@cemetery.county)], yield(:title)]) %>
+<%= content_for :breadcrumbs, 
+  breadcrumbs_helper(
+    [
+      ['All cemeteries', cemeteries_path], 
+      ["#{@cemetery.county_name} County", county_cemeteries_path(@cemetery.county)], 
+      yield(:title)
+    ]
+  ) 
+%>
 <section id="cemetery-detail" class="section-wrapper">
   <nav>
     <div id="cemetery-nav-tab" class="nav nav-tabs" role="tablist">
@@ -90,7 +98,12 @@
                   </tr>
                   <tr>
                     <th scope="row">Rules and Regulations</th>
-                    <td><%= @cemetery.current_rules ? raw("Approved #{@cemetery.current_rules.approval_date} (#{link_to 'view', rules_by_date_cemetery_path(cemid: @cemetery.cemid, date: @cemetery.current_rules.approval_date.iso8601)})") : 'None added.' %></td>
+                    <td>
+                      <%= @cemetery.current_rules ? 
+                        raw("Approved #{@cemetery.current_rules.approval_date} (#{link_to 'view', rules_by_date_cemetery_path(cemid: @cemetery.cemid, date: @cemetery.current_rules.approval_date.iso8601)})") : 
+                        'None added.' 
+                      %>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">Service Charges</th>

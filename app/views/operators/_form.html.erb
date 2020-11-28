@@ -1,0 +1,58 @@
+<%= form_with model: [@crematory, Operator.new], 
+  url: crematory_operators_path(@crematory), 
+  builder: BracegirdleFormBuilder do |f| 
+%>
+  <div 
+    id="operators-form-modal" 
+    class="modal fade"
+    data-controller="operators--form"
+    data-target="operators--index.operatorForm"
+  >
+    <div class="modal-dialog modal-lg wd-60p" role="document">
+      <div class="modal-content">
+        <div class="modal-header pd-x-20">
+          <h6 
+            class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"
+            data-target="operators--form.title"
+          >Add New Operator</h6>
+          <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <%= f.text_field :name, required: true %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.date_field :certification_date, label: 'Certification Date', required: true %>
+              </div>
+              <div class="col">
+                <%= f.date_field :certification_expiration_date, label: 'Certification Expiration Date', required: true %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <%= f.text_area :notes, rows: 5 %>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer mg-t-20">
+            <button 
+              class="btn btn-primary"
+              data-target="operators--form.submit"
+            >Add New Operator</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary" 
+              data-dismiss="modal"
+            >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

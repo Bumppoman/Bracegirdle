@@ -2,6 +2,7 @@ import ApplicationController from '../../application_controller';
 
 export default class extends ApplicationController {
   static targets = [
+    'actionsArea',
     'revision',
     'revisionRequestArea',
     'revisionRequestFormElement',
@@ -14,6 +15,7 @@ export default class extends ApplicationController {
     'successMessage'
   ];
   
+  declare readonly actionsAreaTarget: HTMLElement;
   declare readonly revisionRequestAreaTarget: HTMLElement;
   declare readonly revisionRequestFormElementTarget: HTMLFormElement;
   declare readonly revisionSuccessMessageTarget: HTMLElement;
@@ -31,6 +33,20 @@ export default class extends ApplicationController {
     if (!this.successMessageTarget.classList.contains('hidden')) {
       setTimeout(() => this.successMessageTarget.classList.add('hidden'), 5000);
     }
+  }
+  
+  approvalRecommended() {
+    // Close confirmation modal
+    this.closeConfirmationModal();
+    
+    // Hide actions area
+    this.actionsAreaTarget.classList.add('d-none');
+    
+    // Hide revision area
+    this.revisionUploadAreaTarget.classList.add('d-none');
+    
+    // Display success message
+    this.disappearingSuccessMessage(this.successMessageTarget, 'You have successfully recommended these rules for approval.');
   }
   
   hideAllRevisions() {
@@ -95,5 +111,19 @@ export default class extends ApplicationController {
       revision.classList.add('d-none');
       this.revisionToggleIconTargets.find(element => element.dataset.revisionId === revisionID).textContent = 'expand_more';
     }
+  }
+  
+  withdrawn() {
+    // Close confirmation modal
+    this.closeConfirmationModal();
+
+    // Hide actions area
+    this.actionsAreaTarget.classList.add('d-none');
+    
+    // Hide revision area
+    this.revisionUploadAreaTarget.classList.add('d-none');
+    
+    // Display success message
+    this.disappearingSuccessMessage(this.successMessageTarget, 'You have successfully withdrawn these rules.');
   }
 }

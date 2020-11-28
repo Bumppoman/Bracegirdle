@@ -34,27 +34,12 @@ class AppointmentsController < ApplicationController
   end
 
   def index
-    @appointments = authorize current_user.appointments.where(status: :scheduled).order(:begin)
+    @appointments = authorize current_user
+      .appointments
+      .includes(:cemetery)
+      .where(status: :scheduled)
+      .order(:begin)
     @appointment_name = appointment_name
-  end
-  
-  def index_for_calendar
-    @events = current_user.appointments
-      .where(begin: Time.parse(params[:start])..Time.parse(params[:end]))
-      .where.not(status: :cancelled)
-
-    response = @events.map do |event|
-      {
-        title: event.cemetery.name,
-        id: event.id.to_s,
-        start: event.begin.strftime('%Y-%m-%d %H:%M:%S'),
-        end: event.end.strftime('%Y-%m-%d %H:%M:%S')
-      }
-    end
-
-    respond_to do |format|
-      format.json { render json: response.to_json }
-    end
   end
 
   def reschedule
