@@ -1,4 +1,4 @@
-class DefaultPDF < BasicPDF
+class DefaultPDF < ApplicationPDF
   MARGIN_Y = 36
   MARGIN_X = 56
 
@@ -17,6 +17,12 @@ class DefaultPDF < BasicPDF
 
   def content
     header
+  end
+  
+  protected
+  
+  def officials
+    @officials ||= YAML.load_file(Rails.root.join('config', 'letterhead.yml'))['letterhead']
   end
 
   private
@@ -53,9 +59,5 @@ class DefaultPDF < BasicPDF
         text 'Cᴏᴍᴍɪssɪᴏɴᴇʀ ᴏ<font size="4.3125">F</font> Hᴇᴀʟᴛʜ', size: 6, align: :right, inline_format: true
       end
     end
-  end
-
-  def officials
-    @officials ||= YAML.load_file(Rails.root.join('config', 'letterhead.yml'))['letterhead']
   end
 end

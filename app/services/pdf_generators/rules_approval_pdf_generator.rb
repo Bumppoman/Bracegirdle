@@ -13,17 +13,21 @@ module PDFGenerators
         address_line_two = "#{@rules_approval.sender_city}, #{@rules_approval.sender_state} #{@rules_approval.sender_zip}"
       end
 
-      Letters::RulesApprovalPDF.new({
-        approval_date: @rules_approval.approval_date.to_s,
-        cemetery_name: @rules_approval.cemetery.name,
-        address_line_one: address_line_one,
-        address_line_two: address_line_two,
-        cemetery_number: @rules_approval.cemetery.formatted_cemid,
-        submission_date: @rules_approval.submission_date.to_s,
-        name: @rules_approval.investigator.name,
-        title: @rules_approval.investigator.title,
-        signature: @rules_approval.investigator.signature
-      }, date: :approval_date, recipient: :cemetery_name)
+      Letters::RulesApprovalPDF.new(
+        {
+          approval_date: @rules_approval.approval_date.to_s,
+          cemetery_name: @rules_approval.cemetery.name,
+          address_line_one: address_line_one,
+          address_line_two: address_line_two,
+          cemetery_number: @rules_approval.cemetery.formatted_cemid,
+          submission_date: @rules_approval.submission_date.to_s,
+          name: @rules_approval.investigator.name,
+          title: @rules_approval.investigator.title,
+          signature: @rules_approval.investigator.signature
+        }, 
+        date: :approval_date, 
+        recipient: :cemetery_name
+      )
     end
   end
 end

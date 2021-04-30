@@ -33,8 +33,11 @@ module PDFGenerators
       if @restoration.previous_exists?
         current += 1
         output << CombinePDF.parse(ExhibitSheetPDF.new({ exhibit: exhibit_letters[current]}).render)
-        output << CombinePDF.load(ActiveStorage::Blob.service.send(
-          :path_for, @restoration.previous_completion_report_file.key)
+        output << CombinePDF.load(
+          ActiveStorage::Blob.service.send(
+            :path_for, 
+            @restoration.previous_completion_report_file.key
+          )
         )
       end
 

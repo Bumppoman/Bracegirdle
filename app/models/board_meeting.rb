@@ -2,8 +2,10 @@ class BoardMeeting < ApplicationRecord
   attribute :raw_date, :date
   attribute :raw_time, :string
   
-  has_many :matters,
-    -> { where.not board_application_type: 'Restoration' }
+  has_many :applications,
+    -> { where.not board_application_type: 'Restoration' },
+    class_name: 'Matter'
+  has_many :matters
   has_many :restorations,
     -> { where board_application_type: 'Restoration' },
     class_name: 'Matter'
@@ -33,7 +35,7 @@ class BoardMeeting < ApplicationRecord
   def set_matter_identifiers
     letters = ('E'..'Z').to_a
     index = initial_index + 3
-    matters.each do |matter|
+    applications.each do |matter|
       matter.update(identifier: "#{date_code}–#{letters.shift}–#{'%02d' % (index += 1)}")
     end
   end

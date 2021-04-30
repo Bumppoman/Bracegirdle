@@ -8,12 +8,14 @@ module PDFGenerators
     end
 
     def call
-      @pdf_class.new({
-        writer: @restoration.investigator,
-        cemetery: @restoration.cemetery,
-        restoration: @restoration,
-        report_date: @restoration.recommendation_date || Date.current
-      })
+      @pdf_class.new(
+        {
+          writer: @restoration.investigator,
+          cemetery: @restoration.cemetery,
+          restoration: @restoration,
+          report_date: @restoration.recommendation_date || Date.current
+        }
+      )
     end
   end
 end

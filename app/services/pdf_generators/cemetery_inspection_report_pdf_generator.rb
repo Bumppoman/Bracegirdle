@@ -11,7 +11,8 @@ module PDFGenerators
         {
           inspection: @inspection,
           signature: @inspection.investigator.signature
-        })
+        }
+      )
     end
   end
 end

@@ -40,6 +40,10 @@
             <%= link_to 'Agenda', 
               download_agenda_board_meeting_path(@board_meeting, "Agenda-#{@board_meeting.date.strftime('%F')}")
             %>
+            |
+            <%= link_to 'Board Orders',
+              download_board_orders_board_meeting_path(@board_meeting, "Board-Orders-#{@board_meeting.date.strftime('%F')}")
+            %>
           </td>
         </tr>
       </tbody>
@@ -81,7 +85,7 @@
             <tr data-matter-id="<%= restoration.id %>">
               <td class="align-middle"><%= i + 1 %></td>
               <td class="align-middle"><%= "#{restoration.cemetery.formatted_name} – #{restoration.board_application.formatted_application_type}" %></td>
-              <td>
+              <td class="wd-40p">
                 <% if @board_meeting.scheduled? %>
                   <%= button_with_confirmation_modal 'Unschedule',
                     form_action: unschedule_matter_path(restoration),
@@ -121,7 +125,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @board_meeting.matters.each_with_index do |matter, i| %>
+          <% @board_meeting.applications.each_with_index do |matter, i| %>
             <tr data-matter-id="<%= matter.id %>">
               <td class="align-middle"><%= i + 1 %></td>
               <td class="align-middle"><%= "#{matter.cemetery.formatted_name} – #{matter.application.formatted_application_type}" %></td>

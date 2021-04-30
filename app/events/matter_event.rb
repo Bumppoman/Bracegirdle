@@ -1,5 +1,6 @@
 class MatterEvent < Event
   class Type
+    MATTER_CREATED = 'created'
     MATTER_SCHEDULED = 'scheduled'
     MATTER_UNSCHEDULED = 'unscheduled'
   end

@@ -67,7 +67,8 @@ Rails.application.routes.draw do
   # Board Meetings
   resources :board_meetings do
     member do
-      patch 'finalize-agenda'
+      patch :finalize_agenda
+      get 'board_orders/*filename.pdf', to: 'board_meetings#download_board_orders', as: :download_board_orders
       get '*filename.pdf', to: 'board_meetings#download_agenda', as: :download_agenda
     end
   end

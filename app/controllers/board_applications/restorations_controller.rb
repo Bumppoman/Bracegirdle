@@ -31,6 +31,7 @@ module BoardApplications
     end
     
     def make_schedulable
+      # Update application
       @restoration = model.find(params[:id])
       @restoration.status = :reviewed
       @restoration.recommendation_date ||= Date.current

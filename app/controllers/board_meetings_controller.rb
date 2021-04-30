@@ -17,6 +17,15 @@ class BoardMeetingsController < ApplicationController
       type: 'application/pdf',
       disposition: 'inline'
   end
+  
+  def download_board_orders
+    @board_meeting = authorize BoardMeeting.includes(matters: [board_application: :cemetery]).find(params[:id])
+
+    send_data PDFGenerators::BoardOrdersPDFGenerator.call(@board_meeting).to_pdf,
+      filename: "Agenda-#{@board_meeting.date.strftime('%F')}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+  end
 
   def finalize_agenda
     @board_meeting = authorize BoardMeeting.find(params[:id])

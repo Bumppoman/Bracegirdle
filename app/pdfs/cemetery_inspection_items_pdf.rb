@@ -1,4 +1,4 @@
-class CemeteryInspectionItemsPDF < BasicPDF
+class CemeteryInspectionItemsPDF < ApplicationPDF
   MARGIN_Y = 41
   MARGIN_X = 56
 

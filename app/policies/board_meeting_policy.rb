@@ -6,6 +6,10 @@ class BoardMeetingPolicy < ApplicationPolicy
   def download_agenda?
     show?
   end
+  
+  def download_board_orders?
+    show?
+  end
 
   def finalize_agenda?
     user.supervisor?

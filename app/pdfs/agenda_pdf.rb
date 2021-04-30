@@ -50,7 +50,7 @@ class AgendaPDF < DefaultPDF
     end
 
     indent(25) do
-      @params.matters.each do |matter|
+      @params.applications.each do |matter|
         if (y > (bounds.bottom + 125))
           move_down 15
         else
@@ -86,11 +86,16 @@ class AgendaPDF < DefaultPDF
 
     move_down 20
     text 'VANDALISM FUND APPLICATIONS', align: :center
-    table_data = [['Name', 'Amount', 'County', 'ID No.']]
+    table_data = [['Name', 'Amount', 'County', 'Cemetery ID']]
     total = 0
     @params.restorations.each do |restoration|
       total += restoration.board_application.amount
-      table_data << [restoration.cemetery.name, ActionController::Base.helpers.number_to_currency(restoration.board_application.amount), restoration.cemetery.county_name, restoration.cemetery.cemid]
+      table_data << [
+        restoration.cemetery.name, 
+        ActionController::Base.helpers.number_to_currency(restoration.board_application.amount), 
+        restoration.cemetery.county_name, 
+        restoration.cemetery.formatted_cemid
+      ]
     end
     table_data << ['Total', { content: ActionController::Base.helpers.number_to_currency(total), colspan: 3 }]
 

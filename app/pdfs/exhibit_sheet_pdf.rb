@@ -1,4 +1,4 @@
-class ExhibitSheetPDF < BasicPDF
+class ExhibitSheetPDF < ApplicationPDF
   MARGIN_Y = 36
   MARGIN_X = 56
 

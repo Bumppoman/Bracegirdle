@@ -95,7 +95,7 @@ activities:
     color: 'indigo'
     evaluated:
       icon: 'assignment'
-      text: 'evaluated a <%= link_to("restoration application", send("applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
+      text: 'evaluated a <%= link_to("restoration application", send("board_applications_#{activity.object.type.downcase}_path", activity.object.id)) %> for <%= activity.object.cemetery.name %>'
       title: 'Evaluated restoration application'
     received:
       icon: 'call_received'
