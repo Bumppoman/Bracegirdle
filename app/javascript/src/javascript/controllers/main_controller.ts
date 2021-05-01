@@ -1,5 +1,4 @@
 import BSN from 'bootstrap.native';
-import Choices from 'choices.js';
 import Rails from '@rails/ujs';
 
 import ApplicationController from './application_controller';
@@ -125,6 +124,9 @@ export default class extends ApplicationController {
       if (attributes.confirmationModalFormMethod === 'post') {
         this.confirmationModalFormTarget.method = attributes.confirmationModalFormMethod;
       }
+      
+      (this.confirmationModalFormTarget.querySelector('input[name="authenticity_token"]') as HTMLInputElement).value =
+        attributes.confirmationModalAuthenticityToken;
     }
     
     this.openModal(this.confirmationModalTarget);

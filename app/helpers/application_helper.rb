@@ -25,12 +25,18 @@ module ApplicationHelper
   end
   
   def button_with_confirmation_modal(text, options)
+    # If the method is set, regenerate the CSRF token
+    csrf = if options.key? :form_method
+      controller.send(:masked_authenticity_token, session, form_options: { method: options[:form_method], action: options[:form_action] })
+    end
+    
     content_tag :button,
       text,
       type: 'button',
       class: ['btn btn-primary', options[:class]].join(' '),
       data: {
         action: 'main#openBracegirdleConfirmationModal',
+        confirmation_modal_authenticity_token: csrf,
         confirmation_modal_form_action: options[:form_action],
         confirmation_modal_form_method: options[:form_method],
         confirmation_modal_success_button: options[:success_button],

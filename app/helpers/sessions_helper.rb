@@ -1,10 +1,11 @@
 module SessionsHelper
   def current_user
-    if session[:user_id]
-      @current_user ||= User.find(session[:user_id])
-    else
-      @current_user = nil
-    end
+    @current_user = User.find(1)
+    #if session[:user_id]
+    #  @current_user ||= User.find(session[:user_id])
+    #else
+    #  @current_user = nil
+    #end
   end
 
   def get_token
