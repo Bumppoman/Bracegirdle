@@ -1,6 +1,4 @@
-class CemeteryInspectionsController < ApplicationController
-  #self.per_form_csrf_tokens = false
-  
+class CemeteryInspectionsController < ApplicationController  
   def begin
     @cemetery = Cemetery.find(params[:cemid])
 
