@@ -70,7 +70,6 @@ group :test do
   gem 'webdrivers'
 
   # To determine test coverage
-  #gem 'simplecov', '< 0.18.0', require: false
   gem 'simplecov', require: false
 
   # To test PDFs

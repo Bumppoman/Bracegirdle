@@ -106,7 +106,6 @@ class InvestigatorStatisticsReportPDF < ApplicationPDF
           'Rules' => @rules_approvals[:average_time],
         },
       }
-      chart data, { height: 175 }
     end
 
 
@@ -119,7 +118,6 @@ class InvestigatorStatisticsReportPDF < ApplicationPDF
               'Rules' => @rules_approvals[:approved].count,
           },
       }
-      chart data, { height: 175 }
     end
   end
 
