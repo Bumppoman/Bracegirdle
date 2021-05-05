@@ -56,7 +56,8 @@
       </div>
     </div>
   </div>
-  <%= form_with model: Reminder.new(due_date: Date.current), 
+  <%= form_with model: Reminder.new(due_date: Date.current),
+    local: false,
     url: reminders_path, 
     builder: BracegirdleFormBuilder do |f| 
   %>

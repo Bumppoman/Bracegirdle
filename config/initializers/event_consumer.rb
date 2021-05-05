@@ -1,4 +1,4 @@
-ActiveSupport.on_load :active_record do
+Rails.application.reloader.to_prepare do
   EVENT_CONSUMER_MAPPING = {
     BoardApplicationEvent::Type::BOARD_APPLICATION_EVALUATED => [ActivityConsumer, SupervisorConsumer, StatusChangeConsumer],
     BoardApplicationEvent::Type::BOARD_APPLICATION_RECEIVED => [ActivityConsumer, AssignmentConsumer, StatusChangeConsumer],

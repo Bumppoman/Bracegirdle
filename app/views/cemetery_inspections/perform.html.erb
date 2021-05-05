@@ -33,7 +33,8 @@
       target: 'cemetery-inspections--perform.tracker'
     } do 
   %>
-    <%= form_with model: @inspection, 
+    <%= form_with model: @inspection,
+      local: false,
       url: save_inspection_cemetery_path(identifier: @inspection), 
       builder: BracegirdleFormBuilder,
       html: {

@@ -1,4 +1,5 @@
-<%= form_with model: [@restoration, Estimate.new], 
+<%= form_with model: [@restoration, Estimate.new],
+  local: false,
   url: send("board_applications_#{@restoration.type.downcase}_estimates_path", @restoration), 
   builder: BracegirdleFormBuilder do |f|
 %>

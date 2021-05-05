@@ -6,6 +6,7 @@
   <label class="section-title">Summary</label>
   <%= render partial: 'board_applications/restorations/exhibits' %>
   <%= form_with method: :patch,
+    local: false,
     url: (
       current_user.supervisor? ?
         send("make_schedulable_board_applications_#{@restoration.type.downcase}_path") :

@@ -1,4 +1,5 @@
-<%= form_with model: [@crematory, Retort.new], 
+<%= form_with model: [@crematory, Retort.new],
+  local: false,
   url: crematory_retorts_path(@crematory), 
   builder: BracegirdleFormBuilder do |f| 
 %>

@@ -18,7 +18,10 @@
     <section class="section-wrapper pd-30-force mg-t-5-force">
       <label class="section-title">Add New Note</label>
       <div class="mg-t-10">
-        <%= form_with model: [object, Note.new], url: (defined?(url) ? url : nil) do |f| %>
+        <%= form_with model: [object, Note.new],
+          local: false,
+          url: (defined?(url) ? url : nil) do |f| 
+        %>
           <%= f.text_area :body, 
             rows: 8, 
             class: 'form-control',

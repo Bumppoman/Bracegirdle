@@ -25,10 +25,14 @@ module ApplicationHelper
   end
   
   def button_with_confirmation_modal(text, options)
-    # If the method is set, regenerate the CSRF token
-    csrf = if options.key? :form_method
-      controller.send(:masked_authenticity_token, session, form_options: { method: options[:form_method], action: options[:form_action] })
-    end
+    csrf = controller.send(
+      :masked_authenticity_token, 
+      session, 
+      form_options: { 
+        method: options[:form_method] || :patch, 
+        action: options[:form_action] 
+      }
+    )
     
     content_tag :button,
       text,

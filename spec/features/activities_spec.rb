@@ -143,7 +143,7 @@ feature 'Activities' do
     click_button 'Response Received'
     within '#bracegirdle-confirmation-modal' do 
       click_button 'Response Received'
-    end 
+    end
 
     click_on 'Dashboard', match: :first
 

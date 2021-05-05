@@ -10,6 +10,7 @@
     data-target="board-applications--restorations--evaluate.legalNoticeForm"
   >
     <%= form_with model: [:board_applications, @restoration],
+      local: false,
       url: send("upload_legal_notice_board_applications_#{@restoration.type.downcase}_path"),
       builder: BracegirdleFormBuilder,
       html: {

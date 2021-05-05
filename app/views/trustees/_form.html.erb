@@ -1,4 +1,5 @@
-<%= form_with model: [@cemetery, Trustee.new(state: 'NY')], 
+<%= form_with model: [@cemetery, Trustee.new(state: 'NY')],
+  local: false,
   url: @cemetery ? cemetery_trustees_path(@cemetery) : '', 
   builder: BracegirdleFormBuilder do |f| 
 %>

@@ -4,7 +4,10 @@
   data-step="1"
   data-target="tracker.step"
 >
-  <%= form_with model: @complaint, method: :patch do |f| %>
+  <%= form_with model: @complaint,
+    local: false,
+    method: :patch do |f| 
+  %>
     <label class="section-label">Complaint Received</label>
     <p class="mb-10">Complaint received by <%= @complaint.receiver.name %> on <%= @complaint.created_at %>.</p>
     <div id="complaint-received-action-area">

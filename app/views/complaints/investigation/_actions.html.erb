@@ -39,7 +39,11 @@
     <%= render partial: 'complaints/investigation/investigation_completed' %>
     <%= render partial: 'complaints/investigation/pending_closure' %>
   <% end %>
-  <%= form_with model: @complaint, url: assign_complaint_path, method: :patch do |f| %>
+  <%= form_with model: @complaint,
+    local: false,
+    url: assign_complaint_path,
+    method: :patch do |f| 
+  %>
     <div 
       id="complaint-assign-investigator-modal" 
       class="modal fade"

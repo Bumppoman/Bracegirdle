@@ -63,7 +63,10 @@
       </table>
     </div>
   </section>
-  <%= form_with model: Appointment, method: :patch do |f| %>
+  <%= form_with model: Appointment,
+    local: false,
+    method: :patch do |f| 
+  %>
     <div 
       id="appointment-reschedule-modal" 
       class="modal"

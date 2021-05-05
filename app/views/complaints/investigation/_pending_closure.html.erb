@@ -4,11 +4,12 @@
   data-step="4"
   data-target="tracker.step"
 >
-  <%= form_for(
-    @complaint, 
+  <%= form_with model: @complaint, 
     url: close_complaint_path, 
-    html: { id: 'complaint-supervisor-closure-form' }
-  ) do |f| %>
+    html: { 
+      id: 'complaint-supervisor-closure-form' 
+    } do |f| 
+  %>
     <label class="section-label">Complaint Recommended for Closure</label>
     <table class="table table-striped">
       <tbody>

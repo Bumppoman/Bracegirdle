@@ -5,6 +5,7 @@
   data-target="tracker.step"
 >
   <%= form_with url: current_user.supervisor? ? close_complaint_path : recommend_closure_complaint_path,
+    local: false,
     model: @complaint, 
     method: :patch, 
     builder: BracegirdleFormBuilder, 

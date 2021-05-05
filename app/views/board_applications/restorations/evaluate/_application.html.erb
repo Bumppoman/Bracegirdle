@@ -10,6 +10,7 @@
     data-target="board-applications--restorations--evaluate.applicationForm"
   >
     <%= form_with model: [:board_applications, @restoration],
+      local: false,
       url: send("upload_application_board_applications_#{@restoration.type.downcase}_path"),
       builder: BracegirdleFormBuilder,
       html: {

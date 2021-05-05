@@ -34,7 +34,11 @@
     <%= render partial: 'notices/actions/follow_up_completed' %>
   <% end %>
 </section>
-<%= form_with model: @notice, url: follow_up_notice_path, method: :patch do |f| %>
+<%= form_with model: @notice,
+  local: false,
+  method: :patch,
+  url: follow_up_notice_path do |f| 
+%>
   <div 
     id="notice-follow-up-modal" 
     class="modal fade"

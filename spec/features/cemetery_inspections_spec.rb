@@ -20,7 +20,7 @@ feature 'Cemetery Inspections' do
     login
     visit inspections_cemetery_path(@cemetery)
 
-    click_on 'Begin inspection'
+    click_button 'Begin inspection'
     within('#bracegirdle-confirmation-modal') do
       click_on 'Begin Inspection'
     end

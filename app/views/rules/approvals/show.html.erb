@@ -100,7 +100,8 @@
       data-target="rules--approvals--show.revisionRequestArea"
     >
       <label class="section-title">Request Revision</label>
-      <%= form_with model: [@rules_approval, Revision.new], 
+      <%= form_with model: [@rules_approval, Revision.new],
+        local: false,
         html: { 
           data: {
             target: 'rules--approvals--show.revisionRequestFormElement'
@@ -123,7 +124,8 @@
     data-target="rules--approvals--show.revisionUploadArea"
   >
     <label class="section-title">Upload Revision</label>
-    <%= form_with model: @rules_approval.revisions.first, 
+    <%= form_with model: @rules_approval.revisions.first,
+      local: false,
       url: rules_approval_revision_receive_path(@rules_approval, @rules_approval.revisions.first),
       html: { 
         data: {
@@ -155,7 +157,8 @@
     <% end %>
   </section>
   <%= render 'notes/notes', object: @rules_approval %>
-  <%= form_with model: @rules_approval, 
+  <%= form_with model: @rules_approval,
+    local: false,
     url: assign_rules_approval_path, 
     builder: BracegirdleFormBuilder do |f| 
   %>

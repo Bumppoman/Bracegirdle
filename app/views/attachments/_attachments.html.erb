@@ -23,7 +23,8 @@
   <% if object.active? %>
     <section class="section-wrapper pd-30-force mg-t-5-force">
       <label class="section-title">Upload Attachment</label>
-      <%= form_with model: [object, Attachment.new], 
+      <%= form_with model: [object, Attachment.new],
+        local: false, 
         html: { 
           data: {
             target: 'attachments.attachmentFormElement'

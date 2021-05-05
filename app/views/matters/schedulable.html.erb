@@ -59,7 +59,8 @@
       </tbody>
     </table>
   </div>
-  <%= form_with model: Matter, 
+  <%= form_with model: Matter,
+    local: false,
     method: :patch do |f|
   %>
     <div 

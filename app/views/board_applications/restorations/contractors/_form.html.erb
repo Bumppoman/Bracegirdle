@@ -1,4 +1,5 @@
 <%= form_with model: Contractor.new,
+  local: false,
   url: board_applications_restorations_contractors_path,
   builder: BracegirdleFormBuilder do |f| 
 %>
