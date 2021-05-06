@@ -124,12 +124,6 @@ export default class extends ApplicationController {
       if (attributes.confirmationModalFormMethod === 'post') {
         this.confirmationModalFormTarget.method = attributes.confirmationModalFormMethod;
       }
-      
-      const authenticityToken = 
-        (this.confirmationModalFormTarget.querySelector('input[name="authenticity_token"]') as HTMLInputElement);
-      if (authenticityToken) {
-        authenticityToken.value = attributes.confirmationModalAuthenticityToken;
-      }
     }
     
     this.openModal(this.confirmationModalTarget);

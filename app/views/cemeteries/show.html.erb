@@ -100,7 +100,7 @@
                     <th scope="row">Rules and Regulations</th>
                     <td>
                       <%= @cemetery.current_rules ? 
-                        raw("Approved #{html_escape(@cemetery.current_rules.approval_date)} (#{link_to 'view', rules_by_date_cemetery_path(cemid: @cemetery.cemid, date: @cemetery.current_rules.approval_date.iso8601)})") : 
+                        raw("Approved #{@cemetery.current_rules.approval_date} (#{link_to 'view', rules_by_date_cemetery_path(cemid: @cemetery.cemid, date: @cemetery.current_rules.approval_date.iso8601)})") : 
                         'None added.' 
                       %>
                     </td>

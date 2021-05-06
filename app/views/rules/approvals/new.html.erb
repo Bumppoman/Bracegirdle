@@ -1,6 +1,8 @@
 <% content_for :title, 'Upload New Rules' %>
 <% content_for :breadcrumbs, breadcrumbs_helper(['Upload new rules']) %>
-<%= form_for @rules_approval, builder: BracegirdleFormBuilder do |f| %>
+<%= form_with model: @rules_approval,
+  builder: BracegirdleFormBuilder do |f| 
+%>
   <div class="form-layout" data-controller="rules--approvals--new">
     <section class="section-wrapper">
       <%= content_tag(:div, 

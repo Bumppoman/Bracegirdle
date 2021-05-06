@@ -19,5 +19,7 @@ module Bracegirdle
     config.time_zone = 'Eastern Time (US & Canada)'
     config.active_record.default_timezone = :local
     config.active_record.time_zone_aware_attributes = false
+    
+    #config.action_controller.per_form_csrf_tokens = false
   end
 end

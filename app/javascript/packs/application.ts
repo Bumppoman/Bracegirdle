@@ -31,3 +31,8 @@ const context = require.context('../src/javascript/controllers', true, /\.ts$/);
 application.load(definitionsFromContext(context));
 
 import './stylesheet.scss';
+
+// Refresh CSRF tokens for Turbolinks
+document.addEventListener('turbolinks:load', () => {
+  Rails.refreshCSRFTokens();
+});

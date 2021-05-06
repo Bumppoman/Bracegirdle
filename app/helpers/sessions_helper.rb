@@ -12,7 +12,7 @@ module SessionsHelper
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
     request = Net::HTTP::Post.new(url)
     request['content-type'] = 'application/x-www-form-urlencoded'

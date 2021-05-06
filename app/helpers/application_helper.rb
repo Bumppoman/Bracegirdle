@@ -40,7 +40,7 @@ module ApplicationHelper
       class: ['btn btn-primary', options[:class]].join(' '),
       data: {
         action: 'main#openBracegirdleConfirmationModal',
-        confirmation_modal_authenticity_token: csrf,
+        #confirmation_modal_authenticity_token: csrf,
         confirmation_modal_form_action: options[:form_action],
         confirmation_modal_form_method: options[:form_method],
         confirmation_modal_success_button: options[:success_button],
