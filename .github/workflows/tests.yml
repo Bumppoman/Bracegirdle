@@ -70,6 +70,14 @@ jobs:
     - name: Change database file
       run: |
         cp config/database.yml.github config/database.yml
+    
+    - name: Setup Code Climate test-reporter
+      env:
+        CC_TEST_REPORTER: ${{secrets.CC_TEST_REPORTER_ID}}
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
 
     - name: Rails test
       env:
@@ -81,8 +89,7 @@ jobs:
         bundle exec rspec
 
     - name: Publish code coverage
-      uses: paambaati/codeclimate-action@v2.7.5
       env:
         CC_TEST_REPORTER: ${{ secrets.CC_TEST_REPORTER_ID }}
-      with:
-        debug: true
+      run: |
+        ./cc-test-reporter -d -t simplecov after-build
