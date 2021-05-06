@@ -25,6 +25,12 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    
+    env:
+      CC_TEST_REPORTER: ${{ secrets.CC_TEST_REPORTER_ID }}
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      CI: true
+      RAILS_ENV: test
 
     steps:
     - uses: actions/checkout@v1
@@ -71,7 +77,7 @@ jobs:
       run: |
         cp config/database.yml.github config/database.yml
         bundle exec rails db:setup
-        
+
     - name: Test & publish code coverage
       uses: paambaati/codeclimate-action@v2.7.5
       env:

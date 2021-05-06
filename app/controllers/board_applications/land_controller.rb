@@ -13,7 +13,13 @@ module BoardApplications
     }.freeze
 
     def index
-      @board_applications = Land.send("active_#{params[:application_type].pluralize}_for", current_user)
+      if ['purchase', 'sale'].include?(params[:application_type])
+        application_type = params[:application_type].pluralize
+      else
+        raise Exception
+      end
+      
+      @board_applications = Land.send("active_#{application_type}_for", current_user)
     end
 
     def new
