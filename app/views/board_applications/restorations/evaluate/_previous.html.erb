@@ -26,7 +26,7 @@
             <%= f.label :previous_exists, 'Has the cemetery had previous restoration work?' %>
           </div>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
           <label class="rdiobox">
             <%= f.radio_button :previous_exists, 
               true,
@@ -38,7 +38,7 @@
             <span id="previous-exists-yes">Yes</span>
           </label>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <label class="rdiobox">
             <%= f.radio_button :previous_exists, 
               false,
@@ -73,7 +73,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <%= f.date_field :previous_date,
+            <%= f.text_field :previous_date,
               label: 'Date Previous Work Approved'
             %>
           </div>

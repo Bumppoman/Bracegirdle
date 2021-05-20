@@ -33,7 +33,7 @@
           %>
         </td>
       </tr>
-      <% unless @restoration.received? %>
+      <% unless @restoration.received? || @restoration.assigned? %>
         <tr>
           <th scope="row">Evaluated By</th>
           <td><%= @restoration.investigator.name %> on <%= @restoration.recommendation_date %></td>
