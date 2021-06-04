@@ -29,6 +29,8 @@ export default class extends ApplicationController {
   
   openNewContractorFormFromEstimate() {
     const contractorFormModal = document.getElementById('board_applications-restorations-contractors-form-modal');
+    this.element.classList.remove('fade');
+    contractorFormModal.classList.remove('fade');
     
     // Add hidden input to associate contractor creation through estimate form
     const hidden = document.createElement('input');
@@ -37,7 +39,8 @@ export default class extends ApplicationController {
     hidden.value = 'true';
     contractorFormModal.parentElement.appendChild(hidden);
     
-    // Open modal
+    // Hide estimate modal and open contractor modal
+    this.closeModal(this.element as HTMLElement);
     this.openModal(contractorFormModal);
   }
 }

@@ -1,0 +1,39 @@
+#complaints_show {
+  a {
+    text-decoration: none;
+  }
+  
+  section.section-wrapper:not(.tracker-wrapper) {
+    border: 0;
+  }
+  
+  #complaints_complaint-details {
+    #complaints_cemetery-information {
+      margin-top: 0.375rem;
+      padding: 2rem;
+    }
+    
+    #complaints_complainant-information {
+      margin-top: 0;
+      padding: 2rem;
+    }
+    
+    #complaints_complaint-information {
+      margin-top: 0.375rem;
+      padding: 2rem;
+    }
+  }
+
+  #complaints_investigation-details {
+    #complaints_investigation-actions {
+      margin-bottom: 0.375rem;
+      margin-top: 0;
+      padding: 2rem;
+    }
+    
+    #complaints_investigation-details-info {
+      margin-top: 0;
+      padding: 2rem;
+    }
+  }
+}

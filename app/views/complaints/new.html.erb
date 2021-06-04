@@ -37,26 +37,41 @@
         </div>
       </div>
     </section>
-    <section class="section-wrapper mg-t-10">
+    <section class="section-wrapper mt-2">
       <label class="section-title">Cemetery Information</label>
       <div class="row" data-controller="cemeteries--select">
         <div class="col-md-3">
           <div class="form-group required">
             <label class="form-control-label">DOS Jurisdiction?</label>
-            <label class="rdiobox">
+            <div class="form-check">
               <%= f.radio_button :cemetery_regulated, 
-                true, 
+                true,
+                class: 'form-check-input',
                 data: { 
                   action: 'complaints--new#setCemeteryType',
                   target: 'complaints--new.cemeteryRegulatedTrue'
                 } 
               %>
-              <span id="complaint-cemetery-regulated-yes">Yes</span>
-            </label>
-            <label class="rdiobox">
-              <%= f.radio_button :cemetery_regulated, false, data: { action: 'complaints--new#setCemeteryType' } %>
-              <span id="complaint-cemetery-regulated-no">No</span>
-            </label>
+              <label 
+                id="complaint-cemetery-regulated-yes"
+                class="form-check-label"
+                for="complaint_cemetery_regulated_true"
+              >Yes</label>
+            </div>
+            <div class="form-check">
+              <%= f.radio_button :cemetery_regulated, 
+                false,
+                class: 'form-check-input',
+                data: { 
+                  action: 'complaints--new#setCemeteryType' 
+                } 
+              %>
+              <label 
+                id="complaint-cemetery-regulated-no"
+                class="form-check-label"
+                for="complaint_cemetery_regulated_false"
+              >No</label>
+            </div>
           </div>
         </div>
         <div class="col-md-4">
@@ -125,23 +140,32 @@
           <div class="form-group">
             <%= f.label :ownership_type, 'Means By Which You Acquired Ownership' %>
             <% Complaint.ownership_types.keys.each do |type| %>
-              <label class="rdiobox">
-                <%= f.radio_button :ownership_type, type %>
-                <span><%= type.capitalize %></span>
-              </label>
+              <div class="form-check">
+                <%= f.radio_button :ownership_type, 
+                  type, 
+                  class: 'form-check-input' 
+                %>
+                <label 
+                  class="form-check-label" 
+                  for="complaint_ownership_type_<%= type %>"
+                ><%= type.capitalize %></label>
+              </div>
             <% end %>
           </div>
         </div>
       </div>
     </section>
-    <section class="section-wrapper mg-t-10">
+    <section class="section-wrapper mt-2">
       <label class="section-title">Complaint Information</label>
       <div class="row">
         <div class="col">
           <div class="form-group required">
             <%= f.select :complaint_type, 
               grouped_options_for_select(Complaint.grouped_complaint_types, @complaint.complaint_type), 
-              { label: 'Complaint Type', without_choices: true },
+              { 
+                label: 'Complaint Type', 
+                without_choices: true 
+              },
               {
                 data: {
                   target: 'complaints--new.type'
@@ -179,10 +203,20 @@
           <div class="form-group">
             <%= f.label :manner_of_contact, 'Manner of Contact' %>
             <% Complaint.named_manners_of_contact.each do |id, type| %>
-              <label class="ckbox">
-                <%= f.check_box :manner_of_contact, { multiple: true }, id, nil %>
-                <span><%= type %></span>
-              </label>
+              <div class="form-check">
+                <%= f.check_box :manner_of_contact, 
+                  {
+                    class: 'form-check-input',
+                    multiple: true 
+                  }, 
+                  id, 
+                  nil
+                %>
+                <label 
+                  class="form-check-label" 
+                  for="complaint_manner_of_contact_<%= id %>"
+                ><%= type %></label>
+              </div>
             <% end %>
           </div>
         </div>
@@ -191,38 +225,68 @@
         <div class="col-md-6">
           <div class="form-group">
             <%= f.label :attorney_contacted, 'Has the Matter Been Submitted to an Attorney?' %>
-            <label class="rdiobox">
-              <%= f.radio_button :attorney_contacted, true %>
-              <span id="complaint-attorney-contacted-yes">Yes</span>
-            </label>
-            <label class="rdiobox">
-              <%= f.radio_button :attorney_contacted, false %>
-              <span id="complaint-attorney-contacted-no">No</span>
-            </label>
+            <div class="form-check">
+              <%= f.radio_button :attorney_contacted, 
+                true,
+                class: 'form-check-input' 
+              %>
+              <label 
+                id="complaint-attorney-contacted-yes"
+                class="form-check-label"
+                for="complaint_attorney_contacted_true"
+              >Yes</label>
+            </div>
+            <div class="form-check">
+              <%= f.radio_button :attorney_contacted, 
+                false,
+                class: 'form-check-input'
+              %>
+              <label 
+                id="complaint-attorney-contacted-no"
+                class="form-check-label"
+                for="complaint_attorney_contacted_false"
+              >No</label>
+            </div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <%= f.label :court_action_pending, 'Is Court Action Pending?' %>
-            <label class="rdiobox">
-              <%= f.radio_button :court_action_pending, true %>
-              <span id="complaint-court-action-pending-yes">Yes</span>
-            </label>
-            <label class="rdiobox">
-              <%= f.radio_button :court_action_pending, false %>
-              <span id="complaint-court-action-pending-no">No</span>
-            </label>
+            <div class="form-check">
+              <%= f.radio_button :court_action_pending, 
+                true,
+                class: 'form-check-input'
+              %>
+              <label 
+                id="complaint-court-action-pending-yes"
+                class="form-check-label"
+                for="complaint_court_action_pending_true"
+              >Yes</label>
+            </div>
+            <div class="form-check">
+              <%= f.radio_button :court_action_pending, 
+                false,
+                class: 'form-check-input' 
+              %>
+              <label 
+                id="complaint-court-action-pending-no"
+                class="form-check-label"
+                for="complaint_court_action_pending_false"
+              >No</label>
+            </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="section-wrapper mg-t-10">
+    <section class="section-wrapper mt-2">
       <label class="section-title">Assignment</label>
       <div class="row">
         <div class="col-md-8">
           <%= f.select :receiver, 
             employee_options(@complaint.receiver.id, [:investigator, :accountant, :support]), 
-            { include_blank: 'Select employee' } 
+            { 
+              include_blank: 'Select employee' 
+            } 
           %>
         </div>
         <div class="col-md-4">
@@ -230,7 +294,11 @@
             <%= label :complaint, :date_acknowledged, 'Date Complaint Received', class: 'form-control-label' %>
             <%= date_field :complaint, 
               :date_acknowledged, 
-              { class: 'form-control', readonly: true, value: Date.current.strftime("%Y-%m-%d") }
+              { 
+                class: 'form-control', 
+                readonly: true, 
+                value: Date.current.strftime("%Y-%m-%d") 
+              }
             %>
           </div>
         </div>
@@ -239,31 +307,44 @@
         <div class="col-md-4">
           <div class="form-group required">
             <%= f.label :investigation_required, 'Is an Investigation Required?' %>
-            <label class="rdiobox">
+            <div class="form-check">
               <%= f.radio_button :investigation_required, 
                 true,
+                class: 'form-check-input',
                 data: {
                   action: 'complaints--new#setInvestigation',
                   target: 'complaints--new.investigationRequiredTrue'
                 }
               %>
-              <span id="complaint-investigation-required-yes">Yes</span>
-            </label>
-            <label class="rdiobox">
+              <label 
+                id="complaint-investigation-required-yes"
+                class="form-check-label"
+                for="complaint_investigation_required_true"
+              >Yes</label>
+            </div>
+            <div class="form-check">
               <%= f.radio_button :investigation_required, 
                 false,
+                class: 'form-check-input',
                 data: {
                   action: 'complaints--new#setInvestigation'
                 }
               %>
-              <span id="complaint-investigation-required-no">No</span>
-            </label>
+              <label 
+                id="complaint-investigation-required-no"
+                class="form-check-label"
+                for="complaint_investigation_required_false"
+              >No</label>
+            </div>
           </div>
         </div>
         <div class="col-md-8">
           <%= f.select :investigator, 
             employee_options(@complaint.investigator&.id, [:investigator]), 
-            { include_blank: 'Unassigned', without_choices: true }, 
+            { 
+              include_blank: 'Unassigned', 
+              without_choices: true 
+            }, 
             { 
               data: {
                 target: 'complaints--new.investigatorSelect'
@@ -278,8 +359,8 @@
           <%= f.text_area :disposition, rows: 10 %>
         </div>
       </div>
-      <div class="form-layout-footer mg-t-20 pd-l-20">
-        <%= f.button 'Submit', class: 'btn btn-primary bd-0 mr-1' %>
+      <div class="form-layout-footer mt-4 ps-4">
+        <%= f.button 'Submit', class: 'btn btn-primary b-0' %>
       </div>
     </section>
   </div>

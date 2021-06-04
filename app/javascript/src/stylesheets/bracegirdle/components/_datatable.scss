@@ -1,0 +1,183 @@
+.bracegirdle-data-table {
+  a {
+    text-decoration: none;
+  }
+  
+  table {
+    border: 1px solid #dee2e6;
+    margin-bottom: 15px;
+  
+    thead th {
+      padding: 0.75rem;
+      //border-bottom: 1px solid #dee2e6;
+      position: relative;
+  
+      a {
+        color: inherit;
+        display: inline-block;
+        height: 100%;
+        position: relative;
+        text-decoration: none;
+        width: 100%;
+      }
+  
+      &.sorting.asc:after {
+        content: "keyboard_arrow_up";
+        font-family: "Material Icons";
+        position: absolute;
+        right: 4px;
+        top: 25%;
+        text-transform: none;
+      }
+  
+      &.sorting.desc:after {
+        content: "keyboard_arrow_down";
+        font-family: "Material Icons";
+        position: absolute;
+        right: 4px;
+        bottom: 25%;
+        text-transform: none;
+      }
+    }
+  
+    tbody {
+      td {
+        padding: 0.75rem;
+      }
+    
+      tr.even {
+        background-color: #f9f9f9;
+      
+        > .sorting {
+          background-color: #f1f1f1;
+        }
+      }
+    
+      tr.odd > .sorting {
+        background-color: #fafafa;
+      }
+    }
+  }
+
+  .header, .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+
+  .per-page {
+    color: #333;
+    padding-bottom: 10px;
+
+
+    label {
+      display: flex;
+      align-items: center;
+    }
+
+    .choices {
+      display: inline-block;
+      width: 80px;
+      margin-left: 0;
+      margin-right: 10px;
+    }
+
+    .choices__list--dropdown .choices__item--selectable {
+      padding-right: 0;
+    }
+  }
+
+  .search {
+    padding-bottom: 10px;
+    padding-right: 5px;
+    width: 20%;
+
+    input {
+      display: block;
+      width: 100%;
+      padding: .594rem .75rem;
+      font-size: 14px;
+      font-size: .875rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+      transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    
+      &:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #8ec2f3;
+        outline: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.bracegirdle-data-table .empty-message {
+  background-color: #f9f9f9 !important;
+  text-align: center;
+}
+
+.bracegirdle-data-table .pagination a {
+  border: 1px solid transparent;
+  float: left;
+  margin-left: 2px;
+  padding: 6px 12px;
+  position: relative;
+  text-decoration: none;
+  color: #333;
+}
+
+.bracegirdle-data-table .pagination li {
+  float: left;
+  list-style: none;
+}
+
+.bracegirdle-data-table .pagination li a {
+  padding-top: 0.54rem;
+  padding-bottom: 0.54rem;
+  background-color: #e9ecef;
+  border-color: transparent;
+  border-radius: 0;
+}
+
+.bracegirdle-data-table .pagination li a:hover, .bracegirdle-data-table .pagination li a:focus {
+  background-color: #ced4da;
+  background-image: none;
+  border-color: transparent;
+  color: #343a40 !important;
+}
+
+.bracegirdle-data-table .pagination a.active, .bracegirdle-data-table .pagination a.active:focus, .bracegirdle-data-table .pagination a.active:hover {
+  background-color: #1b84e7;
+  background-image: none;
+  border-color: transparent;
+  color: #fff !important;
+}
+
+.bracegirdle-data-table .pagination li.pager a {
+  font-weight: normal;
+}
+
+.bracegirdle-data-table .pagination a.disabled, .bracegirdle-data-table .pagination a.disabled:focus, .bracegirdle-data-table .pagination a.disabled:hover {
+  background-color: #e9ecef;
+  color: #adb5bd !important;
+  pointer-events: none;
+}
+
+.bracegirdle-data-table .footer {
+  padding: 8px 10px;
+}
+
+.bracegirdle-data-table .footer .info {
+  float: left;
+  margin: 7px 0;
+}

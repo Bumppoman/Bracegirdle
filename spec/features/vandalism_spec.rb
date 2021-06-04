@@ -10,8 +10,7 @@ feature 'Vandalism' do
   scenario 'User can view pending vandalism applications' do
     login
 
-    click_on 'Applications'
-    click_on 'Vandalism'
+    visit board_applications_vandalism_index_path
 
     expect(page).to have_content 'Pending vandalism applications'
   end

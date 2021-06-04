@@ -22,6 +22,7 @@ export default class extends ApplicationController {
   }
   
   handleRetortEvent(event: CustomEvent) {
+    
     // Close modal
     this.retortFormTarget.stimulusController.close();
     
@@ -35,7 +36,7 @@ export default class extends ApplicationController {
       successText = 'You have successfully added this retort.';
       
     } else if (event.type == 'bracegirdle:retorts:retortUpdated') {
-      const retortRow = [...this.retortsDataTableTarget.stimulusController.table.rows].find(
+      const retortRow = Array.from(this.retortsDataTableTarget.stimulusController.table.rows).find(
         row => row.dataset.retortId === event.detail.retortId.toString());
       retortRow.outerHTML = event.detail.retort;
       this.retortsDataTableTarget.stimulusController.refresh();

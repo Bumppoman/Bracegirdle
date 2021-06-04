@@ -8,7 +8,7 @@
     >
       <div class="alert alert-success"><%= flash[:success] %></div>
     </div>
-    <div class="row mg-b-10">
+    <div class="row mb-2">
       <div class="col-md-11 col-sm-3">
         <label class="section-title">Rules (approved <%= @rules.approval_date %>)</label>
       </div>
@@ -18,30 +18,28 @@
         <% end %>
       </div>
     </div>
-    <div
-      class="embed-responsive"
-      style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-    >
-      <object
-        class="embed-responsive-item"
-        type="<%= @rules.rules_document.content_type %>"
-        data="<%= attachment_display_link(@rules.rules_document, request) %>"
-      ></object>
-    </div>
+    <%= render partial: 'application/pdf_viewer',
+      locals: {
+        pdf: @rules.rules_document
+      }
+    %>
   </section>
-  <section class="section-wrapper mg-t-5 pd-t-30">
-    <label class="section-title mg-b-20">Information</label>
+  <section class="section-wrapper mt-1 pt-5">
+    <label class="section-title mb-4">Information</label>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <th class="wd-30p">Approved By</th>
+          <th class="w-30">Approved By</th>
           <td>
             <% if @rules.approved_by %>
               <%= @rules.approved_by.name %>
               <%= raw("(#{link_to 'download approval letter', 
                 '#rules-download-approval-letter', 
                 id: 'download-rules-approval',
-                data: { toggle: 'modal' }})"
+                data: {
+                  bs_target: '#rules-download-approval-letter', 
+                  bs_toggle: 'modal' 
+                }})"
               ) unless @rules.previously_approved? %>
             <% else %>
               Unknown
@@ -66,22 +64,31 @@
       data-show="<%= flash[:download_letter] %>"
       data-target="rules--show.downloadApprovalLetterModal"
     >
-      <div class="modal-dialog wd-40p" role="document">
+      <div class="modal-dialog w-40" role="document">
         <div class="modal-content">
-          <div class="modal-header pd-x-20">
-            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Download Approval Letter for Rules</h6>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div class="modal-header px-4">
+            <h6 class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold">Download Approval Letter for Rules</h6>
+            <button 
+              type="button" 
+              class="close"
+              data-bs-target="#rules-download-approval-letter" 
+              data-bs-toggle="modal" 
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body pd-25">
+          <div class="modal-body p-4">
             <p class="text-center">
               Click below to download the approval letter for these rules.
               <br />
               <br />
-              <%= link_to content_tag(:i, 'picture_as_pdf', class: 'material-icons mr-2') + "Download Rules-Approval-#{@rules.rules_approval.identifier}.pdf", 
+              <%= link_to content_tag(:i, 'picture_as_pdf', class: 'material-icons me-2') + "Download Rules-Approval-#{@rules.rules_approval.identifier}.pdf", 
                 '#', 
-                data: { dismiss: 'modal' }, 
+                data: {
+                  bs_target: '#rules-download-approval-letter',
+                  bs_toggle: 'modal' 
+                }, 
                 class: 'btn btn-outline-secondary btn-lg btn-block', 
                 id: 'download-rules-approval-link', 
                 onclick: "javascript:window.location=\"#{download_approval_letter_rules_approval_path(@rules.rules_approval, "Download-Approval-Rules-#{@rules.rules_approval.identifier}")}\"" 
@@ -89,7 +96,12 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary"
+              data-bs-target="#rules-download-approval-letter" 
+              data-bs-toggle="modal"
+            >Close</button>
           </div>
         </div>
       </div>

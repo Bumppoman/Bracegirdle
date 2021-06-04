@@ -13,7 +13,7 @@ feature 'Crematories' do
     fill_in 'ZIP Code', with: '13842'
     fill_in 'Phone', with: '315-425-4232'
     fill_in 'Email', with: 'seelmanbros@gmail.com'
-    all('span', text: 'Municipal').last.click
+    choose id: 'crematory_classification_independent'
     click_button 'Add Crematory'
     
     expect(page).to have_content 'Seelman Brothers Crematory'

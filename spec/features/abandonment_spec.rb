@@ -10,8 +10,7 @@ feature 'Abandonment' do
   scenario 'User can view pending abandonment applications' do
     login
 
-    click_on 'Applications'
-    click_on 'Abandonment'
+    visit board_applications_abandonment_index_path
 
     expect(page).to have_content 'Pending abandonment applications'
   end

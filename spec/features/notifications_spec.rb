@@ -27,10 +27,10 @@ feature 'Notifications' do
     fill_in 'complaint[date_of_event]', with: '12/31/2018'
     fill_in 'Date Complained to Cemetery', with: '1/1/2019'
     fill_in 'Person Contacted', with: 'Clive Bixby'
-    all('span', text: 'Yes').last.click
+    choose id: 'complaint_investigation_required_true'
     choices 'Chester Butkiewicz', from: 'Investigator'
-    click_on 'Submit'
-    assert_selector '#complaint-details'
+    click_button 'Submit'
+    assert_selector '#complaints_complaint-details'
     logout
     login(@employee)
 
@@ -70,9 +70,9 @@ feature 'Notifications' do
     login(FactoryBot.create(:mean_supervisor))
 
     visit complaint_path(@complaint)
-    click_on 'Investigation Details'
+    find('a', text: 'Investigation Details').click
     fill_in 'note[body]', with: 'Testing'
-    click_on 'submit-note-button'
+    click_button 'submit-note-button'
     logout
     login(@employee)
     find('#notifications .header-notification').click

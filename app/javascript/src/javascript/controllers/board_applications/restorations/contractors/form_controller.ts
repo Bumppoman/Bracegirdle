@@ -20,6 +20,16 @@ export default class extends ApplicationController {
     this.stateChoices = this.createChoices(this.stateTarget);
   }
   
+  close() {
+    // Close this modal
+    this.closeModal(this.element as HTMLElement);
+    
+    // Reopen the estimate modal if appropriate
+    if (document.querySelector('input[name="contractor\[estimate_form\]"]')) {
+      this.openModal(document.getElementById('board_applications-restorations-estimates-new-modal'));
+    }
+  }
+  
   get patchIndicator() {
     return (this.element.parentElement as HTMLFormElement).elements.namedItem('_method') as HTMLInputElement;
   }

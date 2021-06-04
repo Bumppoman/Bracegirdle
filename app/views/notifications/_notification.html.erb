@@ -8,11 +8,13 @@
     target: 'main.notification'
   } do
 %>
-  <div class="media">
-    <img src="http://via.placeholder.com/500x500" alt="" />
-    <div class="media-body">
+  <div class="row media g-0">
+    <div class="col-md-3">
+      <img src="http://via.placeholder.com/16x16" alt="" />
+    </div>
+    <div class="col-md-9 media-body">
       <p>
-        <%= "#{notification.sender.name} #{render inline: html_escape(notification.text), locals: { notification: notification }}." %>
+        <%= "#{notification.sender.name} #{render inline: notification.text, locals: { notification: notification }}." %>
       </p>
       <span><%= notification.created_at.strftime('%B %-d, %Y at %l:%M %P') %></span>
     </div>

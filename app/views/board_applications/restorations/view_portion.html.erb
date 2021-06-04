@@ -15,7 +15,7 @@
   ) 
 %>
 <section class="section-wrapper">
-  <div class="row mg-b-10">
+  <div class="row mb-2">
     <div class="col-md-1">
       <%= link_to(request.referer.present? ? request.referer : root_path) do %>
         <i class="material-icons tx-18 tx-black">arrow_back</i>
@@ -25,20 +25,10 @@
       <label class="section-title">View <%= @portion %></label>
     </div>
     <div class="col-md-1 text-right">
-      <%= link_to @file, disposition: 'attachment' do %>
+      <%= link_to raw_attachment_link(@file), disposition: 'attachment' do %>
         <i class="material-icons tx-black">cloud_download</i>
       <% end %>
     </div>
   </div>
-  <div
-    class="embed-responsive"
-    style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-  >
-    <object
-      class="embed-responsive-item"
-      type="<%= @file.content_type %>"
-      data="<%= attachment_display_link(@file, request) %>"
-    >
-    </object>
-  </div>
+  <%= render partial: 'application/pdf_viewer', locals: { url: raw_attachment_link(@file) } %>
 </section>

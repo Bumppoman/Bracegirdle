@@ -22,6 +22,7 @@ export default class extends ApplicationController {
   }
   
   handleTrusteeEvent(event: CustomEvent) {
+    
     // Close modal
     this.trusteeFormTarget.stimulusController.close();
     
@@ -35,7 +36,7 @@ export default class extends ApplicationController {
       successText = 'You have successfully added this trustee.';
       
     } else if (event.type == 'bracegirdle:trustees:trusteeEdited') {
-      const trusteeRow = [...this.trusteesDataTableTarget.stimulusController.table.rows].find(
+      const trusteeRow = Array.from(this.trusteesDataTableTarget.stimulusController.table.rows).find(
         row => row.dataset.trusteeId === event.detail.trusteeId.toString());
       trusteeRow.outerHTML = event.detail.trustee;
       this.trusteesDataTableTarget.stimulusController.refresh();

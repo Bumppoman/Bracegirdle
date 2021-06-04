@@ -4,19 +4,31 @@ const webpack = require('webpack');
 
 environment.loaders.prepend('typescript', typescript);
 
-/*environment.loaders.append("bootstrap.native", {
-  test: /bootstrap\.native/,
-  use: {
-    loader: "bootstrap.native-loader",
-    options: {
-      only: ["alert", "button", "dropdown", "modal", "tab", "tooltip"],
-      bsVersion: 4
-    }
-  }
-});*/
+// Webpacker 5 fix for PDFJS
+let nodeModules = environment.loaders.find(loader => loader.key === 'nodeModules');
+nodeModules.value.exclude = new RegExp(nodeModules.value.exclude.source + "|pdf");
 
-environment.plugins.append('Provide', new webpack.ProvidePlugin({
-    BSN: 'bootstrap.native'
-}));
+const customConfig = {
+  resolve: {
+    fallback: {
+      dgram: false,
+      fs: false,
+      net: false,
+      tls: false,
+      child_process: false
+    },
+    extensions: ['.css']
+  }
+}
+
+environment.config.delete('node.dgram');
+environment.config.delete('node.fs');
+environment.config.delete('node.net');
+environment.config.delete('node.tls');
+environment.config.delete('node.child_process');
+
+environment.config.merge(customConfig);
+
+new webpack.EnvironmentPlugin(['RAILS_ENV']);
 
 module.exports = environment;

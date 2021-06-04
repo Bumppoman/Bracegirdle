@@ -12,7 +12,7 @@ feature 'Hazardous' do
     login
 
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '#04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -20,9 +20,9 @@ feature 'Hazardous' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
+    click_button 'Upload Application'
+    find('span', text: 'APPLICATIONS').click
+    click_link 'Hazardous Monuments'
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -31,14 +31,14 @@ feature 'Hazardous' do
     login
 
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '#04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
     fill_in 'Submitted On', with: '02/28/2019'
     fill_in 'Amount', with: '12345.67'
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
+    click_button 'Upload Application'
 
     expect(page).to have_content 'There was a problem uploading this application!'
   end
@@ -47,7 +47,7 @@ feature 'Hazardous' do
     login
 
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -55,43 +55,44 @@ feature 'Hazardous' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
+    click_button 'Upload Application'
     attach_file 'hazardous_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
-    find('#application-form-complete-yes').click
-    click_on 'Next'
-    click_on 'Add Estimate'
+    choose id: 'hazardous_application_form_complete_true'
+    click_button 'Next'
+    click_button 'Add Estimate'
     within('#board_applications-restorations-estimates-new-modal') do
       attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
       fill_in 'Amount', with: '12345.67'
       choices 'Rocky Stone Monuments', from: 'Contractor'
       choices 'Lifetime', from: 'Warranty'
-      find('#estimate-proper-format-yes').click
+      choose id: 'estimate_proper_format_true'
       click_button 'Add Estimate'
     end
-    click_on 'Add Estimate'
+    click_button 'Add Estimate'
     within('#board_applications-restorations-estimates-new-modal') do
       attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
       fill_in 'Amount', with: '12845.67'
       choices 'Stony Rocks Monuments', from: 'Contractor'
       choices 'Lifetime', from: 'Warranty'
-      find('#estimate-proper-format-yes').click
+      choose id: 'estimate_proper_format_true'
       click_button 'Add Estimate'
     end
-    click_on 'Next'
+    click_button 'Next'
     attach_file 'hazardous_legal_notice_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Cost', with: '123.45'
     fill_in 'Newspaper', with: 'Albany Sun'
-    find('#legal-notice-proper-format-yes').click
-    click_on 'Next'
+    choose id: 'hazardous_legal_notice_format_true'
+    click_button 'Next'
     assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
-    find('#previous-exists-yes').click
+    choose id: 'hazardous_previous_exists_true'
     attach_file 'hazardous_previous_completion_report_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Hazardous', from: 'Type of Project'
     fill_in 'Date Previous Work Approved', with: '09/01/2017'
-    click_on 'Next'
-    click_on 'Submit Application'
+    find('label[for="hazardous_previous_date"]').click # Necessary to set file input value
+    click_button 'Next'
+    click_button 'Submit Application'
     assert_selector '#board_applications-restorations-show'
     visit board_applications_hazardous_index_path
 
@@ -102,7 +103,7 @@ feature 'Hazardous' do
     login_supervisor
 
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -110,40 +111,45 @@ feature 'Hazardous' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
+    click_button 'Upload Application'
     attach_file 'hazardous_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
-    find('#application-form-complete-yes').click
-    click_on 'Next'
-    click_on 'Add Estimate'
+    choose id: 'hazardous_application_form_complete_true'
+    click_button 'Next'
+    click_button 'Add Estimate'
     within('#board_applications-restorations-estimates-new-modal') do
       attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
       fill_in 'Amount', with: '12345.67'
       choices 'Rocky Stone Monuments', from: 'Contractor'
       choices 'Lifetime', from: 'Warranty'
-      find('#estimate-proper-format-yes').click
+      choose id: 'estimate_proper_format_true'
       click_button 'Add Estimate'
     end
-    click_on 'Add Estimate'
+    click_button 'Add Estimate'
     within('#board_applications-restorations-estimates-new-modal') do
       attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
       fill_in 'Amount', with: '12845.67'
       choices 'Stony Rocks Monuments', from: 'Contractor'
       choices 'Lifetime', from: 'Warranty'
-      find('#estimate-proper-format-yes').click
+      choose id: 'estimate_proper_format_true'
       click_button 'Add Estimate'
     end
-    click_on 'Next'
+    click_button 'Next'
     attach_file 'hazardous_legal_notice_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Cost', with: '123.45'
     fill_in 'Newspaper', with: 'Albany Sun'
-    find('#legal-notice-proper-format-yes').click
-    click_on 'Next'
+    choose id: 'hazardous_legal_notice_format_true'
+    click_button 'Next'
     assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
-    find('#previous-exists-no').click
-    click_on 'Next'
-    click_on 'Submit Application'
+    choose id: 'hazardous_previous_exists_true'
+    attach_file 'hazardous_previous_completion_report_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    choices 'Hazardous', from: 'Type of Project'
+    fill_in 'Date Previous Work Approved', with: '09/01/2017'
+    find('label[for="hazardous_previous_date"]').click # Necessary to set file input value
+    click_button 'Next'
+    click_button 'Submit Application'
+    assert_selector '#board_applications-restorations-show'
     visit board_applications_hazardous_index_path
 
     expect(page).to have_content 'Ready for Cemetery Board'
@@ -155,7 +161,7 @@ feature 'Hazardous' do
     
     visit board_applications_hazardous_path(@restoration)
     fill_in 'note[body]', with: 'Adding a note to this application'
-    click_on 'Submit'
+    click_button 'Submit'
 
     expect(page).to have_content 'Adding a note to this application'
   end
@@ -231,7 +237,7 @@ feature 'Hazardous' do
     scenario 'Supervisor can send application to board', js: true do
       login_supervisor
       visit board_applications_hazardous_index_path
-      click_on @restoration.identifier
+      click_link @restoration.identifier
 
       click_button 'Approve for Cemetery Board'
       within '#bracegirdle-confirmation-modal' do

@@ -21,7 +21,7 @@ feature 'Notices' do
     fill_in 'Specific Information', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
-    click_on 'Issue Notice'
+    click_button 'Issue Notice'
     visit notices_path
 
     expect(page).to have_content 'Anthony Cemetery'
@@ -41,7 +41,7 @@ feature 'Notices' do
     fill_in 'Law Sections', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
-    click_on 'Issue Notice'
+    click_button 'Issue Notice'
 
     expect(page).to have_button 'Issue Notice'
   end
@@ -66,7 +66,7 @@ feature 'Notices' do
     fill_in 'Specific Information', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
-    click_on 'Issue Notice'
+    click_button 'Issue Notice'
     visit notices_path
 
     expect(page).to have_content 'Anthony Cemetery'
@@ -78,16 +78,16 @@ feature 'Notices' do
     @notice = FactoryBot.create(:notice)
 
     visit notices_path
-    click_on @notice.notice_number
+    click_link @notice.notice_number
     click_button 'Response Received'
     within '#bracegirdle-confirmation-modal' do 
       click_button 'Response Received'
     end 
-    click_on 'Follow-Up Completed'
-    within '#notice-follow-up-modal' do 
+    click_button 'Follow-Up Completed'
+    within '#notices_follow-up-modal' do 
       click_button 'Follow-Up Completed'
     end
-    click_on 'Resolve'
+    click_button 'Resolve'
     within '#bracegirdle-confirmation-modal' do 
       click_button 'Resolve'
     end
@@ -102,13 +102,13 @@ feature 'Notices' do
     @notice = FactoryBot.create(:notice)
 
     visit notices_path
-    click_on @notice.notice_number
+    click_link @notice.notice_number
     click_button 'Response Received'
     within '#bracegirdle-confirmation-modal' do 
       click_button 'Response Received'
     end 
-    click_on 'Follow-Up Completed'
-    within '#notice-follow-up-modal' do 
+    click_button 'Follow-Up Completed'
+    within '#notices_follow-up-modal' do 
       fill_in 'notice[follow_up_completed_date]', with: '02/01/2019'
       click_button 'Follow-Up Completed'
     end
@@ -131,7 +131,7 @@ feature 'Notices' do
 
     visit notice_path(@notice)
     fill_in 'note[body]', with: 'Adding a note to this notice'
-    click_on 'Submit'
+    click_button 'Submit'
 
     expect(page).to have_content 'Adding a note to this notice'
   end
@@ -145,7 +145,7 @@ feature 'Notices' do
     fill_in 'attachment[description]', with: 'Adding an attachment to this notice'
 
     expect {
-      click_on 'Upload'
+      click_button 'Upload'
       assert_selector '[data-attachment-id="1"]'
     }.to change(ActiveStorage::Attachment, :count).by(1)
     expect(page).to have_content 'Adding an attachment to this notice'

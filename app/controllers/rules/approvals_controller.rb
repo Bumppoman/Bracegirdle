@@ -15,7 +15,8 @@ class Rules::ApprovalsController < ApplicationController
     @rules = Rules.new(
       cemetery: @rules_approval.cemetery,
       rules_approval: @rules_approval,
-      approval_date: Date.current
+      approval_date: Date.current,
+      approved_by: current_user
     )
     @rules.rules_document.attach(@rules_approval.revisions.first.rules_document.blob)
     @rules.save

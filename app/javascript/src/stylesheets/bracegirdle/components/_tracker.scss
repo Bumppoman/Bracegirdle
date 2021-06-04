@@ -1,0 +1,111 @@
+.tracker {
+  background: #ffffff;
+  position: relative;
+  padding-top: 4px;
+  margin: 0 auto;
+  overflow: hidden;
+  z-index: 1;
+
+  div.tracker-step {
+    border: 0;
+    padding-top: 20px;
+    position: absolute;
+    left: 50%;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: transform 700ms ease-in-out, opacity 700ms ease-in-out, left 0ms linear 1s;
+    width: 100%;
+    visibility: hidden;
+
+    &.active {
+      bottom: 0;
+      left: 0;
+      opacity: 1;
+      position: relative;
+      transform: scale(1);
+      transition: opacity 700ms ease-in-out, left 700ms ease-in-out;
+      visibility: visible;
+    }
+    
+    h3 {
+      font: 500 18px/35px "Roboto", sans-serif;
+      color: #3f4553;
+    }
+    
+    h6 {
+      font: 400 15px/28px "Roboto", sans-serif;
+      color: #5f6771;
+      padding-bottom: 30px;
+    }
+  }
+
+  &.no-transitions div.tracker-step {
+    transition: none !important;
+  }
+
+
+  ul.progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    text-align: center;
+    
+    li {
+      list-style-type: none;
+      color: #99a2a8;
+      font-size: 9px;
+      float: left;
+      position: relative;
+      font: 500 13px/1 "Roboto", sans-serif;
+    
+      &:before {
+        content: "";
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        display: block;
+        background: #eaf0f4;
+        border-radius: 50%;
+        margin: 0 auto 10px auto;
+      }
+
+      &:after {
+        content: '';
+        width: 100%;
+        height: 10px;
+        background: #eaf0f4;
+        position: absolute;
+        left: -50%;
+        top: 21px;
+        z-index: -1;
+      }
+
+      &:last-child:after {
+        width: 150%;
+      }
+
+      &.active {
+        color: #146abb;
+      
+        &:before, &:after {
+          background: #146abb;
+          color: white;
+        }
+      }
+      
+      a {
+        color: #99a2a8;
+        text-decoration: none;
+      }
+    }
+  }
+  
+  .section-wrapper {
+    margin-top: 0.375rem;
+    overflow: hidden;
+    padding: 1.25rem;
+  }
+  
+  .tracker-indicator:not(.active) a {
+    pointer-events: none;
+  }
+}

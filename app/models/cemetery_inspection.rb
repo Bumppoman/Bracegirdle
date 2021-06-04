@@ -77,6 +77,10 @@ class CemeteryInspection < ApplicationRecord
   def legacy?
     inspection_report.attached?
   end
+  
+  def link_text
+    "Inspection #{self.identifier}"
+  end
 
   def named_status
     NAMED_STATUSES[status.to_sym]

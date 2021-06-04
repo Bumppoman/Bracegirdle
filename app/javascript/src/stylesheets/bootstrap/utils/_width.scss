@@ -1,0 +1,13 @@
+@mixin make-width($num) {
+  $p: $num + "%";
+
+  .w-#{$num} {
+    width: #{$p} !important; 
+  }
+}
+
+$num: 5;
+@while $num <= 100 {
+  @include make-width($num);
+  $num: $num + 5;
+}

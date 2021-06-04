@@ -13,23 +13,29 @@
     data-controller="board-applications--restorations--estimates--new"
     data-target="board-applications--restorations--evaluate.estimateFormModal"
   >
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg w-60" role="document">
       <div class="modal-content">
-        <div class="modal-header pd-x-20">
-          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Upload New Estimate</h6>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal-header px-4">
+          <h6 class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold">Upload New Estimate</h6>
+          <button 
+            type="button" 
+            class="close"
+            data-bs-target="#board_applications-restorations-estimates-new-modal"
+            data-bs-toggle="modal" 
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pd-25">
+        <div class="modal-body p-4">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-8">
                 <div class="form-group required">
                   <%= f.label :document, 'Estimate' %>
-                  <div class="custom-file">
-                    <%= f.file_field :document, class: 'custom-file-input' %>
-                    <label class="custom-file-label">Choose file</label>
+                  <div class="bracegirdle-file">
+                    <%= f.file_field :document, class: 'bracegirdle-file-input' %>
+                    <label class="bracegirdle-file-label">Choose file</label>
                   </div>
                 </div>
               </div>
@@ -42,7 +48,7 @@
                 <div class="form-group required mb-0">
                   <%= f.label :contractor %>
                   <div class="input-group">
-                    <div class="row wd-100p no-gutters">
+                    <div class="row g-0 w-100">
                       <div class="col-md-9">
                         <%= f.select :contractor,
                           options_from_collection_for_select(Contractor.all.order(:name), :id, :name),
@@ -80,22 +86,39 @@
                   <%= f.label :proper_format, 'Does the estimate appear to be in the proper format?' %>
                 </div>
               </div>
-              <div class="col-md-2 pd-r-0">
-                <label class="rdiobox">
-                  <%= f.radio_button :proper_format, true %>
-                  <span id="estimate-proper-format-yes">Yes</span>
-                </label>
+              <div class="col-md-2 pe-0">
+                <div class="form-check">
+                  <%= f.radio_button :proper_format, 
+                    true,
+                    class: 'form-check-input' 
+                  %>
+                  <label 
+                    class="form-check-label"
+                    for="estimate_proper_format_true"
+                  >Yes</label>
+                </div>
               </div>
-              <div class="col-md-2 pd-l-0">
-                <label class="rdiobox">
-                  <%= f.radio_button :proper_format, false %>
-                  <span id="estimate-proper-format-no">No</span>
-                </label>
+              <div class="col-md-2 ps-0">
+                <div class="form-check">
+                  <%= f.radio_button :proper_format, 
+                    false,
+                    class: 'form-check-input'
+                  %>
+                  <label 
+                    class="form-check-label"
+                    for="estimate_proper_format_false"
+                  >No</label>
+                </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary"
+              data-bs-target="#board_applications-restorations-estimates-new-modal"
+              data-bs-toggle="modal"
+            >Close</button>
             <button class="btn btn-primary">Add Estimate</button>
           </div>
         </div>

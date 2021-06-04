@@ -180,7 +180,7 @@ class CemeteryInspectionReportPDF < ApplicationPDF
       [
         [{ content: '', colspan: 3 }, 'REMARKS'],
         ['27. Annual meetings held and advertised for three weeks', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Newspaper')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].annual_meetings_comments}"],
-        ['28. Election held', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Number of Trustees')}</font><br />#{Prawn::Text::NBSP * 2}#{@params[:inspection].number_of_trustees}"],
+        ['28. Election held', smallcaps('yes'), smallcaps('no'), "<font size='8'>#{smallcaps('Number of Trustees')}</font><br />#{Prawn::Text::NBSP * 2}#{CemeteryInspectionsController.helpers.number_of_trustees(@params[:inspection].number_of_trustees)}"],
         ['29. Burial permits filed within 7 days', smallcaps('yes'), smallcaps('no'), @params[:inspection].burial_permits_comments],
         ['30. Body delivery receipt issued', smallcaps('yes'), smallcaps('no'), @params[:inspection].body_delivery_receipt_comments],
         ['31. Deeds signed by president and treasurer', smallcaps('yes'), smallcaps('no'), @params[:inspection].deeds_signed_comments],

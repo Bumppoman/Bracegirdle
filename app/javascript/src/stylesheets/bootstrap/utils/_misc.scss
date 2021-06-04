@@ -1,0 +1,46 @@
+$num: 0;
+@while $num < 10 {
+  .op-#{$num} { opacity: 0 + ($num * 0.1); }
+  .op-#{$num}-force { opacity: 0 + ($num * 0.1) !important; }
+  $num: $num + 1;
+}
+
+@mixin do-opacity($viewport) {
+  $num: 0;
+  @while $num < 10 {
+    .op-#{$viewport}-#{$num} { opacity: 0 + ($num * 0.1); }
+    .op-#{$viewport}-#{$num}-force { opacity: 0 + ($num * 0.1) !important; }
+    $num: $num + 1;
+  }
+}
+
+.opacity-1 { opacity: 1; }
+
+@media (min-width: 480px) {
+  @include do-opacity("xs");
+}
+
+@include media-breakpoint-up(sm) {
+  @include do-opacity("sm");
+}
+
+@include media-breakpoint-up(md) {
+  @include do-opacity("md");
+}
+
+@include media-breakpoint-up(lg) {
+  @include do-opacity("lg");
+}
+
+@include media-breakpoint-up(xl) {
+  @include do-opacity("xl");
+}
+
+// Flex
+.flex-1 { flex: 1; }
+
+.img-fit-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -10,25 +10,30 @@
     data-controller="retorts--form"
     data-target="retorts--index.retortForm"
   >
-    <div class="modal-dialog modal-lg wd-60p" role="document">
+    <div class="modal-dialog modal-lg w-60" role="document">
       <div class="modal-content">
-        <div class="modal-header pd-x-20">
+        <div class="modal-header px-4">
           <h6 
-            class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"
+            class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold"
             data-target="retorts--form.title"
           >Add New Retort</h6>
-          <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+          <button 
+            class="close" 
+            type="button"
+            data-bs-target="#retorts-form-modal"
+            data-bs-toggle="modal"
+            aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pd-25">
+        <div class="modal-body p-4">
           <div class="container-fluid">
             <div class="row">
               <div class="col">
                 <div class="form-group required">
                   <%= f.label :retort_model, 'Retort Model' %>
                   <div class="input-group">
-                    <div class="row wd-100p no-gutters">
+                    <div class="row w-100 g-0">
                       <div class="col-md-9">
                         <%= f.select :retort_model,
                           retort_model_options(RetortModel.all.order(:name)),
@@ -64,15 +69,16 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer mg-t-20">
+          <div class="modal-footer mt-4">
             <button 
               class="btn btn-primary"
               data-target="retorts--form.submit"
             >Add New Retort</button>
             <button 
               type="button" 
-              class="btn btn-secondary" 
-              data-dismiss="modal"
+              class="btn btn-secondary"
+              data-bs-target="#retorts-form-modal"
+              data-bs-toggle="modal"
             >Cancel</button>
           </div>
         </div>

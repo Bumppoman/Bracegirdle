@@ -29,10 +29,10 @@ feature 'Complaints' do
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
       fill_in 'Date Complained to Cemetery', with: '1/1/2019'
       fill_in 'Person Contacted', with: 'Clive Bixby'
-      all('span', text: 'Yes').last.click
+      choose id: 'complaint_investigation_required_true'
       choices 'Chester Butkiewicz', from: 'Investigator'
-      click_on 'Submit'
-      assert_selector '#complaint-details'
+      click_button 'Submit'
+      assert_selector '#complaints_complaint-details'
       visit complaints_path
 
       expect(page).to have_content('Herman Munster')
@@ -47,16 +47,16 @@ feature 'Complaints' do
       fill_in 'City', with: 'Rotterdam'
       choices 'NY', from: 'State'
       fill_in 'ZIP Code', with: '13202'
-      find('#complaint_cemetery_regulated_false', visible: false).sibling('span').click
+      choose id: 'complaint_cemetery_regulated_false'
       choices 'Broome', from: 'County'
       fill_in 'complaint[cemetery_alternate_name]', with: 'Calvary Cemetery'
       choices 'Burial issues', from: 'Complaint Type'
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
-      all('span', text: 'Yes').last.click
+      choose id: 'complaint_investigation_required_true'
       choices 'Chester Butkiewicz', from: 'Investigator'
-      click_on 'Submit'
+      click_button 'Submit'
       visit complaints_path
 
       expect(page).to have_content('Herman Munster')
@@ -76,9 +76,9 @@ feature 'Complaints' do
       fill_in 'complaint[summary]', with: 'Testing.'
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
-      all('span', text: 'Yes').last.click
+      choose id: 'complaint_investigation_required_true'
       choices 'Chester Butkiewicz', from: 'Investigator'
-      click_on 'Submit'
+      click_button 'Submit'
 
       expect(page).to have_content('There was a problem')
     end
@@ -88,8 +88,8 @@ feature 'Complaints' do
       @complaint = FactoryBot.create(:brand_new_complaint)
 
       visit complaints_path
-      click_on @complaint.complaint_number
-      click_on 'Investigation Details'
+      click_link @complaint.complaint_number
+      find('a', text: 'Investigation Details').click
       click_button 'Begin Investigation'
       within '#bracegirdle-confirmation-modal' do 
         click_button 'Begin Investigation'
@@ -97,7 +97,7 @@ feature 'Complaints' do
       click_button 'Complete Investigation'
       within '#bracegirdle-confirmation-modal' do 
         click_button 'Complete Investigation'
-      end 
+      end
       fill_in 'complaint[disposition]', with: 'Testing.'
       click_button 'Recommend Complaint for Closure'
       within '#bracegirdle-confirmation-modal' do
@@ -113,9 +113,9 @@ feature 'Complaints' do
       @complaint = FactoryBot.create(:complaint_pending_closure)
 
       visit complaints_path
-      click_on @complaint.complaint_number
-      click_on 'Investigation Details'
-      click_on 'Close Complaint'
+      click_link @complaint.complaint_number
+      find('a', text: 'Investigation Details').click
+      click_button 'Close Complaint'
       within '#bracegirdle-confirmation-modal' do
         click_button 'Close Complaint'
       end
@@ -130,10 +130,10 @@ feature 'Complaints' do
       @complaint = FactoryBot.create(:complaint_completed_investigation)
 
       visit complaints_path
-      click_on @complaint.complaint_number
-      click_on 'Investigation Details'
+      click_link @complaint.complaint_number
+      find('a', text: 'Investigation Details').click
       fill_in 'complaint[disposition]', with: 'Testing.'
-      click_on 'Close Complaint'
+      click_button 'Close Complaint'
       within '#bracegirdle-confirmation-modal' do
         click_button 'Close Complaint'
       end
@@ -148,8 +148,8 @@ feature 'Complaints' do
       login(FactoryBot.create(:mean_supervisor))
 
       visit complaints_path
-      click_on @complaint.complaint_number
-      click_on 'Investigation Details'
+      click_link @complaint.complaint_number
+      find('a', text: 'Investigation Details').click
       click_button 'Reopen Investigation'
       within '#bracegirdle-confirmation-modal' do
         click_button 'Reopen Investigation'
@@ -165,7 +165,7 @@ feature 'Complaints' do
       login(FactoryBot.create(:another_investigator))
 
       visit complaint_path(@complaint)
-      click_on 'Investigation Details'
+      find('a', text: 'Investigation Details').click
 
       expect(page).to_not have_button 'Begin Investigation'
     end
@@ -176,11 +176,11 @@ feature 'Complaints' do
       login_supervisor
 
       visit complaints_path
-      click_on @complaint.complaint_number
-      click_on 'Investigation Details'
-      click_on 'Assign to Investigator'
+      click_link @complaint.complaint_number
+      find('a', text: 'Investigation Details').click
+      click_button 'Assign to Investigator'
       choices 'Andrew Hickey', css: '#complaint-assign-investigator-modal'
-      click_on 'Assign'
+      click_button 'Assign'
       logout
       login(@employee)
       visit complaints_path
@@ -195,10 +195,10 @@ feature 'Complaints' do
       login_supervisor
 
       visit complaint_path(@complaint)
-      click_on 'Investigation Details'
+      find('a', text: 'Investigation Details').click
       click_link '(reassign)'
       choices 'Andrew Hickey', css: '[data-target="complaints--show.reassignArea"]'
-      click_on 'Reassign'
+      click_button 'Reassign'
       logout
       login(@employee)
       visit complaints_path
@@ -224,9 +224,9 @@ feature 'Complaints' do
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
       fill_in 'Disposition', with: 'Testing!'
-      click_on 'Submit'
+      click_button 'Submit'
       visit cemetery_path(@cemetery)
-      click_on 'Complaints'
+      find('a', text: 'Complaints').click
 
       expect(page).to have_content 'Herman Munster'
       expect(page).to have_content 'Closure recommended'
@@ -248,9 +248,9 @@ feature 'Complaints' do
       fill_in 'complaint[form_of_relief]', with: 'Testing'
       fill_in 'complaint[date_of_event]', with: '12/31/2018'
       fill_in 'Disposition', with: 'Testing!'
-      click_on 'Submit'
+      click_button 'Submit'
       visit cemetery_path(@cemetery)
-      click_on 'Complaints'
+      find('a', text: 'Complaints').click
 
       expect(page).to have_content 'Herman Munster'
       expect(page).to have_content 'Complaint closed'
@@ -262,7 +262,7 @@ feature 'Complaints' do
       login(FactoryBot.create(:mean_supervisor))
 
       visit complaint_path(@complaint)
-      click_on 'Investigation Details'
+      find('a', text: 'Investigation Details').click
       click_button 'Reopen Investigation'
       within '#bracegirdle-confirmation-modal' do
         click_button 'Reopen Investigation'
@@ -279,11 +279,11 @@ feature 'Complaints' do
     login_supervisor
 
     visit all_complaints_path
-    click_on @complaint.complaint_number
-    click_on 'Investigation Details'
-    click_on 'Request Update'
+    click_link @complaint.complaint_number
+    find('a', text: 'Investigation Details').click
+    click_button 'Request Update'
     within '#bracegirdle-confirmation-modal' do
-      click_on 'Request Update'
+      click_button 'Request Update'
     end
 
     expect(page).to have_content 'Please provide an update on the status of this complaint.'
@@ -294,9 +294,9 @@ feature 'Complaints' do
     @complaint = FactoryBot.create(:brand_new_complaint)
 
     visit complaint_path(@complaint)
-    click_on 'Investigation Details'
+    find('a', text: 'Investigation Details').click
     fill_in 'note[body]', with: 'Adding a note to this complaint'
-    click_on 'Submit'
+    click_button 'Submit'
 
     expect(page).to have_content 'Adding a note to this complaint'
   end
@@ -306,7 +306,7 @@ feature 'Complaints' do
     @complaint = FactoryBot.create(:closed_complaint)
 
     visit complaint_path(@complaint)
-    click_on 'Investigation Details'
+    find('a', text: 'Investigation Details').click
 
     expect(page).to_not have_content 'ADD NEW NOTE'
   end
@@ -316,10 +316,10 @@ feature 'Complaints' do
     @complaint = FactoryBot.create(:brand_new_complaint)
 
     visit complaint_path(@complaint)
-    click_on 'Investigation Details'
+    find('a', text: 'Investigation Details').click
     attach_file 'attachment_file', Rails.root.join('lib', 'document_templates', 'rules-approval.docx'), visible: false
     fill_in 'attachment[description]', with: 'Adding an attachment to this complaint'
-    click_on 'Upload'
+    click_button 'Upload'
 
     expect(page).to have_content 'Adding an attachment to this complaint'
   end
@@ -329,7 +329,7 @@ feature 'Complaints' do
     @complaint = FactoryBot.create(:closed_complaint)
 
     visit complaint_path(@complaint)
-    click_on 'Investigation Details'
+    find('a', text: 'Investigation Details').click
 
     expect(page).to_not have_content 'UPLOAD ATTACHMENT'
   end

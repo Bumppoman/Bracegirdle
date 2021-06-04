@@ -27,12 +27,12 @@ feature 'Status Changes' do
     fill_in 'complaint[date_of_event]', with: '12/31/2018'
     fill_in 'Date Complained to Cemetery', with: '1/1/2019'
     fill_in 'Person Contacted', with: 'Clive Bixby'
-    all('span', text: 'Yes').last.click
+    choose id: 'complaint_investigation_required_true'
     choices 'Chester Butkiewicz', from: 'Investigator'
     
     expect {
-      click_on 'Submit'
-      assert_selector '#complaint-details'
+      click_button 'Submit'
+      assert_selector '#complaints_complaint-details'
     }.to change { StatusChange.count }
   end
 
@@ -42,7 +42,7 @@ feature 'Status Changes' do
     login
 
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '#04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -52,7 +52,7 @@ feature 'Status Changes' do
     choices 'Chester Butkiewicz', from: 'Assign To'
 
     expect {
-      click_on 'Upload Application'
+      click_button 'Upload Application'
       assert_selector '#board_applications-restorations-evaluate'
     }.to change { StatusChange.count }
   end
@@ -65,7 +65,7 @@ feature 'Status Changes' do
     login
 
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -73,42 +73,42 @@ feature 'Status Changes' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
+    click_button 'Upload Application'
     attach_file 'hazardous_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Number of Monuments', with: 25
     fill_in 'Date of Visit to Cemetery', with: '2/8/2019'
-    find('#application-form-complete-yes').click
-    click_on 'Next'
-    click_on 'Add Estimate'
+    choose id: 'hazardous_application_form_complete_true'
+    click_button 'Next'
+    click_button 'Add Estimate'
     within('#board_applications-restorations-estimates-new-modal') do
       attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
       fill_in 'Amount', with: '12345.67'
       choices 'Rocky Stone Monuments', from: 'Contractor'
       choices 'Lifetime', from: 'Warranty'
-      find('#estimate-proper-format-yes').click
+      choose id: 'estimate_proper_format_true'
       click_button 'Add Estimate'
     end
-    click_on 'Add Estimate'
+    click_button 'Add Estimate'
     within('#board_applications-restorations-estimates-new-modal') do
       attach_file 'estimate_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
       fill_in 'Amount', with: '12845.67'
       choices 'Stony Rocks Monuments', from: 'Contractor'
       choices 'Lifetime', from: 'Warranty'
-      find('#estimate-proper-format-yes').click
+      choose id: 'estimate_proper_format_true'
       click_button 'Add Estimate'
     end
-    click_on 'Next'
+    click_button 'Next'
     attach_file 'hazardous_legal_notice_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'Cost', with: '123.45'
     fill_in 'Newspaper', with: 'Albany Sun'
-    find('#legal-notice-proper-format-yes').click
-    click_on 'Next'
+    choose id: 'hazardous_legal_notice_format_true'
+    click_button 'Next'
     assert_selector('#board_applications-restorations-previous-form') # Blocks for transition; necessary (10/2020)
-    find('#previous-exists-no').click
-    click_on 'Next'
+    choose id: 'hazardous_previous_exists_false'
+    click_button 'Next'
 
     expect {
-      click_on 'Submit Application'
+      click_button 'Submit Application'
       assert_selector '#board_applications-restorations-show'
     }.to change { StatusChange.count }
   end

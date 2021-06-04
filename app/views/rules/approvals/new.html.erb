@@ -43,25 +43,27 @@
           <div class="col-md-3">
             <div class="form-group required">
               <label class="form-control-label">Manner of Request</label>
-              <label class="rdiobox">
+              <div class="form-check">
                 <%= f.radio_button :request_by_email, 
                   true,
+                  class: 'form-check-input',
                   data: {
                     action: 'rules--approvals--new#setSubmissionType',
                     target: 'rules--approvals--new.requestByEmailTrue'
                   }
                 %>
-                <span id="rules-approval-request-by-email-yes">Email</span>
-              </label>
-              <label class="rdiobox">
+                <label id="rules-approval-request-by-email-yes" class="form-check-label">Email</span>
+              </div>
+              <div class="form-check">
                 <%= f.radio_button :request_by_email, 
                   false,
+                  class: 'form-check-input',
                   data: {
                     action: 'rules--approvals--new#setSubmissionType'
                   }
                 %>
-                <span id="rules-approval-request-by-email-no">Postal Mail</span>
-              </label>
+                <label id="rules-approval-request-by-email-no" class="form-check-label">Postal Mail</span>
+              </div>
             </div>
           </div>
         </div>
@@ -98,7 +100,7 @@
         </div>
       </div>
     </section>
-    <section class="section-wrapper mg-t-5">
+    <section class="section-wrapper mt-1">
       <label class="section-title">Rules</label>
       <div class="row">
         <div class="col-md-8">
@@ -123,7 +125,7 @@
           %>
         </div>
       </div>
-      <div class="form-layout-footer mg-t-20">
+      <div class="form-layout-footer mt-4">
         <button class="btn btn-primary">Upload Rules</button>
       </div>
     </section>

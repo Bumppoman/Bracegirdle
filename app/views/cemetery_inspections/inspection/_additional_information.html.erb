@@ -1,6 +1,6 @@
 <div
   id="cemetery_inspection-additional-information"
-  class="pd-t-10-force tracker-step"
+  class="pt-2 tracker-step"
   data-step="4"
   data-target="tracker.step"
 >
@@ -14,29 +14,33 @@
         %>
       </div>
     </div>
-    <div class="row mg-b-20">
+    <div class="row mb-4">
       <div class="col">
         <div class="form-group">
           <%= f.label :additional_documents, 'Sample documents to send' %>
           <% CemeteryInspection::ADDITIONAL_DOCUMENTS.each do |document, title| %>
-            <label class="ckbox">
+            <div class="form-check">
               <%= f.check_box "additional_documents[#{document}]", 
                 { 
                   checked: 
                     @inspection.additional_documents && 
-                    ActiveModel::Type::Boolean.new.cast(@inspection.additional_documents[document.to_s]) 
+                    ActiveModel::Type::Boolean.new.cast(@inspection.additional_documents[document.to_s]),
+                  class: 'form-check-input'
                 }, 
                 'true', 
                 'false'
               %>
-              <span><%= title %></span>
+              <label 
+                class="form-check-label"
+                for="cemetery_inspection[additional_documents\[<%= document %>\]]"
+              ><%= title %></label>
             </label>
           <% end %>
         </div>
       </div>
     </div>
   </div>
-  <div class="row mg-t-20">
+  <div class="row mt-4">
     <div class="col-md-6">
       <button
         type="button"

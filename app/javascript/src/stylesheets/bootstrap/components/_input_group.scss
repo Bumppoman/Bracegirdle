@@ -1,0 +1,10 @@
+.input-group input {
+  height: 100%;
+}
+
+.input-group-append, .input-group-prepend {
+  display: flex;
+  @include border-radius(0);
+}
+
+.input-group-text { @include border-radius(0); }

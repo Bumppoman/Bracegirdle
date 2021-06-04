@@ -9,7 +9,7 @@ feature 'Operators' do
     login
     
     visit crematory_path(@crematory)
-    click_on 'Operators'
+    find('a', text: 'Operators').click
     click_button 'Add New Operator'
     within '#operators-form-modal' do
       fill_in 'Name', with: 'Joseph Ambrose'
@@ -27,7 +27,7 @@ feature 'Operators' do
     login
 
     visit crematory_path(@crematory)
-    click_on 'Operators'
+    find('a', text: 'Operators').click
     find("a[data-action='operators--index#editOperator'][data-operator-id='#{@operator.id}']").click
     within '#operators-form-modal' do
       fill_in 'Name', with: 'Michael Seelman'

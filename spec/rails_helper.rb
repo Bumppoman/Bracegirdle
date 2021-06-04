@@ -34,13 +34,9 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
-RSpec.configure do |config|
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
+RSpec.configure do |config|
+  config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
 
   # RSpec Rails can automatically mix in different behaviours to your tests
@@ -60,11 +56,28 @@ RSpec.configure do |config|
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
-  # arbitrary gems may also be filtered via:
-  # config.filter_gems_from_backtrace("gem name")
 
   config.before(:suite) do
-    Webpacker.compile
+    if Webpacker.dev_server.running?
+      $stdout.puts "\n⚙️  Webpack dev server is running! Skip assets compilation.\n"
+      next
+    else
+      $stdout.puts "\n🐢  Precompiling assets.\n"
+      original_stdout = $stdout.clone
+      # Use test-prof now 'cause it couldn't be monkey-patched (e.g., by Timecop or similar)
+      start = Time.current
+      begin
+        # Silence Webpacker output
+        $stdout.reopen(File.new("/dev/null", "w"))
+        # next 3 lines to compile webpacker before running our test suite
+        require "rake"
+        Rails.application.load_tasks
+        Rake::Task["webpacker:compile"].execute
+      ensure
+        $stdout.reopen(original_stdout)
+        $stdout.puts "Finished in #{(Time.current - start).round(2)} seconds"
+      end
+    end
   end
 end
 
@@ -90,11 +103,11 @@ end
 require 'capybara/rails'
 
 Capybara.default_max_wait_time = 5
-
+=begin
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
-
+=end
 Capybara.register_driver :headless_chrome do |app|
   options = ::Selenium::WebDriver::Chrome::Options.new
 
@@ -107,4 +120,5 @@ Capybara.register_driver :headless_chrome do |app|
 end
 
 Capybara.javascript_driver = :headless_chrome
+#Capybara.javascript_driver = :chrome
 #Capybara.raise_server_errors = false

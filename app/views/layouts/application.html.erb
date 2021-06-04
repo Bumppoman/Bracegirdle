@@ -5,24 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <%= csrf_meta_tags %>
     <title><%= yield :title %></title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <%= stylesheet_pack_tag 'stylesheet', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag asset_pack_path('media/images/favicon.ico') %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body data-controller="main">
-    <header class="slim-header">
+    <header class="bracegirdle-header">
       <div class="container">
-        <div class="slim-header-left">
-          <div class="slim-logo">
-            <img src='<%= asset_pack_path 'media/images/cemeteries-logo.jpg' %>' height="55" width="193" />
+        <div class="bracegirdle-header-left">
+          <div class="bracegirdle-logo">
+            <%= image_pack_tag 'media/images/cemeteries-logo.jpg', size: '193x55' %>
           </div>
         </div>
-        <div class="slim-header-right">
+        <div class="bracegirdle-header-right">
           <% if current_user %>
             <%= form_with url: search_path, local: true do |f| %>
-              <div class="search-box mg-r-20">
+              <div class="search-box me-4">
                 <input
                   type="text"
                   id="search-box"
@@ -31,76 +29,83 @@
                   placeholder="Search for cemeteries" 
                 />
                 <button name="search-button" class="btn btn-primary">
-                  <i class="material-icons tx-small" style="margin-left: -2.5px;">search</i>
+                  <i class="material-icons tx-small">search</i>
                 </button>
               </div>
             <% end %>
             <%= render 'reminders/reminders' %>
-            <div
+            <div 
               id="notifications"
-              class="dropdown dropdown-b"
               data-action=
-                "bracegirdle:notifications:notificationRead->main#notificationRead
-                bracegirdle:notifications:allNotificationsRead->main#allNotificationsRead"
+                  "bracegirdle:notifications:notificationRead->main#notificationRead
+                  bracegirdle:notifications:allNotificationsRead->main#allNotificationsRead"
             >
-              <a class="header-notification tx-primary" href="#" data-toggle="dropdown">
-                <i class="material-icons">notifications</i>
-                <span 
-                  class="badge bg-danger<%= ' d-none' unless current_user.notifications.count > 0 %>"
-                  data-target="main.notificationsUnreadIndicator"
+              <div class="dropdown">
+                <a 
+                  class="header-notification tx-primary"
+                  data-bs-display="static"
+                  data-bs-toggle="dropdown"
                 >
-                  <%= current_user.notifications.count %>
-                </span>
-              </a>
-              <div class="dropdown-menu" style="position: absolute !important;">
-                <div class="dropdown-menu-header">
-                  <h6 class="dropdown-menu-title">Notifications</h6>
-                  <div>
-                    <%= link_to 'Mark All as Read', 
-                      mark_all_read_notifications_path, 
-                      data: {
-                        action: 'main#markAllNotificationsRead'
-                      }
-                    %>
-                    <a href="#">Settings</a>
+                  <i class="material-icons">notifications</i>
+                  <span 
+                    class="badge bg-danger<%= " len-#{Math.log10(current_user.notifications.count + 10).to_i}" %><%= ' d-none' unless current_user.notifications.count > 0 %>"
+                    data-target="main.notificationsUnreadIndicator"
+                  >
+                    <%= current_user.notifications.count %>
+                  </span>
+                </a>
+                <div class="dropdown-menu">
+                  <div class="dropdown-menu-header">
+                    <h6 class="dropdown-menu-title">Notifications</h6>
+                    <div>
+                      <%= link_to 'Mark All as Read', 
+                        mark_all_read_notifications_path, 
+                        data: {
+                          action: 'main#markAllNotificationsRead'
+                        }
+                      %>
+                      <a>Settings</a>
+                    </div>
                   </div>
-                </div>
-                <div class="dropdown-list">
-                  <%= render(
-                    partial: 'notifications/notification', 
-                    collection: Notification.includes(:sender, object: [:cemetery]).for_user(current_user).order(created_at: :desc).limit(5)
-                    ) || render(partial: 'notifications/none')
-                  %>
-                  <div class="dropdown-list-footer">
-                    <a href="#">
-                      <i class="fa fa-angle-down"></i>
-                      Show All Notifications
-                    </a>
+                  <div class="dropdown-list">
+                    <%= render(
+                      partial: 'notifications/notification', 
+                      collection: Notification.includes(
+                        :sender, 
+                        object: [:cemetery]).for_user(current_user).order(created_at: :desc).limit(5)
+                      ) || render(partial: 'notifications/none')
+                    %>
+                    <div class="dropdown-list-footer">
+                      <a href="#">
+                        <i class="material-icons tx-12">keyboard_arrow_down</i>
+                        Show All Notifications
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="dropdown dropdown-c">
-              <a class="logged-user" href="#" data-toggle="dropdown">
+            <div id="user-links" class="dropdown">
+              <a class="logged-user" data-bs-display="static" data-bs-toggle="dropdown">
                 <%= current_user.name %>
-                <i class="fa fa-angle-down ml-2"></i>
+                <i class="material-icons ms-2">keyboard_arrow_down</i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <nav class="nav">
                   <%= link_to user_profile_path, class: 'nav-link' do %>
-                    <i class="material-icons mr-2">person</i> Profile
+                    <i class="material-icons me-2">person</i> Profile
                   <% end %>
                   <%= link_to calendar_user_path, class: 'nav-link' do %>
-                    <i class="material-icons mr-2">calendar_today</i> Calendar
+                    <i class="material-icons me-2">calendar_today</i> Calendar
                   <% end %>
                   <%= link_to change_user_password_path, class: 'nav-link' do %>
-                    <i class="material-icons mr-2">vpn_key</i> Change Password
+                    <i class="material-icons me-2">vpn_key</i> Change Password
                   <% end %>
                   <%= link_to "#", class: 'nav-link' do %>
-                    <i class="material-icons mr-2">settings</i> Settings
+                    <i class="material-icons me-2">settings</i> Settings
                   <% end %>
                   <%= link_to logout_path, class: 'nav-link' do %>
-                    <i class="material-icons mr-2">exit_to_app</i> Sign Out
+                    <i class="material-icons me-2">exit_to_app</i> Sign Out
                   <% end %>
                 </nav>
               </div>
@@ -111,14 +116,14 @@
         </div>
       </div>
     </header>
-    <%= render "layouts/navbar/main" %>
-    <main class="slim-mainpanel">
+    <%= render 'layouts/navbar/main' %>
+    <main class="bracegirdle-mainpanel">
       <div class="container">
-        <div class="slim-pageheader">
-          <ol class="breadcrumb slim-breadcrumb">
+        <div class="bracegirdle-pageheader">
+          <ol class="breadcrumb bracegirdle-breadcrumb">
             <%= yield :breadcrumbs %>
           </ol>
-          <h6 class="slim-pagetitle"><%= yield :title %></h6>
+          <h6 class="bracegirdle-pagetitle"><%= yield :title %></h6>
         </div>
         <%= yield %>
         <%= render partial: 'application/confirmation_modal' %>

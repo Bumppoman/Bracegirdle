@@ -1,5 +1,5 @@
 <div 
-  id="investigation-details" 
+  id="complaints_investigation-details" 
   role="tabpanel" 
   class="tab-pane<%= ' active show' if params[:tab] == :investigation %>"
   data-controller="complaints--show"
@@ -7,7 +7,7 @@
   <% unless @complaint.closed? %>
     <%= render partial: 'complaints/investigation/actions' %>
   <% end %>
-  <section class="section-wrapper pd-20-force mg-t-0-force">
+  <section id="complaints_investigation-details-info" class="section-wrapper">
     <%= form_with model: @complaint, url: reassign_complaint_path, method: :patch do |f| %>
       <label class="section-title mg-t-5 mg-b-15">Investigation Details</label>
       <table class="table table-striped">

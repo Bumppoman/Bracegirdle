@@ -1,4 +1,4 @@
-import BSN from 'bootstrap.native';
+import { Dropdown } from 'bootstrap';
 
 import ApplicationController from './application_controller';
 
@@ -41,7 +41,7 @@ export default class extends ApplicationController {
     const remindersSection = document.createElement('template');
     remindersSection.innerHTML = event.detail.reminders;
     this.element.innerHTML = (remindersSection.content.firstChild as HTMLElement).innerHTML;
-    new BSN.Dropdown(this.dropdownTarget).show();
+    new Dropdown(this.dropdownTarget).show();
   }
   
   hide(event: Event) {
@@ -54,12 +54,6 @@ export default class extends ApplicationController {
     for (const reminderBody of this.reminderDetailsTargets) {
       reminderBody.classList.add('d-none');
     }
-  }
-  
-  open(event: Event) {
-    event.preventDefault();
-    
-    new BSN.Dropdown(this.dropdownTarget).show();
   }
   
   remove(event: CustomEvent) {

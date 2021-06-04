@@ -1,15 +1,15 @@
 <div class="file-item">
-  <div class="row no-gutters wd-100p">
+  <div class="row w-100 g-0">
     <div class="col-9 col-sm-5 d-flex align-items-center">
       <i class="material-icons">attach_file</i>
       <%= link_to "Exhibit #{@remaining_letters.shift} (#{estimate.contractor.name} estimate).pdf", 
         self.send("view_estimate_board_applications_#{@restoration.type.downcase}_path", @restoration.id, estimate.id)
       %>
     </div>
-    <div class="col-6 col-sm-4 mg-t-5 mg-sm-t-0">
+    <div class="col-6 col-sm-4 mt-1 mt-sm-0">
       Cost: <%= number_to_currency(estimate.amount) %>; Warranty: <%= estimate.formatted_warranty %>
     </div>
-    <div class="col-6 col-sm-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+    <div class="col-6 col-sm-3 tx-right mt-5 mt-sm-0 tx-18">
       <!--- if display_links
         = link_to estimate.document do
           i.icon.ion-md-download.mg-r-15

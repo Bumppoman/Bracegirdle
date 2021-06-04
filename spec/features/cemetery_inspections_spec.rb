@@ -22,7 +22,7 @@ feature 'Cemetery Inspections' do
 
     click_button 'Begin inspection'
     within('#bracegirdle-confirmation-modal') do
-      click_on 'Begin Inspection'
+      click_button 'Begin Inspection'
     end
     visit inspections_cemetery_path(@cemetery)
 
@@ -34,7 +34,7 @@ feature 'Cemetery Inspections' do
     login
     visit inspections_cemetery_path(@cemetery)
 
-    click_on 'Begin inspection'
+    click_button 'Begin inspection'
     
     expect {
       within('#bracegirdle-confirmation-modal') do
@@ -47,7 +47,7 @@ feature 'Cemetery Inspections' do
     login
 
     visit inspections_cemetery_path(@cemetery)
-    click_on 'Upload inspection'
+    click_link 'Upload inspection'
     attach_file 'cemetery_inspection_inspection_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Performed By'
     fill_in 'Date Performed', with: '5/6/2015'
@@ -61,11 +61,10 @@ feature 'Cemetery Inspections' do
     login
 
     visit inspections_cemetery_path(@cemetery)
-    click_on 'Upload inspection'
-    #attach_file 'cemetery_inspection_inspection_report', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
+    click_link 'Upload inspection'
     choices 'Chester Butkiewicz', from: 'Performed By'
     fill_in 'Date Performed', with: '5/6/2015'
-    click_on 'Upload Inspection'
+    click_button 'Upload Inspection'
 
     expect(page).to have_content 'There was a problem'
   end
@@ -77,8 +76,11 @@ feature 'Cemetery Inspections' do
 
     visit inspect_cemetery_path(@cemetery)
     click_button 'Next'
+    assert_selector '#cemetery_inspection-physical-characteristics'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-record-keeping'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-additional-information'
     click_button 'Complete Inspection'
     within '#bracegirdle-confirmation-modal' do
       click_button 'Complete Inspection'
@@ -96,8 +98,11 @@ feature 'Cemetery Inspections' do
 
     visit inspect_cemetery_path(@cemetery)
     click_button 'Next'
+    assert_selector '#cemetery_inspection-physical-characteristics'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-record-keeping'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-additional-information'
     click_button 'Complete Inspection'
     within '#bracegirdle-confirmation-modal' do
       click_button 'Complete Inspection'
@@ -105,7 +110,7 @@ feature 'Cemetery Inspections' do
     assert_selector '#cemetery_inspection-detail'
     attach_file 'attachment_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     fill_in 'attachment[description]', with: 'Adding an attachment to this inspection'
-    click_on 'Upload'
+    click_button 'Upload'
 
     expect(page).to have_content 'Adding an attachment to this inspection'
   end
@@ -137,8 +142,11 @@ feature 'Cemetery Inspections' do
 
     visit inspect_cemetery_path(@cemetery)
     click_button 'Next'
+    assert_selector '#cemetery_inspection-physical-characteristics'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-record-keeping'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-additional-information'
     click_button 'Complete Inspection'
     within '#bracegirdle-confirmation-modal' do
       click_button 'Complete Inspection'
@@ -147,7 +155,6 @@ feature 'Cemetery Inspections' do
     click_button 'Finalize inspection'
     within '#bracegirdle-confirmation-modal' do
       click_button 'Finalize Inspection'
-      sleep(10)
     end
     assert_selector '#cemetery_inspection-download-package-modal'
     visit inspections_cemetery_path(@cemetery)
@@ -161,8 +168,11 @@ feature 'Cemetery Inspections' do
 
     visit inspect_cemetery_path(@cemetery)
     click_button 'Next'
+    assert_selector '#cemetery_inspection-physical-characteristics'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-record-keeping'
     click_button 'Next'
+    assert_selector '#cemetery_inspection-additional-information'
     click_button 'Complete Inspection'
     within '#bracegirdle-confirmation-modal' do
       click_button 'Complete Inspection'

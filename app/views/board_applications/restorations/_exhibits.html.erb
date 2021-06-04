@@ -1,7 +1,7 @@
 <% @remaining_letters = ('B'..'Z').to_a %>
-<div class="file-group mg-t-20">
+<div class="file-group mt-4">
   <div class="file-item">
-    <div class="row no-gutters wd-100p">
+    <div class="row no-gutters w-100">
       <div class="col-lg-9 d-flex align-items-center">
         <i class="material-icons">attach_file</i>
         <%= link_to 'Combined Package.pdf', 
@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="file-item">
-    <div class="row no-gutters wd-100p">
+    <div class="row no-gutters w-100">
       <div class="col-lg-9 d-flex align-items-center">
         <i class="material-icons">attach_file</i>
         <%= link_to 'Report.pdf', 
@@ -21,7 +21,7 @@
     </div>
   </div>
   <div class="file-item">
-    <div class="row no-gutters wd-100p">
+    <div class="row no-gutters w-100">
       <div class="col-lg-9 d-flex align-items-center">
         <i class="material-icons">attach_file</i>
         <%= link_to 'Exhibit A (application).pdf', 
@@ -32,7 +32,7 @@
   </div>
   <%= render partial: 'board_applications/restorations/estimates/estimate', collection: @restoration.estimates %>
   <div class="file-item">
-    <div class="row no-gutters wd-100p">
+    <div class="row no-gutters w-100">
       <div class="col-lg-9 d-flex align-items-center">
         <i class="material-icons">attach_file</i>
         <%= link_to "Exhibit #{@remaining_letters.shift} (legal notice).pdf", 
@@ -43,7 +43,7 @@
   </div>
   <% if @restoration.previous_exists %>
     <div class="file-item">
-      <div class="row no-gutters wd-100p">
+      <div class="row no-gutters w-100">
         <div class="col-lg-9 d-flex align-items-center">
           <i class="material-icons">attach_file</i>
           <%= link_to "Exhibit #{@remaining_letters.shift} (previous restoration report).pdf", 

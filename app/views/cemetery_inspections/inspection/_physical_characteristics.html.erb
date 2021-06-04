@@ -1,6 +1,6 @@
 <div
   id="cemetery_inspection-physical-characteristics"
-  class="pd-t-10-force tracker-step"
+  class="pt-2 tracker-step"
   data-step="2"
   data-target="tracker.step"
 >
@@ -37,33 +37,53 @@
     <div class="col-lg-3">
       <div class="form-group">
         <p>Directional signs required</p>
-        <label class="rdiobox">
-          <%= f.radio_button :directional_signs_required, true %>
-          <span>Yes</span>
-        </label>
-        <label class="rdiobox">
+        <div class="form-check">
+          <%= f.radio_button :directional_signs_required, 
+            true,
+            class: 'form-check-input'
+          %>
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_directional_signs_required_true"
+          >Yes</label>
+        </div>
+        <div class="form-check">
           <%= f.radio_button :directional_signs_required,
             false,
-            checked: !@inspection.directional_signs_required
+            checked: !@inspection.directional_signs_required,
+            class: 'form-check-input'
           %>
-          <span>No</span>
-        </label>
+          <label 
+            class="form-check-label" 
+            for="cemetery_inspection_directional_signs_required_false"
+          >No</label>
+        </div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="form-group">
         <p>Directional signs present</p>
-        <label class="rdiobox">
-          <%= f.radio_button :directional_signs_present, true %>
-          <span>Yes</span>
-        </label>
-        <label class="rdiobox">
+        <div class="form-check">
+          <%= f.radio_button :directional_signs_present, 
+            true,
+            class: 'form-check-input' 
+          %>
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_directional_signs_present_true"
+          >Yes</label>
+        </div>
+        <div class="form-check">
           <%= f.radio_button :directional_signs_present,
             false,
-            checked: !@inspection.directional_signs_present
+            checked: !@inspection.directional_signs_present,
+            class: 'form-check-input'
           %>
-          <span>No</span>
-        </label>
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_directional_signs_present_false"
+          >No</label>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
@@ -97,55 +117,71 @@
     <div class="col-lg-3">
       <div class="form-group">
         <p>Receiving vault</p>
-        <label class="rdiobox">
+        <div class="form-check">
           <%= f.radio_button :receiving_vault_exists, 
             true,
+            class: 'form-check-input',
             data: {
               action: 'cemetery-inspections--perform#receivingVaultExistence',
               target: 'cemetery-inspections--perform.receivingVaultExists' 
             }
           %>
-          <span>Yes</span>
-        </label>
-        <label class="rdiobox">
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_receiving_vault_exists_true"
+          >Yes</label>
+        </div>
+        <div class="form-check">
           <%= f.radio_button :receiving_vault_exists,
             false,
             checked: !@inspection.receiving_vault_exists,
+            class: 'form-check-input',
             data: { 
               action: 'cemetery-inspections--perform#receivingVaultExistence',
               target: 'cemetery-inspections--perform.receivingVaultExists' 
             }
           %>
-          <span>No</span>
-        </label>
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_receiving_vault_exists_false"
+          >No</label>
+        </div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="form-group">
         <p>Receiving vault inspected</p>
-        <label class="rdiobox">
+        <div class="form-check">
           <%= f.radio_button :receiving_vault_inspected,
             true,
+            class: 'form-check-input',
             data: {
               action: 'cemetery-inspections--perform#receivingVaultInspection',
               target: 'cemetery-inspections--perform.receivingVaultInspected' 
             },
             disabled: !@inspection.receiving_vault_exists
           %>
-          <span>Yes</span>
-        </label>
-        <label class="rdiobox">
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_receiving_vault_inspected_true"
+          >Yes</label>
+        </div>
+        <div class="form-check">
           <%= f.radio_button :receiving_vault_inspected,
             false,
             checked: !@inspection.receiving_vault_inspected,
+            class: 'form-check-input',
             data: {
               action: 'cemetery-inspections--perform#receivingVaultInspection',
               target: 'cemetery-inspections--perform.receivingVaultInspected'
             },
             disabled: !@inspection.receiving_vault_exists
           %>
-          <span>No</span>
-        </label>
+          <label
+            class="form-check-label"
+            for="cemetery_inspection_receiving_vault_inspected_false"
+          >No</label>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
@@ -153,7 +189,9 @@
         <div class="col-md-6">
           <%= f.text_field :receiving_vault_bodies,
             label: 'Number of bodies stored',
-            data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+            data: { 
+              target: 'cemetery-inspections--perform.receivingVaultCharacteristic' 
+            },
             disabled: !@inspection.receiving_vault_inspected
           %>
         </div>
@@ -167,31 +205,39 @@
       </div>
       <div class="form-group mg-t-10">
         <%= f.check_box :receiving_vault_clean,
-          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          data: { 
+            target: 'cemetery-inspections--perform.receivingVaultCharacteristic' 
+          },
           disabled: !@inspection.receiving_vault_inspected 
         %>
-        <span class="pd-l-10">Clean, dry, free of vermin and rodents</span>
+        <span class="ps-2">Clean, dry, free of vermin and rodents</span>
       </div>
       <div class="form-group">
         <%= f.check_box :receiving_vault_obscured,
-          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          data: { 
+            target: 'cemetery-inspections--perform.receivingVaultCharacteristic' 
+          },
           disabled: !@inspection.receiving_vault_inspected 
         %>
-        <span class="pd-l-10">Obscured from public view</span>
+        <span class="ps-2">Obscured from public view</span>
       </div>
       <div class="form-group">
         <%= f.check_box :receiving_vault_exclusive,
-          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          data: { 
+            target: 'cemetery-inspections--perform.receivingVaultCharacteristic' 
+          },
           disabled: !@inspection.receiving_vault_inspected 
         %>
-        <span class="pd-l-10">Used exclusively for human remains</span>
+        <span class="ps-2">Used exclusively for human remains</span>
       </div>
       <div class="form-group">
         <%= f.check_box :receiving_vault_secured,
-          data: { target: 'cemetery-inspections--perform.receivingVaultCharacteristic' },
+          data: { 
+            target: 'cemetery-inspections--perform.receivingVaultCharacteristic' 
+          },
           disabled: !@inspection.receiving_vault_inspected 
         %>
-        <span class="pd-l-10">Secured when unattended</span>
+        <span class="ps-2">Secured when unattended</span>
       </div>
     </div>
   </div>
@@ -209,7 +255,7 @@
       %>
     </div>
   </div>
-  <div class="row mg-t-20">
+  <div class="row mt-4">
     <div class="col-md-6">
       <button
         type="button"

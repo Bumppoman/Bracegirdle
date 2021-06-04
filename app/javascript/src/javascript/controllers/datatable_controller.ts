@@ -307,8 +307,8 @@ export default class extends ApplicationController {
     // Check if the table is empty
     this.checkForEmpty(this.table.tBodies[0].rows.length);
     
-    // Apply sort headers    
-    for (const [index, header] of [...this.table.tHead.rows[0].cells].entries()) {
+    // Apply sort headers
+    for (const [index, header] of Array.from(this.table.tHead.rows[0].cells).entries()) {
       
       // Turn header into link
       if (!('sortable' in header.dataset) || header.dataset.sortable === 'true') {
@@ -330,7 +330,7 @@ export default class extends ApplicationController {
       }
     }
     
-    let tableRows = [...this.table.tBodies[0].rows];
+    let tableRows = Array.from(this.table.tBodies[0].rows);
     
     // Filter if necessary
     if (this.search !== '') {
@@ -389,7 +389,7 @@ export default class extends ApplicationController {
         }
 
         // Mark sort column
-        for (const [cellIndex, cell] of [...row.cells].entries()) {
+        for (const [cellIndex, cell] of Array.from(row.cells).entries()) {
           const heading = this.table.tHead.rows[0].cells[cellIndex].classList;
           if (heading.contains('asc') || heading.contains('desc')) {
             cell.classList.add('sorting');

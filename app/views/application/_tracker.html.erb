@@ -8,7 +8,7 @@
   <ul class="progressbar">
     <% steps.each do |id, step| %>
       <li
-        class="tracker-indicator wd-<%= 100 / steps.length %>p"
+        class="tracker-indicator w-<%= 100 / steps.length %>"
         data-step="<%= step[:number] %>"
         data-target="tracker.indicator"
       >
@@ -24,7 +24,7 @@
         <% end %>
     <% end %>
   </ul>
-  <section class="section-wrapper pd-20 mg-t-5" style="overflow: hidden;">
+  <section class="tracker-wrapper section-wrapper">
     <%= yield %>
   </section>
 </div>

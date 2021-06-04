@@ -17,7 +17,7 @@
   data-controller="rules--approvals--show"
 >
   <section 
-    class="section-wrapper pd-30"
+    class="section-wrapper p-5"
     data-target="rules--approvals--show.revisionsArea"
   >
     <div
@@ -37,9 +37,9 @@
         <% if policy(@rules_approval).assign? && @rules_approval.received? %>
           <button 
             type="button" 
-            class="btn btn-primary" 
-            data-toggle="modal" 
-            data-target="#rules_approval-assign-investigator-modal"
+            class="btn btn-primary"
+            data-bs-target="#rules_approval-assign-investigator-modal"
+            data-bs-toggle="modal" 
           >Assign</button>
         <% end %>
         <% if policy(@rules_approval).approve? %>
@@ -65,7 +65,7 @@
       <% end %>
     </div>
   </section>
-  <section class="section-wrapper mg-t-5">
+  <section class="section-wrapper mt-1">
     <div
       class="disappearing-success-message hidden"
       data-target="rules--approvals--show.revisionSuccessMessage"
@@ -96,7 +96,7 @@
   </section>
   <% if @rules_approval.assigned_to?(current_user) && (!@rules_approval.approval_recommended? || @rules_approval.approved?) %>
     <section 
-      class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.received? || @rules_approval.pending_review? %>"
+      class="section-wrapper mt-1 p-5<%= ' d-none' unless @rules_approval.received? || @rules_approval.pending_review? %>"
       data-target="rules--approvals--show.revisionRequestArea"
     >
       <label class="section-title">Request Revision</label>
@@ -110,17 +110,17 @@
       %>
         <div class="row">
           <div class="col">
-            <%= f.text_area :comments, rows: 15, class: 'form-control mg-t-10' %>
+            <%= f.text_area :comments, rows: 15, class: 'form-control mt-2' %>
           </div>
         </div>
-        <div class="form-layout-footer mg-t-20">
+        <div class="form-layout-footer mt-4">
           <button class="btn btn-primary">Request Revision</button>
         </div>
       <% end %>
     </section>
   <% end %>
   <section
-    class="section-wrapper mg-t-5 pd-30<%= ' d-none' unless @rules_approval.revision_requested? %>"
+    class="section-wrapper mt-1 p-5<%= ' d-none' unless @rules_approval.revision_requested? %>"
     data-target="rules--approvals--show.revisionUploadArea"
   >
     <label class="section-title">Upload Revision</label>
@@ -137,9 +137,9 @@
         <div class="col-md-8">
           <div class="form-group required">
             <%= f.label :rules_document, 'File', class: 'form-control-label' %>
-            <div class="custom-file">
-              <%= f.file_field :rules_document, class: 'custom-file-input' %>
-              <label class="custom-file-label" for="rules_document">Choose file</label>
+            <div class="bracegirdle-file">
+              <%= f.file_field :rules_document, class: 'bracegirdle-file-input' %>
+              <label class="bracegirdle-file-label" for="rules_document">Choose file</label>
             </div>
             <small class="form-text text-muted">Acceptable file formats are .doc, .docx, and .pdf</small>
           </div>
@@ -147,7 +147,11 @@
         <div class="col-md-4">
           <div class="form-group required">
             <%= f.label :submission_date, 'Date Submitted', class: 'form-control-label' %>
-            <%= f.date_field :submission_date, required: true, class: 'form-control', value: Date.current.iso8601 %>
+            <%= f.date_field :submission_date, 
+              required: true, 
+              class: 'form-control', 
+              value: Date.current.iso8601 
+            %>
           </div>
         </div>
       </div>
@@ -163,15 +167,21 @@
     builder: BracegirdleFormBuilder do |f| 
   %>
     <div id="rules_approval-assign-investigator-modal" class="modal fade">
-      <div class="modal-dialog wd-30p" role="document">
+      <div class="modal-dialog w-30" role="document">
         <div class="modal-content">
-          <div class="modal-header pd-x-20">
-            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Assign Rules</h6>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div class="modal-header px-4">
+            <h6 class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold">Assign Rules</h6>
+            <button 
+              type="button" 
+              class="close"
+              data-bs-target="rules_approval-assign-investigator-modal"
+              data-bs-toggle="modal" 
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body pd-25">
+          <div class="modal-body p-4">
             <p>
               Assign these rules to an investigator:
               <br />
@@ -185,7 +195,12 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary">Assign</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary"
+              data-bs-target="#rules_approval-assign-investigator-modal"
+              data-bs-toggle="modal"
+            >Cancel</button>
           </div>
         </div>
       </div>

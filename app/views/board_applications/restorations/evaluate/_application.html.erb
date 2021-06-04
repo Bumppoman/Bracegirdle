@@ -1,6 +1,6 @@
 <div 
   id="board_applications-restoration-application" 
-  class="pd-t-10-force tracker-step"
+  class="pt-2 tracker-step"
   data-step="1"
   data-target="tracker.step"
 >
@@ -25,12 +25,12 @@
         <div class="col">
           <div class="form-group required">
             <%= f.label :application_file, 'Application' %>
-            <div class="custom-file">
+            <div class="bracegirdle-file">
               <%= f.file_field :application_file,
-                class: 'custom-file-input',
+                class: 'bracegirdle-file-input',
                 required: true
               %>
-              <label class="custom-file-label">Choose file</label>
+              <label class="bracegirdle-file-label">Choose file</label>
             </div>
           </div>
         </div>
@@ -53,36 +53,42 @@
           </div>
         </div>
         <div class="col-md-1">
-          <label class="rdiobox">
-            <%= f.radio_button :application_form_complete, true %>
-            <span id="application-form-complete-yes">Yes</span>
-          </label>
+          <div class="form-check">
+            <%= f.radio_button :application_form_complete, 
+              true,
+              class: 'form-check-input'
+            %>
+            <label class="form-check-label" for="">Yes</label>
+          </div>
         </div>
         <div class="col-md-3">
-          <label class="rdiobox">
-            <%= f.radio_button :application_form_complete, false %>
-            <span id="application-form-complete-no">No</span>
-          </label>
+          <div class="form-check">
+            <%= f.radio_button :application_form_complete, 
+              false,
+              class: 'form-check-input'
+            %>
+            <label class="form-check-label">No</label>
+          </div>
         </div>
       </div>
     <% end %>
   </div>
   <div 
-    class="file-group mb-5<%= ' d-none' if @restoration.current_evaluation_step == 1 %>"
+    class="file-group mb-4<%= ' d-none' if @restoration.current_evaluation_step == 1 %>"
     data-target="board-applications--restorations--evaluate.applicationSummary"
   >
     <div class="file-item">
-      <div class="row no-gutters wd-100p">
+      <div class="row w-100 g-0">
         <div class="col-md-9 d-flex align-items-center">
-          <i class="material-icons mr-2">attach_file</i>
+          <i class="material-icons me-2">attach_file</i>
           <%= link_to 'Exhibit A (application).pdf', 
             self.send("view_application_form_board_applications_#{@restoration.type.downcase}_path", @restoration) 
           %>
         </div>
-        <div class="col-md-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+        <div class="col-md-3 tx-right mt-1 mt-sm-0 tx-18">
           <% if defined?(display_links) %>
             <%= link_to @restoration.application_form do %>
-              <i class="material-icons mg-r-15">cloud_download</i>
+              <i class="material-icons me-3">cloud_download</i>
             <% end %>
             <%= link_to '#' do %>
               <i class="material-icons">trash</i>

@@ -22,6 +22,7 @@ export default class extends ApplicationController {
   }
   
   handleOperatorEvent(event: CustomEvent) {
+
     // Close modal
     this.operatorFormTarget.stimulusController.close();
     
@@ -35,7 +36,7 @@ export default class extends ApplicationController {
       successText = 'You have successfully added this operator.';
       
     } else if (event.type == 'bracegirdle:operators:operatorUpdated') {
-      const operatorRow = [...this.operatorsDataTableTarget.stimulusController.table.rows].find(
+      const operatorRow = Array.from(this.operatorsDataTableTarget.stimulusController.table.rows).find(
         row => row.dataset.operatorId === event.detail.operatorId.toString());
       operatorRow.outerHTML = event.detail.operator;
       this.operatorsDataTableTarget.stimulusController.refresh();

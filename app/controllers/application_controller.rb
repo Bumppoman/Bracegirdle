@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include ActiveStorage::SetCurrent
   include Pundit, SessionsHelper
 
   before_action :ensure_authenticated

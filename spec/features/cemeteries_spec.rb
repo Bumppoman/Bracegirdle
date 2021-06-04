@@ -34,7 +34,7 @@ feature 'Cemeteries' do
     fill_in 'Location', with: '42.3144, -74.8964'
 
     expect {
-      click_on 'Add Cemetery'
+      click_button 'Add Cemetery'
     }.to change { Cemetery.count }
   end
 

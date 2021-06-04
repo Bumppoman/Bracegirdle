@@ -10,7 +10,7 @@ feature 'Land' do
     login
     
     visit board_applications_land_index_path(application_type: :purchase)
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '#04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -18,10 +18,10 @@ feature 'Land' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'land_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
-    click_on 'Dashboard'
-    click_on 'Applications'
-    click_on 'Land Purchase'
+    click_button 'Upload Application'
+    click_link 'Dashboard'
+    find('span', text: 'APPLICATIONS').click
+    click_link 'Land Purchase'
 
     expect(page).to have_content 'Anthony Cemetery'
   end

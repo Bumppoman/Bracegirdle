@@ -11,7 +11,7 @@ feature 'Dashboard' do
 
     visit root_path
     fill_in 'search', with: '04001'
-    click_on 'search-button'
+    click_button 'search-button'
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -21,7 +21,7 @@ feature 'Dashboard' do
 
     visit root_path
     fill_in 'search', with: '04-001'
-    click_on 'search-button'
+    click_button 'search-button'
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -31,7 +31,7 @@ feature 'Dashboard' do
 
     visit root_path
     fill_in 'search', with: 'anthony'
-    click_on 'search-button'
+    click_button 'search-button'
 
     expect(page).to have_content 'Anthony Cemetery'
   end
@@ -41,7 +41,7 @@ feature 'Dashboard' do
     
     visit root_path
     fill_in 'search', with: 'butternuts'
-    click_on 'search-button'
+    click_button 'search-button'
     
     expect(page).not_to have_content 'Anthony Cemetery'
     expect(page).to have_content 'There are no results to display.'

@@ -100,7 +100,7 @@
   <body>
     <header>
       <div id="logo">
-        <img src="<%= asset_pack_path 'media/images/cemeteries-logo.jpg' %>" height="77.5" width="289.5" />
+        <%= image_pack_tag 'media/images/cemeteries-logo.jpg', size: '289.5x77.5' %>
       </div>
       <div id="title">
         <%= yield :title %>

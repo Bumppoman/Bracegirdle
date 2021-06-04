@@ -1,5 +1,5 @@
 <div
-  class="mg-b-10"
+  class="mb-2"
   data-revision-id="<%= revision.id %>"
 >
   <div class="row">
@@ -28,18 +28,13 @@
   <div 
     class="<%= ' d-none' unless index == 0 %>"
     data-revision-id="<%= revision.id %>"
-    data-target="rules--approvals--show.revision">
-    <div
-      class="embed-responsive mg-b-10"
-      style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-    >
-      <object
-        class="embed-responsive-item"
-        type="<%= revision.rules_document.content_type %>"
-        data="<%= attachment_display_link(revision.rules_document, request) %>"
-      >
-      </object>
-    </div>
+    data-target="rules--approvals--show.revision"
+  >
+    <%= render partial: 'application/pdf_viewer', 
+      locals: { 
+        pdf: revision.rules_document
+      } 
+    %>
     <table class="table table-striped">
       <thead>
         <tr>

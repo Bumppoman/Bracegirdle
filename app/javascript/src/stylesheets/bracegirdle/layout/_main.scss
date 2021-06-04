@@ -1,0 +1,60 @@
+.bracegirdle-breadcrumb {
+  margin-bottom: 0;
+  padding: 0;
+  background-color: transparent;
+  font-size: 12px;
+
+  @include media-breakpoint-up(sm) { font-size: 14px; }
+
+  .breadcrumb-item {
+    a {
+      text-decoration: none;
+    }
+    
+    + .breadcrumb-item::before {
+      color: $gray-400;
+    }
+  }
+}
+
+.bracegirdle-mainpanel {
+  padding-bottom: 0.75rem;
+}
+
+@media (min-width: 1400px) {
+  .bracegirdle-mainpanel {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+      max-width: 1140px;
+    }
+  }
+}
+
+.bracegirdle-pageheader {
+  padding: 15px 0;
+
+  @include media-breakpoint-up(sm) {
+    padding: 25px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+  }
+}
+
+.bracegirdle-pagetitle {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: $gray-800;
+  padding-left: 10px;
+  border-left: 4px solid $bracegirdle-primary;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: .5px;
+
+  @include media-breakpoint-up(sm) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

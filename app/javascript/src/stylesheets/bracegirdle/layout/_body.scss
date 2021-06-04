@@ -1,0 +1,131 @@
+a {
+  color: #1b8fe7;  
+}
+
+.active-circle {
+  background-color: #1b84e7;
+  border-radius: 100%;
+  display: inline-block;
+  height: 7px;
+  margin-left: 6px;
+  width: 7px;
+}
+
+.badge {
+  align-items: center;
+  border-radius: 50%;
+  color: #fefefe;
+  display: flex;
+  font-size: 0.7rem;
+  justify-content: center;
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  
+  &.len-1 {
+    height: 17px;
+    width: 17px;
+  }
+  
+  &.len-2 {
+    height: 19px;
+    width: 19px;
+    padding-right: 0.47rem;
+    padding-top: 0.33rem;
+  }
+}
+
+.bracegirdle-card {
+  .card-body { padding: 25px; }
+  .card-title {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: $font-family-montserrat;
+    color: $gray-800;
+    margin-bottom: 25px;
+  }
+}
+
+.bracegirdle-card-md {
+  .card-body { padding: 40px; }
+  .card-title { margin-bottom: 40px; }
+}
+
+.bracegirdle-card-title {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 13px;
+  color: $gray-800;
+  letter-spacing: 1px;
+}
+
+.disappearing-success-message {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.hidden {
+  max-height: 0;
+  transition: max-height 750ms ease-out;
+}
+
+.modal .modal-dialog {
+  width: 30%;
+}
+
+.row-sm {
+  margin-left: -10px;
+  margin-right: -10px;
+  > div {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.row-xs {
+  margin-left: -5px;
+  margin-right: -5px;
+  > div {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.section-label, .section-label-sm {
+  display: block;
+  font-weight: 700;
+  color: $gray-600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+
+  &.tx-gray-600 { color: $gray-600; }
+  &.tx-gray-500 { color: $gray-500; }
+}
+
+.section-label { font-size: 12px; }
+.section-label-sm { font-size: 11px; }
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: $gray-800;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  margin-top: 20px;
+  display: block;
+  letter-spacing: 1px;
+
+  @include media-breakpoint-up(sm) { margin-top: 40px; }
+}
+
+.section-wrapper {
+  border: 1px solid $gray-400;
+  background-color: #fff;
+  padding: 20px;
+
+  @include media-breakpoint-up(sm) { padding: 40px; }
+
+  .section-title:first-child { margin-top: 0; }
+}

@@ -21,41 +21,17 @@
       %>
       <div class="row">
         <div class="col">
-          <div class="form-group required">
-            <%= f.label :trustee, 'Submitted By' %>
-            <div class="input-group">
-              <div class="row wd-100p no-gutters">
-                <div class="col-md-10">
-                  <%= f.hidden_field :selected_trustee, 
-                    value: object.trustee_id,
-                    data: {
-                      target: 'trustees--select-for-cemetery.selectedTrustee'
-                    }
-                  %>
-                  <%= f.select :trustee,
-                    {},
-                    { label: false, prompt: 'Select trustee', required: true },
-                    { 
-                      data: { 
-                        target: 'trustees--select-for-cemetery.trusteeSelectElement' 
-                      },
-                      disabled: true
-                    }
-                  %>
-                </div>
-                <div class="col-md-2 text-md-right">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                  >Add New Trustee</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <%= render partial: 'trustees/select_form_part',
+            locals: {
+              f: f,
+              selected_id: object.trustee_id,
+              trustee_label: 'Submitted By'
+            }
+          %>
         </div>
       </div>
     </section>
-    <section class="section-wrapper mg-t-5">
+    <section class="section-wrapper mt-1">
       <label class="section-title">Application</label>
       <div class="row">
         <div class="col-md-6">
@@ -74,11 +50,11 @@
         <div class="col">
           <div class="form-group required">
             <%= f.label :raw_application_file, 'File' %>
-            <div class="custom-file">
+            <div class="bracegirdle-file">
               <%= f.file_field :raw_application_file,
-                class: 'custom-file-input'
+                class: 'bracegirdle-file-input'
               %>
-              <label class="custom-file-label">Choose file</label>
+              <label class="bracegirdle-file-label">Choose file</label>
             </div>
             <small class="form-text text-muted">
               Raw applications (.pdf) only.  Individual parts will be processed later.
@@ -94,7 +70,7 @@
           %>
         </div>
       </div>
-      <div class="form-layout-footer mg-t-20">
+      <div class="form-layout-footer mt-4">
         <button class="btn btn-primary">Upload Application</button>
       </div>
     </section>

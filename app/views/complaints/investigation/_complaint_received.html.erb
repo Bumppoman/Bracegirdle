@@ -9,7 +9,7 @@
     method: :patch do |f| 
   %>
     <label class="section-label">Complaint Received</label>
-    <p class="mb-10">Complaint received by <%= @complaint.receiver.name %> on <%= @complaint.created_at %>.</p>
+    <p class="mb-1">Complaint received by <%= @complaint.receiver.name %> on <%= @complaint.created_at %>.</p>
     <div id="complaint-received-action-area">
       <% if policy(@complaint).begin_investigation? %>
         <%= button_with_confirmation_modal 'Begin Investigation',
@@ -20,9 +20,9 @@
         <% if policy(@complaint).assign? %>
           <button
             type="button"
-            class="btn btn-primary ml-2"
-            data-toggle="modal"
-            data-target="#complaint-assign-investigator-modal"
+            class="btn btn-primary ms-1"
+            data-bs-target="#complaint-assign-investigator-modal"
+            data-bs-toggle="modal"
           >Assign to Investigator</button>
         <% end %>
       <% end %>

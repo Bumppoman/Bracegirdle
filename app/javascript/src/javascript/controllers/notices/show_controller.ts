@@ -1,5 +1,3 @@
-import BSN from 'bootstrap.native';
-
 import ApplicationController from '../application_controller';
 
 export default class extends ApplicationController {
@@ -30,13 +28,14 @@ export default class extends ApplicationController {
     
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('download_notice')) {
-      new BSN.Modal(this.downloadModalTarget).show();
+      this.openModal(this.downloadModalTarget);
     }
   }
   
   followUpCompleted(event: CustomEvent) {
+
     // Close modal
-    new BSN.Modal(this.followUpModalTarget).hide();
+    this.closeModal(this.followUpModalTarget);
     
     // Update dates
     this.updateDates(this.followUpCompletedDateTargets, event.detail.date);
@@ -46,8 +45,9 @@ export default class extends ApplicationController {
   }
   
   resolved(event: CustomEvent) {
+
     // Close confirmation modal
-    this.mainController.closeConfirmationModal();
+    this.mainController.closeBracegirdleConfirmationModal();
     
     // Update dates
     this.updateDates([this.resolvedDateTarget], event.detail.date);
@@ -57,8 +57,9 @@ export default class extends ApplicationController {
   }
   
   responseReceived(event: CustomEvent) {
+
     // Close confirmation modal
-    this.mainController.closeConfirmationModal();
+    this.mainController.closeBracegirdleConfirmationModal();
     
     // Update dates
     this.updateDates(this.responseReceivedDateTargets, event.detail.date);

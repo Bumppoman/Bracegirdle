@@ -22,11 +22,16 @@ export default class extends ApplicationController {
   }
   
   enableTransitions() {
-    (this.element as HTMLElement).offsetHeight;
-    (this.element as HTMLElement).classList.remove('no-transitions');
+    if (this.environment !== 'test') {
+      (this.element as HTMLElement).offsetHeight;
+      (this.element as HTMLElement).classList.remove('no-transitions');
+    }
   }
   
   goToStep(step: number, previousStep: number) {
+    
+    // Set transitioning status
+    (this.element as HTMLElement).classList.add('bracegirdle-tracker-transitioning');
 
     // Display correct indicators
     for (const indicator of this.indicatorTargets) {
@@ -51,7 +56,10 @@ export default class extends ApplicationController {
           step: step
         }
       })
-    )
+    );
+    
+    // Remove transitioning status
+    (this.element as HTMLElement).classList.remove('bracegirdle-tracker-transitioning');
   }
   
   goToStepByLink(event: Event) {

@@ -1,5 +1,3 @@
-import BSN from 'bootstrap.native';
-
 import ApplicationController from '../application_controller';
 
 export default class extends ApplicationController {
@@ -48,7 +46,7 @@ export default class extends ApplicationController {
   
   closureRecommended(event: CustomEvent) {
     // Close confirmation modal
-    this.mainController.closeConfirmationModal();
+    this.closeConfirmationModal();
     
     // Update disposition and disposition date
     this.dispositionTarget.textContent = event.detail.disposition;
@@ -63,7 +61,7 @@ export default class extends ApplicationController {
     this.investigationBegunAreaTarget.outerHTML = event.detail.tracker;
     
     // Close confirmation modal
-    this.mainController.closeConfirmationModal();
+    this.closeConfirmationModal();
     
     // Update dates
     this.updateDates(this.investigationBegunDateTargets, event.detail.date);
@@ -74,7 +72,7 @@ export default class extends ApplicationController {
   
   investigationCompleted(event: CustomEvent) {
     // Close confirmation modal
-    this.mainController.closeConfirmationModal();
+    this.closeConfirmationModal();
 
     // Update dates
     this.updateDates(this.investigationCompletedDateTargets, event.detail.date);

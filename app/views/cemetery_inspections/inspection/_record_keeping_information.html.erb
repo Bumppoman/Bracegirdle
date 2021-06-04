@@ -1,6 +1,6 @@
 <div
   id="cemetery_inspection-record-keeping"
-  class="pd-t-10-force tracker-step"
+  class="pt-2 tracker-step"
   data-step="3"
   data-target="tracker.step"
 >
@@ -15,7 +15,7 @@
       label: 'Election held',
       comments_label: 'Number of trustees',
       comments_field_name: :number_of_trustees,
-      default: @inspection.cemetery.trustees.count || 'Unknown'
+      default: number_of_trustees(@inspection.cemetery.trustees.count)
     %>
     <%= f.question_field :burial_permits, label: 'Burial permits filed within 7 days' %>
     <%= f.question_field :body_delivery_receipt, label: 'Body delivery receipt issued' %>
@@ -39,7 +39,7 @@
     %>
     <%= f.question_field :pet_burials, label: 'Pet burials allowed' %>
   </div>
-  <div class="row mg-t-20">
+  <div class="row mt-4">
     <div class="col-md-6">
       <button
         type="button"

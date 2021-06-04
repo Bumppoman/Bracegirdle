@@ -1,5 +1,9 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
-const environment = require('./environment')
+const webpackConfig = require('./base')
+webpackConfig.devServer = {
+  host: 'localhost',
+  port: 8080
+}
 
-module.exports = environment.toWebpackConfig()
+module.exports = webpackConfig;

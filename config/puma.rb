@@ -23,7 +23,7 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/puma.pid" }
 state_path "#{shared_dir}/pids/puma.state"
 
-bind "unix://#{shared_dir}/sockets/puma.sock"
+#bind "unix://#{shared_dir}/sockets/puma.sock"
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together

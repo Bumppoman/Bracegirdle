@@ -6,15 +6,15 @@
     <label class="section-title">Cemetery Information</label>
     <%= render partial: 'application/cemetery_with_county_form_part', locals: { f: f, object: @rules, instance: 'rules-1' } %>
   </section>
-  <section class="section-wrapper mg-t-5">
+  <section class="section-wrapper mt-1">
     <label class="section-title">Rules</label>
     <div class="row">
       <div class="col">
         <div class="form-group required">
           <%= f.label :rules_document, 'File' %>
-          <div class="custom-file">
-            <%= f.file_field :rules_document, class: 'custom-file-input' %>
-            <label class="custom-file-label" for="rules_document">Choose file</label>
+          <div class="bracegirdle-file">
+            <%= f.file_field :rules_document, class: 'bracegirdle-file-input' %>
+            <label class="bracegirdle-file-label" for="rules_document">Choose file</label>
           </div>
           <small class="form-text text-muted">Acceptable file formats are .doc, .docx, and .pdf</small>
         </div>
@@ -32,7 +32,7 @@
         <%= f.date_field :approval_date, label: 'Date Approved', required: true %>
       </div>
     </div>
-    <div class="form-layout-footer mg-t-20">
+    <div class="form-layout-footer mt-4">
       <%= f.button 'Upload Rules', class: 'btn btn-primary' %>
     </div>
   </section>

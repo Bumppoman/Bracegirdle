@@ -28,10 +28,11 @@ feature 'Activities' do
     fill_in 'complaint[date_of_event]', with: '12/31/2018'
     fill_in 'Date Complained to Cemetery', with: '1/1/2019'
     fill_in 'Person Contacted', with: 'Clive Bixby'
-    all('span', text: 'Yes').last.click
+    choose id: 'complaint_investigation_required_true'
     choices 'Chester Butkiewicz', from: 'Investigator'
-    click_on 'Submit'
-    click_on 'Dashboard', match: :first
+    click_button 'Submit'
+
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content 'Chester Butkiewicz began investigating a complaint against Anthony Cemetery'
   end
@@ -40,12 +41,12 @@ feature 'Activities' do
     login
     @complaint = FactoryBot.create(:brand_new_complaint)
     visit complaint_path(@complaint)
-    click_on 'Investigation Details'
+    find('a', text: 'Investigation Details').click
     fill_in 'note[body]', with: 'Adding a note to this complaint'
-    click_on 'Submit'
+    click_button 'Submit'
     visit complaint_path(@complaint) # Necessary to fix a timing issue
 
-    click_on 'Dashboard', match: :first
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content "Chester Butkiewicz commented on complaint #CPLT-#{@year}-00001 against Anthony Cemetery"
   end
@@ -63,7 +64,8 @@ feature 'Activities' do
     attach_file 'rules_approval_rules_document', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Investigator'
     click_button 'Upload Rules'
-    click_on 'Dashboard', match: :first
+
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content 'Chester Butkiewicz uploaded new rules submitted for approval by Anthony Cemetery'
   end
@@ -93,9 +95,9 @@ feature 'Activities' do
     click_button 'Assign'
     within '#rules_approval-assign-investigator-modal' do
       choices 'Bob Wood', css: '.choices'
-      click_on 'Assign'
+      click_button 'Assign'
     end
-    click_on 'Dashboard', match: :first
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content 'Chester Butkiewicz assigned rules for Anthony Cemetery to Bob Wood'
   end
@@ -108,7 +110,7 @@ feature 'Activities' do
     click_button 'Upload Revision'
     assert_selector '.disappearing-success-message'
 
-    click_on 'Dashboard', match: :first
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content 'Chester Butkiewicz received a revision to rules for Anthony Cemetery'
   end
@@ -127,10 +129,10 @@ feature 'Activities' do
     fill_in 'Specific Information', with: 'Testing.'
     fill_in 'Violation Date', with: '12/31/2018'
     fill_in 'Response Required', with: '12/31/2019'
-    click_on 'Issue Notice'
+    click_button 'Issue Notice'
     visit notices_path
 
-    click_on 'Dashboard', match: :first
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content "Chester Butkiewicz issued Notice of Non-Compliance #BNG-#{@year}-00001 to Anthony Cemetery"
   end
@@ -139,13 +141,13 @@ feature 'Activities' do
     login
     @notice = FactoryBot.create(:notice)
     visit notices_path
-    click_on @notice.notice_number
+    click_link @notice.notice_number
     click_button 'Response Received'
     within '#bracegirdle-confirmation-modal' do 
       click_button 'Response Received'
     end
 
-    click_on 'Dashboard', match: :first
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content "Chester Butkiewicz received a response to Notice of Non-Compliance #BNG-#{@year}-00001 from Anthony Cemetery"
   end
@@ -153,7 +155,7 @@ feature 'Activities' do
   scenario 'Uploading a hazardous monument application logs activity', js: true do
     login
     visit board_applications_hazardous_index_path
-    click_on 'Upload new application'
+    click_link 'Upload new application'
     choices 'Broome', from: 'County'
     choices '#04-001 Anthony Cemetery', from: 'Cemetery'
     choices 'Mark Clark', from: 'Submitted By'
@@ -161,11 +163,9 @@ feature 'Activities' do
     fill_in 'Amount', with: '12345.67'
     attach_file 'hazardous_raw_application_file', Rails.root.join('spec', 'support', 'test.pdf'), visible: false
     choices 'Chester Butkiewicz', from: 'Assign To'
-    click_on 'Upload Application'
-    click_on 'Applications'
-    click_on 'Hazardous Monuments'
+    click_button 'Upload Application'
 
-    click_on 'Dashboard', match: :first
+    find('a', text: 'DASHBOARD').click
 
     expect(page).to have_content 'Chester Butkiewicz received a restoration application for Anthony Cemetery'
   end

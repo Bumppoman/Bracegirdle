@@ -1,15 +1,20 @@
 <% content_for :title, "Notice of Non-Compliance ##{@notice.notice_number}" %>
 <% content_for :breadcrumbs, breadcrumbs_helper([['Active notices', notices_path], yield(:title)]) %>
-<div id="notice-show" data-controller="notices--show">
+<div id="notices_show" data-controller="notices--show">
   <%= render partial: 'notices/actions/actions' unless @notice.resolved? %>
-  <section class="section-wrapper mg-b-5">
+  <section id="notices_notice-details" class="section-wrapper">
     <label class="section-title">Notice Details</label>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <th class="wd-25p" scope="row">Notice Number</th>
+          <th class="w-25" scope="row">Notice Number</th>
           <td>
-            <%= raw "#{@notice.notice_number} (#{link_to 'download', '#notice-download-modal', data: { toggle: 'modal' } })" %>
+            <%= @notice.notice_number %> 
+            (<a 
+              href="#" 
+              data-bs-target="#notices_download-modal" 
+              data-bs-toggle="modal"
+            >download</a>)
           </td>
         </tr>
         <tr>
@@ -39,12 +44,12 @@
       </tbody>
     </table>
   </section>
-  <section class="section-wrapper mg-b-5">
+  <section id="notices_cemetery-information" class="section-wrapper">
     <label class="section-title">Cemetery Information</label>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <th class="wd-25p" scope="row">Cemetery</th>
+          <th class="w-25" scope="row">Cemetery</th>
           <td><%= raw "#{link_to @notice.cemetery.name, @notice.cemetery} (#{@notice.cemetery.formatted_cemid})" %></td>
         </tr>
         <tr>
@@ -60,12 +65,12 @@
       </tbody>
     </table>
   </section>
-  <section class="section-wrapper">
+  <section id="notices_violation-information" class="section-wrapper">
     <label class="section-title">Violation Information</label>
     <table class="table table-striped">
       <tbody>
         <tr>
-          <th class="wd-25p" scope="row">Law Sections</th>
+          <th class="w-25" scope="row">Law Sections</th>
           <td><%= simple_format(@notice.law_sections) %></td>
         </tr>
         <tr>
@@ -78,36 +83,47 @@
   <%= render 'notes/notes', object: @notice %>
   <%= render 'attachments/attachments', object: @notice, form: @notice.active? %>
   <div
-    id="notice-download-modal" 
+    id="notices_download-modal" 
     class="modal" 
     data-target="notices--show.downloadModal"
   >
-    <div class="modal-dialog wd-30p" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header pd-x-20">
-          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Download Notice of Non-Compliance</h6>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+        <div class="modal-header px-4">
+          <h6 class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold">Download Notice of Non-Compliance</h6>
+          <button 
+            class="close" 
+            type="button"
+            data-bs-target="#notices_download-modal"
+            data-bs-toggle="modal" 
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pd-25">
+        <div class="modal-body p-4">
           <p class="text-center">
             Click below to download this Notice of Non-Compliance.
             <br />
             <br />
             <%= link_to(
-              content_tag(:i, 'attachment', class: 'material-icons mg-r-15 tx-danger tx-24') + 
+              content_tag(:i, 'attachment', class: 'material-icons me-4 tx-danger') + 
                 "Download #{@notice.notice_number}.pdf", 
               download_notice_path(@notice, filename: @notice.notice_number),
               {
                 id: 'notice-download-link',
-                class: 'btn btn-outline-secondary btn-lg btn-block',
+                class: 'btn btn-lg btn-outline-secondary btn-block',
                 target: '_blank'
               }) %>
           </p>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+          <button 
+            class="btn btn-secondary" 
+            type="button"
+            data-bs-target="#notices_download-modal"
+            data-bs-toggle="modal"
+          >Close</button>
         </div>
       </div>
     </div>

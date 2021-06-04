@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'byebug'
 
 feature 'Contractors' do
   before :each do

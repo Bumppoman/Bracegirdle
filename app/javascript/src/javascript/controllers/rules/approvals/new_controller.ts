@@ -1,5 +1,3 @@
-import Choices from 'choices.js';
-
 import ApplicationController from '../../application_controller';
 import SelectForCemeteryController from '../../trustees/select_for_cemetery_controller';
 import { BracegirdleSelect } from '../../../types';

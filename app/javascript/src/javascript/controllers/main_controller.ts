@@ -1,4 +1,4 @@
-import BSN from 'bootstrap.native';
+//import BSN from 'bootstrap.native';
 import Rails from '@rails/ujs';
 
 import ApplicationController from './application_controller';
@@ -25,9 +25,6 @@ export default class extends ApplicationController {
   
   connect() {
     super.connect();
-    
-    // Initialize Bootstrap Native
-    BSN.initCallback(document.body);
   
     // Initialize Choices
     for (const select of document.querySelectorAll('.choices-basic, .choices-show-search')) {
@@ -35,7 +32,7 @@ export default class extends ApplicationController {
     }
   
     // Load the file name in file inputs
-    for (const fileInput of document.querySelectorAll('.custom-file-input')) {
+    for (const fileInput of document.querySelectorAll('.bracegirdle-file-input')) {
       fileInput.addEventListener('change', event => {
         const currentInput = event.target as HTMLInputElement;
         currentInput.nextElementSibling.textContent = currentInput.files[0].name;
@@ -43,7 +40,7 @@ export default class extends ApplicationController {
     }
     
     // Disable nav links
-    for (const navLink of document.querySelectorAll('.slim-navbar .nav-link:not(.enabled), .sub-with-sub > a')) {
+    for (const navLink of document.querySelectorAll('.bracegirdle-navbar .nav-link:not(.enabled), .sub-with-sub > a')) {
       navLink.addEventListener('click', (event) => event.preventDefault());
     }
   }

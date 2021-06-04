@@ -19,31 +19,33 @@
   object: @restoration, 
   url: self.send("board_applications_#{@restoration.type.downcase}_notes_path", @restoration) 
 %>
-<section class="section-wrapper mg-t-5">
-  <label class="section-title mg-b-20">Review</label>
+<section class="section-wrapper mt-1">
+  <label class="section-title mb-4">Review</label>
   <%= form_with local: false do |f| %>
     <div class="row">
       <div class="col-md-8">
         <label>Is the application completed and notarized?</label>
       </div>
       <div class="col-md-1">
-        <label class="rdiobox">
+        <div class="form-check">
           <%= f.radio_button :review_application_complete, 
-            true
+            true,
+            class: 'form-check-input'
           %>
-          <span>Yes</span>
-        </label>
+          <label class="form-check-label" for="review_application_complete_true">Yes</label>
+        </div>
       </div>
       <div class="col-md-3">
-        <label class="rdiobox">
+        <div class="form-check">
           <%= f.radio_button :review_application_complete, 
-            false
+            false,
+            class: 'form-check-input'
           %>
-          <span>No</span>
-        </label>
+          <label class="form-check-label" for="review_application_complete_true">No</label>
+        </div>
       </div>
     </div>
-    <div class="form-layout-footer mg-t-20">
+    <div class="form-layout-footer mt-4">
       <%= button_with_confirmation_modal 'Approve for Cemetery Board',
         form_action: send("make_schedulable_board_applications_#{@restoration.type.downcase}_path", @restoration),
         text: 'Are you sure you want to approve this application for the Cemetery Board?',

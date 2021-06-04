@@ -19,8 +19,8 @@ feature 'Trustees' do
     login
 
     visit cemetery_path(@cemetery)
-    click_on 'Trustees'
-    click_on 'Add New Trustee'
+    find('a', text: 'Trustees').click
+    click_button 'Add New Trustee'
     fill_in 'Name', with: 'Mark Smith'
     choices 'Treasurer', from: 'Position'
     fill_in 'Street address', with: '123 Main St.'
@@ -42,11 +42,11 @@ feature 'Trustees' do
     login
 
     visit cemetery_path(@cemetery)
-    click_on 'Trustees'
+    find('a', text: 'Trustees').click
     find("a[data-trustee-id='#{@trustee.id}']").click
     within '#trustee-form-modal' do
       fill_in 'Street address', with: '123 Dolphin Rd.'
-      click_on 'Edit Trustee'
+      click_button 'Edit Trustee'
     end
     assert_no_selector '#trustee-form-modal'
 

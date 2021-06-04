@@ -194,7 +194,8 @@ Rails.application.routes.draw do
   end
 
   # PDFs
-  mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+  #mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+  get 'pdfs/embedded/*filename.pdf', to: 'pdf_viewer#show_embedded_pdf', as: :show_embedded_pdf
   
   # Reminders
   resources :reminders do

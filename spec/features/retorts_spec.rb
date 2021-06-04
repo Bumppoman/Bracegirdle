@@ -10,7 +10,7 @@ feature 'Retorts' do
     login
     visit crematory_path(@crematory)
     
-    click_on 'Retorts'
+    find('a', text: 'Retorts').click
     click_button 'Add New Retort'
     within '#retorts-form-modal' do
       choices 'N20AA', from: 'Retort Model'
@@ -26,7 +26,7 @@ feature 'Retorts' do
     login
     visit crematory_path(@crematory)
     
-    click_on 'Retorts'
+    find('a', text: 'Retorts').click
     click_button 'Add New Retort'
     click_button 'Add Retort Model'
     within '#crematories-retort_models-form-modal' do
@@ -49,7 +49,7 @@ feature 'Retorts' do
     login
     visit crematory_path(@crematory)
     
-    click_on 'Retorts'
+    find('a', text: 'Retorts').click
     find("a[data-action='retorts--index#editRetort'][data-retort-id='#{@retort.id}']").click
     within '#retorts-form-modal' do
       fill_in 'Installation Date', with: '01/01/2020'

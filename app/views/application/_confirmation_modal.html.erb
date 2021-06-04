@@ -13,16 +13,22 @@
   >
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
-        <div class="modal-header pd-x-20">
+        <div class="modal-header px-4">
           <h6 
-            class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"
+            class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold"
             data-target="main.confirmationModalTitle"
           ></h6>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button 
+            type="button" 
+            class="close"
+            data-bs-target="#bracegirdle-confirmation-modal"
+            data-bs-toggle="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pd-b-0">
+        <div class="modal-body pb-0">
           <p 
             class="text-center"
             data-target="main.confirmationModalText"
@@ -33,7 +39,12 @@
             class="btn btn-primary"
             data-target="main.confirmationModalSuccessButton"
           ></button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            data-bs-target="#bracegirdle-confirmation-modal"
+            data-bs-toggle="modal"
+          >Cancel</button>
         </div>
       </div>
     </div>

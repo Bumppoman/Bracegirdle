@@ -28,8 +28,10 @@ export default class extends ApplicationController {
   
   openNewRetortModelForm() {
     const newRetortModelFormModal = document.getElementById('crematories-retort_models-form-modal');
+    newRetortModelFormModal.classList.remove('fade');
+    this.element.classList.remove('fade');
     
-    // Add hidden input to associate contractor creation through estimate form
+    // Add hidden input to associate retort model creation through retort form
     const hidden = document.createElement('input');
     hidden.type = 'hidden';
     hidden.name = 'retort_model[retort_form]';
@@ -37,6 +39,7 @@ export default class extends ApplicationController {
     newRetortModelFormModal.parentElement.appendChild(hidden);
     
     // Open modal
+    this.closeModal(this.element);
     this.openModal(newRetortModelFormModal);
   }
   
@@ -119,9 +122,10 @@ export default class extends ApplicationController {
           this.createChoices(this.retortModelSelectElementTarget);
         }
       }
-    )
+    );
     
     // Reopen retort modal
+    this.closeModal(document.getElementById('crematories-retort_models-form-modal'));
     this.openModal(this.element);
   }
 }

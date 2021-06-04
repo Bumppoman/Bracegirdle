@@ -26,7 +26,7 @@ export default class extends ApplicationController {
     this.closeModal(this.scheduleModalTarget);
     
     // Remove the matter from the list
-    const matterRow = [...this.mattersDataTableElementTarget.stimulusController.table.rows].find(
+    const matterRow = Array.from(this.mattersDataTableElementTarget.stimulusController.table.rows).find(
       row => row.dataset.matterId === event.detail.matterId);
     this.mattersDataTableElementTarget.stimulusController.removeRow(matterRow);
     

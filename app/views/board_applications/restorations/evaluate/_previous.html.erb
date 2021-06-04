@@ -1,6 +1,6 @@
 <div 
   id="board_applications-restorations-previous-form" 
-  class="pd-t-10-force tracker-step"
+  class="pt-2 tracker-step"
   data-step="4"
   data-target="tracker.step"
 >
@@ -27,25 +27,27 @@
           </div>
         </div>
         <div class="col-md-2">
-          <label class="rdiobox">
+          <div class="form-check">
             <%= f.radio_button :previous_exists, 
               true,
+              class: 'form-check-input',
               data: { 
                 action: 'board-applications--restorations--evaluate#setPreviousDetails',
                 target: 'board-applications--restorations--evaluate.previousExistsTrue'
               }
             %>
-            <span id="previous-exists-yes">Yes</span>
-          </label>
+            <label class="form-check-label" for="<%= @restoration.type.downcase %>_previous_exists_true">Yes</label>
+          </div>
         </div>
         <div class="col-md-2">
-          <label class="rdiobox">
+          <div class="form-check">
             <%= f.radio_button :previous_exists, 
               false,
+              class: 'form-check-input',
               data: { action: 'board-applications--restorations--evaluate#setPreviousDetails' }
             %>
-            <span id="previous-exists-no">No</span>
-          </label>
+            <label class="form-check-label" for="<%= @restoration.type.downcase %>_previous_exists_false">No</label>
+          </div>
         </div>
       </div>
       <div
@@ -56,11 +58,11 @@
           <div class="col-md-8">
             <div class="form-group">
               <%= f.label :previous_completion_report_file, 'Previous Completion Report' %>
-              <div class="custom-file">
+              <div class="bracegirdle-file">
                 <%= f.file_field :previous_completion_report_file,
-                  class: 'custom-file-input'
+                  class: 'bracegirdle-file-input'
                 %>
-                <label class="custom-file-label">Choose file</label>
+                <label class="bracegirdle-file-label">Choose file</label>
               </div>
             </div>
           </div>
@@ -87,17 +89,17 @@
   >
     <% if @restoration.previous_completion_report_file.attached? %>
       <div class="file-item">
-        <div class="row no-gutters wd-100p">
+        <div class="row w-100 g-0">
           <div class="col-9 col-sm-5 d-flex align-items-center">
             <i class="material-icons">attach_file</i>
             <%= link_to "Exhibit #{@remaining_letters.shift} (previous restoration report).pdf", 
               self.send("view_previous_report_board_applications_#{@restoration.type.downcase}_path", @restoration.id)
             %>
           </div>
-          <div class="col-6 col-sm-4 mg-t-5 mg-sm-t-0">
+          <div class="col-6 col-sm-4 mt-1 mt-sm-0">
             <%# Restoration.formatted_type(@restoration) %>; completed <%# formatted_date(@restoration.previous_date) %>
           </div>
-          <div class="col-6 col-sm-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+          <div class="col-6 col-sm-3 tx-right mt-1 mt-sm-0 tx-18">
             <!-- if display_links
               = link_to @restoration.previous_report do
                 i.icon.ion-md-download.mg-r-15
@@ -113,7 +115,7 @@
       </div>
     <% end %>
   </div>
-  <div class="row mg-t-20">
+  <div class="row mt-4">
     <div class="col-md-6">
       <button 
         class="btn btn-secondary"

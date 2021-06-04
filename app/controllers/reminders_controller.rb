@@ -18,6 +18,6 @@ class RemindersController < ApplicationController
   private
   
   def reminder_params
-    params.require(:reminder).permit(:title, :body)
+    params.require(:reminder).permit(:title, :details)
   end
 end

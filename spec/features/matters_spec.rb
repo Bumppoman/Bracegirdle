@@ -24,12 +24,12 @@ feature 'Matters' do
     login
 
     visit schedulable_matters_path
-    click_on 'Schedule'
+    click_button 'Schedule'
     choose 'matter_board_meeting_1'
-    click_on 'Schedule Matter'
+    click_button 'Schedule Matter'
     assert_selector '.disappearing-success-message'
     visit board_meetings_path
-    click_on 'March 2028'
+    click_link 'March 2028'
 
     expect(page).to have_content 'Anthony Cemetery (#04-001) – Hazardous'
   end
@@ -37,16 +37,16 @@ feature 'Matters' do
   scenario 'Scheduled matters can be unscheduled', js: true do
     login
     visit schedulable_matters_path
-    click_on 'Schedule'
+    click_button 'Schedule'
     choose 'matter_board_meeting_1'
-    click_on 'Schedule Matter'
+    click_button 'Schedule Matter'
     assert_selector '.disappearing-success-message'
     visit board_meetings_path
-    click_on 'March 2028'
+    click_link 'March 2028'
 
-    click_on 'Unschedule'
+    click_button 'Unschedule'
     within '#bracegirdle-confirmation-modal' do
-      click_on 'Unschedule'
+      click_button 'Unschedule'
     end
 
     expect(page).to have_content 'There are no restoration applications currently scheduled.'

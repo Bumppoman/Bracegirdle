@@ -1,7 +1,7 @@
 <% content_for :title, 'View Attachment' %>
 <% content_for :breadcrumbs, breadcrumbs_helper([[@attachment.attachable.link_text, @attachment.attachable], 'View attachment']) %>
 <section class="section-wrapper">
-  <div class="row mg-b-10">
+  <div class="row mb-2">
     <div class="col-md-11 col-sm-3">
       <label class="section-title"><%= @attachment.file.filename %></label>
     </div>
@@ -11,23 +11,14 @@
       <% end %>
     </div>
   </div>
-  <div 
-    class="embed-responsive"
-    style="padding-top: 100%; -webkit-overflow-scrolling: touch !important; overflow-y: auto !important; overflow-x: scroll;"
-  >
-    <object
-      class="embed-responsive-item"
-      type="<%= @attachment.file.blob.content_type %>"
-      data="<%= attachment_display_link(@attachment.file, request) %>"
-    ></object>
-  </div>
+  <%= display_attachment(@attachment, request) %>
 </section>
-<section class="section-wrapper mg-t-5 pd-t-30">
-  <label class="section-title mg-b-20">Information</label>
+<section class="section-wrapper mt-1 pt-5">
+  <label class="section-title mb-4">Information</label>
   <table class="table table-striped">
     <tbody>
       <tr>
-        <th class="wd-30p">Uploaded By</th>
+        <th class="w-30">Uploaded By</th>
         <td><%= @attachment.user.name %></td>
       </tr>
       <tr>

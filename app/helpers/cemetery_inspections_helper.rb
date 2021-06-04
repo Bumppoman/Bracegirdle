@@ -7,11 +7,16 @@ module CemeteryInspectionsHelper
     link_to inspection.send(link_text_method), path
   end
   
-  def display_cemetery_inspection_report(inspection, request)
+  def cemetery_inspection_path(inspection)
+    show_inspection_cemetery_path(inspection.cemetery, inspection)
+  end
+  
+  def display_cemetery_inspection_report(inspection)
     if inspection.inspection_report.attached?
-      attachment_display_link(inspection.inspection_report, request)
+      raw_attachment_link(inspection.inspection_report)
     else
-      pdfjs.full_path(file: view_inspection_report_cemetery_path(inspection.cemetery, inspection))
+      #pdfjs.full_path(file: view_inspection_report_cemetery_path(inspection.cemetery, inspection))
+      view_inspection_report_cemetery_path(inspection.cemetery, inspection)
     end
   end
 
@@ -20,6 +25,14 @@ module CemeteryInspectionsHelper
       rails_blob_path(inspection.inspection_report, disposition: 'attachment')
     else
       view_inspection_report_cemetery_path(inspection.cemetery, inspection)
+    end
+  end
+  
+  def number_of_trustees(trustee_count)
+    if trustee_count && trustee_count.nonzero?
+      trustee_count
+    else
+      'Unknown'
     end
   end
 

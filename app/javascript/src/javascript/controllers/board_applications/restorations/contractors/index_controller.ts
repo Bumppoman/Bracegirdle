@@ -34,17 +34,17 @@ export default class extends ApplicationController {
     // Close the modal
     this.closeModal(this.formModalTarget);
 
-    // Update the trustee
+    // Update the contractor
     const replacementRow = document.createElement('template');
     replacementRow.innerHTML = event.detail.contractor;
     this.contractorsDataTableTarget.stimulusController.replaceRow(
-      [...this.contractorsDataTableTarget.stimulusController.table.rows].find(
+      Array.from(this.contractorsDataTableTarget.stimulusController.table.rows).find(
         row => row.dataset.contractorId === event.detail.contractorId),
       replacementRow.content.firstChild as HTMLTableRowElement
     );
 
     // Display the success message
-    this.disappearingSuccessMessage(this.successMessageTarget, 'You have successfully added this contractor.');
+    this.disappearingSuccessMessage(this.successMessageTarget, 'You have successfully updated this contractor.');
   }
   
   openEditContractorForm(event: Event) {

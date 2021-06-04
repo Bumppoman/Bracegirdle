@@ -19,7 +19,7 @@
     >
       <div class="alert alert-success"><%= flash[:success] %></div>
     </div>
-    <table class="table table-striped mg-t-10">
+    <table class="table table-striped mt-2">
       <thead>
         <tr>
           <th colspan="2">Meeting Information</th>
@@ -27,7 +27,7 @@
       </thead>
       <tbody>
         <tr>
-          <th class="wd-30p" scope="row">Meeting Date</th>
+          <th class="w-30" scope="row">Meeting Date</th>
           <td><%= @board_meeting.date.strftime('%A, %B %-d, %Y at %R %p') %></td>
         </tr>
         <tr>
@@ -48,7 +48,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="form-layout-footer mg-t-20 pd-l-20<%= ' d-none' unless @board_meeting.scheduled? %>">
+    <div class="form-layout-footer mt-4 ps-4<%= ' d-none' unless @board_meeting.scheduled? %>">
       <%= button_with_confirmation_modal 'Finalize agenda',
         form_action: finalize_agenda_board_meeting_path,
         text: 'Are you sure you want to finalize the agenda for this board meeting?',
@@ -56,8 +56,8 @@
       %>
     </div>
   </section>
-  <section class="section-wrapper mg-t-10">
-    <label class="section-title mg-b-20">Restoration</label>
+  <section class="section-wrapper mt-2">
+    <label class="section-title mb-4">Restoration</label>
     <div 
       class="disappearing-success-message hidden"
       data-target="board-meetings--show.restorationsSuccessMessage"
@@ -85,7 +85,7 @@
             <tr data-matter-id="<%= restoration.id %>">
               <td class="align-middle"><%= i + 1 %></td>
               <td class="align-middle"><%= "#{restoration.cemetery.formatted_name} – #{restoration.board_application.formatted_application_type}" %></td>
-              <td class="wd-40p">
+              <td class="w-40">
                 <% if @board_meeting.scheduled? %>
                   <%= button_with_confirmation_modal 'Unschedule',
                     form_action: unschedule_matter_path(restoration),
@@ -100,8 +100,8 @@
       </table>
     </div>
   </section>
-  <section class="section-wrapper mg-t-10">
-    <label class="section-title mg-b-20">Scheduled Matters</label>
+  <section class="section-wrapper mt-2">
+    <label class="section-title mb-4">Scheduled Matters</label>
     <div 
       class="disappearing-success-message hidden"
       data-target="board-meetings--show.boardApplicationsSuccessMessage"

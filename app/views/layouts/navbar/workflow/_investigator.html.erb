@@ -1,6 +1,6 @@
 <li class="nav-item with-sub">
-  <a class="nav-link" href="#">
-    <i class="material-icons mr-2 tx-primary">inbox</i>
+  <a class="nav-link">
+    <i class="material-icons me-2 tx-primary">inbox</i>
     <span>Inbox</span>
   </a>
   <div class="sub-item">
@@ -10,8 +10,8 @@
   </div>
 </li>
 <li class="nav-item with-sub mega-dropdown">
-  <a class="nav-link" href="#">
-    <i class="material-icons mr-2 tx-primary">work</i>
+  <a class="nav-link">
+    <i class="material-icons me-2 tx-primary">work</i>
     <span>Applications</span>
   </a>
   <div class="sub-item">
@@ -22,13 +22,13 @@
           <li><%= active_circle_link 'Land Purchase', board_applications_land_index_path(application_type: :purchase), current_user.land_purchases.any? %></li>
           <li><%= active_circle_link 'Land Sale', board_applications_land_index_path(application_type: :sale), current_user.land_sales.any? %></li>
         </ul>
-        <label class="section-label mg-t-20">Major Renovations</label>
+        <label class="section-label mt-4">Major Renovations</label>
         <ul>
           <li><%= link_to "Mausoleum", "#" %></li>
           <li><%= link_to "Columbarium", "#" %></li>
         </ul>
       </div>
-      <div class="col-lg mg-t-30 mg-lg-t-0">
+      <div class="col-lg mt-5 mt-lg-0">
         <label class="section-label">Restoration</label>
         <ul>
           <li><%= active_circle_link 'Hazardous Monuments', board_applications_hazardous_index_path, current_user.hazardous.any? %></li>
@@ -36,7 +36,7 @@
           <li><%= link_to 'Abandonment', board_applications_abandonment_index_path %></li>
         </ul>
       </div>
-      <div class="col-lg mg-t-30 mg-lg-t-0">
+      <div class="col-lg mt-5 mt-lg-0">
         <label class="section-label">Other</label>
         <ul>
           <li><%= link_to "Incorporation", "#" %></li>
@@ -47,8 +47,8 @@
   </div>
 </li>
 <li class="nav-item with-sub">
-  <a class="nav-link" href="#">
-    <i class="material-icons mr-2 tx-primary">highlight</i>
+  <a class="nav-link">
+    <i class="material-icons me-2 tx-primary">highlight</i>
     <span>Inspections</span>
   </a>
   <div class="sub-item">
@@ -60,21 +60,21 @@
   </div>
 </li>
 <li class="nav-item with-sub">
-  <a class="nav-link" href="#">
-    <i class="material-icons mr-2 tx-primary">search</i>
+  <a class="nav-link">
+    <i class="material-icons me-2 tx-primary">search</i>
     <span>Investigations</span>
   </a>
   <div class="sub-item">
     <ul>
       <li class="sub-with-sub">
-        <a href="#">Complaints</a>
+        <a>Complaints</a>
         <ul>
           <li><%= active_circle_link "Active complaints", complaints_path, current_user.complaints.any? %></li>
           <li><%= link_to 'Add new complaint', new_complaint_path %></li>
         </ul>
       </li>
       <li class="sub-with-sub">
-        <a href="#">Non-Compliance</a>
+        <a>Non-Compliance</a>
         <ul>
           <li><%= active_circle_link 'Active notices', notices_path, current_user.notices.any? %></li>
           <li><%= link_to 'Issue new notice', new_notice_path %></li>

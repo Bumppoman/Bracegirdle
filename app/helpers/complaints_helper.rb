@@ -4,8 +4,8 @@ module ComplaintsHelper
   end
 
   def formatted_address(complaint)
-    address = ''
-    address << "#{complaint.complainant_street_address}<br />" if complaint.complainant_street_address.present?
+    address = ''.html_safe
+    address << (''.html_safe + complaint.complainant_street_address + '<br />'.html_safe) if complaint.complainant_street_address.present?
     address << "#{complaint.complainant_city}, #{complaint.complainant_state}" if complaint.complainant_city.present?
     address << " #{complaint.complainant_zip}" if complaint.complainant_zip.present?
     address

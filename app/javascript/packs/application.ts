@@ -18,6 +18,8 @@ require("channels");
 const images = require.context('../images', true);
 const imagePath = (name) => images(name);
 
+// Import vendor packages
+import 'bootstrap';
 import 'choices.js/public/assets/scripts/choices.min';
 
 /*

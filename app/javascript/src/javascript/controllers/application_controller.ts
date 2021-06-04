@@ -1,16 +1,18 @@
-import BSN from 'bootstrap.native';
+import { Modal } from 'bootstrap';
 import Choices from 'choices.js';
 import { Controller } from 'stimulus';
 
 import MainController from './main_controller';
 
 export default class extends Controller {
+  declare environment: string;
   declare mainController: MainController;
   
   connect() {
     this.element['stimulusController'] = this;
     this.mainController = 
       (document.querySelector('body') as HTMLBodyElement & { stimulusController: MainController}).stimulusController;
+    this.environment = process.env.RAILS_ENV;
   }
   
   closeConfirmationModal() {
@@ -18,7 +20,15 @@ export default class extends Controller {
   }
   
   closeModal(modal: HTMLElement) {
-    new BSN.Modal(modal).hide();
+    
+    // Get modal instance
+    const existingModal = Modal.getInstance(modal);
+
+    // Override transitioning status
+    existingModal._isTransitioning = false;
+    
+    // Hide the modal
+    existingModal.hide();    
   }
   
   createChoices(select: HTMLSelectElement) {
@@ -46,7 +56,7 @@ export default class extends Controller {
   }
   
   openModal(modal: HTMLElement) {
-    new BSN.Modal(modal).show();
+    new Modal(modal).show();
   }
   
   toggleChoices(choices: Choices, force = null): void {

@@ -1,6 +1,6 @@
 <section 
-  id="complaint-actions"
-  class="section-wrapper bd-0 pd-30-force mg-t-0-force mg-b-5"
+  id="complaints_investigation-actions"
+  class="section-wrapper"
   data-action=
     "bracegirdle:complaints:advance->complaints--show#dispatch
     bracegirdle:complaints:complaintAssigned->complaints--show#assigned
@@ -49,15 +49,21 @@
       class="modal fade"
       data-target="complaints--show.assignModal"
     >
-      <div class="modal-dialog wd-30p" role="document">
+      <div class="modal-dialog w-30" role="document">
         <div class="modal-content">
-          <div class="modal-header pd-x-20">
-            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Assign Complaint</h6>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div class="modal-header px-4">
+            <h6 class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold">Assign Complaint</h6>
+            <button 
+              type="button" 
+              class="close"
+              data-bs-target="#complaint-assign-investigator-modal"
+              data-bs-toggle="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body pd-25">
+          <div class="modal-body p-4">
             <p>
               Assign this complaint to an investigator:
               <br />
@@ -71,7 +77,12 @@
           </div>
           <div class="modal-footer">
             <%= f.button 'Assign', class: 'btn btn-primary' %>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button 
+              type="button" 
+              class="btn btn-secondary"
+              data-bs-target="#complaint-assign-investigator-modal"
+              data-bs-toggle="modal"
+            >Cancel</button>
           </div>
         </div>
       </div>

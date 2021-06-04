@@ -1,0 +1,63 @@
+.bracegirdle-file {
+  display: inline-block;
+  height: calc(2.5005rem + 2px);
+  margin-bottom: 0;
+  position: relative;
+  width: 100%;
+  
+  .bracegirdle-file-input {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+    height: calc(2.5005rem + 2px);
+    margin: 0;
+    opacity: 0; 
+    
+    &:focus ~ .bracegirdle-file-control {
+      border-color: #8ec2f3;
+      box-shadow: 0 0 0 0.2rem rgba(27, 132, 231, 0.25);
+      
+      &:before {
+        border-color: #8ec2f3; 
+      }
+    
+      &:after {
+        content: "Browse"; 
+      }
+    }
+  }
+
+  .bracegirdle-file-label {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+    margin-bottom: 0.5rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: calc(2.5005rem + 2px);
+    padding: 0.594rem 0.75rem;
+    line-height: 1.5;
+    color: #495057;
+    
+    &:after {
+      background-color: #e9ecef;
+      border-left: 1px solid #ced4da;
+      border-radius: 0;
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+      height: calc(calc(2.5005rem + 2px) - 1px * 2);
+      padding: 0.594rem 0.75rem;
+      line-height: 1.5;
+      color: #495057;
+      content: "Browse";
+
+    }
+  }
+}

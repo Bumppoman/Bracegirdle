@@ -1,0 +1,18 @@
+#notices_show {
+  a {
+    text-decoration: none;
+  }
+  
+  section.section-wrapper:not(.tracker-wrapper) {
+    border: 0;
+  }
+  
+  #notices_download-modal .modal-dialog .modal-body a.btn {
+    font-size: 1.09375rem;
+  }
+  
+  
+  #notices_notice-details {
+    margin-bottom: 0.375rem;
+  }
+}

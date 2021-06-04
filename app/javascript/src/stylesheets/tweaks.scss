@@ -377,3 +377,49 @@ body.modal-open .ui-timepicker-container {
   background-color: #1b8fe7;
   color: #ffffff;
 }
+
+.pdf-viewer-wrapper {
+  background: rgba(64, 64, 64, 1);
+  padding: 0 0 48px 0;
+}
+
+.pdf-viewer {
+  background: rgba(64, 64, 64, 1);
+  max-height: 325px;
+  padding-bottom: 0;
+  padding-top: 0;
+  position: relative;
+  overflow-y: scroll;
+}
+
+@include media-breakpoint-up(md) {
+  .pdf-viewer {
+    max-height: 1000px;
+  }
+}
+
+.pdf-viewer-menu {
+  background: rgba(64, 64, 64, 1) !important;
+  margin: 0;
+  position: sticky;
+  top: 0px;
+  z-index: 5;
+}
+
+.pdf-viewer-menu input {
+  background: #fff;
+  color: #000;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.pdf-document {
+  margin: 0 auto;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.pdf-document .pdf-page {
+  display: block;
+  margin: 0 auto 12px auto;
+}

@@ -56,10 +56,14 @@
             <div class="d-flex justify-content-between">
               <% Crematory::NAMED_CLASSIFICATIONS.each do |classification, title| %>
                 <div class="form-check form-check-inline">
-                  <label class="rdiobox">
-                    <%= f.radio_button :classification, classification, class: 'form-check-input' %>
-                    <span><%= title %></span>
-                  </label>
+                  <%= f.radio_button :classification, 
+                    classification, 
+                    class: 'form-check-input' 
+                  %>
+                  <label 
+                    class="form-check-label" 
+                    for="crematory_classification_<%= classification %>"
+                  ><%= title %></label>
                 </div>
               <% end %>
             </div>

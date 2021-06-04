@@ -6,21 +6,26 @@
     bracegirdle:reminders:reminderRemoved->reminders#remove"
   data-controller="reminders"
 >
-  <div 
-    class="dropdown dropdown-a" 
-    data-persist="true"
-    data-target="reminders.dropdown"
+  <div
+    id="reminders-dropdown"
+    class="dropdown" 
   >
-    <a class="header-notification tx-primary" href="#" data-action="reminders#open">
+    <a 
+      class="header-notification tx-primary" 
+      data-bs-auto-close="false"
+      data-bs-display="static"
+      data-bs-toggle="dropdown"
+      data-target="reminders.dropdown"
+    >
       <i class="material-icons">today</i>
       <span 
-        class="badge bg-danger<%= ' d-none' unless current_user.due_reminders.count > 0 %>"
+        class="badge bg-danger <%= "len-#{Math.log10(current_user.due_reminders.count + 10).to_i}" %><%= ' d-none' unless current_user.due_reminders.count > 0 %>"
         data-target="reminders.dueBadge"
       >
         <%= current_user.due_reminders.count %>
       </span>
     </a>
-    <div class="dropdown-menu" style="position: absolute !important;">
+    <div class="dropdown-menu">
       <div class="dropdown-menu-header">
         <h6 class="dropdown-menu-title">Reminders</h6>
         <div>
@@ -30,7 +35,7 @@
               action: 'main#markAllRemindersCompleted'
             }
           %>
-          <a href="#">Settings</a>
+          <a>Settings</a>
         </div>
       </div>
       <div class="dropdown-activity-list">
@@ -69,15 +74,21 @@
         hide.bs.modal->reminders#blockNextHide"
       data-target="reminders.formModal"
     >
-      <div class="modal-dialog modal-lg wd-60p" role="document">
+      <div class="modal-dialog modal-lg w-60" role="document">
         <div class="modal-content">
-          <div class="modal-header pd-x-20">
-            <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Create New Reminder</h6>
-            <button class="close" type="button" aria-label="Close" data-dismiss="modal">
+          <div class="modal-header px-4">
+            <h6 class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold">Create New Reminder</h6>
+            <button 
+              class="close" 
+              type="button"
+              data-bs-target="#reminders-form-modal"
+              data-bs-toggle="modal" 
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body pd-25">
+          <div class="modal-body p-4">
             <div class="container-fluid">
               <div class="row">
                 <div class="col">
@@ -98,12 +109,13 @@
                 </div>
               </div>
             </div>
-            <div class="modal-footer mg-t-20">
+            <div class="modal-footer mt-4">
               <button class="btn btn-primary">Create New Reminder</button>
               <button 
                 type="button" 
-                class="btn btn-secondary" 
-                data-dismiss="modal"
+                class="btn btn-secondary"
+                data-bs-target="#reminders-form-modal"
+                data-bs-toggle="modal"
               >Cancel</button>
             </div>
           </div>

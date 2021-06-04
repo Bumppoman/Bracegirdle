@@ -69,19 +69,25 @@
         <div class="col-md-4">
           <div class="form-group required">
             <%= f.label :active, 'Status' %>
-            <label class="rdiobox">
-              <%= f.radio_button :active, true %>
-              <span>Active</span>
-            </label>
-            <label class="rdiobox">
-              <%= f.radio_button :active, false %>
-              <span>Abandoned</span>
-            </label>
+            <div class="form-check">
+              <%= f.radio_button :active, 
+                true,
+                class: 'form-check-input' 
+              %>
+              <label class="form-check-label" for="cemetery_active_true">Active</label>
+            </div>
+            <div class="form-check">
+              <%= f.radio_button :active, 
+                false,
+                class: 'form-check-input'
+              %>
+              <label class="form-check-label" for="cemetery_active_false">Abandoned</label>
+            </div>
           </div>
         </div>
       </div>
-      <div class="form-layout-footer mg-t-20">
-        <%= f.button 'Add Cemetery', class: 'btn btn-primary mg-r-5' %>
+      <div class="form-layout-footer mt-4">
+        <%= f.button 'Add Cemetery', class: 'btn btn-primary' %>
       </div>
     </div>
   <% end %>

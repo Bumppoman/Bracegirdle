@@ -25,11 +25,12 @@ export default class extends ApplicationController {
   }
   
   unschedule(event: CustomEvent) {
+
     // Close the confirmation modal
     this.closeConfirmationModal();
     
     // Determine the correct table
-    let dataTable, successMessage;
+    let dataTable: DataTableController, successMessage: HTMLElement;
     if (event.detail.type === 'Restoration') {
       dataTable = this.restorationsDataTableElementTarget.stimulusController;
       successMessage = this.restorationsSuccessMessageTarget;
@@ -39,7 +40,7 @@ export default class extends ApplicationController {
     }
     
     // Remove the matter and redraw the table
-    const matter = [...dataTable.table.rows].find(element => element.dataset.matterId === event.detail.matterId);
+    const matter = Array.from(dataTable.table.rows).find(element => element.dataset.matterId === event.detail.matterId);
     dataTable.removeRow(matter);
     
     // Show success message

@@ -34,7 +34,7 @@
       </tbody>
     </table>
     <% if current_user.supervisor? %>
-      <div class="pd-l-20">
+      <div class="ps-4">
         <%= button_with_confirmation_modal 'Close Complaint',
           success_button: '<button class="btn btn-primary" form="complaint-supervisor-closure-form">Close Complaint</button>',
           text: 'Are you sure you want to close this complaint?',

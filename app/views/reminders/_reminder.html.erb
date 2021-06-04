@@ -4,7 +4,7 @@
   data-reminder-id="<%= reminder.id %>"
   data-target="reminders.reminder"
 >
-  <div class="row no-gutters">
+  <div class="row g-0">
     <div class="col-3"><%= reminder.due_date.strftime('%l:%M %P') %></div>
     <div class="col-6">
       <%= reminder.title %>
@@ -43,7 +43,7 @@
     </div>
   </div>
   <div 
-    class="row no-gutters d-none"
+    class="row g-0 d-none"
     data-reminder-id="<%= reminder.id %>"
     data-target="reminders.reminderDetails"
   >

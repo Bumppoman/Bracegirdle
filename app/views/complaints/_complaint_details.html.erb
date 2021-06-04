@@ -1,5 +1,5 @@
-<div id="complaint-details" class="tab-pane<%= ' active show' if params[:tab] == :complaint || params[:tab].nil? %>" role="tabpanel">
-  <section class="section-wrapper bd-0 pd-30-force mg-t-0-force">
+<div id="complaints_complaint-details" class="tab-pane<%= ' active show' if params[:tab] == :complaint || params[:tab].nil? %>" role="tabpanel">
+  <section id="complaints_complainant-information" class="section-wrapper">
     <label class="section-title">Complainant Information</label>
     <table class="table table-striped mb-0">
       <tbody>
@@ -16,7 +16,7 @@
       </tbody>
     </table>
   </section>
-  <section class="section-wrapper pd-20-force mg-t-5-force">
+  <section id="complaints_cemetery-information" class="section-wrapper">
     <label class="section-title">Cemetery Information</label>
     <table class="table table-striped">
       <tbody>
@@ -43,7 +43,7 @@
       </tbody>
     </table>
   </section>
-  <section class="section-wrapper pd-20-force pd-t-0-force mg-t-5-force">
+  <section id="complaints_complaint-information" class="section-wrapper">
     <label class="section-title">Complaint Information</label>
     <table class="table table-striped">
       <tbody>
@@ -72,8 +72,8 @@
           <td colspan="2"><%= @complaint.court_action_pending? ? 'Yes' : 'No' %></td>
         </tr>
         <tr>
-          <th class="text-center wd-50p" scope="col" colspan="2">Date of Event From Which Complaint Arose</th>
-          <th class="text-center" scope="col" colspan="2">Date of Complaint to Cemetery</th>
+          <th class="text-center w-50" scope="col" colspan="2">Date of Event From Which Complaint Arose</th>
+          <th class="text-center w-50" scope="col" colspan="2">Date of Complaint to Cemetery</th>
         </tr>
         <tr>
           <td class="text-center" colspan="2"><%= @complaint.date_of_event %></td>

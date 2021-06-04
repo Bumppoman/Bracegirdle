@@ -1,0 +1,275 @@
+.bracegirdle-header {
+  width: 100%;
+  height: $bracegirdle-header-height;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-bottom: 1px solid $gray-300;
+  
+  a {
+    text-decoration: none;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  @media (min-width: 1400px) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+      max-width: 1140px;
+    }
+  }
+}
+
+.bracegirdle-logo {
+  margin-bottom: 0;
+  letter-spacing: -2px;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: $font-family-roboto;
+
+  a { color: $blue; }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 36px;
+    margin-right: 60px;
+  }
+}
+
+.search-box {
+  display: none;
+  align-items: center;
+  border: 1px solid $gray-300;
+  background-color: $gray-100;
+  padding: 2px;
+  @include border-radius(50px);
+
+  @include media-breakpoint-up(lg) {
+    display: flex;
+  }
+
+  .form-control {
+    border: 0;
+    width: 250px;
+    background-color: transparent;
+    padding-left: 20px;
+
+    &:focus,
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  .btn {
+    width: 40px;
+    height: 40px;
+    @include border-radius(100%);
+    border: 0;
+    background-color: $bracegirdle-primary;
+    
+    i {
+      margin-left: -0.15625rem;
+    }
+  }
+}
+
+.bracegirdle-header-left, .bracegirdle-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.bracegirdle-header-right {
+  .dropdown-menu {
+    border-top: 0;
+    padding: 0.625rem;
+    position: absolute !important;
+    transform: translate(0.9325rem, 1rem) !important;
+    top: 100% !important;
+    right: 0 !important;
+    left: auto !important;
+
+    &::before {
+      content: '';
+      border: 8px solid transparent;
+      border-bottom-color: $gray-500;
+      position: absolute;
+      top: -1rem;
+      right: 1.625rem;
+      z-index: 5;
+    }
+
+    &::after {
+      content: '';
+      border: 8px solid transparent;
+      border-bottom-color: #fff;
+      position: absolute;
+      top: -0.9375rem;
+      right: 1.625rem;
+      z-index: 10;
+    }
+  }
+  
+  #notifications, #reminders {
+    .dropdown-menu {
+      width: 300px;
+      padding: 0;
+      position: relative;
+
+      @include media-breakpoint-up(sm) { width: 350px; }
+    }
+
+    &.show {
+      > a {
+        background-color: theme-color('primary');
+        color: #fff;
+      }
+    }
+  }
+
+  #reminders {
+    margin-right: 0.125rem;
+
+    .dropdown-menu {      
+      @media (max-width: 414px) {
+        right: -92px !important;
+
+        &::before,
+        &::after {
+          right: 118px;
+        }
+      }
+    }
+  }
+  
+  #user-links {
+    .dropdown-menu {
+      transform: translate(0.9325rem, 1.5rem) !important;
+      width: 200px;
+    }
+
+    &.show {
+      > a { 
+        color: theme-color('primary'); 
+      }
+    }
+
+    .nav { 
+      flex-direction: column; 
+    }
+    
+    .nav-link {
+      align-items: center;
+      color: $gray-700;
+      display: flex;
+      font-size: 0.875rem;
+      height: 2.5rem;
+      padding: 0 0.625rem;
+
+      .icon {
+        font-size: 1.25rem;
+        line-height: 0;
+        margin-right: 0.5rem;
+        color: theme-color('primary');
+        width: 1.125rem;
+        text-align: center;
+        @include transition($transition-base);
+      }
+
+      &:focus, &:hover {
+        background-color: $gray-200;
+      }
+    }
+  }
+}
+
+.header-notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: $gray-600;
+  width: 40px;
+  height: 40px;
+  @include border-radius(100%);
+  position: relative;
+
+  .indicator {
+    width: 7px;
+    height: 7px;
+    background-color: theme-color('primary');
+    @include border-radius(100%);
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: darken($gray-100, 2%);
+    color: theme-color('primary');
+  }
+}
+
+.dropdown-activity-list {
+  .activity-label {
+    padding: 7px 15px;
+    background-color: $gray-100;
+    border-bottom: 1px solid $gray-300;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .activity-item {
+    font-size: 13px;
+    padding: 10px 15px;
+    border-bottom: 1px solid $gray-300;
+
+    .row {
+      align-items: flex-start;
+      .col-8 { color: $gray-700; }
+    }
+
+    .square-10 {
+      @include border-radius(100%);
+    }
+  }
+}
+
+.logged-user {
+  display: flex;
+  align-items: center;
+  color: $gray-700;
+  margin-left: 15px;
+
+  img {
+    width: 45px;
+    height: 45px;
+    padding: 3px;
+    border: 1px solid theme-color('primary');
+    @include border-radius(100%);
+  }
+
+  span {
+    margin-left: 10px;
+    margin-right: 5px;
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+  }
+
+  i {
+    display: none;
+    @include media-breakpoint-up(lg) { display: block; }
+  }
+
+  &:hover,
+  &:focus {
+    color: theme-color('primary');
+    //img { box-shadow: 0 0 10px rgba(theme-color('primary'), .2); }
+  }
+}

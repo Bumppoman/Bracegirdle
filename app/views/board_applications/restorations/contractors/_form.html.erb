@@ -9,23 +9,23 @@
     data-controller="board-applications--restorations--contractors--form"
     data-target="board-applications--restorations--contractors--index.formModal"
   >
-    <div class="modal-dialog modal-lg wd-50p" role="document">
+    <div class="modal-dialog modal-lg w-50" role="document">
       <div class="modal-content">
-        <div class="modal-header pd-x-20">
+        <div class="modal-header px-4">
           <h6 
-            class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"
+            class="tx-14 mb-0 tx-uppercase tx-inverse tx-bold"
             data-target="board-applications--restorations--contractors--index.formModalTitle"
           >Add New Contractor</h6>
           <button 
             type="button" 
-            class="close" 
+            class="close"
+            data-action="board-applications--restorations--contractors--form#close"
             aria-label="Close"
-            data-dismiss="modal"
           >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body pd-25">
+        <div class="modal-body p-4">
           <div class="container-fluid">
             <div class="row">
               <div class="col">
@@ -45,7 +45,11 @@
                 <%= f.select :state, 
                   options_for_select(STATES, 'NY'), 
                   { without_choices: true },
-                  { data: { target: 'board-applications--restorations--contractors--form.state' } }
+                  { 
+                    data: { 
+                      target: 'board-applications--restorations--contractors--form.state' 
+                    }
+                  }
                 %>
               </div>
               <div class="col-md-4">
@@ -62,7 +66,11 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button 
+                type="button" 
+                class="btn btn-secondary"
+                data-action="board-applications--restorations--contractors--form#close"
+              >Close</button>
               <button 
                 class="btn btn-primary"
                 data-target="board-applications--restorations--contractors--index.formModalTitle"

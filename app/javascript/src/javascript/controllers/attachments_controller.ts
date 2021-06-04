@@ -29,7 +29,7 @@ export default class extends ApplicationController {
 
     // Clear the attachment form
     this.attachmentFormElementTarget.reset();
-    document.querySelector('.custom-file-input').nextElementSibling.textContent = 'Choose file';
+    document.querySelector('.bracegirdle-file-input').nextElementSibling.textContent = 'Choose file';
   }
   
   attachmentDestroyed(event: CustomEvent) {

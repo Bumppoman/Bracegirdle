@@ -3,8 +3,8 @@
   data-action="bracegirdle:notes:create->notes#create"
   data-controller="notes"
 >
-  <section class="section-wrapper pd-30-force mg-t-5-force">
-    <label class="section-title mg-b-15">Notes</label>
+  <section class="section-wrapper">
+    <label class="section-title mb-4">Notes</label>
     <ul 
       class="list-unstyled mb-0"
       data-target="notes.list"
@@ -15,9 +15,9 @@
     </ul>
   </section>
   <% if object.active? %>
-    <section class="section-wrapper pd-30-force mg-t-5-force">
+    <section class="section-wrapper">
       <label class="section-title">Add New Note</label>
-      <div class="mg-t-10">
+      <div class="mt-3">
         <%= form_with model: [object, Note.new],
           local: false,
           url: (defined?(url) ? url : nil) do |f| 
@@ -27,10 +27,10 @@
             class: 'form-control',
             data: { target: 'notes.noteBodyInput' }
           %>
-          <div class="form-layout-footer mg-t-10">
+          <div class="form-layout-footer mt-3">
             <button
               id="submit-note-button"
-              class="btn btn-primary mt-1 mg-r-10"
+              class="btn btn-primary mt-1 me-3"
             >Submit</button>
           </div>
         <% end %>

@@ -9,11 +9,9 @@ gem 'rails', '6.1.3.2'
 # Use Puma as the app server
 gem 'puma'
 
-# Use SCSS for stylesheets
-gem 'sassc-rails'
-
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker'
+#gem 'webpacker', '~> 6.x'
+gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks'
@@ -62,8 +60,7 @@ group :test do
   gem 'factory_bot_rails'
   
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara'
-  gem 'selenium-webdriver'
+  gem 'capybara', git: 'https://github.com/teamcapybara/capybara.git'
   gem 'capybara-choices'
 
   # Easy installation and use of web drivers to run system tests with browsers
@@ -94,9 +91,6 @@ gem 'remotipart'
 gem 'prawn'
 gem 'prawn-table'
 gem 'combine_pdf'
-
-# For using PDF.js with Rails
-gem 'pdfjs_viewer-rails'
 
 # Language processing
 gem 'numbers_and_words'

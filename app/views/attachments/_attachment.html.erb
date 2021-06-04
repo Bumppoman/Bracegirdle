@@ -3,15 +3,15 @@
   data-attachment-id="<%= attachment.id %>"
   data-target="attachments.attachment"
 >
-  <div class="row no-gutters wd-100p">
+  <div class="row g-0 w-100">
     <div class="col-sm-5 d-flex align-items-center">
-      <i class="material-icons mr-2">attachment</i>
+      <i class="material-icons me-2">attachment</i>
       <%= link_to attachment.file.filename, view_attachment_link(object, attachment) %>
     </div>
-    <div class="col-sm-4 mg-t-5 mg-sm-t-0"><%= attachment.description %></div>
-    <div class="col-sm-3 tx-right mg-t-5 mg-sm-t-0 tx-18">
+    <div class="col-sm-4 mt-1 mt-sm-0"><%= attachment.description %></div>
+    <div class="col-sm-3 tx-right mt-1 mt-sm-0 tx-18">
       <%= link_to attachment.file do %>
-        <i class="material-icons mg-r-15">download</i>
+        <i class="material-icons me-3">download</i>
       <% end %>
       <%= link_to '#',
         class: 'attachments-delete-link', 

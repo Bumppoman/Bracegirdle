@@ -9,11 +9,11 @@ feature 'Appointments' do
     login
 
     visit inspections_cemetery_path(@cemetery)
-    click_on 'Schedule inspection'
+    click_button 'Schedule inspection'
 
     expect {
       within '#schedule-inspection-modal' do
-        click_on 'Schedule inspection'
+        click_button 'Schedule inspection'
       end
       assert_selector '#appointments-data-table'
     }.to change { Appointment.count }
@@ -24,10 +24,10 @@ feature 'Appointments' do
     @appointment = FactoryBot.create(:appointment)
 
     visit scheduled_cemetery_inspections_path
-    click_on 'Begin'
+    click_button 'Begin'
 
     expect {
-      click_on 'Begin Inspection'
+      click_button 'Begin Inspection'
       assert_selector '#cemetery_inspection-perform'
     }.to change { CemeteryInspection.count }
   end
@@ -37,9 +37,9 @@ feature 'Appointments' do
     @appointment = FactoryBot.create(:appointment)
 
     visit scheduled_cemetery_inspections_path
-    click_on 'Reschedule'
+    click_button 'Reschedule'
     find('#appointment_time').set('12:30')
-    click_on 'Reschedule inspection'
+    click_button 'Reschedule inspection'
 
     expect(page).to have_content '12:30'
   end
@@ -49,10 +49,10 @@ feature 'Appointments' do
     @appointment = FactoryBot.create(:appointment)
 
     visit scheduled_cemetery_inspections_path
-    click_on 'Cancel'
+    click_button 'Cancel'
 
     expect {
-      click_on 'Cancel Inspection'
+      click_button 'Cancel Inspection'
       assert_no_selector "[data-appointment-id='#{@appointment.id}']"
     }.to change { @appointment.reload.status }
   end
