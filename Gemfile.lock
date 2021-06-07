@@ -90,9 +90,6 @@ GEM
     afm (0.2.2)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    apparition (0.6.0)
-      capybara (~> 3.13, < 4)
-      websocket-driver (>= 0.6.5)
     bcrypt (3.1.16)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -350,7 +347,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  apparition
   bcrypt
   better_errors
   binding_of_caller
