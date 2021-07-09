@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: ./config/docker/bracegirdle.Dockerfile
     command: bash -c "bundle exec puma -C config/puma.rb"
-    depends_on:
-      - postgres
     volumes:
       - .:/var/www/bracegirdle
   nginx:

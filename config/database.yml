@@ -24,13 +24,19 @@ test: &test
   username: bracegirdle
   password: bgdevpsql
 
+#production:
+#  adapter: postgresql
+#  encoding: unicode
+#  database: cemeteries
+#  pool: 5
+#  username: cemeteries
+#  password: cemeteries123
 production:
+  host: docker.for.mac.localhost
   adapter: postgresql
-  encoding: unicode
-  database: cemeteries
-  pool: 5
-  username: cemeteries
-  password: cemeteries123
+  database: bracegirdle
+  username: bracegirdle
+  password: bgdevpsql
 
 staging:
   adapter: postgresql

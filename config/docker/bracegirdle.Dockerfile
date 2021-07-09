@@ -34,4 +34,4 @@ EXPOSE 3000
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 # Precompile assets
-#RUN RAILS_ENV=production bundle exec rake assets:precompile
+RUN RAILS_ENV=production bundle exec rails assets:precompile
